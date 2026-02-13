@@ -1,0 +1,32 @@
+node_modules
+dist
+build
+.turbo
+.DS_Store
+*.log
+.env
+.env.local
+.env.*.local
+coverage
+*.key
+*.pem
+secrets/
+
+*.tsbuildinfo
+
+# Paymaster Verification Scripts
+apps/paymaster/manual-sponsor.ts
+apps/paymaster/verify-with-sdk.ts
+apps/paymaster/verify-paymaster-mainnet.ts
+apps/paymaster/verify-gas-fix.ts
+apps/paymaster/check-deployment.ts
+apps/paymaster/debug-paymaster-logic.ts
+.env.mainnet
+
+# Contract Verification Artifacts
+packages/contracts/ComputeToken_Flattened.sol
+packages/contracts/ComputeToken_StandardInput.json
+
+# Utility Scripts (Optional)
+scripts/generate-wallet.ts
+

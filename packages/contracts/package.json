@@ -1,0 +1,38 @@
+{
+    "name": "@a2a/contracts",
+    "version": "0.1.0",
+    "description": "Smart contracts for A2A $COMP token system",
+    "main": "index.js",
+    "scripts": {
+        "test": "hardhat test",
+        "compile": "hardhat compile",
+        "deploy:sepolia": "hardhat run scripts/deploy-compute-token.ts --network base-sepolia",
+        "deploy:mainnet": "hardhat run scripts/deploy-compute-token.ts --network base-mainnet",
+        "coverage": "hardhat coverage"
+    },
+    "keywords": [
+        "ethereum",
+        "smart-contracts",
+        "compute",
+        "depin"
+    ],
+    "author": "A2A Project",
+    "license": "MIT",
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+        "@nomicfoundation/hardhat-verify": "^2.0.0",
+        "@typechain/hardhat": "^9.1.0",
+        "@types/node": "^25.2.2",
+        "dotenv": "^17.2.4",
+        "hardhat": "^2.19.5",
+        "hardhat-gas-reporter": "^1.0.10",
+        "solidity-coverage": "^0.8.5",
+        "ts-node": "^10.9.2",
+        "typechain": "^8.3.2",
+        "typescript": "^5.9.3"
+    },
+    "dependencies": {
+        "@openzeppelin/contracts": "^5.0.1",
+        "@prb/math": "^4.1.1"
+    }
+}

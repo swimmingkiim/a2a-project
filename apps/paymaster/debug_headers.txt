@@ -1,0 +1,1161 @@
+
+> paymaster-service@1.0.0 test /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster
+> jest
+
+ts-jest[config] (WARN) 
+    The "ts-jest" config option "isolatedModules" is deprecated and will be removed in v30.0.0. Please use "isolatedModules: true" in /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/tsconfig.json instead, see https://www.typescriptlang.org/tsconfig/#isolatedModules
+  
+  console.log
+    Headers: {"host":"127.0.0.1:57596","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"89","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.log
+    [Paymaster] Forwarding to: https://api.pimlico.io/v2/base/rpc
+
+      at handlePaymasterRequest (src/paymaster.ts:52:17)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57598","accept-encoding":"gzip, deflate","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.warn
+    [Auth] Invalid API Key: undefined
+
+      32 |     try {
+      33 |         if (!context?.apiKey || context.apiKey !== config.A2A_PAYMASTER_API_KEY) {
+    > 34 |             console.warn(`[Auth] Invalid API Key: ${context?.apiKey}`);
+         |                     ^
+      35 |             throw new Error(`Unauthorized: Invalid API Key. Got: ${context?.apiKey}, Expected: ${config.A2A_PAYMASTER_API_KEY}`);
+      36 |         }
+      37 |
+
+      at handlePaymasterRequest (src/paymaster.ts:34:21)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.error
+    Processing Failed: Error: Unauthorized: Invalid API Key. Got: undefined, Expected: test-api-key
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:35:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57600","accept-encoding":"gzip, deflate","x-api-key":"wrong-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.warn
+    [Auth] Invalid API Key: wrong-key
+
+      32 |     try {
+      33 |         if (!context?.apiKey || context.apiKey !== config.A2A_PAYMASTER_API_KEY) {
+    > 34 |             console.warn(`[Auth] Invalid API Key: ${context?.apiKey}`);
+         |                     ^
+      35 |             throw new Error(`Unauthorized: Invalid API Key. Got: ${context?.apiKey}, Expected: ${config.A2A_PAYMASTER_API_KEY}`);
+      36 |         }
+      37 |
+
+      at handlePaymasterRequest (src/paymaster.ts:34:21)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.error
+    Processing Failed: Error: Unauthorized: Invalid API Key. Got: wrong-key, Expected: test-api-key
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:35:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57602","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"98","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Forbidden: Unauthorized DID
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:47:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57604","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.log
+    [Paymaster] Forwarding to: https://api.pimlico.io/v2/base/rpc
+
+      at handlePaymasterRequest (src/paymaster.ts:52:17)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57605","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.log
+    [Paymaster] Forwarding to: https://api.pimlico.io/v2/base/rpc
+
+      at handlePaymasterRequest (src/paymaster.ts:52:17)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57606","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.log
+    [Paymaster] Forwarding to: https://api.pimlico.io/v2/base/rpc
+
+      at handlePaymasterRequest (src/paymaster.ts:52:17)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57607","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.log
+    [Paymaster] Forwarding to: https://api.pimlico.io/v2/base/rpc
+
+      at handlePaymasterRequest (src/paymaster.ts:52:17)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57608","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.log
+    [Paymaster] Forwarding to: https://api.pimlico.io/v2/base/rpc
+
+      at handlePaymasterRequest (src/paymaster.ts:52:17)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57609","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.log
+    [Paymaster] Forwarding to: https://api.pimlico.io/v2/base/rpc
+
+      at handlePaymasterRequest (src/paymaster.ts:52:17)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57610","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.log
+    [Paymaster] Forwarding to: https://api.pimlico.io/v2/base/rpc
+
+      at handlePaymasterRequest (src/paymaster.ts:52:17)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57611","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.log
+    [Paymaster] Forwarding to: https://api.pimlico.io/v2/base/rpc
+
+      at handlePaymasterRequest (src/paymaster.ts:52:17)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57612","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57613","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"71","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57614","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"72","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57615","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"72","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57616","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"72","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57617","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"72","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57618","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"72","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57619","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"72","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57620","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"72","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57621","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"72","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57622","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"72","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.log
+    Headers: {"host":"127.0.0.1:57623","accept-encoding":"gzip, deflate","x-api-key":"test-api-key","content-type":"application/json","content-length":"72","connection":"close"}
+
+      at src/index.ts:20:17
+
+  console.log
+    [Paymaster] Received request: pm_sponsorUserOperation
+
+      at handlePaymasterRequest (src/paymaster.ts:12:13)
+
+  console.error
+    Processing Failed: Error: Too Many Requests
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:41:19)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:52
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+        at Route.dispatch (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+        at Layer.handle [as handle_request] (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+        at Function.process_params (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+        at next (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+        at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+        at invokeCallback (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+        at done (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+        at IncomingMessage.onEnd (/Users/kimsooyoung/Developments/projects/a2a-projects/node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+        at IncomingMessage.emit (node:events:524:28)
+        at endReadableNT (node:internal/streams/readable:1698:12)
+        at processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:52
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:149:13)
+      at Route.dispatch (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/route.js:119:3)
+      at Layer.handle [as handle_request] (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/layer.js:95:5)
+      at ../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:284:15
+      at Function.process_params (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:346:12)
+      at next (../../node_modules/.pnpm/express@4.22.1/node_modules/express/lib/router/index.js:280:10)
+      at ../../node_modules/.pnpm/body-parser@1.20.4/node_modules/body-parser/lib/read.js:137:5
+      at invokeCallback (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:238:16)
+      at done (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:227:7)
+      at IncomingMessage.onEnd (../../node_modules/.pnpm/raw-body@2.5.3/node_modules/raw-body/index.js:287:7)
+
+  console.error
+    Processing Failed: Error: Upstream Error: 401 {"statusCode":401,"error":"Unauthorized","message":"missing 'apikey' query parameter"}
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:70:19)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:24
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:24
+
+  console.error
+    Processing Failed: Error: Upstream Error: 401 {"statusCode":401,"error":"Unauthorized","message":"missing 'apikey' query parameter"}
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:70:19)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:24
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:24
+
+  console.error
+    Processing Failed: Error: Upstream Error: 401 {"statusCode":401,"error":"Unauthorized","message":"missing 'apikey' query parameter"}
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:70:19)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:24
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:24
+
+  console.error
+    Processing Failed: Error: Upstream Error: 401 {"statusCode":401,"error":"Unauthorized","message":"missing 'apikey' query parameter"}
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:70:19)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:24
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:24
+
+  console.error
+    Processing Failed: Error: Upstream Error: 401 {"statusCode":401,"error":"Unauthorized","message":"missing 'apikey' query parameter"}
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:70:19)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:24
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:24
+
+  console.error
+    Processing Failed: Error: Upstream Error: 401 {"statusCode":401,"error":"Unauthorized","message":"missing 'apikey' query parameter"}
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:70:19)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:24
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:24
+
+  console.error
+    Processing Failed: Error: Upstream Error: 401 {"statusCode":401,"error":"Unauthorized","message":"missing 'apikey' query parameter"}
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:70:19)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:24
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:24
+
+  console.error
+    Processing Failed: Error: Upstream Error: 401 {"statusCode":401,"error":"Unauthorized","message":"missing 'apikey' query parameter"}
+        at handlePaymasterRequest (/Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts:70:19)
+        at processTicksAndRejections (node:internal/process/task_queues:105:5)
+        at /Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/index.ts:22:24
+
+       95 |
+       96 |     } catch (error: any) {
+    >  97 |         console.error("Processing Failed:", error);
+          |                 ^
+       98 |
+       99 |         // Map errors to JSON-RPC codes
+      100 |         let code = -32603; // Internal error
+
+      at handlePaymasterRequest (src/paymaster.ts:97:17)
+      at src/index.ts:22:24
+
+FAIL test/paymaster.test.ts
+  Paymaster Gateway API
+    3. Financial Accuracy
+      ✕ [PASS] Should apply 10% Markup to upstream estimate (42 ms)
+    1. Authorization & Identity
+      ✓ [FAIL] Should return 401 if API Key is missing (12 ms)
+      ✓ [FAIL] Should return 401 if API Key is invalid (9 ms)
+      ✕ [FAIL] Should return 403 if DID is unauthorized (mocked) (5 ms)
+    2. Protection Against Malicious Requests
+      ✓ [FAIL] SSRF: Should block localhost/private IP usage
+      ✓ [FAIL] Rate Limiting: Should return 429 on flood (793 ms)
+
+  ● Paymaster Gateway API › 3. Financial Accuracy › [PASS] Should apply 10% Markup to upstream estimate
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "0x1ad10"
+    Received: "0x1adb1"
+
+      57 |             // My implementation uses Math.ceil(Number(val) * 1.1)
+      58 |
+    > 59 |             expect(result.preVerificationGas).toBe('0x1ad10');
+         |                                               ^
+      60 |             expect(result.verificationGasLimit).toBe('0x1ad10');
+      61 |             expect(result.callGasLimit).toBe('0x1ad10');
+      62 |
+
+      at Object.<anonymous> (test/paymaster.test.ts:59:47)
+
+  ● Paymaster Gateway API › 1. Authorization & Identity › [FAIL] Should return 403 if DID is unauthorized (mocked)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 403
+    Received: 401
+
+       96 |                 });
+       97 |
+    >  98 |             expect(res.status).toBe(403);
+          |                                ^
+       99 |         });
+      100 |     });
+      101 |
+
+      at Object.<anonymous> (test/paymaster.test.ts:98:32)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 4 passed, 6 total
+Snapshots:   0 total
+Time:        1.342 s
+Ran all test suites.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
+ ELIFECYCLE  Test failed. See above for more details.

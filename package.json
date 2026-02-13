@@ -1,0 +1,32 @@
+{
+  "name": "a2a-projects",
+  "version": "1.1.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "vitest run",
+    "lint": "pnpm -r lint",
+    "format": "prettier --write .",
+    "clean": "pnpm -r clean",
+    "publish-all": "./scripts/release.sh"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4",
+    "typescript": "5.7.3",
+    "vitest": "^4.0.18"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sqlite3",
+      "secp256k1",
+      "esbuild"
+    ],
+    "overrides": {
+      "viem": "2.7.1"
+    }
+  }
+}

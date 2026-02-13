@@ -1,0 +1,17 @@
+Creating temporary archive of 91 file(s) totalling 1.4 MiB before compression.
+Some files were not included in the source upload.
+
+Check the gcloud log [/Users/kimsooyoung/.config/gcloud/logs/2026.02.06/11.16.08.471650.log] to see which files and the contents of the
+default gcloudignore file used (see `$ gcloud topic gcloudignore` to learn
+more).
+
+Uploading tarball of [.] to [gs://a2a-project-486504_cloudbuild/source/1770344168.601542-cc374ca5b6ce4be0b6801a2cb5b1d862.tgz]
+Created [https://cloudbuild.googleapis.com/v1/projects/a2a-project-486504/locations/global/builds/737f2520-e6ba-4576-9bbb-342231ce963f].
+Logs are available at [ https://console.cloud.google.com/cloud-build/builds/737f2520-e6ba-4576-9bbb-342231ce963f?project=145018595630 ].
+
+gcloud builds submit only displays logs from Cloud Storage. To view logs from Cloud Logging, run:
+gcloud beta builds submit
+
+Waiting for build to complete. Polling interval: 1 second(s).
+ID                                    CREATE_TIME                DURATION  SOURCE                                                                                            IMAGES                                                                           STATUS
+737f2520-e6ba-4576-9bbb-342231ce963f  2026-02-06T02:16:11+00:00  7M13S     gs://a2a-project-486504_cloudbuild/source/1770344168.601542-cc374ca5b6ce4be0b6801a2cb5b1d862.tgz  asia-northeast3-docker.pkg.dev/a2a-project-486504/a2a-repo/agent-node (+1 more)  SUCCESS

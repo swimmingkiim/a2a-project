@@ -1,0 +1,19 @@
+# Hardhat files
+cache/
+artifacts/
+typechain-types/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Coverage reports
+coverage/
+coverage.json
+
+# Hardhat network files
+deployments/
+
+# TypeScript build info
+*.tsbuildinfo

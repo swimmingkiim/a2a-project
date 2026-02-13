@@ -1,0 +1,27 @@
+{
+    "name": "@swimmingkiim/pay-sdk",
+    "version": "0.1.27",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swimmingkiim/a2a-project.git"
+    },
+    "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "test": "vitest run"
+    },
+    "dependencies": {
+        "@rhinestone/module-sdk": "^0.4.0",
+        "permissionless": "^0.2.14",
+        "viem": "2.7.1",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.16",
+        "tsx": "^4.7.0",
+        "typescript": "^5.3.3",
+        "vitest": "^4.0.18"
+    }
+}

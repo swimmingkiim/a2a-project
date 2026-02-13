@@ -1,0 +1,42 @@
+A2A SUSTAINABLE USE LICENSE Agreement
+
+Version 1.0
+
+Copyright (c) 2026 Kim Sooyoung / FLESS. All rights reserved.
+
+"Software" refers to the A2A project source code, including but not limited to pay-sdk, trust-sdk, api-sdk, and paymaster-gateway.
+
+1. Purpose
+
+The purpose of this License is to allow the community to use, study, and contribute to the Software while ensuring that the primary maintainer’s ability to sustain the project through commercial offerings is protected from direct competition using the Software itself.
+
+2. Grant of License
+
+Subject to the terms and conditions of this Agreement, the Licensor hereby grants you a worldwide, non-exclusive, no-charge, and royalty-free license to:
+
+* (a) Use, copy, and modify the Software for personal or internal business purposes.
+* (b) Distribute the Software or modified versions of it, provided that such distribution is not for a Commercial Offering as defined in Section 3.
+
+3. Limitations on Commercial Use
+
+You may not provide the Software, or any part of the Software, as a Commercial Offering. A "Commercial Offering" is defined as a service where the primary value provided to third parties is the hosting, management, or execution of the Software itself, including but not limited to:
+
+* Providing the Paymaster Gateway as a managed API service to third parties.
+* Offering "A2A-as-a-Service" or similar hosted infrastructure for gas sponsorship.
+* Charging users specifically for the use of the A2A infrastructure without adding substantial non-A2A value.
+
+4. Fee Protection Clause
+
+The Software includes a protocol-level fee mechanism (e.g., service markups in the Paymaster Gateway). Any redistribution of the Software must preserve the integrity of these fee mechanisms. You are strictly prohibited from removing, circumventing, or modifying the code responsible for calculating and routing these fees to the designated Licensor's treasury address, unless explicitly authorized by the Licensor.
+
+5. Redistribution
+
+Any redistribution of the Software, in whole or in part, must include a copy of this License and the original copyright notice.
+
+6. No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+7. Termination
+
+This License and the rights granted hereunder will terminate automatically if you fail to comply with any of its terms.

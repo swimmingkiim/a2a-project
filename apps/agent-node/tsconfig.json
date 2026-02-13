@@ -1,0 +1,29 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./dist",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "target": "es2020",
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "paths": {
+            "@swimmingkiim/api-sdk": [
+                "../../packages/api-sdk/dist/index.d.ts"
+            ],
+            "@swimmingkiim/trust-sdk": [
+                "../../packages/trust-sdk/dist/index.d.ts"
+            ],
+            "@swimmingkiim/pay-sdk": [
+                "../../packages/pay-sdk/dist/index.d.ts"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.test.ts"
+    ]
+}

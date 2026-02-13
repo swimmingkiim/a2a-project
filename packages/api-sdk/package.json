@@ -1,0 +1,31 @@
+{
+    "name": "@swimmingkiim/api-sdk",
+    "version": "0.1.27",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swimmingkiim/a2a-project.git"
+    },
+    "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.js"
+        }
+    },
+    "scripts": {
+        "build": "tsc",
+        "test": "tsx test/**/*.ts"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^0.6.0",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.16",
+        "tsx": "^4.21.0",
+        "typescript": "^5.3.3"
+    }
+}

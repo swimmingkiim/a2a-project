@@ -1,0 +1,13 @@
+{
+    "base-sepolia": {
+        "ComputeToken": {
+            "address": "0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3",
+            "deployer": "0x4e57E993b36b7ADf40D998BA178a4CeA22C903AB",
+            "paymaster": "0x747A20703B4a4D43D081F11Ff4900Ca9307f1a5F",
+            "deployedAt": "2026-02-10T11:59:00Z",
+            "network": "base-sepolia",
+            "chainId": 84532,
+            "verified": false
+        }
+    }
+}

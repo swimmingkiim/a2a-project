@@ -1,0 +1,20 @@
+{
+    "name": "paymaster-demo",
+    "version": "1.0.0",
+    "description": "A simple example demonstrating how to use the A2A Paymaster service.",
+    "main": "index.ts",
+    "scripts": {
+        "start": "npx tsx index.ts"
+    },
+    "dependencies": {
+        "@swimmingkiim/pay-sdk": "file:../../packages/pay-sdk",
+        "dotenv": "^16.4.1",
+        "permissionless": "^0.2.13",
+        "viem": "^2.7.9"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.16",
+        "tsx": "^4.7.0",
+        "typescript": "^5.3.3"
+    }
+}
