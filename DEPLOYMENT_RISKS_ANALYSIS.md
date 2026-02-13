@@ -1,7 +1,7 @@
 # ⚠️ Base Mainnet 배포 시 리스크 분석
 
 **분석 일시:** 2026-02-10 22:53 KST  
-**프로젝트:** ComputeToken ($COMP) - Base Mainnet
+**프로젝트:** UtilityToken ($TOKEN) - Base Mainnet
 
 ---
 
@@ -10,14 +10,14 @@
 ### 1. **스마트 컨트랙트 불변성** ⚠️ 매우 중요!
 
 **문제:**
-- 현재 ComputeToken은 **Upgradeable 패턴이 없음**
+- 현재 UtilityToken은 **Upgradeable 패턴이 없음**
 - 배포 후 코드 수정 **절대 불가능**
 - 버그 발견 시 **새 컨트랙트 재배포**만 가능
 
 **영향:**
 ```solidity
 // 현재 구조
-contract ComputeToken is ERC20, ERC20Burnable, AccessControl {
+contract UtilityToken is ERC20, ERC20Burnable, AccessControl {
     // Upgradeable 없음!
     // Pausable 없음!
 }
@@ -50,7 +50,7 @@ contract ComputeToken is ERC20, ERC20Burnable, AccessControl {
 
 **문제:**
 ```
-$COMP_MAINNET_ADMIN_ROLE 지갑 하나가:
+$TOKEN_MAINNET_ADMIN_ROLE 지갑 하나가:
   ├─ DEFAULT_ADMIN_ROLE (모든 권한)
   ├─ MINTER_ROLE (무제한 발행 가능)
   ├─ Deployer (컨트랙트 소유)
@@ -66,7 +66,7 @@ $COMP_MAINNET_ADMIN_ROLE 지갑 하나가:
 ```
 해커가 Private Key 탈취 → 
 mint(attacker, 1000000000000000) → 
-COMP 가치 폭락 → 
+TOKEN 가치 폭락 → 
 프로젝트 신뢰도 붕괴
 ```
 
@@ -113,9 +113,9 @@ function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
 **시나리오:**
 ```
 개발자 실수: mint(user, 1000000 * 1e18)
-→ 100만 COMP 한 번에 발행
-→ 의도: 1,000 COMP
-→ 실수: 1,000,000 COMP
+→ 100만 TOKEN 한 번에 발행
+→ 의도: 1,000 TOKEN
+→ 실수: 1,000,000 TOKEN
 → 취소 불가!
 ```
 
@@ -165,7 +165,7 @@ BUT 토큰 계속 전송 가능 →
 
 **문제:**
 ```bash
-INITIAL_SUPPLY=1000000  # 100만 COMP
+INITIAL_SUPPLY=1000000  # 100만 TOKEN
 ```
 
 **리스크:**
@@ -175,10 +175,10 @@ INITIAL_SUPPLY=1000000  # 100만 COMP
 **권장:**
 ```bash
 # 단계적 발행
-Phase 1 (첫 주): 10,000 COMP
-Phase 2 (첫 달): 50,000 COMP
-Phase 3 (3개월): 100,000 COMP
-Phase 4 (6개월): 1,000,000 COMP
+Phase 1 (첫 주): 10,000 TOKEN
+Phase 2 (첫 달): 50,000 TOKEN
+Phase 3 (3개월): 100,000 TOKEN
+Phase 4 (6개월): 1,000,000 TOKEN
 ```
 
 ---
@@ -221,16 +221,16 @@ TREASURY_ADDRESS=0x69ddB2eAD1D3eed8c8411e15Fb4b85ED1cD6cF54
 
 ## 💡 경제적 리스크
 
-### 9. **COMP 가격 변동성**
+### 9. **TOKEN 가격 변동성**
 
 **설정:**
 ```bash
-COMP_PRICE_USD=0.10  # $0.10 고정
+TOKEN_PRICE_USD=0.10  # $0.10 고정
 ```
 
 **리스크:**
-- 실제 가치 < $0.10 → 사용자는 COMP 선호 (손해)
-- 실제 가치 > $0.10 → 사용자는 USDC 선호 (COMP 미사용)
+- 실제 가치 < $0.10 → 사용자는 TOKEN 선호 (손해)
+- 실제 가치 > $0.10 → 사용자는 USDC 선호 (TOKEN 미사용)
 
 **대응:**
 - 동적 가격 Oracle 도입 (Chainlink)
@@ -321,14 +321,14 @@ MARKUP_RATE=0.1      # 10%
 **Option A: 신중한 배포**
 ```
 Week 1: Testnet 추가 테스트
-Week 2: Mainnet 배포 (1,000 COMP)
+Week 2: Mainnet 배포 (1,000 TOKEN)
 Week 3: 모니터링 및 평가
-Week 4: 본격 운영 (10,000 COMP)
+Week 4: 본격 운영 (10,000 TOKEN)
 ```
 
 **Option B: 즉시 배포 (현재 계획)**
 ```
-Today: 배포 (1,000,000 COMP)
+Today: 배포 (1,000,000 TOKEN)
 Risk: ⚠️⚠️⚠️ HIGH
 Reward: 🚀 빠른 출시
 ```

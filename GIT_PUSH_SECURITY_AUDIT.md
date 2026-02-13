@@ -43,7 +43,7 @@ const DEPLOYER_PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY;
 const PAYMASTER_ADDRESS = process.env.PAYMASTER_ADDRESS;
 
 // ✓ Placeholder만 포함
-const COMP_TOKEN_BYTECODE = '0x...' as `0x${string}`;
+const TOKEN_BYTECODE = '0x...' as `0x${string}`;
 const deployedAddress = '0x...' as `0x${string}`;
 ```
 

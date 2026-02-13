@@ -30,16 +30,16 @@
 ### 4. Configuration Validation ✓
 
 - [ ] `INITIAL_SUPPLY` set appropriately
-- [ ] `COMP_PRICE_USD` matches current market/target price
+- [ ] `TOKEN_PRICE_USD` matches current market/target price
 - [ ] `ETH_PRICE_USD` updated to current price
 - [ ] `MARKUP_RATE` appropriate for mainnet
-- [ ] `ENABLE_COMP_FEES=false` (enable gradually post-deployment)
+- [ ] `ENABLE_TOKEN_FEES=false` (enable gradually post-deployment)
 
 ---
 
 ## Deployment Execution
 
-### Step 1: Deploy ComputeToken
+### Step 1: Deploy UtilityToken
 
 ```bash
 cd packages/contracts
@@ -77,11 +77,11 @@ npx hardhat verify --network baseMainnet <DEPLOYED_ADDRESS>
 Edit `apps/paymaster/.env`:
 
 ```bash
-# Add COMP token address
-COMP_TOKEN_ADDRESS=<DEPLOYED_ADDRESS>
+# Add TOKEN token address
+TOKEN_ADDRESS=<DEPLOYED_ADDRESS>
 
 # Keep fees disabled initially
-ENABLE_COMP_FEES=false
+ENABLE_TOKEN_FEES=false
 
 # Other mainnet settings
 RPC_URL=https://mainnet.base.org
@@ -111,9 +111,9 @@ gcloud run deploy paymaster \
 
 Edit `packages/pay-sdk/src/paymaster/paymaster.ts`:
 
-Update COMP address in TOKEN_ADDRESSES:
+Update TOKEN address in TOKEN_ADDRESSES:
 ```typescript
-'COMP': '<DEPLOYED_ADDRESS>',  // Update from Sepolia to Mainnet
+'TOKEN': '<DEPLOYED_ADDRESS>',  // Update from Sepolia to Mainnet
 ```
 
 Publish new version:
@@ -154,33 +154,33 @@ pnpm publish
 
 ---
 
-## Gradual COMP Rollout
+## Gradual TOKEN Rollout
 
 ### Day 1-2: Internal Testing
 
 ```bash
-# Enable COMP for your test wallets only
+# Enable TOKEN for your test wallets only
 # Feature flag or allowlist in code
 
-# Test COMP fee transactions
+# Test TOKEN fee transactions
 # Monitor:
 - Fee validation success
 - Oracle price accuracy
 - Transaction confirmation times
 ```
 
-- [ ] Internal COMP transactions successful
+- [ ] Internal TOKEN transactions successful
 - [ ] No errors in logs
 - [ ] Price oracle working correctly
 
 ### Day 3-5: Limited Beta (10% users)
 
 ```bash
-# Set ENABLE_COMP_FEES=true
+# Set ENABLE_TOKEN_FEES=true
 # Monitor closely
 ```
 
-- [ ] COMP adoption rate tracked
+- [ ] TOKEN adoption rate tracked
 - [ ] User feedback collected
 - [ ] No failed validations
 
@@ -190,9 +190,9 @@ pnpm publish
 # If all metrics good, enable for all users
 ```
 
-- [ ] Announce COMP fee support
+- [ ] Announce TOKEN fee support
 - [ ] Update documentation
-- [ ] Monitor USDC vs COMP ratio
+- [ ] Monitor USDC vs TOKEN ratio
 
 ---
 
@@ -204,9 +204,9 @@ pnpm publish
    - Target: > 99% success
    - Alert if < 95%
 
-2. **USDC vs COMP Usage**
+2. **USDC vs TOKEN Usage**
    - Track adoption over time
-   - Expected: Gradual COMP increase
+   - Expected: Gradual TOKEN increase
 
 3. **Service Health**
    - Uptime: > 99.9%
@@ -215,7 +215,7 @@ pnpm publish
 
 4. **Oracle Accuracy**
    - ETH/USD price freshness
-   - COMP price updates
+   - TOKEN price updates
 
 ### Alert Thresholds
 
@@ -241,9 +241,9 @@ alerts:
 ### Quick Rollback (< 5 min)
 
 ```bash
-# Disable COMP fees immediately
+# Disable TOKEN fees immediately
 cd apps/paymaster
-echo "ENABLE_COMP_FEES=false" >> .env
+echo "ENABLE_TOKEN_FEES=false" >> .env
 pm2 restart paymaster  # or your process manager
 
 # OR revert to previous deployment
@@ -291,7 +291,7 @@ pnpm build
 
 **Deployment Date:** _______________  
 **Deployed By:** _______________  
-**COMP Token Address:** _______________  
+**TOKEN Token Address:** _______________  
 **Paymaster URL:** _______________  
 **Git Commit:** _______________  
 **Team Approval:** ✓ _______________ (Name/Signature)
@@ -313,4 +313,4 @@ _Use this space to record any deployment issues, decisions, or observations_
 
 **🎉 Congratulations on your mainnet deployment!**
 
-Remember: Start with `ENABLE_COMP_FEES=false`, test thoroughly, then enable gradually.
+Remember: Start with `ENABLE_TOKEN_FEES=false`, test thoroughly, then enable gradually.

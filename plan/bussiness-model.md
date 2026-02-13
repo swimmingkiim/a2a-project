@@ -13,7 +13,7 @@
 
 ### 2.2. Trust-as-a-Service (Authentication Revenue)
 - **Basic DID:** Free issuance.
-- **Verified Identity:** Requirement to **Stake $50 USD in COMP** to register in the Agent Registry. This stake is Slashable if the agent acts maliciously.
+- **Verified Identity:** Requirement to **Stake $50 USD in TOKEN** to register in the Agent Registry. This stake is Slashable if the agent acts maliciously.
 - **Reputation API:** API call fees incurred when retrieving agent reputation data from other platforms.
 
 ### 2.3. Discovery & Priority (Exposure Revenue)

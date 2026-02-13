@@ -1,5 +1,5 @@
-# $COMP System# Compute Token Quick Start
-This guide helps you interact with the Compute Token (default symbol: $COMP) ecosystem.rs
+# $TOKEN System# Utility Token Quick Start
+This guide helps you interact with the Utility Token (default symbol: $TOKEN) ecosystem.rs
 
 ## For Developers
 
@@ -17,25 +17,25 @@ const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
 });
 ```
 
-### 2. Using COMP Fees (New)
+### 2. Using TOKEN Fees (New)
 
 ```typescript
 const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
   treasury: process.env.TREASURY_ADDRESS,
-  amount: 25n * 10n**18n,  // 25 COMP
-  tokenType: 'COMP'
+  amount: 25n * 10n**18n,  // 25 TOKEN
+  tokenType: 'TOKEN'
 });
 ```
 
 ## For Operators
 
-### Enable COMP Fees
+### Enable TOKEN Fees
 
 1. **Update `.env`:**
    ```bash
-   COMP_TOKEN_ADDRESS=0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3
-   COMP_PRICE_USD=0.10
-   ENABLE_COMP_FEES=true
+   TOKEN_ADDRESS=<TOKEN_ADDRESS>
+   TOKEN_PRICE_USD=0.10
+   ENABLE_TOKEN_FEES=true
    ```
 
 2. **Restart Paymaster:**
@@ -47,7 +47,7 @@ const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
 
 3. **Verify Logs:**
    ```
-   ✅ COMP fee validation enabled (Token: 0xED17..., Price: $0.10)
+   ✅ TOKEN fee validation enabled (Token: 0xED17..., Price: $0.10)
    ```
 
 ## Test Results
@@ -60,11 +60,11 @@ const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
 
 ## Deployed Contracts
 
-**ComputeToken (Base Sepolia):**  
-`0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3`
+**UtilityToken (Base Sepolia):**  
+`<TOKEN_ADDRESS>`
 
 ## Documentation
 
 - [Full Walkthrough](file:///Users/kimsooyoung/.gemini/antigravity/brain/63025d8d-84f6-409a-90bf-51fb9181ffea/walkthrough.md)
 - [Phase 4 Implementation Plan](file:///Users/kimsooyoung/.gemini/antigravity/brain/63025d8d-84f6-409a-90bf-51fb9181ffea/phase4_integration_plan.md)
-- [COMP Roadmap](file:///Users/kimsooyoung/Developments/projects/a2a-projects/plan/COMP_ROADMAP.md)
+- [TOKEN Roadmap](file:///Users/kimsooyoung/Developments/projects/a2a-projects/plan/TOKEN_ROADMAP.md)

@@ -1,10 +1,10 @@
-# ComputeToken Smart Contract
+# UtilityToken Smart Contract
 
-Solidity smart contract for the A2A Project's $COMP token - a compute standard for AI agent economies.
+Solidity smart contract for the A2A Project's $TOKEN token - a compute standard for AI agent economies.
 
 ## Overview
 
-`ComputeToken` is an ERC-20 token representing computational resources in the A2A network. It implements:
+`UtilityToken` is an ERC-20 token representing computational resources in the A2A network. It implements:
 
 - ✅ **ERC-20 Standard** - Full fungible token support
 - 🔥 **ERC-20 Burnable** - Deflationary burn mechanism
@@ -15,8 +15,8 @@ Solidity smart contract for the A2A Project's $COMP token - a compute standard f
 
 | Property | Value |
 |----------|-------|
-| **Name** | Configurable (e.g. "Compute Token") |
-| **Symbol** | Configurable (e.g. "$COMP") |
+| **Name** | Configurable (e.g. "Utility Token") |
+| **Symbol** | Configurable (e.g. "$TOKEN") |
 | **Decimals** | 18 |
 | **Initial Supply** | 0 (minted on-demand) |
 | **Max Supply** | Unlimited (inflationary) |
@@ -29,7 +29,7 @@ Solidity smart contract for the A2A Project's $COMP token - a compute standard f
 ## Functions
 
 ### `mint(address to, uint256 amount)`
-Mints new $COMP tokens to the specified address.
+Mints new $TOKEN tokens to the specified address.
 - **Access**: `MINTER_ROLE` only
 - **Use case**: Reward nodes for computational work
 
@@ -88,13 +88,13 @@ npx hardhat verify --network base-sepolia <CONTRACT_ADDRESS> <PAYMASTER_ADDRESS>
 
 The Burn-and-Mint Equilibrium model creates sustainable tokenomics:
 
-1. **Demand (Burn)**: Network usage burns $COMP → Deflationary pressure
-2. **Supply (Mint)**: Computational work mints $COMP → Inflationary rewards
+1. **Demand (Burn)**: Network usage burns $TOKEN → Deflationary pressure
+2. **Supply (Mint)**: Computational work mints $TOKEN → Inflationary rewards
 3. **Equilibrium**: If `burn > mint` → Net deflation → Price appreciates
 
 **Example Scenario:**
-- 10,000 $COMP minted as node rewards
-- 12,000 $COMP burned as usage fees
+- 10,000 $TOKEN minted as node rewards
+- 12,000 $TOKEN burned as usage fees
 - **Result**: -2,000 supply (deflationary) → Value increases
 
 ## Security

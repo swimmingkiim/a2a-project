@@ -1,8 +1,8 @@
-# ComputeToken Deployment Guide
+# UtilityToken Deployment Guide
 
 ## 🎯 목표
 
-`ComputeToken.sol`을 Base Sepolia 테스트넷에 배포하고 검증합니다.
+`UtilityToken.sol`을 Base Sepolia 테스트넷에 배포하고 검증합니다.
 
 ---
 
@@ -48,7 +48,7 @@ nano .env  # 또는 code .env
 DEPLOYER_PRIVATE_KEY=여기에_지갑_비밀키_입력
 
 # Paymaster Gateway address (will receive MINTER_ROLE)
-# 이 주소가 $COMP를 민팅할 수 있는 권한을 받습니다
+# 이 주소가 $TOKEN를 민팅할 수 있는 권한을 받습니다
 # 
 # ⚠️ IMPORTANT DECISION:
 # Paymaster 서비스는 Pimlico 업스트림만 사용하며 자체 지갑이 없습니다.
@@ -127,16 +127,16 @@ pnpm deploy:sepolia
 
 **예상 출력:**
 ```
-🚀 Deploying ComputeToken with account: 0xYourAddress
+🚀 Deploying UtilityToken with account: 0xYourAddress
 💰 Account balance: 0.01 ETH
 🔑 Paymaster address (will receive MINTER_ROLE): 0xPaymasterAddress
 
-✅ ComputeToken deployed successfully!
+✅ UtilityToken deployed successfully!
 📍 Contract address: 0x1234567890abcdef...
-📝 Token name: Compute Token
-🔤 Token symbol: COMP
+📝 Token name: Utility Token
+🔤 Token symbol: TOKEN
 🔢 Decimals: 18
-💎 Total supply: 0 COMP
+💎 Total supply: 0 TOKEN
 
 🔐 Access Control:
   - Admin: 0xYourAddress ✅
@@ -166,7 +166,7 @@ npx hardhat verify \
 
 **성공 시 출력:**
 ```
-Successfully verified contract ComputeToken on Basescan.
+Successfully verified contract UtilityToken on Basescan.
 https://sepolia.basescan.org/address/0x1234...#code
 ```
 
@@ -178,7 +178,7 @@ https://sepolia.basescan.org/address/0x1234...#code
 ```json
 {
   "base-sepolia": {
-    "ComputeToken": {
+    "UtilityToken": {
       "address": "0x1234567890abcdef...",
       "deployer": "0xYourAddress",
       "paymaster": "0xPaymasterAddress",
@@ -194,15 +194,15 @@ https://sepolia.basescan.org/address/0x1234...#code
 
 ## 🔧 Step 6: Phase 2 환경 변수 업데이트
 
-**배포 완료 후, Paymaster 서비스에 COMP 주소 추가:**
+**배포 완료 후, Paymaster 서비스에 TOKEN 주소 추가:**
 
 ```bash
 cd apps/paymaster
 
 # .env 파일에 추가
-echo "COMP_TOKEN_ADDRESS=0x1234567890abcdef..." >> .env
-echo "COMP_PRICE_USD=0.10" >> .env
-echo "ENABLE_COMP_FEES=false" >> .env
+echo "TOKEN_ADDRESS=0x1234567890abcdef..." >> .env
+echo "TOKEN_PRICE_USD=0.10" >> .env
+echo "ENABLE_TOKEN_FEES=false" >> .env
 ```
 
 ---
@@ -236,7 +236,7 @@ echo "ENABLE_COMP_FEES=false" >> .env
 - [ ] Contract address 기록
 - [ ] Basescan 검증 완료 (선택)
 - [ ] `deployments.json` 생성
-- [ ] Paymaster `.env`에 COMP 주소 추가
+- [ ] Paymaster `.env`에 TOKEN 주소 추가
 
 ---
 

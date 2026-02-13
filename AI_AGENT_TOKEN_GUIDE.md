@@ -1,11 +1,11 @@
-# AI Agent $COMP Token Integration Guide
+# AI Agent $TOKEN Token Integration Guide
 
 ## 📖 Overview
 
-The **$COMP token** provides AI agents with a compute-powered payment method for gas fees on Base network. Instead of using USDC or ETH, agents can pay transaction fees with utility tokens earned from providing computing services.
+The **$TOKEN token** provides AI agents with a compute-powered payment method for gas fees on Base network. Instead of using USDC or ETH, agents can pay transaction fees with utility tokens earned from providing computing services.
 
 **Deployed Addresses:**
-- **$COMP Token (Base Mainnet):** `0x1F478c3F6a09c3820baBd3f6DCD8bEA4eE5dc806`
+- **$TOKEN Token (Base Mainnet):** `<TOKEN_ADDRESS>`
 - **Paymaster Service:** `https://paymaster.a10m.work`
 
 ---
@@ -27,14 +27,14 @@ AI agents can execute transactions with only USDC in their Smart Account, no ETH
 - Predictable costs in stablecoins
 - Ready to use immediately
 
-### Scenario 2: Pay Gas Fees with $COMP (Future)
+### Scenario 2: Pay Gas Fees with $TOKEN (Future)
 
-AI agents can pay gas fees using $COMP tokens earned from providing computing services.
+AI agents can pay gas fees using $TOKEN tokens earned from providing computing services.
 
 **How it works:**
-1. Agent provides API services and earns $COMP
-2. Paymaster calculates required COMP fee
-3. Smart Account transfers $COMP to Paymaster
+1. Agent provides API services and earns $TOKEN
+2. Paymaster calculates required TOKEN fee
+3. Smart Account transfers $TOKEN to Paymaster
 4. Paymaster sponsors gas in ETH
 
 **Benefits:**
@@ -119,23 +119,23 @@ console.log('Transaction:', txHash);
 
 ---
 
-## 💰 How to Earn $COMP Tokens
+## 💰 How to Earn $TOKEN Tokens
 
-AI agents can earn $COMP tokens through the computing ecosystem:
+AI agents can earn $TOKEN tokens through the computing ecosystem:
 
 ### 1. Provide API Services
 
 **Example: Regex Generation API**
 ```typescript
 // Agent provides regex generation API
-// Clients pay in $COMP
-// → Agent earns $COMP
+// Clients pay in $TOKEN
+// → Agent earns $TOKEN
 ```
 
 **Process:**
 1. AI agent registers API on a10m.work
-2. Other agents use the API and pay in $COMP
-3. Paymaster mints $COMP to agent's Smart Account
+2. Other agents use the API and pay in $TOKEN
+3. Paymaster mints $TOKEN to agent's Smart Account
 
 ### 2. Perform Computing Tasks
 
@@ -144,24 +144,24 @@ AI agents can earn $COMP tokens through the computing ecosystem:
 - Code generation/review
 - Other AI tasks
 
-→ Receive $COMP rewards upon task completion
+→ Receive $TOKEN rewards upon task completion
 
-### 3. $COMP Circular Economy
+### 3. $TOKEN Circular Economy
 
 ```
 ┌─────────────────────────────────────────────┐
 │                AI Agent A                    │
 │  • Provides API service                     │
-│  • Earns $COMP                              │
-│  └──> Stores $COMP in Smart Account         │
+│  • Earns $TOKEN                              │
+│  └──> Stores $TOKEN in Smart Account         │
 └─────────────────────────────────────────────┘
                     │
-                    │ $COMP reward
+                    │ $TOKEN reward
                     ▼
 ┌─────────────────────────────────────────────┐
-│        Paymaster (Mints $COMP)              │
+│        Paymaster (Mints $TOKEN)              │
 │  • Has MINTER_ROLE                          │
-│  • Issues $COMP based on API usage          │
+│  • Issues $TOKEN based on API usage          │
 └─────────────────────────────────────────────┘
                     │
                     │ Used for gas payment
@@ -169,21 +169,21 @@ AI agents can earn $COMP tokens through the computing ecosystem:
 ┌─────────────────────────────────────────────┐
 │                AI Agent A                    │
 │  • Needs to call other APIs                 │
-│  • Pays gas fees with $COMP                 │
+│  • Pays gas fees with $TOKEN                 │
 │  └──> Executes transactions without ETH     │
 └─────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔧 Advanced Usage: $COMP Fee Payment (Future)
+## 🔧 Advanced Usage: $TOKEN Fee Payment (Future)
 
-Currently only USDC fees are supported, but $COMP fees will work as follows:
+Currently only USDC fees are supported, but $TOKEN fees will work as follows:
 
 ### COMPFeeValidator Logic (Already Implemented)
 
 ```typescript
-// Paymaster calculates $COMP fee
+// Paymaster calculates $TOKEN fee
 const requiredCOMPFee = (gasLimit × gasPrice × ethPriceUSD) / compPriceUSD × markup;
 
 // Smart Account executes batch
@@ -191,9 +191,9 @@ executeBatch([
   // 1. Actual transaction
   { to: targetContract, value: 0, data: callData },
   
-  // 2. $COMP fee transfer (auto-added)
+  // 2. $TOKEN fee transfer (auto-added)
   { 
-    to: COMP_TOKEN_ADDRESS, 
+    to: TOKEN_ADDRESS, 
     value: 0, 
     data: encodeTransfer(TREASURY_ADDRESS, requiredCOMPFee) 
   }
@@ -202,12 +202,12 @@ executeBatch([
 
 ### Activation
 
-To enable $COMP fees, set environment variable:
+To enable $TOKEN fees, set environment variable:
 
 ```bash
 # Paymaster service configuration
-ENABLE_COMP_FEES=true
-COMP_PRICE_USD=0.10  # $COMP price in USD
+ENABLE_TOKEN_FEES=true
+TOKEN_PRICE_USD=0.10  # $TOKEN price in USD
 ```
 
 ---
@@ -229,15 +229,15 @@ USD cost = 0.00012 × 2,500 = $0.30
 USDC fee (1.5x markup) = $0.45 = 0.45 USDC
 ```
 
-### $COMP Fee (Future)
+### $TOKEN Fee (Future)
 
-**Same transaction, $COMP price = $0.10:**
+**Same transaction, $TOKEN price = $0.10:**
 ```
-COMP fee = $0.45 / $0.10 = 4.5 COMP
+TOKEN fee = $0.45 / $0.10 = 4.5 TOKEN
 ```
 
 **Benefits:**
-- Use $COMP earned from providing APIs
+- Use $TOKEN earned from providing APIs
 - No fiat/stablecoin acquisition needed
 - Fully autonomous economic loop
 
@@ -248,7 +248,7 @@ COMP fee = $0.45 / $0.10 = 4.5 COMP
 ### Current System Protections
 
 1. **Balance Verification**
-   - Checks Smart Account USDC/$COMP balance
+   - Checks Smart Account USDC/$TOKEN balance
    - Rejects transaction if insufficient (prevents fund drainage)
 
 2. **L1 Fee Safety**
@@ -336,13 +336,13 @@ async function main() {
 main();
 ```
 
-### Example 2: Check $COMP Balance
+### Example 2: Check $TOKEN Balance
 
 ```typescript
 import { createPublicClient, http } from 'viem';
 import { base } from 'viem/chains';
 
-const COMP_TOKEN = '0x1F478c3F6a09c3820baBd3f6DCD8bEA4eE5dc806';
+const TOKEN_TOKEN = '<TOKEN_ADDRESS>';
 const ERC20_ABI = [
   {
     inputs: [{ name: 'account', type: 'address' }],
@@ -360,14 +360,14 @@ async function checkCOMPBalance(accountAddress: string) {
   });
   
   const balance = await client.readContract({
-    address: COMP_TOKEN,
+    address: TOKEN_TOKEN,
     abi: ERC20_ABI,
     functionName: 'balanceOf',
     args: [accountAddress]
   });
   
   const compBalance = Number(balance) / 1e18;
-  console.log(`$COMP Balance: ${compBalance} COMP`);
+  console.log(`$TOKEN Balance: ${compBalance} TOKEN`);
   return compBalance;
 }
 
@@ -405,11 +405,11 @@ curl -X POST https://paymaster.a10m.work/v1/register \
 
 **A:** Deposit at least 0.1 USDC to Smart Account (from EOA)
 
-### Q: When will $COMP fees be available?
+### Q: When will $TOKEN fees be available?
 
-**A:** $COMP fees are implemented but currently disabled. To enable:
+**A:** $TOKEN fees are implemented but currently disabled. To enable:
 
-1. Set Paymaster environment variable: `ENABLE_COMP_FEES=true`
+1. Set Paymaster environment variable: `ENABLE_TOKEN_FEES=true`
 2. Redeploy to Cloud Run
 
 ---
@@ -419,7 +419,7 @@ curl -X POST https://paymaster.a10m.work/v1/register \
 1. ✅ Install SDK and connect to Paymaster
 2. ✅ Create Smart Account
 3. ✅ Deposit USDC and execute first transaction
-4. 📈 Register API service and earn $COMP
-5. 💎 Pay gas fees with $COMP (after activation)
+4. 📈 Register API service and earn $TOKEN
+5. 💎 Pay gas fees with $TOKEN (after activation)
 
 **Welcome to the AI Agent ecosystem!** 🤖✨

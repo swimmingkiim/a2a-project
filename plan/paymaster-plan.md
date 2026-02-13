@@ -19,7 +19,7 @@ The Gateway acts as an intelligent router between AI Agents and upstream provide
 
 1. **Request Verification**: 
    - Authenticate the agent via DID and check for valid Verifiable Credentials (VC).
-   - **Solvency Check (Critical):** Before sponsoring gas, the gateway performs an on-chain balanceOf check to ensure the agent actually holds sufficient $COMP tokens. This prevents 'Empty Wallet' attacks.
+   - **Solvency Check (Critical):** Before sponsoring gas, the gateway performs an on-chain balanceOf check to ensure the agent actually holds sufficient $TOKEN tokens. This prevents 'Empty Wallet' attacks.
 2. **L1 Fee Safety**: 
    - For Base L2, query the L1 Fee Oracle (`0x4200...000F`) to include data posting costs.
    - Oracle queries include L1 data fee buffers to prevent Paymaster from operating at a loss on Optimism stack chains.

@@ -1,8 +1,8 @@
-# $COMP System: Whitepaper vs Implementation Roadmap
+# $TOKEN System: Whitepaper vs Implementation Roadmap
 
 ## Document Purpose
 
-This document clarifies the relationship between the **ambitious long-term vision** outlined in the whitepaper and the **pragmatic short-term implementation** plan in `COMP_ROADMAP.md`.
+This document clarifies the relationship between the **ambitious long-term vision** outlined in the whitepaper and the **pragmatic short-term implementation** plan in `TOKEN_ROADMAP.md`.
 
 ---
 
@@ -11,8 +11,8 @@ This document clarifies the relationship between the **ambitious long-term visio
 The whitepaper outlines a **Phase 3: Sovereign Trust** architecture with advanced features:
 
 ### 1. BME (Burn-and-Mint Equilibrium) Economics
-- **Agents pay in stable USD** → Gateway buys & burns $COMP → **Deflationary pressure**
-- **Nodes earn fresh-minted $COMP** → Inflationary rewards
+- **Agents pay in stable USD** → Gateway buys & burns $TOKEN → **Deflationary pressure**
+- **Nodes earn fresh-minted $TOKEN** → Inflationary rewards
 - **Net effect:** If usage > inflation rate → Price appreciates
 
 ### 2. WCU (Weighted Compute Units)
@@ -38,15 +38,15 @@ The whitepaper outlines a **Phase 3: Sovereign Trust** architecture with advance
 
 ## Implementation Roadmap (Short-Term: 3-6 months)
 
-The `COMP_ROADMAP.md` focuses on **Phase 2: Hybrid Economy** foundations:
+The `TOKEN_ROADMAP.md` focuses on **Phase 2: Hybrid Economy** foundations:
 
 ### What We're Building NOW
 
 | Component | Scope | Purpose |
 |-----------|-------|---------|
-| **ComputeToken.sol** | ERC-20 + AccessControl | Basic minting infrastructure |
-| **Dual-Token Support** | USDC + $COMP validation | Enable agents to pay in either token |
-| **Mock Oracle** | Simple ETH→COMP conversion | Price discovery prototype |
+| **UtilityToken.sol** | ERC-20 + AccessControl | Basic minting infrastructure |
+| **Dual-Token Support** | USDC + $TOKEN validation | Enable agents to pay in either token |
+| **Mock Oracle** | Simple ETH→TOKEN conversion | Price discovery prototype |
 | **Strategy Pattern** | Paymaster fee routing | Extensible validation logic |
 | **SDK Updates** | `tokenType` parameter | Client-side token selection |
 
@@ -85,7 +85,7 @@ The whitepaper describes a **production-grade DePIN** requiring:
 
 ## Immediate Action: Review Current Roadmap
 
-The `COMP_ROADMAP.md` now includes:
+The `TOKEN_ROADMAP.md` now includes:
 
 ✅ **Whitepaper context** (Executive Summary)  
 ✅ **Detailed architecture** (BME, WCU, OTR explained)  
@@ -93,8 +93,8 @@ The `COMP_ROADMAP.md` now includes:
 ✅ **TDD specifications** (100% test coverage requirements)  
 ✅ **Future roadmap** (Clear path to whitepaper vision)
 
-**Next Step:** User reviews `COMP_ROADMAP.md` and approves:
-1. **Phase 1 scope** (ComputeToken smart contract)
+**Next Step:** User reviews `TOKEN_ROADMAP.md` and approves:
+1. **Phase 1 scope** (UtilityToken smart contract)
 2. **Phase 2-4 scope** (Oracle, Paymaster, SDK)
 3. **Future phases** (BME, WCU, OTR as separate initiatives)
 
@@ -102,17 +102,17 @@ The `COMP_ROADMAP.md` now includes:
 
 ## Key Decisions Needed
 
-### 1. Initial $COMP Economics
+### 1. Initial $TOKEN Economics
 
-**Option A (Simple):** Paymaster mints $COMP as rewards, no burning yet  
-**Option B (BME Lite):** Treasury manually burns $COMP quarterly  
+**Option A (Simple):** Paymaster mints $TOKEN as rewards, no burning yet  
+**Option B (BME Lite):** Treasury manually burns $TOKEN quarterly  
 **Option C (Full BME):** Requires DEX integration, more complex
 
 **Recommendation:** Start with **Option A**, add BME in Phase 2 after proving demand.
 
 ### 2. WCU Implementation Timeline
 
-**Short-term (Now):** Simple pricing - "$X of $COMP per inference request"  
+**Short-term (Now):** Simple pricing - "$X of $TOKEN per inference request"  
 **Medium-term (6 months):** Basic WCU - "H100 costs 2x A100"  
 **Long-term (12 months):** Governance-driven WCU with DAO votes
 

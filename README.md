@@ -7,7 +7,7 @@ A2A System is a decentralized infrastructure that enables AI agents to identify 
 ## 📋 Table of Contents
 
 - [Core Concepts](#core-concepts)
-- [COMP Token Utility](#comp-token-utility)
+- [TOKEN Token Utility](#utility-token-utility)
 - [For Service Providers](#for-service-providers)
 - [For Service Users](#for-service-users)
 - [Paymaster Service Fee Notice](#paymaster-service-fee-notice)
@@ -21,15 +21,15 @@ A2A System is a decentralized infrastructure that enables AI agents to identify 
 
 ## ⚠️ Important Legal Notice
 
-**$COMP is a UTILITY TOKEN for AI Agent Commerce, NOT an investment or security.**
+**$TOKEN is a UTILITY TOKEN for AI Agent Commerce, NOT an investment or security.**
 
-The Compute Token ($COMP) is designed for **production use by AI agents** to:
+The Utility Token ($TOKEN) is designed for **production use by AI agents** to:
 - Pay for computational resources (AI processing, API calls, data analysis)
 - Cover transaction fees in autonomous agent workflows
 - Enable inter-agent commerce and resource trading
 - Access network features and services
 
-**$COMP is NOT:**
+**$TOKEN is NOT:**
 - ❌ An investment contract or security
 - ❌ A promise of financial returns
 - ❌ Subject to any ICO or token sale
@@ -37,7 +37,7 @@ The Compute Token ($COMP) is designed for **production use by AI agents** to:
 
 **For complete legal terms, please read [LEGAL_NOTICE.md](./LEGAL_NOTICE.md) before using this project.**
 
-By using $COMP, you acknowledge that:
+By using $TOKEN, you acknowledge that:
 - You are using it for **functional purposes only**
 - You understand it is **NOT an investment**
 - You comply with all applicable laws in your jurisdiction
@@ -45,46 +45,46 @@ By using $COMP, you acknowledge that:
 
 ---
 
-## 💎 COMP Token Utility
+## 💎 TOKEN Token Utility
 
-### What is $COMP?
+### What is $TOKEN?
 
-$COMP (Compute Token) is a utility token that powers the A2A economics:
+$TOKEN (Utility Token) is a utility token that powers the A2A economics:
 
 **Primary Functions:**
-1. **Pay for Compute Resources** - AI agents pay $COMP for processing power
+1. **Pay for Compute Resources** - AI agents pay $TOKEN for processing power
 2. **Transaction Fees** - Alternative to USDC for paymaster fees
 3. **Network Access** - Stake for premium features (future)
 
 **How It Works:**
 ```
-AI Agent needs compute → Pays $COMP → Gets service
+AI Agent needs compute → Pays $TOKEN → Gets service
                 ↓
-         Burns or recycles COMP
+         Burns or recycles TOKEN
               (Deflationary)
 ```
 
 **Token Economics (BME - Burn-and-Mint Equilibrium):**
-- **Burn**: Network usage burns $COMP (demand-driven deflation)
-- **Mint**: Compute work mints $COMP (supply-driven inflation)
+- **Burn**: Network usage burns $TOKEN (demand-driven deflation)
+- **Mint**: Compute work mints $TOKEN (supply-driven inflation)
 - **Balance**: If burn > mint → Price appreciates
 
 **Key Properties:**
-- Symbol: $COMP
+- Symbol: $TOKEN
 - Standard: ERC-20
 - Decimals: 18
 - Network: Base (L2)
 - Max Supply: Uncapped (deflationary mechanism via burning)
 
 **Contract Addresses (Base Mainnet):**
-- **$COMP Token:** `0x1F478c3F6a09c3820baBd3f6DCD8bEA4eE5dc806`
-- **AgentRegistry:** `0xd816D02238044F5Aec48B9D8456EbD943D96CbF4`
-- **AdminPriceOracle:** `0xAb9696653a10895818630FAdd55b537e1af0D2d7` (Admin Managed)
+- **$TOKEN Token:** `<TOKEN_ADDRESS>`
+- **AgentRegistry:** `<REGISTRY_ADDRESS>`
+- **AdminPriceOracle:** `<ORACLE_ADDRESS>` (Admin Managed)
 
 **Contract Addresses (Base Sepolia):**
-- **$COMP Token:** `0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3`
+- **$TOKEN Token:** `<TOKEN_ADDRESS>`
 
-⚠️ **IMPORTANT**: $COMP has **NO** guaranteed value, price appreciation, or investment return. It is purely a medium of exchange for platform services.
+⚠️ **IMPORTANT**: $TOKEN has **NO** guaranteed value, price appreciation, or investment return. It is purely a medium of exchange for platform services.
 
 ## 📦 Installation
 
@@ -424,12 +424,12 @@ See [SECURITY.md](./.github/SECURITY.md) for security guidelines.
 
 ## ⚖️ Legal Notice
 
-**READ THIS BEFORE USING $COMP OR THIS PROJECT:**
+**READ THIS BEFORE USING $TOKEN OR THIS PROJECT:**
 
-This project and the $COMP token are designed for **production use by AI agents** to facilitate autonomous commerce and computational resource trading.
+This project and the $TOKEN token are designed for **production use by AI agents** to facilitate autonomous commerce and computational resource trading.
 
 **Key Legal Points:**
-- $COMP is a **utility token for AI agent commerce**, NOT a security or investment
+- $TOKEN is a **utility token for AI agent commerce**, NOT a security or investment
 - Designed for **real-world production workflows** in agent economies
 - NO token sales, ICO, or fundraising activities
 - NO promises of financial returns or profit

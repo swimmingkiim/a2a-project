@@ -35,11 +35,11 @@
 ### A. Chainlink Price Feed Addresses (Base Mainnet)
 
 ```typescript
-// COMP/USD - Will need custom oracle or use proxy method
+// TOKEN/USD - Will need custom oracle or use proxy method
 // ETH/USD - 0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70
 
-// For now: COMP/ETH via indirect calculation
-// ETH/USD * COMP/ETH = COMP/USD
+// For now: TOKEN/ETH via indirect calculation
+// ETH/USD * TOKEN/ETH = TOKEN/USD
 ```
 
 ### B. Create ChainlinkOracle.ts
@@ -81,7 +81,7 @@ import { ChainlinkOracle } from './oracle/ChainlinkOracle';
 const oracle = new ChainlinkOracle(config.RPC_URL);
 compValidator = new COMPFeeValidator({
   treasuryAddress: config.TREASURY_ADDRESS,
-  compTokenAddress: config.COMP_TOKEN_ADDRESS,
+  compTokenAddress: config.TOKEN_ADDRESS,
   markupRate: config.MARKUP_RATE
 }, oracle);
 ```
@@ -137,7 +137,7 @@ export const feeValidationDuration = new Histogram({
 
 export const compPriceGauge = new Gauge({
   name: 'comp_price_usd',
-  help: 'Current COMP price in USD'
+  help: 'Current TOKEN price in USD'
 });
 ```
 
@@ -159,10 +159,10 @@ try {
 ### C. Grafana Dashboard
 
 Create dashboard with:
-- Fee validation rate (USDC vs COMP)
+- Fee validation rate (USDC vs TOKEN)
 - Success/failure ratios
 - Response times (p50, p95, p99)
-- COMP price over time
+- TOKEN price over time
 - Error rates
 
 **Estimated Time:** 4-6 hours  
@@ -185,7 +185,7 @@ import { PaymasterManager } from '@swimmingkiim/pay-sdk';
 import { createSmartAccountClient } from 'permissionless';
 
 async function runE2EDemo() {
-  console.log('🚀 Starting E2E Demo: COMP Fee Payment\n');
+  console.log('🚀 Starting E2E Demo: TOKEN Fee Payment\n');
   
   // 1. Setup
   const owner = privateKeyToAccount(process.env.DEMO_PRIVATE_KEY);
@@ -193,16 +193,16 @@ async function runE2EDemo() {
   
   console.log('✅ Smart Account:', smartAccount.address);
   
-  // 2. Check COMP balance
+  // 2. Check TOKEN balance
   const compBalance = await checkCOMPBalance(smartAccount.address);
-  console.log(`💰 COMP Balance: ${compBalance} COMP`);
+  console.log(`💰 TOKEN Balance: ${compBalance} TOKEN`);
   
   if (compBalance < 25n) {
-    console.log('⚠️  Insufficient COMP, minting...');
+    console.log('⚠️  Insufficient TOKEN, minting...');
     await mintCOMP(smartAccount.address, 100n);
   }
   
-  // 3. Create transaction with COMP fee
+  // 3. Create transaction with TOKEN fee
   const calls = [{
     to: '0x...',  // some target
     value: 0n,
@@ -211,11 +211,11 @@ async function runE2EDemo() {
   
   const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
     treasury: process.env.TREASURY_ADDRESS,
-    amount: 25n * 10n**18n,  // 25 COMP
-    tokenType: 'COMP'
+    amount: 25n * 10n**18n,  // 25 TOKEN
+    tokenType: 'TOKEN'
   });
   
-  console.log('📝 Transaction prepared with COMP fee');
+  console.log('📝 Transaction prepared with TOKEN fee');
   
   // 4. Submit to paymaster
   const userOp = await smartAccount.prepareUserOperation({ calls: callsWithFee });
@@ -233,7 +233,7 @@ async function runE2EDemo() {
   
   // 7. Verify fee payment
   const treasuryBalance = await checkCOMPBalance(process.env.TREASURY_ADDRESS);
-  console.log(`💵 Treasury received fee. New balance: ${treasuryBalance} COMP`);
+  console.log(`💵 Treasury received fee. New balance: ${treasuryBalance} TOKEN`);
   
   console.log('\n🎉 E2E Demo Complete!');
 }

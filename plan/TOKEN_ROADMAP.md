@@ -1,12 +1,12 @@
-# $COMP (Compute Token) System Implementation Roadmap
+# $TOKEN (Utility Token) System Implementation Roadmap
 
 > **Version 2.0** - Updated 2026-02-10  
 > **Status:** 🔄 Revised with Whitepaper Insights  
-> **Source:** [AI Compute Standard $COMP Draft Whitepaper](https://docs.google.com/document/d/1tKz6p9Zjj30BhAOA2_jsEg7QEMaGEzy50CPnyApgD7E)
+> **Source:** [AI Compute Standard $TOKEN Draft Whitepaper](https://docs.google.com/document/d/1tKz6p9Zjj30BhAOA2_jsEg7QEMaGEzy50CPnyApgD7E)
 
 ## Executive Summary
 
-This roadmap outlines the evolution of the `a2a-project` from a USDC-based payment rail into a **Compute Standard ($COMP)** - a native economic system for autonomous AI agents. Unlike traditional cryptocurrencies, $COMP represents **computational resources** as the fundamental unit of value, enabling AI agents to trade processing power as currency.
+This roadmap outlines the evolution of the `a2a-project` from a USDC-based payment rail into a **Compute Standard ($TOKEN)** - a native economic system for autonomous AI agents. Unlike traditional cryptocurrencies, $TOKEN represents **computational resources** as the fundamental unit of value, enabling AI agents to trade processing power as currency.
 
 ### Whitepaper Key Insights Integrated
 
@@ -23,7 +23,7 @@ Based on the comprehensive whitepaper analysis, this roadmap now incorporates:
 
 | Phase | Vision | Core Change |
 |-------|--------|-------------|
-| **Phase 1: Aggregation** | Unify existing DePIN networks | $COMP as reward points, aggregate Render/Akash/io.net |
+| **Phase 1: Aggregation** | Unify existing DePIN networks | $TOKEN as reward points, aggregate Render/Akash/io.net |
 | **Phase 2: Hybrid Economy** | Introduce Recycling tokenomics | Fiat payments contribution to Treasury, WCU standardization |
 | **Phase 3: Sovereign Trust** | Independent verification layer | Optimistic TEE Rollups, x402 protocol, state channels |
 
@@ -35,7 +35,7 @@ Based on the comprehensive whitepaper analysis, this roadmap now incorporates:
 - **Open-Closed Principle (OCP):** Extend, do not break existing USDC functionality
 - **High Test Coverage:** 100% branch coverage for smart contracts, >90% for financial logic
 - **Backward Compatibility:** Existing USDC integrations continue to work unchanged
-- **Economic Sustainability:** Recycling model ensures $COMP allows for sustainable rewards via RPGF
+- **Economic Sustainability:** Recycling model ensures $TOKEN allows for sustainable rewards via RPGF
 - **Trustless Verification:** Cryptographic proofs replace institutional trust
 
 ---
@@ -86,11 +86,11 @@ sequenceDiagram
 
 ---
 
-## To-Be Architecture ($COMP + BME Economics)
+## To-Be Architecture ($TOKEN + BME Economics)
 
 ### Vision: From Simple Dual-Token to Compute Standard
 
-The whitepaper reveals that $COMP is not merely "another payment token" but a **standardized unit of computational value**. This section outlines the target state architecture informed by DePIN best practices.
+The whitepaper reveals that $TOKEN is not merely "another payment token" but a **standardized unit of computational value**. This section outlines the target state architecture informed by DePIN best practices.
 
 ### Design Goals (Whitepaper-Aligned)
 
@@ -103,7 +103,7 @@ The whitepaper reveals that $COMP is not merely "another payment token" but a **
 
 ### Economic Architecture: Ecosystem Recycling & Dynamic Staking
 
-Instead of a pure Burn-and-Mint model, $COMP uses a **Recycling & Staking** system to ensure long-term sustainability and trust.
+Instead of a pure Burn-and-Mint model, $TOKEN uses a **Recycling & Staking** system to ensure long-term sustainability and trust.
 
 ```mermaid
 sequenceDiagram
@@ -113,19 +113,19 @@ sequenceDiagram
     participant Registry as Agent Registry
     
     Note over Agent: Registration
-    Agent->>Registry: Stake $50 USD in $COMP
-    Registry->>Registry: Oracle Check (COMP/USD)
+    Agent->>Registry: Stake $50 USD in $TOKEN
+    Registry->>Registry: Oracle Check (TOKEN/USD)
     Registry-->>Agent: Registered Verified Credential
     
     Note over Agent: Execution
     Agent->>Gateway: Request inference
-    Gateway->>Treasury: Transfer fee ($COMP)
+    Gateway->>Treasury: Transfer fee ($TOKEN)
     Note over Treasury: Fees accumulate for RPGF
 ```
 
 **Key Properties:**
 
-1. **Dynamic Staking:** Agents must stake **$50 USD value** in $COMP to operate. This lowers barrier to entry while maintaining Sybil resistance.
+1. **Dynamic Staking:** Agents must stake **$50 USD value** in $TOKEN to operate. This lowers barrier to entry while maintaining Sybil resistance.
 2. **Treasury Recycling:** Fees are not burned but collected in a Treasury to fund:
    - Retroactive Public Goods Funding (RPGF)
    - Developer Grants
@@ -163,16 +163,16 @@ function calculateWCU(profile: HardwareProfile, hours: number): bigint {
 **Governance-Driven Updates:**
 
 - New hardware (e.g., NVIDIA Blackwell B200) gets WCU rating via DAO vote
-- $COMP price indexed to "cost per WCU", not "cost per specific GPU hour"
+- $TOKEN price indexed to "cost per WCU", not "cost per specific GPU hour"
 - **Defeats Moore's Law deflation:** As H100 gets cheaper, its WCU/hour rating decreases
 
 **Example:**
 
-| Hardware | WCU/Hour | $COMP Cost (Hypothetical) |
+| Hardware | WCU/Hour | $TOKEN Cost (Hypothetical) |
 |----------|---------|------------------|
-| NVIDIA H100 | 100 WCU | 50 $COMP |
-| NVIDIA A100 | 40 WCU | 20 $COMP |
-| RTX 4090 | 15 WCU | 7.5 $COMP |
+| NVIDIA H100 | 100 WCU | 50 $TOKEN |
+| NVIDIA A100 | 40 WCU | 20 $TOKEN |
+| RTX 4090 | 15 WCU | 7.5 $TOKEN |
 
 ### Verification Architecture: Optimistic TEE Rollups (OTR)
 
@@ -214,9 +214,9 @@ graph TD
 - Results compared, discrepancies trigger Tier 3
 
 **Tier 3: Economic Punishment**
-- If fraud detected: Node loses **entire staked $COMP** (slashing)
+- If fraud detected: Node loses **entire staked $TOKEN** (slashing)
 - Stake must be >> potential profit from cheating
-- Example: Node must stake 1000 $COMP to earn 10 $COMP/day
+- Example: Node must stake 1000 $TOKEN to earn 10 $TOKEN/day
 
 **Security Analysis:**
 
@@ -243,7 +243,7 @@ Host: node.a10m.work
 HTTP/1.1 402 Payment Required
 X-Payment-Address: 0xNodeWallet...
 X-Payment-Amount: 0.001
-X-Payment-Token: $COMP (0x...)
+X-Payment-Token: $TOKEN (0x...)
 X-Payment-Invoice: invoice_abc123
 
 # Step 3: Agent sends signed payment proof
@@ -272,7 +272,7 @@ For ongoing agent-node relationships, use **payment channels**:
 // Opening a channel
 class PaymentChannel {
   async open(agent: Address, node: Address, deposit: bigint) {
-    // Agent locks 1000 $COMP in channel contract
+    // Agent locks 1000 $TOKEN in channel contract
     await channelContract.open(agent, node, deposit);
   }
   
@@ -293,9 +293,9 @@ class PaymentChannel {
 ```
 
 **Example:**
-1. Agent opens channel with 1000 $COMP deposit
+1. Agent opens channel with 1000 $TOKEN deposit
 2. Makes 10,000 inference requests over 1 week
-3. Each request costs 0.05 $COMP → Total 500 $COMP
+3. Each request costs 0.05 $TOKEN → Total 500 $TOKEN
 4. Only 2 blockchain transactions: open (1000 deposit) + close (500 spent, 500 returned)
 5. **Savings:** 10,000 TXs → 2 TXs = 99.98% gas fee reduction
 
@@ -303,27 +303,27 @@ class PaymentChannel {
 
 ```mermaid
 graph TD
-    A[ComputeToken.sol] -->|MINTER_ROLE| B[Paymaster Gateway]
+    A[UtilityToken.sol] -->|MINTER_ROLE| B[Paymaster Gateway]
     B -->|validation| C[TokenFeeStrategy]
     C -->|USDC| D[USDCFeeValidator]
-    C -->|COMP| E[COMPFeeValidator]
+    C -->|TOKEN| E[COMPFeeValidator]
     E -->|price query| F[TokenPriceOracle]
     
     G[PaymasterManager SDK] -->|token type| H[Fee Call Builder]
     H -->|USDC| I[appendUSDCFee]
-    H -->|COMP| J[appendCOMPFee]
+    H -->|TOKEN| J[appendCOMPFee]
 ```
 
 ---
 
 ## Phase 1: Smart Contract Layer (The Foundation)
 
-### 1.1 ComputeToken Contract Design
+### 1.1 UtilityToken Contract Design
 
-**File:** `packages/contracts/src/ComputeToken.sol`
+**File:** `packages/contracts/src/UtilityToken.sol`
 
 **Status:** [x] Completed
-**Deployment:** 0x1F478c3F6a09c3820baBd3f6DCD8bEA4eE5dc806 (Base Mainnet)
+**Deployment:** <TOKEN_ADDRESS> (Base Mainnet)
 
 **Requirements:**
 - Inherits: `ERC20`, `ERC20Burnable`, `AccessControl` (OpenZeppelin)
@@ -332,8 +332,8 @@ graph TD
   - `MINTER_ROLE`: Paymaster Gateway address (can mint tokens for work)
   - `BURNER_ROLE`: Agents who burn tokens for task execution (optional, anyone can burn their own tokens via `ERC20Burnable`)
 - **Tokenomics:**
-  - Name: "Compute Token"
-  - Symbol: "$COMP"
+  - Name: "Utility Token"
+  - Symbol: "$TOKEN"
   - Decimals: 18 (Standard ERC20)
   - Initial Supply: 0 (Tokens are minted on-demand for work)
   - Max Supply: Unlimited (Inflationary based on compute demand, but balanced by burning)
@@ -351,10 +351,10 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract ComputeToken is ERC20, ERC20Burnable, AccessControl {
+contract UtilityToken is ERC20, ERC20Burnable, AccessControl {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     
-    constructor(address paymasterGateway) ERC20("Compute Token", "COMP") {
+    constructor(address paymasterGateway) ERC20("Utility Token", "TOKEN") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, paymasterGateway);
     }
@@ -365,18 +365,18 @@ contract ComputeToken is ERC20, ERC20Burnable, AccessControl {
 }
 ```
 
-### 1.2 TDD Test Suite for ComputeToken
+### 1.2 TDD Test Suite for UtilityToken
 
 **Status:** [x] Completed
 
-**File:** `packages/contracts/test/ComputeToken.test.ts`
+**File:** `packages/contracts/test/UtilityToken.test.ts`
 
 **Test Cases (Red-Green-Refactor):**
 
 #### RED Phase - Write Failing Tests First
 
 ```typescript
-describe("ComputeToken - Access Control", () => {
+describe("UtilityToken - Access Control", () => {
   it("should revert when non-minter tries to mint", async () => {
     // Setup: Create token, get non-minter account
     // Action: Call mint() from non-minter
@@ -396,7 +396,7 @@ describe("ComputeToken - Access Control", () => {
   });
 });
 
-describe("ComputeToken - Burning Mechanics", () => {
+describe("UtilityToken - Burning Mechanics", () => {
   it("should reduce totalSupply when tokens are burned", async () => {
     // Setup: Mint 1000 tokens
     // Action: Burn 300 tokens
@@ -410,7 +410,7 @@ describe("ComputeToken - Burning Mechanics", () => {
   });
 });
 
-describe("ComputeToken - ERC20 Standard", () => {
+describe("UtilityToken - ERC20 Standard", () => {
   it("should transfer tokens between accounts", async () => {
     // Standard ERC20 transfer test
   });
@@ -423,7 +423,7 @@ describe("ComputeToken - ERC20 Standard", () => {
 
 #### GREEN Phase - Implementation
 
-After writing ALL tests above, implement `ComputeToken.sol` until all tests pass.
+After writing ALL tests above, implement `UtilityToken.sol` until all tests pass.
 
 #### REFACTOR Phase
 
@@ -438,7 +438,7 @@ After writing ALL tests above, implement `ComputeToken.sol` until all tests pass
 **File:** `packages/contracts/scripts/deploy-compute-token.ts`
 
 ```typescript
-// Deploy ComputeToken with Paymaster address
+// Deploy UtilityToken with Paymaster address
 // Verify on Basescan
 // Save deployment addresses to config
 ```
@@ -450,7 +450,7 @@ pnpm --filter @a2a/contracts deploy:compute-token --network base-sepolia
 
 ### 1.4 Phase 1 Acceptance Criteria
 
-- [x] All ComputeToken tests pass with 100% branch coverage
+- [x] All UtilityToken tests pass with 100% branch coverage
 - [x] Contract deployed to Base Sepolia testnet
 - [x] Contract verified on Basescan
 - [x] Deployment addresses saved to `packages/contracts/deployments.json`
@@ -470,17 +470,17 @@ pnpm --filter @a2a/contracts deploy:compute-token --network base-sepolia
 A central registry to prevent Sybil attacks and ensure agent quality through economic staking.
 
 **Requirements:**
-- **Dynamic Staking:** Required stake is calculated in **USD ($50)**, not fixed COMP amount.
-- **Oracle Integration:** Uses Chainlink `AggregatorV3Interface` to fetch COMP/USD price.
+- **Dynamic Staking:** Required stake is calculated in **USD ($50)**, not fixed TOKEN amount.
+- **Oracle Integration:** Uses Chainlink `AggregatorV3Interface` to fetch TOKEN/USD price.
 - **Slashing:** Malicious agents can have their stake slashed and sent to **Treasury**.
 
 **Key Functions:**
 - `register(string metadataUrl)`: 
-  - Checks Oracle for current COMP price.
-  - Require `$50 / Price` amount of COMP.
-  - Transfers COMP to contract.
-- `unstake()`: Returns COMP to user (subject to unbonding period in future).
-- `slash(address agent)`: Admin only. Sends COMP to Treasury.
+  - Checks Oracle for current TOKEN price.
+  - Require `$50 / Price` amount of TOKEN.
+  - Transfers TOKEN to contract.
+- `unstake()`: Returns TOKEN to user (subject to unbonding period in future).
+- `slash(address agent)`: Admin only. Sends TOKEN to Treasury.
 
 ### 1.5.2 RPGF (Retroactive Public Goods Funding)
 
@@ -489,7 +489,7 @@ A central registry to prevent Sybil attacks and ensure agent quality through eco
 The Treasury accumulates collected fees and slashed stakes. These funds are distributed via:
 1. **Node Rewards:** For high-uptime compute providers.
 2. **Developer Grants:** For building agent frameworks compatible with A2A.
-3. **Liquidity Mining:** For COMP/ETH pools.
+3. **Liquidity Mining:** For TOKEN/ETH pools.
 
 ---
 
@@ -501,16 +501,16 @@ The Treasury accumulates collected fees and slashed stakes. These funds are dist
 
 **File:** `apps/paymaster/src/oracle/TokenPriceOracle.ts`
 
-**Purpose:** Convert gas costs to $COMP token amounts
+**Purpose:** Convert gas costs to $TOKEN token amounts
 
 **Interface:**
 ```typescript
 export interface ITokenPriceOracle {
-  // Returns: How many $COMP tokens equal 1 Wei of ETH
-  // Example: If 1 COMP = 0.01 ETH, return 100 (100 COMP per 1 ETH)
+  // Returns: How many $TOKEN tokens equal 1 Wei of ETH
+  // Example: If 1 TOKEN = 0.01 ETH, return 100 (100 TOKEN per 1 ETH)
   getCOMPPerETH(): Promise<bigint>;
   
-  // Returns: How many USDC (6 decimals) equals 1 COMP (18 decimals)
+  // Returns: How many USDC (6 decimals) equals 1 TOKEN (18 decimals)
   // For conversion and display purposes
   getUSDCPerCOMP(): Promise<bigint>;
 }
@@ -524,23 +524,23 @@ export interface ITokenPriceOracle {
 **File:** `apps/paymaster/src/oracle/MockTokenPriceOracle.ts`
 
 **Initial Mock Pricing (Configurable):**
-- `1 $COMP = $0.10 USD` (1 COMP = 100,000 USDC units with 6 decimals)
+- `1 $TOKEN = $0.10 USD` (1 TOKEN = 100,000 USDC units with 6 decimals)
 - ETH price fetched from existing `config.ETH_PRICE_USD`
-- Conversion: `COMP_per_ETH = ETH_PRICE_USD / COMP_PRICE_USD`
+- Conversion: `TOKEN_per_ETH = ETH_PRICE_USD / TOKEN_PRICE_USD`
 
 **Example Calculation:**
 ```typescript
-// If ETH = $2500, COMP = $0.10
-// Then 1 ETH = 25,000 COMP
-// So getCOMPPerETH() returns 25000n * 10^18 (in COMP decimals)
+// If ETH = $2500, TOKEN = $0.10
+// Then 1 ETH = 25,000 TOKEN
+// So getCOMPPerETH() returns 25000n * 10^18 (in TOKEN decimals)
 ```
 
 **Configuration:**
 ```typescript
 // apps/paymaster/src/config.ts (additions)
-COMP_TOKEN_ADDRESS: z.string().startsWith('0x').optional(),
-COMP_PRICE_USD: z.string().regex(/^\d+(\.\d+)?$/).default('0.10'),
-ENABLE_COMP_FEES: z.string().transform(v => v === 'true').default('false'),
+TOKEN_ADDRESS: z.string().startsWith('0x').optional(),
+TOKEN_PRICE_USD: z.string().regex(/^\d+(\.\d+)?$/).default('0.10'),
+ENABLE_TOKEN_FEES: z.string().transform(v => v === 'true').default('false'),
 ```
 
 ### 2.3 TDD Tests for Oracle
@@ -551,8 +551,8 @@ ENABLE_COMP_FEES: z.string().transform(v => v === 'true').default('false'),
 
 ```typescript
 describe("MockTokenPriceOracle", () => {
-  it("should return correct COMP per ETH ratio", async () => {
-    // Given: ETH = $2500, COMP = $0.10
+  it("should return correct TOKEN per ETH ratio", async () => {
+    // Given: ETH = $2500, TOKEN = $0.10
     // When: getCOMPPerETH()
     // Then: Returns 25000 * 10^18
   });
@@ -561,8 +561,8 @@ describe("MockTokenPriceOracle", () => {
     // Test recalculation when config changes
   });
   
-  it("should return USDC per COMP conversion", async () => {
-    // Given: COMP = $0.10
+  it("should return USDC per TOKEN conversion", async () => {
+    // Given: TOKEN = $0.10
     // When: getUSDCPerCOMP()
     // Then: Returns 100000 (USDC 6 decimals)
   });
@@ -580,7 +580,7 @@ describe("MockTokenPriceOracle", () => {
 ```typescript
 // apps/paymaster/src/oracle/ChainlinkOracle.ts (FUTURE)
 export class ChainlinkTokenPriceOracle implements ITokenPriceOracle {
-  // Read from Chainlink COMP/ETH feed
+  // Read from Chainlink TOKEN/ETH feed
 }
 ```
 
@@ -611,7 +611,7 @@ export class USDCFeeValidator implements IFeeValidator {
   }
 }
 
-// New COMP validator
+// New TOKEN validator
 export class COMPFeeValidator implements IFeeValidator {
   constructor(
     private oracle: ITokenPriceOracle,
@@ -622,8 +622,8 @@ export class COMPFeeValidator implements IFeeValidator {
   async validateFeeIncluded(userOp: any, client: PublicClient): Promise<boolean> {
     // Similar to USDC validation but:
     // 1. Calculate gas cost in ETH
-    // 2. Convert to COMP via oracle
-    // 3. Check for COMP transfer to treasury
+    // 2. Convert to TOKEN via oracle
+    // 3. Check for TOKEN transfer to treasury
   }
 }
 
@@ -640,7 +640,7 @@ export class FeeValidationStrategy {
     
     if (tokenAddress === config.FEE_TOKEN_ADDRESS) {
       return this.usdcValidator.validateFeeIncluded(userOp, client);
-    } else if (tokenAddress === config.COMP_TOKEN_ADDRESS) {
+    } else if (tokenAddress === config.TOKEN_ADDRESS) {
       return this.compValidator.validateFeeIncluded(userOp, client);
     }
     
@@ -667,7 +667,7 @@ import { FeeValidationStrategy } from './fee-validation/TokenFeeStrategy';
 
 const feeValidationStrategy = new FeeValidationStrategy(
   new USDCFeeValidator(config),
-  new COMPFeeValidator(oracle, config.COMP_TOKEN_ADDRESS, config.TREASURY_ADDRESS)
+  new COMPFeeValidator(oracle, config.TOKEN_ADDRESS, config.TREASURY_ADDRESS)
 );
 
 // Line 329: Replace validation call
@@ -707,19 +707,19 @@ describe("USDCFeeValidator", () => {
 });
 
 describe("COMPFeeValidator", () => {
-  it("should accept UserOp with valid COMP fee transfer", async () => {
-    // Setup: Mock UserOp with COMP transfer
+  it("should accept UserOp with valid TOKEN fee transfer", async () => {
+    // Setup: Mock UserOp with TOKEN transfer
     // Action: validateFeeIncluded()
     // Assert: Returns true
   });
   
-  it("should calculate COMP fee using oracle price", async () => {
-    // Given: Gas cost = 0.001 ETH, Oracle says 1 ETH = 25000 COMP
+  it("should calculate TOKEN fee using oracle price", async () => {
+    // Given: Gas cost = 0.001 ETH, Oracle says 1 ETH = 25000 TOKEN
     // When: validate()
-    // Then: Requires >= 25 COMP (+ markup)
+    // Then: Requires >= 25 TOKEN (+ markup)
   });
   
-  it("should apply markup rate to COMP fees", async () => {
+  it("should apply markup rate to TOKEN fees", async () => {
     // Test markup calculation similar to USDC
   });
 });
@@ -730,9 +730,9 @@ describe("FeeValidationStrategy", () => {
     // Verify USDC validator is called
   });
   
-  it("should route COMP transfers to COMPFeeValidator", async () => {
-    // Mock callData with COMP token address
-    // Verify COMP validator is called
+  it("should route TOKEN transfers to COMPFeeValidator", async () => {
+    // Mock callData with TOKEN token address
+    // Verify TOKEN validator is called
   });
   
   it("should reject UserOps with unknown token", async () => {
@@ -753,8 +753,8 @@ describe("Backward Compatibility", () => {
     // Verify it still passes validation
   });
   
-  it("should not require COMP config if COMP is disabled", async () => {
-    // Test with ENABLE_COMP_FEES=false
+  it("should not require TOKEN config if TOKEN is disabled", async () => {
+    // Test with ENABLE_TOKEN_FEES=false
     // Should work with only USDC config
   });
 });
@@ -773,13 +773,13 @@ describe("Backward Compatibility", () => {
 **New Features:**
 
 ```typescript
-export type FeeToken = 'USDC' | 'COMP';
+export type FeeToken = 'USDC' | 'TOKEN';
 
 export interface FeeConfig {
   treasury: string;
   amount: bigint;
   token: string; // Token contract address
-  tokenType?: FeeToken; // 'USDC' or 'COMP'
+  tokenType?: FeeToken; // 'USDC' or 'TOKEN'
 }
 
 export class PaymasterManager {
@@ -796,7 +796,7 @@ export class PaymasterManager {
     
     if (tokenType === 'USDC') {
       return this.appendUSDCFee(calls, feeConfig);
-    } else if (tokenType === 'COMP') {
+    } else if (tokenType === 'TOKEN') {
       return this.appendCOMPFee(calls, feeConfig);
     }
     
@@ -827,12 +827,12 @@ export class PaymasterManager {
   private static appendCOMPFee(calls: any[], feeConfig?: Partial<FeeConfig>): any[] {
     const config = {
       treasury: feeConfig?.treasury || '0x0000000000000000000000000000000000000000',
-      amount: feeConfig?.amount || 100n * 10n**18n, // 100 COMP (18 decimals)
-      token: feeConfig?.token || process.env.COMP_TOKEN_ADDRESS || '0x0'
+      amount: feeConfig?.amount || 100n * 10n**18n, // 100 TOKEN (18 decimals)
+      token: feeConfig?.token || process.env.TOKEN_ADDRESS || '0x0'
     };
     
     if (config.token === '0x0') {
-      throw new Error("COMP token address not configured");
+      throw new Error("TOKEN token address not configured");
     }
     
     const feeCall = {
@@ -855,9 +855,9 @@ export class PaymasterManager {
 **File:** `packages/pay-sdk/.env.example`
 
 ```bash
-# Add COMP token support
-COMP_TOKEN_ADDRESS=0x... # Deployed ComputeToken address
-DEFAULT_FEE_TOKEN=USDC # or COMP
+# Add TOKEN token support
+TOKEN_ADDRESS=0x... # Deployed UtilityToken address
+DEFAULT_FEE_TOKEN=USDC # or TOKEN
 ```
 
 ### 4.3 TDD Tests for SDK
@@ -887,25 +887,25 @@ describe("PaymasterManager - USDC Fee", () => {
   });
 });
 
-describe("PaymasterManager - COMP Fee", () => {
-  it("should append COMP fee when tokenType='COMP'", () => {
+describe("PaymasterManager - TOKEN Fee", () => {
+  it("should append TOKEN fee when tokenType='TOKEN'", () => {
     const calls = [];
     const result = PaymasterManager.appendFeeToCalls(calls, {
-      tokenType: 'COMP',
+      tokenType: 'TOKEN',
       token: '0xCOMPAddress',
       treasury: '0xTreasury',
-      amount: 50n * 10n**18n // 50 COMP
+      amount: 50n * 10n**18n // 50 TOKEN
     });
     
-    // Assert: Transfer to COMP token contract
+    // Assert: Transfer to TOKEN token contract
     expect(result[0].to).toBe('0xCOMPAddress');
     // Decode data and verify transfer amount
   });
   
-  it("should throw error if COMP address not configured", () => {
+  it("should throw error if TOKEN address not configured", () => {
     expect(() => {
-      PaymasterManager.appendFeeToCalls([], { tokenType: 'COMP' });
-    }).toThrow("COMP token address not configured");
+      PaymasterManager.appendFeeToCalls([], { tokenType: 'TOKEN' });
+    }).toThrow("TOKEN token address not configured");
   });
 });
 
@@ -922,48 +922,48 @@ describe("PaymasterManager - Backward Compatibility", () => {
 
 ## Phase 5: End-to-End Integration & Demo
 
-### 5.1 E2E Test Scenario: COMP Economy Demo
+### 5.1 E2E Test Scenario: TOKEN Economy Demo
 
 **File:** `examples/comp-economy-demo.ts`
 
 **Scenario:**
-1. **Agent A (Worker):** Completes a compute task → Paymaster mints 1000 $COMP to Agent A's smart account
-2. **Agent B (Consumer):** Requests a task from Agent A → Pays 500 $COMP + Treasury Fee in $COMP
-3. **Paymaster:** Sponsors gas for both transactions, validating $COMP fee transfers
+1. **Agent A (Worker):** Completes a compute task → Paymaster mints 1000 $TOKEN to Agent A's smart account
+2. **Agent B (Consumer):** Requests a task from Agent A → Pays 500 $TOKEN + Treasury Fee in $TOKEN
+3. **Paymaster:** Sponsors gas for both transactions, validating $TOKEN fee transfers
 
 **Demo Script:**
 ```typescript
 import { PaymasterManager } from '@a2a/pay-sdk';
-import { ComputeToken__factory } from '@a2a/contracts';
+import { UtilityToken__factory } from '@a2a/contracts';
 import { privateKeyToAccount } from 'viem/accounts';
 import { createSmartAccount } from '@a2a/pay-sdk';
 
 async function runCOMPDemo() {
-  console.log("🚀 Starting $COMP Economy Demo\n");
+  console.log("🚀 Starting $TOKEN Economy Demo\n");
   
   // Setup
   const agentA = await createSmartAccount(privateKeyToAccount('0x...'));
   const agentB = await createSmartAccount(privateKeyToAccount('0x...'));
-  const compToken = ComputeToken__factory.connect(COMP_TOKEN_ADDRESS);
+  const compToken = UtilityToken__factory.connect(TOKEN_ADDRESS);
   const paymasterManager = new PaymasterManager(PAYMASTER_URL, API_KEY);
   
-  // Step 1: Agent A Earns $COMP (Simulated Work)
+  // Step 1: Agent A Earns $TOKEN (Simulated Work)
   console.log("📊 Agent A completes compute task...");
   // Note: In production, Paymaster would mint based on verified work
   // For demo, we simulate the mint
-  const mintAmount = 1000n * 10n**18n; // 1000 COMP
+  const mintAmount = 1000n * 10n**18n; // 1000 TOKEN
   await compToken.mint(agentA.address, mintAmount);
-  console.log(`✅ Agent A earned ${mintAmount} $COMP\n`);
+  console.log(`✅ Agent A earned ${mintAmount} $TOKEN\n`);
   
-  // Step 2: Agent B Pays Agent A in $COMP
+  // Step 2: Agent B Pays Agent A in $TOKEN
   console.log("💸 Agent B requests task from Agent A...");
   
-  const paymentAmount = 500n * 10n**18n; // 500 COMP
-  const treasuryFee = 50n * 10n**18n; // 50 COMP fee (calculated by SDK)
+  const paymentAmount = 500n * 10n**18n; // 500 TOKEN
+  const treasuryFee = 50n * 10n**18n; // 50 TOKEN fee (calculated by SDK)
   
   const calls = [
     {
-      to: COMP_TOKEN_ADDRESS,
+      to: TOKEN_ADDRESS,
       value: 0n,
       data: encodeFunctionData({
         abi: ERC20_ABI,
@@ -973,10 +973,10 @@ async function runCOMPDemo() {
     }
   ];
   
-  // Append $COMP treasury fee
+  // Append $TOKEN treasury fee
   const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
-    tokenType: 'COMP',
-    token: COMP_TOKEN_ADDRESS,
+    tokenType: 'TOKEN',
+    token: TOKEN_ADDRESS,
     treasury: TREASURY_ADDRESS,
     amount: treasuryFee
   });
@@ -993,9 +993,9 @@ async function runCOMPDemo() {
   
   // Step 3: Verify Balances
   console.log("\n📈 Final Balances:");
-  console.log(`Agent A: ${await compToken.balanceOf(agentA.address)} $COMP`);
-  console.log(`Agent B: ${await compToken.balanceOf(agentB.address)} $COMP`);
-  console.log(`Treasury: ${await compToken.balanceOf(TREASURY_ADDRESS)} $COMP`);
+  console.log(`Agent A: ${await compToken.balanceOf(agentA.address)} $TOKEN`);
+  console.log(`Agent B: ${await compToken.balanceOf(agentB.address)} $TOKEN`);
+  console.log(`Treasury: ${await compToken.balanceOf(TREASURY_ADDRESS)} $TOKEN`);
   
   console.log("\n✨ Demo Complete!");
 }
@@ -1005,18 +1005,18 @@ runCOMPDemo().catch(console.error);
 
 **Expected Output:**
 ```
-🚀 Starting $COMP Economy Demo
+🚀 Starting $TOKEN Economy Demo
 
 📊 Agent A completes compute task...
-✅ Agent A earned 1000000000000000000000 $COMP
+✅ Agent A earned 1000000000000000000000 $TOKEN
 
 💸 Agent B requests task from Agent A...
 ✅ Transaction submitted: 0xabc123...
 
 📈 Final Balances:
-Agent A: 1500000000000000000000 $COMP (1000 earned + 500 received)
-Agent B: 450000000000000000000 $COMP (1000 initial - 500 payment - 50 fee)
-Treasury: 50000000000000000000 $COMP (50 fee)
+Agent A: 1500000000000000000000 $TOKEN (1000 earned + 500 received)
+Agent B: 450000000000000000000 $TOKEN (1000 initial - 500 payment - 50 fee)
+Treasury: 50000000000000000000 $TOKEN (50 fee)
 
 ✨ Demo Complete!
 ```
@@ -1043,32 +1043,32 @@ pnpm coverage:paymaster  # Should show >90% for fee validation logic
 
 ### 6.1 Files to Create/Update
 
-1. **`docs/COMP_TOKEN_GUIDE.md`** - User guide for $COMP token
-   - What is $COMP?
-   - How to earn $COMP (work = mint)
-   - How to spend $COMP (tasks = transfer/burn)
-   - Fee structure comparison (USDC vs COMP)
+1. **`docs/TOKEN_GUIDE.md`** - User guide for $TOKEN token
+   - What is $TOKEN?
+   - How to earn $TOKEN (work = mint)
+   - How to spend $TOKEN (tasks = transfer/burn)
+   - Fee structure comparison (USDC vs TOKEN)
 
 2. **`docs/MIGRATION_GUIDE.md`** - For existing USDC users
    - No action required (backward compatible)
-   - How to opt-in to $COMP fees
+   - How to opt-in to $TOKEN fees
    - Configuration changes
    - Code examples
 
 3. **`packages/pay-sdk/README.md`** - Update SDK documentation
    - Add `tokenType` parameter examples
-   - COMP fee calculation guide
+   - TOKEN fee calculation guide
    - Migration snippets
 
 4. **`apps/paymaster/README.md`** - Update Paymaster docs
-   - Add COMP configuration variables
+   - Add TOKEN configuration variables
    - Oracle setup guide
    - Deployment instructions
 
 ### 6.2 Migration Checklist for Existing Users
 
 ```markdown
-## Migrating to $COMP Support
+## Migrating to $TOKEN Support
 
 ### For SDK Users (Optional, USDC still works)
 
@@ -1085,10 +1085,10 @@ pnpm coverage:paymaster  # Should show >90% for fee validation logic
    // After (Explicit USDC, same behavior)
    const calls = PaymasterManager.appendFeeToCalls(userCalls, { tokenType: 'USDC' });
    
-   // After (Switch to COMP)
+   // After (Switch to TOKEN)
    const calls = PaymasterManager.appendFeeToCalls(userCalls, {
-     tokenType: 'COMP',
-     token: process.env.COMP_TOKEN_ADDRESS,
+     tokenType: 'TOKEN',
+     token: process.env.TOKEN_ADDRESS,
      treasury: process.env.TREASURY_ADDRESS,
      amount: 50n * 10n**18n
    });
@@ -1098,16 +1098,16 @@ pnpm coverage:paymaster  # Should show >90% for fee validation logic
 
 ### For Paymaster Operators
 
-1. **Deploy ComputeToken:**
+1. **Deploy UtilityToken:**
    ```bash
    pnpm deploy:compute-token --network base-mainnet
    ```
 
 2. **Update Environment Variables:**
    ```bash
-   COMP_TOKEN_ADDRESS=0x...
-   COMP_PRICE_USD=0.10
-   ENABLE_COMP_FEES=true
+   TOKEN_ADDRESS=0x...
+   TOKEN_PRICE_USD=0.10
+   ENABLE_TOKEN_FEES=true
    ```
 
 3. **Grant MINTER_ROLE:**
@@ -1129,16 +1129,16 @@ pnpm coverage:paymaster  # Should show >90% for fee validation logic
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
-| **Breaking USDC Flow** | Existing users disrupted | Comprehensive backward compatibility tests, feature flag (`ENABLE_COMP_FEES`), staged rollout |
-| **Oracle Price Manipulation** | Incorrect COMP fees | Start with mock oracle, add price sanity checks, implement circuit breakers |
+| **Breaking USDC Flow** | Existing users disrupted | Comprehensive backward compatibility tests, feature flag (`ENABLE_TOKEN_FEES`), staged rollout |
+| **Oracle Price Manipulation** | Incorrect TOKEN fees | Start with mock oracle, add price sanity checks, implement circuit breakers |
 | **Unauthorized Minting** | Token inflation | Access control enforcement (100% test coverage), role monitoring, admin multisig |
 | **Gas Cost Miscalculation** | Users overpay/underpay | Dynamic fee validation tests, buffer margins, fee caps |
 | **Strategy Pattern Failure** | Wrong validator called | Token detection unit tests, integration tests with real callData |
 
 ### Rollback Plan
 
-1. **Feature Flag:** Set `ENABLE_COMP_FEES=false` to disable COMP validation
-2. **Contract Pause:** Add `Pausable` to ComputeToken (optional)
+1. **Feature Flag:** Set `ENABLE_TOKEN_FEES=false` to disable TOKEN validation
+2. **Contract Pause:** Add `Pausable` to UtilityToken (optional)
 3. **Revert Deployment:** Keep previous Paymaster version running as fallback
 4. **Database Rollback:** No database schema changes, so no DB rollback needed
 
@@ -1162,21 +1162,21 @@ pnpm coverage:paymaster  # Should show >90% for fee validation logic
 ## Success Metrics
 
 ### Phase 1 (Contracts)
-- ✅ `ComputeToken.sol` test coverage: 100%
+- ✅ `UtilityToken.sol` test coverage: 100%
 - ✅ Deployment verified on Basescan
 - ✅ Paymaster has `MINTER_ROLE`
 
 ### Phase 2 (Oracle)
-- ✅ Oracle returns correct COMP/ETH ratio
+- ✅ Oracle returns correct TOKEN/ETH ratio
 - ✅ Price calculations match expected values
 
 ### Phase 3 (Paymaster)
 - ✅ USDC validation still works (0 regressions)
-- ✅ COMP validation passes all test cases
+- ✅ TOKEN validation passes all test cases
 - ✅ Strategy routing 100% accurate
 
 ### Phase 4 (SDK)
-- ✅ SDK can build USDC and COMP UserOps
+- ✅ SDK can build USDC and TOKEN UserOps
 - ✅ Backward compatibility test passes
 - ✅ Documentation updated
 
@@ -1202,7 +1202,7 @@ pnpm coverage:paymaster  # Should show >90% for fee validation logic
 3. **Approval to Proceed:**
    - Once approved, I will begin **Phase 1: Smart Contract Layer**
    - First task: Create failing test for "Non-minter cannot mint"
-   - Then implement `ComputeToken.sol` to pass the test
+   - Then implement `UtilityToken.sol` to pass the test
 
 ---
 
@@ -1211,19 +1211,19 @@ pnpm coverage:paymaster  # Should show >90% for fee validation logic
 ### Current Files to Modify
 
 1. [`apps/paymaster/src/paymaster.ts`](file:///Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/paymaster.ts) - Lines 28-225 (extract to strategy)
-2. [`apps/paymaster/src/config.ts`](file:///Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/config.ts) - Add COMP config
+2. [`apps/paymaster/src/config.ts`](file:///Users/kimsooyoung/Developments/projects/a2a-projects/apps/paymaster/src/config.ts) - Add TOKEN config
 3. [`packages/pay-sdk/src/paymaster/paymaster.ts`](file:///Users/kimsooyoung/Developments/projects/a2a-projects/packages/pay-sdk/src/paymaster/paymaster.ts) - Lines 44-67 (refactor appendFeeToCalls)
 
 ### New Files to Create
 
-1. `packages/contracts/src/ComputeToken.sol`
-2. `packages/contracts/test/ComputeToken.test.ts`
+1. `packages/contracts/src/UtilityToken.sol`
+2. `packages/contracts/test/UtilityToken.test.ts`
 3. `apps/paymaster/src/oracle/ITokenPriceOracle.ts`
 4. `apps/paymaster/src/oracle/MockTokenPriceOracle.ts`
 5. `apps/paymaster/src/fee-validation/TokenFeeStrategy.ts`
 6. `apps/paymaster/test/fee-validation.test.ts`
 7. `examples/comp-economy-demo.ts`
-8. `docs/COMP_TOKEN_GUIDE.md`
+8. `docs/TOKEN_GUIDE.md`
 9. `docs/MIGRATION_GUIDE.md`
 
 ---

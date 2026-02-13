@@ -1,7 +1,7 @@
 # 🔒 배포 전 최종 검증 보고서
 
 **검증 일시:** 2026-02-10 22:50 KST  
-**대상:** Base Mainnet ComputeToken 배포
+**대상:** Base Mainnet UtilityToken 배포
 
 ---
 
@@ -51,7 +51,7 @@
 
 ## ✅ 2. 테스트 검증
 
-### 2.1 Smart Contract (ComputeToken)
+### 2.1 Smart Contract (UtilityToken)
 ```
 테스트 결과: 17/17 통과 ✅
 
@@ -78,7 +78,7 @@ BME Economic Model:
 테스트 결과: 37/43 통과 (86%) ⚠️
 
 핵심 기능 (37개):
-✅ Fee validation (USDC/COMP)
+✅ Fee validation (USDC/TOKEN)
 ✅ Dynamic fee calculation  
 ✅ Strategy pattern validators
 ✅ Proxy 기능
@@ -176,7 +176,7 @@ BME Economic Model:
 
 ### 5.2 지갑 상태
 ```
-✅ DEPLOYER ($COMP_MAINNET_ADMIN_ROLE)
+✅ DEPLOYER ($TOKEN_MAINNET_ADMIN_ROLE)
    - 주소: 0xb6AF245cB3f8F85b1b4d62BD3f1C93f9cC48b88c
    - 예상 잔액: $14 (충분!)
 
@@ -223,7 +223,7 @@ BME Economic Model:
 ### ⚠️ 주의사항
 
 1. **초기 설정:**
-   - `ENABLE_COMP_FEES=false`로 시작
+   - `ENABLE_TOKEN_FEES=false`로 시작
    - USDC 수수료만 활성화
    - 점진적 롤아웃
 

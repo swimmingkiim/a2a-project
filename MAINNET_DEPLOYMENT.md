@@ -25,7 +25,7 @@
 ### 2. Testing Validation
 
 - [ ] All tests passing on testnet
-  - [x] ComputeToken: 17/17 ✅
+  - [x] UtilityToken: 17/17 ✅
   - [x] Oracle: 15/15 ✅
   - [x] Fee Validators: 7/7 ✅
   - [x] SDK: 4/4 ✅
@@ -45,7 +45,7 @@
 
 ## Deployment Steps
 
-### Step 1: Deploy ComputeToken to Base Mainnet
+### Step 1: Deploy UtilityToken to Base Mainnet
 
 ```bash
 cd packages/contracts
@@ -59,7 +59,7 @@ cd packages/contracts
 pnpm hardhat run scripts/deploy-compute-token.ts --network baseMainnet
 
 # Expected output:
-# ✅ ComputeToken deployed to: 0x...
+# ✅ UtilityToken deployed to: 0x...
 # ✅ Admin role granted to: 0x...
 # ✅ Minter role granted to: 0x...
 ```
@@ -80,14 +80,14 @@ pnpm hardhat run scripts/verify-roles.ts --network baseMainnet
 **File:** `apps/paymaster/.env`
 
 ```bash
-# Update COMP token address to mainnet deployment
-COMP_TOKEN_ADDRESS=<MAINNET_DEPLOYED_ADDRESS>
+# Update TOKEN token address to mainnet deployment
+TOKEN_ADDRESS=<MAINNET_DEPLOYED_ADDRESS>
 
 # Set conservative initial price
-COMP_PRICE_USD=0.10
+TOKEN_PRICE_USD=0.10
 
-# Start with COMP fees DISABLED
-ENABLE_COMP_FEES=false
+# Start with TOKEN fees DISABLED
+ENABLE_TOKEN_FEES=false
 
 # Update RPC to mainnet
 RPC_URL=https://mainnet.base.org
@@ -110,7 +110,7 @@ pnpm start
 
 # Verify logs:
 # ✅ Connected to Base Mainnet
-# ℹ️  COMP fee validation disabled (ENABLE_COMP_FEES=false)
+# ℹ️  TOKEN fee validation disabled (ENABLE_TOKEN_FEES=false)
 # ✅ USDC fee validation active
 ```
 
@@ -140,7 +140,7 @@ Update token addresses for mainnet:
 ```typescript
 const TOKEN_ADDRESSES = {
   'USDC': '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC Base Mainnet
-  'COMP': '<MAINNET_DEPLOYED_ADDRESS>',  // Update this
+  'TOKEN': '<MAINNET_DEPLOYED_ADDRESS>',  // Update this
 };
 ```
 
@@ -176,7 +176,7 @@ pnpm publish
   kubectl logs -f paymaster-pod | grep ERROR
   
   # Verify initialization
-  kubectl logs paymaster-pod | grep "COMP fee validation"
+  kubectl logs paymaster-pod | grep "TOKEN fee validation"
   ```
 
 ### First 24 Hours
@@ -186,21 +186,21 @@ pnpm publish
 - [ ] Verify no regressions in existing flows
 - [ ] Check gas usage patterns
 
-### Week 1: Gradual COMP Rollout
+### Week 1: Gradual TOKEN Rollout
 
 **Day 1-2: Internal Testing**
-- [ ] Enable COMP for internal test accounts only
-- [ ] Set `ENABLE_COMP_FEES=true`
+- [ ] Enable TOKEN for internal test accounts only
+- [ ] Set `ENABLE_TOKEN_FEES=true`
 - [ ] Restart service
-- [ ] Test COMP fee transactions
+- [ ] Test TOKEN fee transactions
 
 **Day 3-4: Limited Beta**
 - [ ] Enable for 10% of users (feature flag)
-- [ ] Monitor COMP vs USDC usage ratio
+- [ ] Monitor TOKEN vs USDC usage ratio
 - [ ] Track any failed validations
 
 **Day 5-7: Full Rollout**
-- [ ] Enable COMP for all users
+- [ ] Enable TOKEN for all users
 - [ ] Announce feature launch
 - [ ] Monitor metrics closely
 
@@ -213,14 +213,14 @@ If issues arise:
 ### Quick Rollback (< 5 minutes)
 
 ```bash
-# Disable COMP fees immediately
-export ENABLE_COMP_FEES=false
+# Disable TOKEN fees immediately
+export ENABLE_TOKEN_FEES=false
 
 # Restart service
 kubectl rollout restart deployment/paymaster
 
 # Or in .env
-echo "ENABLE_COMP_FEES=false" >> .env
+echo "ENABLE_TOKEN_FEES=false" >> .env
 pnpm start
 ```
 
@@ -250,9 +250,9 @@ pnpm build
    - Target: > 99%
    - Alert if < 95%
 
-2. **USDC vs COMP Usage Ratio**
+2. **USDC vs TOKEN Usage Ratio**
    - Track adoption rate
-   - Expected: Gradual increase in COMP usage
+   - Expected: Gradual increase in TOKEN usage
 
 3. **Average Response Time**
    - Target: < 500ms
@@ -304,7 +304,7 @@ GROUP BY tokenType;
 ✅ Contract deployed and verified  
 ✅ Service running without errors  
 ✅ USDC fees working (backward compatibility)  
-✅ COMP fees functional (when enabled)  
+✅ TOKEN fees functional (when enabled)  
 ✅ Monitoring active  
 ✅ Rollback tested  
 
