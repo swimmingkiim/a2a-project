@@ -8,7 +8,7 @@ import { createPublicClient, http, PublicClient, parseEther } from 'viem';
 
 // Fee Validation
 import { USDCFeeValidator } from './fee-validation/USDCFeeValidator';
-import { COMPFeeValidator } from './fee-validation/COMPFeeValidator';
+import { DAIMFeeValidator } from './fee-validation/DAIMFeeValidator';
 import { MockTokenPriceOracle } from './oracle/MockTokenPriceOracle';
 import { IFeeValidator } from './fee-validation/IFeeValidator';
 
@@ -25,23 +25,23 @@ const usdcValidator = new USDCFeeValidator({
     markupRate: config.MARKUP_RATE
 });
 
-// Initialize COMP Validator (conditional)
-let compValidator: IFeeValidator | null = null;
-if (config.ENABLE_COMP_FEES && config.COMP_TOKEN_ADDRESS) {
+// Initialize DAIM Validator (conditional)
+let daimValidator: IFeeValidator | null = null;
+if (config.ENABLE_DAIM_FEES && config.DAIM_TOKEN_ADDRESS) {
     const oracle = new MockTokenPriceOracle(
-        parseFloat(config.COMP_PRICE_USD),
+        parseFloat(config.DAIM_PRICE_USD),
         parseFloat(config.ETH_PRICE_USD)
     );
 
-    compValidator = new COMPFeeValidator({
+    daimValidator = new DAIMFeeValidator({
         treasuryAddress: config.TREASURY_ADDRESS,
-        compTokenAddress: config.COMP_TOKEN_ADDRESS,
+        daimTokenAddress: config.DAIM_TOKEN_ADDRESS,
         markupRate: config.MARKUP_RATE
     }, oracle);
 
-    console.log(`✅ COMP fee validation enabled (Token: ${config.COMP_TOKEN_ADDRESS}, Price: $${config.COMP_PRICE_USD})`);
+    console.log(`✅ DAIM fee validation enabled (Token: ${config.DAIM_TOKEN_ADDRESS}, Price: $${config.DAIM_PRICE_USD})`);
 } else {
-    console.log(`ℹ️  COMP fee validation disabled (ENABLE_COMP_FEES=${config.ENABLE_COMP_FEES})`);
+    console.log(`ℹ️  DAIM fee validation disabled (ENABLE_DAIM_FEES=${config.ENABLE_DAIM_FEES})`);
 }
 
 // Helper to validate fee in UserOp using Strategy Pattern
@@ -55,16 +55,16 @@ async function validateFeeIncluded(userOp: any, client: PublicClient) {
         return true;
     }
 
-    // Try COMP validation if enabled
-    if (compValidator) {
-        const compValid = await compValidator.validateFeeIncluded(userOp, client);
-        if (compValid) {
-            console.log(`[Fee Validation] ✅ Valid COMP fee found`);
+    // Try DAIM validation if enabled
+    if (daimValidator) {
+        const daimValid = await daimValidator.validateFeeIncluded(userOp, client);
+        if (daimValid) {
+            console.log(`[Fee Validation] ✅ Valid DAIM fee found`);
             return true;
         }
     }
 
-    console.warn(`[Fee Validation] ❌ No valid fee found (tried: USDC${compValidator ? ', COMP' : ''})`);
+    console.warn(`[Fee Validation] ❌ No valid fee found (tried: USDC${daimValidator ? ', DAIM' : ''})`);
     return false;
 }
 

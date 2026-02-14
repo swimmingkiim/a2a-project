@@ -1,9 +1,9 @@
 #!/usr/bin/env tsx
 
 /**
- * Deploy ComputeToken to Base Mainnet
+ * Deploy DaimToken to Base Mainnet
  * 
- * This script deploys the COMP token with proper role setup.
+ * This script deploys the DAIM token with proper role setup.
  * 
  * Safety checks:
  * - Confirms network is Base Mainnet
@@ -29,7 +29,7 @@ const RPC_URL = process.env.BASE_MAINNET_RPC_URL || 'https://mainnet.base.org';
 
 // Contract bytecode would be imported from compilation
 // For this example, we'll use a placeholder
-const COMP_TOKEN_BYTECODE = '0x...' as `0x${string}`;
+const DAIM_TOKEN_BYTECODE = '0x...' as `0x${string}`;
 
 async function askConfirmation(question: string): Promise<boolean> {
     const rl = readline.createInterface({
@@ -46,7 +46,7 @@ async function askConfirmation(question: string): Promise<boolean> {
 }
 
 async function deployToMainnet() {
-    console.log('🚀 Base Mainnet Deployment - ComputeToken\n');
+    console.log('🚀 Base Mainnet Deployment - DaimToken\n');
     console.log('='.repeat(60));
 
     // Safety check: Confirm environment
@@ -100,7 +100,7 @@ async function deployToMainnet() {
 
     // Step 3: Configuration review
     console.log('\n⚙️  Step 3: Deployment Configuration');
-    console.log(`   Initial Supply: ${Number(INITIAL_SUPPLY) / 1e18} COMP`);
+    console.log(`   Initial Supply: ${Number(INITIAL_SUPPLY) / 1e18} DAIM`);
     console.log(`   Paymaster: ${PAYMASTER_ADDRESS}`);
     console.log(`   Deployer (Admin): ${account.address}`);
 
@@ -114,7 +114,7 @@ async function deployToMainnet() {
     console.log(`  - Network: Base Mainnet (Chain ID: ${chainId})`);
     console.log(`  - Deployer: ${account.address}`);
     console.log(`  - Paymaster: ${PAYMASTER_ADDRESS}`);
-    console.log(`  - Initial Supply: ${Number(INITIAL_SUPPLY) / 1e18} COMP`);
+    console.log(`  - Initial Supply: ${Number(INITIAL_SUPPLY) / 1e18} DAIM`);
     console.log('');
 
     const confirm = await askConfirmation('Do you want to proceed with deployment?');
@@ -125,13 +125,13 @@ async function deployToMainnet() {
     }
 
     // Step 5: Deploy contract
-    console.log('\n📤 Step 5: Deploying ComputeToken...');
+    console.log('\n📤 Step 5: Deploying DaimToken...');
     console.log('   Please wait, this may take a few minutes...\n');
 
     // NOTE: Actual deployment would use compiled contract
     // This is a template - replace with actual deployment logic
     console.log('   ⚠️  Deployment code template - replace with actual compiled contract');
-    console.log('   See: packages/contracts/scripts/deploy-compute-token.ts');
+    console.log('   See: packages/contracts/scripts/deploy-daim-token.ts');
 
     // Placeholder for actual deployment
     const deployedAddress = '0x...' as `0x${string}`;
@@ -170,9 +170,9 @@ async function deployToMainnet() {
     console.log('1. Verify contract on Basescan:');
     console.log(`   npx hardhat verify --network baseMainnet ${deployedAddress}\n`);
     console.log('2. Update Paymaster .env:');
-    console.log(`   COMP_TOKEN_ADDRESS=${deployedAddress}\n`);
+    console.log(`   DAIM_TOKEN_ADDRESS=${deployedAddress}\n`);
     console.log('3. Test with small amounts first');
-    console.log('4. Gradually enable COMP_FEES');
+    console.log('4. Gradually enable DAIM_FEES');
     console.log('5. Monitor logs and metrics\n');
     console.log('⚠️  IMPORTANT: Save this deployment info securely!');
 }

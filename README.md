@@ -55,7 +55,7 @@ The simulation logic is enshrined in immutable smart contracts on the **Base** n
 *   **Decoupled Verification**: Tasks are verified *after* submission by Human Oracles.
 *   **Passive GC**: `pruneStaleTasks` allows anyone to clean up decayed tasks.
 
-### `ComputeToken.sol` ($DAIM)
+### `DaimToken.sol` ($DAIM)
 *   **Eudaimonic Minting**: Rewards are not fixed. `mintWithEudaimonia(score)` applies a multiplier based on the Human Observer's satisfaction score.
 
 ### `AgentRegistry.sol`

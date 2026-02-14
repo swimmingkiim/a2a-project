@@ -20,10 +20,10 @@ const envSchema = z.object({
     FEE_AMOUNT: z.string().regex(/^\d+$/).default('100000'), // 0.1 USDC (6 decimals)
     ETH_PRICE_USD: z.string().regex(/^\d+(\.\d+)?$/).default('2500'), // Default ETH Price ($2500)
 
-    // $COMP Token Configuration
-    COMP_TOKEN_ADDRESS: z.string().startsWith('0x').optional(), // Deployed ComputeToken address
-    COMP_PRICE_USD: z.string().regex(/^\d+(\.\d+)?$/).default('0.10'), // Default $0.10 per COMP
-    ENABLE_COMP_FEES: z.string().transform(v => v === 'true').default('false'), // Feature flag
+    // $DAIM Token Configuration
+    DAIM_TOKEN_ADDRESS: z.string().startsWith('0x').optional(), // Deployed DaimToken address
+    DAIM_PRICE_USD: z.string().regex(/^\d+(\.\d+)?$/).default('0.10'), // Default $0.10 per DAIM
+    ENABLE_DAIM_FEES: z.string().transform(v => v === 'true').default('false'), // Feature flag
 
     // Monitoring
     MIN_SIGNER_BALANCE_ETH: z.string().regex(/^\d+(\.\d+)?$/).transform(Number).default('0.01'), // Alert threshold

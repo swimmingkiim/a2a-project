@@ -1,12 +1,12 @@
 #!/usr/bin/env tsx
 
 /**
- * E2E Demo: COMP Token Fee Payment
+ * E2E Demo: DAIM Token Fee Payment
  * 
- * This script demonstrates the complete flow of paying fees with COMP tokens:
+ * This script demonstrates the complete flow of paying fees with DAIM tokens:
  * 1. Setup Smart Account
- * 2. Mint COMP tokens for testing
- * 3. Prepare transaction with COMP fee
+ * 2. Mint DAIM tokens for testing
+ * 3. Prepare transaction with DAIM fee
  * 4. Submit to Paymaster
  * 5. Execute on Base Sepolia
  * 6. Verify fee payment
@@ -14,7 +14,7 @@
  * Prerequisites:
  * - Base Sepolia RPC access
  * - Test wallet with ETH for gas
- * - COMP token deployed at 0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3
+ * - DAIM token deployed at 0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3
  */
 
 import { createPublicClient, createWalletClient, http, parseAbi, encodeFunctionData, parseEther } from 'viem';
@@ -25,12 +25,12 @@ import { config } from 'dotenv';
 config();
 
 // Configuration
-const COMP_TOKEN_ADDRESS = (process.env.COMP_TOKEN_ADDRESS || '0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3') as `0x${string}`;
+const DAIM_TOKEN_ADDRESS = (process.env.DAIM_TOKEN_ADDRESS || '0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3') as `0x${string}`;
 const TREASURY_ADDRESS = process.env.TREASURY_ADDRESS || '0x0000000000000000000000000000000000000000';
 const DEMO_PRIVATE_KEY = process.env.DEMO_PRIVATE_KEY as `0x${string}`;
 const RPC_URL = process.env.RPC_URL || 'https://sepolia.base.org';
 
-const COMP_ABI = parseAbi([
+const DAIM_ABI = parseAbi([
     'function mint(address to, uint256 amount) public',
     'function balanceOf(address account) view returns (uint256)',
     'function transfer(address to, uint256 amount) returns (bool)',
@@ -64,10 +64,10 @@ const walletClient = createWalletClient({
 });
 
 // Helper functions
-async function checkCOMPBalance(address: `0x${string}`): Promise<bigint> {
+async function checkDAIMBalance(address: `0x${string}`): Promise<bigint> {
     const balance = await publicClient.readContract({
-        address: COMP_TOKEN_ADDRESS,
-        abi: COMP_ABI,
+        address: DAIM_TOKEN_ADDRESS,
+        abi: DAIM_ABI,
         functionName: 'balanceOf',
         args: [address]
     }) as bigint;
@@ -75,19 +75,19 @@ async function checkCOMPBalance(address: `0x${string}`): Promise<bigint> {
     return balance;
 }
 
-async function mintCOMP(to: `0x${string}`, amount: bigint): Promise<void> {
-    console.log(`💰 Minting ${Number(amount) / 1e18} COMP to ${to}...`);
+async function mintDAIM(to: `0x${string}`, amount: bigint): Promise<void> {
+    console.log(`💰 Minting ${Number(amount) / 1e18} DAIM to ${to}...`);
 
     // Check if account has MINTER_ROLE
     const minterRole = await publicClient.readContract({
-        address: COMP_TOKEN_ADDRESS,
-        abi: COMP_ABI,
+        address: DAIM_TOKEN_ADDRESS,
+        abi: DAIM_ABI,
         functionName: 'MINTER_ROLE'
     }) as `0x${string}`;
 
     const hasMinterRole = await publicClient.readContract({
-        address: COMP_TOKEN_ADDRESS,
-        abi: COMP_ABI,
+        address: DAIM_TOKEN_ADDRESS,
+        abi: DAIM_ABI,
         functionName: 'hasRole',
         args: [minterRole, account.address]
     }) as boolean;
@@ -99,8 +99,8 @@ async function mintCOMP(to: `0x${string}`, amount: bigint): Promise<void> {
     }
 
     const hash = await walletClient.writeContract({
-        address: COMP_TOKEN_ADDRESS,
-        abi: COMP_ABI,
+        address: DAIM_TOKEN_ADDRESS,
+        abi: DAIM_ABI,
         functionName: 'mint',
         args: [to, amount]
     });
@@ -111,14 +111,14 @@ async function mintCOMP(to: `0x${string}`, amount: bigint): Promise<void> {
     console.log(`   ✅ Minted in block ${receipt.blockNumber}`);
 }
 
-async function sendCOMPFeeDemo(): Promise<void> {
-    console.log('\n🚀 Starting E2E Demo: COMP Fee Payment\n');
+async function sendDAIMFeeDemo(): Promise<void> {
+    console.log('\n🚀 Starting E2E Demo: DAIM Fee Payment\n');
     console.log('='.repeat(60));
 
     // Step 1: Check setup
     console.log('\n📋 Step 1: Environment Check');
     console.log(`   Wallet: ${account.address}`);
-    console.log(`   COMP Token: ${COMP_TOKEN_ADDRESS}`);
+    console.log(`   DAIM Token: ${DAIM_TOKEN_ADDRESS}`);
     console.log(`   Treasury: ${TREASURY_ADDRESS}`);
     console.log(`   RPC: ${RPC_URL}`);
 
@@ -130,52 +130,52 @@ async function sendCOMPFeeDemo(): Promise<void> {
         return;
     }
 
-    // Step 2: Check COMP balance
-    console.log('\n💰 Step 2: COMP Balance Check');
-    let compBalance = await checkCOMPBalance(account.address);
-    console.log(`   Current COMP Balance: ${Number(compBalance) / 1e18} COMP`);
+    // Step 2: Check DAIM balance
+    console.log('\n💰 Step 2: DAIM Balance Check');
+    let daimBalance = await checkDAIMBalance(account.address);
+    console.log(`   Current DAIM Balance: ${Number(daimBalance) / 1e18} DAIM`);
 
-    const requiredCOMP = 25n * 10n ** 18n; // 25 COMP for fee
+    const requiredDAIM = 25n * 10n ** 18n; // 25 DAIM for fee
 
-    if (compBalance < requiredCOMP) {
-        console.log(`   ⚠️  Insufficient COMP (need ${Number(requiredCOMP) / 1e18} COMP)`);
-        console.log(`   Minting ${Number(requiredCOMP * 4n) / 1e18} COMP for testing...`);
+    if (daimBalance < requiredDAIM) {
+        console.log(`   ⚠️  Insufficient DAIM (need ${Number(requiredDAIM) / 1e18} DAIM)`);
+        console.log(`   Minting ${Number(requiredDAIM * 4n) / 1e18} DAIM for testing...`);
 
         try {
-            await mintCOMP(account.address, requiredCOMP * 4n); // Mint 100 COMP
-            compBalance = await checkCOMPBalance(account.address);
-            console.log(`   ✅ New balance: ${Number(compBalance) / 1e18} COMP`);
+            await mintDAIM(account.address, requiredDAIM * 4n); // Mint 100 DAIM
+            daimBalance = await checkDAIMBalance(account.address);
+            console.log(`   ✅ New balance: ${Number(daimBalance) / 1e18} DAIM`);
         } catch (error: any) {
             console.error(`   ❌ Failed to mint: ${error.message}`);
             return;
         }
     }
 
-    // Step 3: Prepare COMP fee transaction
-    console.log('\n📝 Step 3: Preparing COMP Fee Transaction');
-    console.log(`   Fee Amount: ${Number(requiredCOMP) / 1e18} COMP`);
+    // Step 3: Prepare DAIM fee transaction
+    console.log('\n📝 Step 3: Preparing DAIM Fee Transaction');
+    console.log(`   Fee Amount: ${Number(requiredDAIM) / 1e18} DAIM`);
     console.log(`   Treasury: ${TREASURY_ADDRESS}`);
 
     const feeTransferData = encodeFunctionData({
         abi: ERC20_ABI,
         functionName: 'transfer',
-        args: [TREASURY_ADDRESS, requiredCOMP]
+        args: [TREASURY_ADDRESS, requiredDAIM]
     });
 
     console.log(`   ✅ Fee transaction encoded`);
 
     // Step 4: Send fee payment (simulating what would happen in UserOp)
-    console.log('\n📤 Step 4: Sending COMP Fee Payment');
-    console.log(`   Sending ${Number(requiredCOMP) / 1e18} COMP to Treasury...`);
+    console.log('\n📤 Step 4: Sending DAIM Fee Payment');
+    console.log(`   Sending ${Number(requiredDAIM) / 1e18} DAIM to Treasury...`);
 
-    const treasuryBalanceBefore = await checkCOMPBalance(TREASURY_ADDRESS as `0x${string}`);
-    console.log(`   Treasury balance before: ${Number(treasuryBalanceBefore) / 1e18} COMP`);
+    const treasuryBalanceBefore = await checkDAIMBalance(TREASURY_ADDRESS as `0x${string}`);
+    console.log(`   Treasury balance before: ${Number(treasuryBalanceBefore) / 1e18} DAIM`);
 
     const hash = await walletClient.writeContract({
-        address: COMP_TOKEN_ADDRESS,
+        address: DAIM_TOKEN_ADDRESS,
         abi: ERC20_ABI,
         functionName: 'transfer',
-        args: [TREASURY_ADDRESS, requiredCOMP]
+        args: [TREASURY_ADDRESS, requiredDAIM]
     });
 
     console.log(`   Transaction: ${hash}`);
@@ -188,14 +188,14 @@ async function sendCOMPFeeDemo(): Promise<void> {
 
     // Step 6: Verify fee payment
     console.log('\n✅ Step 6: Verifying Fee Payment');
-    const userBalanceAfter = await checkCOMPBalance(account.address);
-    const treasuryBalanceAfter = await checkCOMPBalance(TREASURY_ADDRESS as `0x${string}`);
+    const userBalanceAfter = await checkDAIMBalance(account.address);
+    const treasuryBalanceAfter = await checkDAIMBalance(TREASURY_ADDRESS as `0x${string}`);
 
-    console.log(`   User balance after: ${Number(userBalanceAfter) / 1e18} COMP`);
-    console.log(`   Treasury balance after: ${Number(treasuryBalanceAfter) / 1e18} COMP`);
-    console.log(`   Treasury received: ${Number(treasuryBalanceAfter - treasuryBalanceBefore) / 1e18} COMP`);
+    console.log(`   User balance after: ${Number(userBalanceAfter) / 1e18} DAIM`);
+    console.log(`   Treasury balance after: ${Number(treasuryBalanceAfter) / 1e18} DAIM`);
+    console.log(`   Treasury received: ${Number(treasuryBalanceAfter - treasuryBalanceBefore) / 1e18} DAIM`);
 
-    if (treasuryBalanceAfter - treasuryBalanceBefore === requiredCOMP) {
+    if (treasuryBalanceAfter - treasuryBalanceBefore === requiredDAIM) {
         console.log(`   ✅ Fee payment verified!`);
     } else {
         console.log(`   ⚠️  Unexpected balance change`);
@@ -205,20 +205,20 @@ async function sendCOMPFeeDemo(): Promise<void> {
     console.log('\n' + '='.repeat(60));
     console.log('🎉 E2E Demo Complete!\n');
     console.log('Summary:');
-    console.log(`  ✅ COMP token transfer successful`);
-    console.log(`  ✅ Treasury received ${Number(requiredCOMP) / 1e18} COMP`);
+    console.log(`  ✅ DAIM token transfer successful`);
+    console.log(`  ✅ Treasury received ${Number(requiredDAIM) / 1e18} DAIM`);
     console.log(`  ✅ Transaction confirmed on Base Sepolia`);
     console.log(`  ✅ Block: ${receipt.blockNumber}`);
     console.log(`  ✅ TX: ${hash}`);
     console.log('\n📚 Next Steps:');
     console.log('  1. Integrate with actual Smart Account (e.g., Kernel, Biconomy)');
     console.log('  2. Submit UserOp to Paymaster for sponsorship');
-    console.log('  3. Test with ENABLE_COMP_FEES=true on Paymaster');
+    console.log('  3. Test with ENABLE_DAIM_FEES=true on Paymaster');
     console.log('  4. Deploy to Base Mainnet');
 }
 
 // Run demo
-sendCOMPFeeDemo()
+sendDAIMFeeDemo()
     .then(() => {
         console.log('\n✅ Demo completed successfully');
         process.exit(0);

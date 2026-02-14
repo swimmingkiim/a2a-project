@@ -19,54 +19,54 @@ const SAFE_4337_EXEC_ABI = parseAbi([
 const ORACLE_ABI = parseAbi(['function getL1Fee(bytes) view returns (uint256)']);
 const ORACLE_ADDR = '0x420000000000000000000000000000000000000F';
 
-interface COMPFeeConfig {
+interface DAIMFeeConfig {
     treasuryAddress: string;
-    compTokenAddress: string;
+    daimTokenAddress: string;
     markupRate: number;
 }
 
 /**
- * COMPFeeValidator
+ * DAIMFeeValidator
  * 
- * Validates that UserOperations include proper $COMP fee payments.
- * Uses ITokenPriceOracle to convert gas costs (ETH) to $COMP amounts.
+ * Validates that UserOperations include proper $DAIM fee payments.
+ * Uses ITokenPriceOracle to convert gas costs (ETH) to $DAIM amounts.
  */
-export class COMPFeeValidator implements IFeeValidator {
-    private config: COMPFeeConfig;
+export class DAIMFeeValidator implements IFeeValidator {
+    private config: DAIMFeeConfig;
     private oracle: ITokenPriceOracle;
 
-    constructor(config: COMPFeeConfig, oracle: ITokenPriceOracle) {
+    constructor(config: DAIMFeeConfig, oracle: ITokenPriceOracle) {
         this.config = config;
         this.oracle = oracle;
     }
 
     async validateFeeIncluded(userOp: any, client: PublicClient): Promise<boolean> {
-        console.log(`[COMP Validator] Checking for embedded COMP fee...`);
+        console.log(`[DAIM Validator] Checking for embedded DAIM fee...`);
 
-        // 1. Calculate Required Fee in COMP
-        const requiredFeeCOMP = await this.calculateRequiredFee(userOp, client);
+        // 1. Calculate Required Fee in DAIM
+        const requiredFeeDAIM = await this.calculateRequiredFee(userOp, client);
 
-        console.log(`[COMP Validator] Required fee: ${requiredFeeCOMP} COMP (18 decimals)`);
+        console.log(`[DAIM Validator] Required fee: ${requiredFeeDAIM} DAIM (18 decimals)`);
 
-        // 2. Check callData for COMP fee transfer
+        // 2. Check callData for DAIM fee transfer
         const callData = userOp.callData as Hex;
 
         // Try different account execution patterns
-        if (await this.checkExecuteBatch(callData, requiredFeeCOMP)) {
-            // 3. CRITICAL: Verify sender has sufficient COMP balance
-            return await this.verifySenderBalance(userOp.sender, requiredFeeCOMP, client);
+        if (await this.checkExecuteBatch(callData, requiredFeeDAIM)) {
+            // 3. CRITICAL: Verify sender has sufficient DAIM balance
+            return await this.verifySenderBalance(userOp.sender, requiredFeeDAIM, client);
         }
-        if (await this.checkExecute(callData, requiredFeeCOMP)) {
-            return await this.verifySenderBalance(userOp.sender, requiredFeeCOMP, client);
+        if (await this.checkExecute(callData, requiredFeeDAIM)) {
+            return await this.verifySenderBalance(userOp.sender, requiredFeeDAIM, client);
         }
-        if (await this.checkSafeExecTransaction(callData, requiredFeeCOMP)) {
-            return await this.verifySenderBalance(userOp.sender, requiredFeeCOMP, client);
+        if (await this.checkSafeExecTransaction(callData, requiredFeeDAIM)) {
+            return await this.verifySenderBalance(userOp.sender, requiredFeeDAIM, client);
         }
-        if (await this.checkSafe4337ExecuteUserOp(callData, requiredFeeCOMP)) {
-            return await this.verifySenderBalance(userOp.sender, requiredFeeCOMP, client);
+        if (await this.checkSafe4337ExecuteUserOp(callData, requiredFeeDAIM)) {
+            return await this.verifySenderBalance(userOp.sender, requiredFeeDAIM, client);
         }
 
-        console.warn(`[COMP Validator] ❌ No valid COMP fee transfer found.`);
+        console.warn(`[DAIM Validator] ❌ No valid DAIM fee transfer found.`);
         return false;
     }
 
@@ -95,39 +95,39 @@ export class COMPFeeValidator implements IFeeValidator {
                         args: [userOp.callData as Hex]
                     });
                     l1Fee = BigInt(l1FeeResult || 0);
-                    console.log(`[COMP Validator] L1 Fee: ${l1Fee} Wei`);
+                    console.log(`[DAIM Validator] L1 Fee: ${l1Fee} Wei`);
                 } catch (e) {
                     // L1 Fee calculation failure is critical - cannot proceed safely
-                    console.error(`[COMP Validator] ❌ L1 Fee calculation failed:`, e);
+                    console.error(`[DAIM Validator] ❌ L1 Fee calculation failed:`, e);
                     throw new Error('Failed to calculate L1 fee - cannot determine accurate costs');
                 }
             }
 
             const totalCostEthWei = (totalGas * maxFeePerGas) + l1Fee;
 
-            console.log(`[COMP Validator] Gas cost in ETH Wei: ${totalCostEthWei}`);
+            console.log(`[DAIM Validator] Gas cost in ETH Wei: ${totalCostEthWei}`);
 
-            // Convert ETH Wei to COMP using Oracle
-            // Get COMP per 1 ETH (in COMP 18 decimals)
-            const compPerETH = await this.oracle.getCOMPPerETH();
+            // Convert ETH Wei to DAIM using Oracle
+            // Get DAIM per 1 ETH (in DAIM 18 decimals)
+            const daimPerETH = await this.oracle.getCOMPPerETH(); // Method name might be generic or need change in Oracle too
 
-            // Calculate required COMP: (totalCostEthWei * compPerETH) / 10^18
-            const requiredCOMP = (totalCostEthWei * compPerETH) / 10n ** 18n;
+            // Calculate required DAIM: (totalCostEthWei * daimPerETH) / 10^18
+            const requiredDAIM = (totalCostEthWei * daimPerETH) / 10n ** 18n;
 
             // Apply Markup
             const markupBps = BigInt(Math.floor(this.config.markupRate * 10000));
-            const requiredCOMPWithMarkup = (requiredCOMP * (10000n + markupBps)) / 10000n;
+            const requiredDAIMWithMarkup = (requiredDAIM * (10000n + markupBps)) / 10000n;
 
-            console.log(`[COMP Validator] Base COMP: ${requiredCOMP}, With Markup: ${requiredCOMPWithMarkup}`);
+            console.log(`[DAIM Validator] Base DAIM: ${requiredDAIM}, With Markup: ${requiredDAIMWithMarkup}`);
 
-            return requiredCOMPWithMarkup;
+            return requiredDAIMWithMarkup;
         } catch (e) {
-            console.error(`[COMP Validator] Failed to calculate required COMP fee:`, e);
+            console.error(`[DAIM Validator] Failed to calculate required DAIM fee:`, e);
             throw e; // Critical error - cannot proceed without valid fee calculation
         }
     }
 
-    private async checkExecuteBatch(callData: Hex, requiredFeeCOMP: bigint): Promise<boolean> {
+    private async checkExecuteBatch(callData: Hex, requiredFeeDAIM: bigint): Promise<boolean> {
         try {
             const decodedBatch = decodeFunctionData({
                 abi: BATCH_EXECUTE_ABI,
@@ -141,7 +141,7 @@ export class COMPFeeValidator implements IFeeValidator {
                     const target = dests[i];
                     const data = funcs[i];
 
-                    if (isAddressEqual(target, this.config.compTokenAddress as Hex)) {
+                    if (isAddressEqual(target, this.config.daimTokenAddress as Hex)) {
                         const decodedTransfer = decodeFunctionData({
                             abi: ERC20_ABI,
                             data: data
@@ -149,8 +149,8 @@ export class COMPFeeValidator implements IFeeValidator {
 
                         if (decodedTransfer.functionName === 'transfer') {
                             const [to, amount] = decodedTransfer.args;
-                            if (isAddressEqual(to, this.config.treasuryAddress as Hex) && amount >= requiredFeeCOMP) {
-                                console.log(`[COMP Validator] ✅ Found valid COMP fee transfer: ${amount.toString()} to ${to}`);
+                            if (isAddressEqual(to, this.config.treasuryAddress as Hex) && amount >= requiredFeeDAIM) {
+                                console.log(`[DAIM Validator] ✅ Found valid DAIM fee transfer: ${amount.toString()} to ${to}`);
                                 return true;
                             }
                         }
@@ -164,7 +164,7 @@ export class COMPFeeValidator implements IFeeValidator {
         return false;
     }
 
-    private async checkExecute(callData: Hex, requiredFeeCOMP: bigint): Promise<boolean> {
+    private async checkExecute(callData: Hex, requiredFeeDAIM: bigint): Promise<boolean> {
         try {
             const decodedExecute = decodeFunctionData({
                 abi: EXECUTE_ABI,
@@ -174,7 +174,7 @@ export class COMPFeeValidator implements IFeeValidator {
             if (decodedExecute.functionName === 'execute') {
                 const [target, value, data] = decodedExecute.args;
 
-                if (isAddressEqual(target, this.config.compTokenAddress as Hex)) {
+                if (isAddressEqual(target, this.config.daimTokenAddress as Hex)) {
                     const decodedTransfer = decodeFunctionData({
                         abi: ERC20_ABI,
                         data: data
@@ -182,8 +182,8 @@ export class COMPFeeValidator implements IFeeValidator {
 
                     if (decodedTransfer.functionName === 'transfer') {
                         const [to, amount] = decodedTransfer.args;
-                        if (isAddressEqual(to, this.config.treasuryAddress as Hex) && amount >= requiredFeeCOMP) {
-                            console.log(`[COMP Validator] ✅ Found valid COMP fee transfer: ${amount.toString()}`);
+                        if (isAddressEqual(to, this.config.treasuryAddress as Hex) && amount >= requiredFeeDAIM) {
+                            console.log(`[DAIM Validator] ✅ Found valid DAIM fee transfer: ${amount.toString()}`);
                             return true;
                         }
                     }
@@ -196,7 +196,7 @@ export class COMPFeeValidator implements IFeeValidator {
         return false;
     }
 
-    private async checkSafeExecTransaction(callData: Hex, requiredFeeCOMP: bigint): Promise<boolean> {
+    private async checkSafeExecTransaction(callData: Hex, requiredFeeDAIM: bigint): Promise<boolean> {
         try {
             const decodedSafe = decodeFunctionData({
                 abi: SAFE_EXEC_ABI,
@@ -206,7 +206,7 @@ export class COMPFeeValidator implements IFeeValidator {
             if (decodedSafe.functionName === 'execTransaction') {
                 const [toAddress, value, data] = decodedSafe.args;
 
-                if (isAddressEqual(toAddress, this.config.compTokenAddress as Hex)) {
+                if (isAddressEqual(toAddress, this.config.daimTokenAddress as Hex)) {
                     const decodedTransfer = decodeFunctionData({
                         abi: ERC20_ABI,
                         data: data
@@ -214,8 +214,8 @@ export class COMPFeeValidator implements IFeeValidator {
 
                     if (decodedTransfer.functionName === 'transfer') {
                         const [recipient, amount] = decodedTransfer.args;
-                        if (isAddressEqual(recipient, this.config.treasuryAddress as Hex) && amount >= requiredFeeCOMP) {
-                            console.log(`[COMP Validator] ✅ Found valid COMP fee transfer (Safe): ${amount.toString()}`);
+                        if (isAddressEqual(recipient, this.config.treasuryAddress as Hex) && amount >= requiredFeeDAIM) {
+                            console.log(`[DAIM Validator] ✅ Found valid DAIM fee transfer (Safe): ${amount.toString()}`);
                             return true;
                         }
                     }
@@ -228,7 +228,7 @@ export class COMPFeeValidator implements IFeeValidator {
         return false;
     }
 
-    private async checkSafe4337ExecuteUserOp(callData: Hex, requiredFeeCOMP: bigint): Promise<boolean> {
+    private async checkSafe4337ExecuteUserOp(callData: Hex, requiredFeeDAIM: bigint): Promise<boolean> {
         try {
             const decoded4337 = decodeFunctionData({
                 abi: SAFE_4337_EXEC_ABI,
@@ -238,7 +238,7 @@ export class COMPFeeValidator implements IFeeValidator {
             if (decoded4337.functionName === 'executeUserOp' || decoded4337.functionName === 'executeUserOpWithErrorString') {
                 const [toAddress, value, data] = decoded4337.args;
 
-                if (isAddressEqual(toAddress, this.config.compTokenAddress as Hex)) {
+                if (isAddressEqual(toAddress, this.config.daimTokenAddress as Hex)) {
                     const decodedTransfer = decodeFunctionData({
                         abi: ERC20_ABI,
                         data: data
@@ -246,8 +246,8 @@ export class COMPFeeValidator implements IFeeValidator {
 
                     if (decodedTransfer.functionName === 'transfer') {
                         const [recipient, amount] = decodedTransfer.args;
-                        if (isAddressEqual(recipient, this.config.treasuryAddress as Hex) && amount >= requiredFeeCOMP) {
-                            console.log(`[COMP Validator] ✅ Found valid COMP fee transfer (Safe 4337): ${amount.toString()}`);
+                        if (isAddressEqual(recipient, this.config.treasuryAddress as Hex) && amount >= requiredFeeDAIM) {
+                            console.log(`[DAIM Validator] ✅ Found valid DAIM fee transfer (Safe 4337): ${amount.toString()}`);
                             return true;
                         }
                     }
@@ -261,13 +261,13 @@ export class COMPFeeValidator implements IFeeValidator {
     }
 
     /**
-     * CRITICAL SECURITY: Verify sender has sufficient COMP balance
+     * CRITICAL SECURITY: Verify sender has sufficient DAIM balance
      * 
      * Prevents "Empty Wallet" attack where attackers submit UserOps with valid
      * callData but insufficient balance, causing Paymaster to waste gas.
      * 
      * @param sender Address of the UserOp sender (Smart Account)
-     * @param requiredAmount Required COMP amount for the fee
+     * @param requiredAmount Required DAIM amount for the fee
      * @param client PublicClient for blockchain queries
      * @returns true if sender has sufficient balance, false otherwise
      */
@@ -278,20 +278,20 @@ export class COMPFeeValidator implements IFeeValidator {
     ): Promise<boolean> {
         // Skip balance check in test mode
         if (process.env.CI === 'true') {
-            console.log(`[COMP Validator] ⚠️  Skipping balance check in CI/test mode`);
+            console.log(`[DAIM Validator] ⚠️  Skipping balance check in CI/test mode`);
             return true;
         }
 
         if (!sender) {
-            console.warn(`[COMP Validator] ❌ Cannot verify balance: sender is undefined`);
+            console.warn(`[DAIM Validator] ❌ Cannot verify balance: sender is undefined`);
             return false;
         }
 
         try {
-            console.log(`[COMP Validator] 🔍 Checking balance for ${sender}...`);
+            console.log(`[DAIM Validator] 🔍 Checking balance for ${sender}...`);
 
             const balanceResult = await client.readContract({
-                address: this.config.compTokenAddress as Hex,
+                address: this.config.daimTokenAddress as Hex,
                 abi: ERC20_ABI,
                 functionName: 'balanceOf',
                 args: [sender as Hex]
@@ -299,24 +299,24 @@ export class COMPFeeValidator implements IFeeValidator {
 
             const balance = BigInt(balanceResult || 0);
 
-            console.log(`[COMP Validator] Balance: ${balance.toString()}, Required: ${requiredAmount.toString()}`);
+            console.log(`[DAIM Validator] Balance: ${balance.toString()}, Required: ${requiredAmount.toString()}`);
 
             if (balance < requiredAmount) {
                 console.warn(
-                    `[COMP Validator] ❌ INSUFFICIENT BALANCE!\n` +
+                    `[DAIM Validator] ❌ INSUFFICIENT BALANCE!\n` +
                     `  Sender: ${sender}\n` +
-                    `  Has: ${balance} COMP\n` +
-                    `  Needs: ${requiredAmount} COMP\n` +
+                    `  Has: ${balance} DAIM\n` +
+                    `  Needs: ${requiredAmount} DAIM\n` +
                     `  This prevents "Empty Wallet" attack!`
                 );
                 return false;
             }
 
-            console.log(`[COMP Validator] ✅ Balance sufficient`);
+            console.log(`[DAIM Validator] ✅ Balance sufficient`);
             return true;
 
         } catch (e) {
-            console.error(`[COMP Validator] ❌ Balance check failed:`, e);
+            console.error(`[DAIM Validator] ❌ Balance check failed:`, e);
             // Fail-safe: reject if we can't verify balance
             return false;
         }
