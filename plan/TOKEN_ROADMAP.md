@@ -135,12 +135,12 @@ sequenceDiagram
 
 **Key Properties:**
 
-1. **Dynamic Staking:** Agents must stake **$50 USD value** in $DAIM to operate. This lowers barrier to entry while maintaining Sybil resistance.
-2. **Treasury Recycling:** Fees are not burned but collected in a Treasury to fund:
-   - Retroactive Public Goods Funding (RPGF)
-   - Developer Grants
-   - Liquidity Provision
-3. **Value Alignment:** Staking locks up supply (reducing checks), while Recycling ensures active circulation for contributors.
+1.  **Dynamic Staking:** Agents must stake **$50 USD value** in $DAIM to operate. This lowers barrier to entry while maintaining Sybil resistance.
+2.  **Treasury Recycling:** Fees are not burned but collected in a Treasury to fund:
+    -   Retroactive Public Goods Funding (RPGF)
+    -   Developer Grants
+    -   Liquidity Provision
+3.  **Value Alignment:** Staking locks up supply (reducing checks), while Recycling ensures active circulation for contributors.
 
 ### Technical Architecture: Weighted Compute Units (WCU)
 
@@ -316,21 +316,21 @@ graph TD
     A[UtilityToken.sol] -->|MINTER_ROLE| B[Paymaster Gateway]
     B -->|validation| C[TokenFeeStrategy]
     C -->|USDC| D[USDCFeeValidator]
-    C -->|TOKEN| E[COMPFeeValidator]
+    C -->|DAIM| E[DAIMFeeValidator]
     E -->|price query| F[TokenPriceOracle]
     
     G[PaymasterManager SDK] -->|token type| H[Fee Call Builder]
     H -->|USDC| I[appendUSDCFee]
-    H -->|TOKEN| J[appendCOMPFee]
+    H -->|DAIM| J[appendDAIMFee]
 ```
 
 ---
 
 ## Phase 1: Smart Contract Layer (The Foundation)
 
-### 1.1 UtilityToken Contract Design
+### 1.1 DaimToken Contract Design
 
-**File:** `packages/contracts/src/UtilityToken.sol`
+**File:** `packages/contracts/src/DaimToken.sol`
 
 **Status:** [x] Completed
 **Deployment:** <TOKEN_ADDRESS> (Base Mainnet)
@@ -342,8 +342,8 @@ graph TD
   - `MINTER_ROLE`: Paymaster Gateway address (can mint tokens for work)
   - `BURNER_ROLE`: Agents who burn tokens for task execution (optional, anyone can burn their own tokens via `ERC20Burnable`)
 - **Tokenomics:**
-  - Name: "Utility Token"
-  - Symbol: "$DAIM"
+  - Name: "A2A Daim Token"
+  - Symbol: "DAIM"
   - Decimals: 18 (Standard ERC20)
   - Initial Supply: 0 (Tokens are minted on-demand for work)
   - Max Supply: Unlimited (Inflationary based on compute demand, but balanced by burning)
@@ -361,10 +361,10 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract UtilityToken is ERC20, ERC20Burnable, AccessControl {
+contract DaimToken is ERC20, ERC20Burnable, AccessControl {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     
-    constructor(address paymasterGateway) ERC20("Utility Token", "TOKEN") {
+    constructor(address paymasterGateway) ERC20("A2A Daim Token", "DAIM") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, paymasterGateway);
     }
@@ -375,18 +375,18 @@ contract UtilityToken is ERC20, ERC20Burnable, AccessControl {
 }
 ```
 
-### 1.2 TDD Test Suite for UtilityToken
+### 1.2 TDD Test Suite for DaimToken
 
 **Status:** [x] Completed
 
-**File:** `packages/contracts/test/UtilityToken.test.ts`
+**File:** `packages/contracts/test/DaimToken.test.ts`
 
 **Test Cases (Red-Green-Refactor):**
 
 #### RED Phase - Write Failing Tests First
 
 ```typescript
-describe("UtilityToken - Access Control", () => {
+describe("DaimToken - Access Control", () => {
   it("should revert when non-minter tries to mint", async () => {
     // Setup: Create token, get non-minter account
     // Action: Call mint() from non-minter
@@ -406,7 +406,7 @@ describe("UtilityToken - Access Control", () => {
   });
 });
 
-describe("UtilityToken - Burning Mechanics", () => {
+describe("DaimToken - Burning Mechanics", () => {
   it("should reduce totalSupply when tokens are burned", async () => {
     // Setup: Mint 1000 tokens
     // Action: Burn 300 tokens
@@ -420,7 +420,7 @@ describe("UtilityToken - Burning Mechanics", () => {
   });
 });
 
-describe("UtilityToken - ERC20 Standard", () => {
+describe("DaimToken - ERC20 Standard", () => {
   it("should transfer tokens between accounts", async () => {
     // Standard ERC20 transfer test
   });
@@ -448,19 +448,19 @@ After writing ALL tests above, implement `UtilityToken.sol` until all tests pass
 **File:** `packages/contracts/scripts/deploy-compute-token.ts`
 
 ```typescript
-// Deploy UtilityToken with Paymaster address
+// Deploy DaimToken with Paymaster address
 // Verify on Basescan
 // Save deployment addresses to config
 ```
 
 **Verification Command:**
 ```bash
-pnpm --filter @a2a/contracts deploy:compute-token --network base-sepolia
+pnpm --filter @a2a/contracts deploy:daim-token --network base-sepolia
 ```
 
 ### 1.4 Phase 1 Acceptance Criteria
 
-- [x] All UtilityToken tests pass with 100% branch coverage
+- [x] All DaimToken tests pass with 100% branch coverage
 - [x] Contract deployed to Base Sepolia testnet
 - [x] Contract verified on Basescan
 - [x] Deployment addresses saved to `packages/contracts/deployments.json`
@@ -481,14 +481,14 @@ A central registry to prevent Sybil attacks and ensure agent quality through eco
 
 **Requirements:**
 - **Dynamic Staking:** Required stake is calculated in **USD ($50)**, not fixed TOKEN amount.
-- **Oracle Integration:** Uses Chainlink `AggregatorV3Interface` to fetch TOKEN/USD price.
+- **Oracle Integration:** Uses Chainlink `AggregatorV3Interface` to fetch DAIM/USD price.
 - **Slashing:** Malicious agents can have their stake slashed and sent to **Treasury**.
 
 **Key Functions:**
 - `register(string metadataUrl)`: 
   - Checks Oracle for current TOKEN price.
-  - Require `$50 / Price` amount of TOKEN.
-  - Transfers TOKEN to contract.
+  - Require `$50 / Price` amount of DAIM.
+  - Transfers DAIM to contract.
 - `unstake()`: Returns TOKEN to user (subject to unbonding period in future).
 - `slash(address agent)`: Admin only. Sends TOKEN to Treasury.
 
@@ -499,7 +499,7 @@ A central registry to prevent Sybil attacks and ensure agent quality through eco
 The Treasury accumulates collected fees and slashed stakes. These funds are distributed via:
 1. **Node Rewards:** For high-uptime compute providers.
 2. **Developer Grants:** For building agent frameworks compatible with A2A.
-3. **Liquidity Mining:** For TOKEN/ETH pools.
+3. **Liquidity Mining:** For DAIM/ETH pools.
 
 ---
 
@@ -517,12 +517,12 @@ The Treasury accumulates collected fees and slashed stakes. These funds are dist
 ```typescript
 export interface ITokenPriceOracle {
   // Returns: How many $DAIM tokens equal 1 Wei of ETH
-  // Example: If 1 TOKEN = 0.01 ETH, return 100 (100 TOKEN per 1 ETH)
-  getCOMPPerETH(): Promise<bigint>;
+  // Example: If 1 DAIM = 0.01 ETH, return 100 (100 DAIM per 1 ETH)
+  getDAIMPerETH(): Promise<bigint>;
   
-  // Returns: How many USDC (6 decimals) equals 1 TOKEN (18 decimals)
+  // Returns: How many USDC (6 decimals) equals 1 DAIM (18 decimals)
   // For conversion and display purposes
-  getUSDCPerCOMP(): Promise<bigint>;
+  getUSDCPerDAIM(): Promise<bigint>;
 }
 ```
 
@@ -534,23 +534,23 @@ export interface ITokenPriceOracle {
 **File:** `apps/paymaster/src/oracle/MockTokenPriceOracle.ts`
 
 **Initial Mock Pricing (Configurable):**
-- `1 $DAIM = $0.10 USD` (1 TOKEN = 100,000 USDC units with 6 decimals)
+- `1 $DAIM = $0.10 USD` (1 DAIM = 100,000 USDC units with 6 decimals)
 - ETH price fetched from existing `config.ETH_PRICE_USD`
-- Conversion: `TOKEN_per_ETH = ETH_PRICE_USD / TOKEN_PRICE_USD`
+- Conversion: `DAIM_per_ETH = ETH_PRICE_USD / DAIM_PRICE_USD`
 
 **Example Calculation:**
 ```typescript
-// If ETH = $2500, TOKEN = $0.10
-// Then 1 ETH = 25,000 TOKEN
-// So getCOMPPerETH() returns 25000n * 10^18 (in TOKEN decimals)
+// If ETH = $2500, DAIM = $0.10
+// Then 1 ETH = 25,000 DAIM
+// So getDAIMPerETH() returns 25000n * 10^18 (in DAIM decimals)
 ```
 
 **Configuration:**
 ```typescript
 // apps/paymaster/src/config.ts (additions)
-TOKEN_ADDRESS: z.string().startsWith('0x').optional(),
-TOKEN_PRICE_USD: z.string().regex(/^\d+(\.\d+)?$/).default('0.10'),
-ENABLE_TOKEN_FEES: z.string().transform(v => v === 'true').default('false'),
+DAIM_TOKEN_ADDRESS: z.string().startsWith('0x').optional(),
+DAIM_PRICE_USD: z.string().regex(/^\d+(\.\d+)?$/).default('0.10'),
+ENABLE_DAIM_FEES: z.string().transform(v => v === 'true').default('false'),
 ```
 
 ### 2.3 TDD Tests for Oracle
@@ -561,9 +561,9 @@ ENABLE_TOKEN_FEES: z.string().transform(v => v === 'true').default('false'),
 
 ```typescript
 describe("MockTokenPriceOracle", () => {
-  it("should return correct TOKEN per ETH ratio", async () => {
-    // Given: ETH = $2500, TOKEN = $0.10
-    // When: getCOMPPerETH()
+  it("should return correct DAIM per ETH ratio", async () => {
+    // Given: ETH = $2500, DAIM = $0.10
+    // When: getDAIMPerETH()
     // Then: Returns 25000 * 10^18
   });
   
@@ -571,9 +571,9 @@ describe("MockTokenPriceOracle", () => {
     // Test recalculation when config changes
   });
   
-  it("should return USDC per TOKEN conversion", async () => {
-    // Given: TOKEN = $0.10
-    // When: getUSDCPerCOMP()
+  it("should return USDC per DAIM conversion", async () => {
+    // Given: DAIM = $0.10
+    // When: getUSDCPerDAIM()
     // Then: Returns 100000 (USDC 6 decimals)
   });
 });
@@ -590,7 +590,7 @@ describe("MockTokenPriceOracle", () => {
 ```typescript
 // apps/paymaster/src/oracle/ChainlinkOracle.ts (FUTURE)
 export class ChainlinkTokenPriceOracle implements ITokenPriceOracle {
-  // Read from Chainlink TOKEN/ETH feed
+  // Read from Chainlink DAIM/ETH feed
 }
 ```
 
@@ -621,19 +621,19 @@ export class USDCFeeValidator implements IFeeValidator {
   }
 }
 
-// New TOKEN validator
-export class COMPFeeValidator implements IFeeValidator {
+// New DAIM validator
+export class DAIMFeeValidator implements IFeeValidator {
   constructor(
     private oracle: ITokenPriceOracle,
-    private compTokenAddress: Hex,
+    private daimTokenAddress: Hex,
     private treasuryAddress: Hex
   ) {}
   
   async validateFeeIncluded(userOp: any, client: PublicClient): Promise<boolean> {
     // Similar to USDC validation but:
     // 1. Calculate gas cost in ETH
-    // 2. Convert to TOKEN via oracle
-    // 3. Check for TOKEN transfer to treasury
+    // 2. Convert to DAIM via oracle
+    // 3. Check for DAIM transfer to treasury
   }
 }
 
@@ -641,7 +641,7 @@ export class COMPFeeValidator implements IFeeValidator {
 export class FeeValidationStrategy {
   constructor(
     private usdcValidator: USDCFeeValidator,
-    private compValidator: COMPFeeValidator
+    private daimValidator: DAIMFeeValidator
   ) {}
   
   async validate(userOp: any, client: PublicClient): Promise<boolean> {
@@ -650,8 +650,8 @@ export class FeeValidationStrategy {
     
     if (tokenAddress === config.FEE_TOKEN_ADDRESS) {
       return this.usdcValidator.validateFeeIncluded(userOp, client);
-    } else if (tokenAddress === config.TOKEN_ADDRESS) {
-      return this.compValidator.validateFeeIncluded(userOp, client);
+    } else if (tokenAddress === config.DAIM_TOKEN_ADDRESS) {
+      return this.daimValidator.validateFeeIncluded(userOp, client);
     }
     
     return false; // Unknown token
@@ -677,7 +677,7 @@ import { FeeValidationStrategy } from './fee-validation/TokenFeeStrategy';
 
 const feeValidationStrategy = new FeeValidationStrategy(
   new USDCFeeValidator(config),
-  new COMPFeeValidator(oracle, config.TOKEN_ADDRESS, config.TREASURY_ADDRESS)
+  new DAIMFeeValidator(oracle, config.DAIM_TOKEN_ADDRESS, config.TREASURY_ADDRESS)
 );
 
 // Line 329: Replace validation call
@@ -716,20 +716,20 @@ describe("USDCFeeValidator", () => {
   });
 });
 
-describe("COMPFeeValidator", () => {
-  it("should accept UserOp with valid TOKEN fee transfer", async () => {
-    // Setup: Mock UserOp with TOKEN transfer
+describe("DAIMFeeValidator", () => {
+  it("should accept UserOp with valid DAIM fee transfer", async () => {
+    // Setup: Mock UserOp with DAIM transfer
     // Action: validateFeeIncluded()
     // Assert: Returns true
   });
   
-  it("should calculate TOKEN fee using oracle price", async () => {
-    // Given: Gas cost = 0.001 ETH, Oracle says 1 ETH = 25000 TOKEN
+  it("should calculate DAIM fee using oracle price", async () => {
+    // Given: Gas cost = 0.001 ETH, Oracle says 1 ETH = 25000 DAIM
     // When: validate()
-    // Then: Requires >= 25 TOKEN (+ markup)
+    // Then: Requires >= 25 DAIM (+ markup)
   });
   
-  it("should apply markup rate to TOKEN fees", async () => {
+  it("should apply markup rate to DAIM fees", async () => {
     // Test markup calculation similar to USDC
   });
 });
@@ -740,9 +740,9 @@ describe("FeeValidationStrategy", () => {
     // Verify USDC validator is called
   });
   
-  it("should route TOKEN transfers to COMPFeeValidator", async () => {
-    // Mock callData with TOKEN token address
-    // Verify TOKEN validator is called
+  it("should route DAIM transfers to DAIMFeeValidator", async () => {
+    // Mock callData with DAIM token address
+    // Verify DAIM validator is called
   });
   
   it("should reject UserOps with unknown token", async () => {
@@ -764,7 +764,7 @@ describe("Backward Compatibility", () => {
   });
   
   it("should not require TOKEN config if TOKEN is disabled", async () => {
-    // Test with ENABLE_TOKEN_FEES=false
+    // Test with ENABLE_DAIM_FEES=false
     // Should work with only USDC config
   });
 });
@@ -783,13 +783,13 @@ describe("Backward Compatibility", () => {
 **New Features:**
 
 ```typescript
-export type FeeToken = 'USDC' | 'TOKEN';
+export type FeeToken = 'USDC' | 'DAIM';
 
 export interface FeeConfig {
   treasury: string;
   amount: bigint;
   token: string; // Token contract address
-  tokenType?: FeeToken; // 'USDC' or 'TOKEN'
+  tokenType?: FeeToken; // 'USDC' or 'DAIM'
 }
 
 export class PaymasterManager {
@@ -807,7 +807,7 @@ export class PaymasterManager {
     if (tokenType === 'USDC') {
       return this.appendUSDCFee(calls, feeConfig);
     } else if (tokenType === 'TOKEN') {
-      return this.appendCOMPFee(calls, feeConfig);
+      return this.appendDAIMFee(calls, feeConfig);
     }
     
     throw new Error(`Unsupported token type: ${tokenType}`);
@@ -834,7 +834,7 @@ export class PaymasterManager {
     return [...calls, feeCall];
   }
   
-  private static appendCOMPFee(calls: any[], feeConfig?: Partial<FeeConfig>): any[] {
+  private static appendDAIMFee(calls: any[], feeConfig?: Partial<FeeConfig>): any[] {
     const config = {
       treasury: feeConfig?.treasury || '0x0000000000000000000000000000000000000000',
       amount: feeConfig?.amount || 100n * 10n**18n, // 100 TOKEN (18 decimals)
@@ -902,13 +902,13 @@ describe("PaymasterManager - TOKEN Fee", () => {
     const calls = [];
     const result = PaymasterManager.appendFeeToCalls(calls, {
       tokenType: 'TOKEN',
-      token: '0xCOMPAddress',
+      token: '0xDAIMAddress',
       treasury: '0xTreasury',
       amount: 50n * 10n**18n // 50 TOKEN
     });
     
     // Assert: Transfer to TOKEN token contract
-    expect(result[0].to).toBe('0xCOMPAddress');
+    expect(result[0].to).toBe('0xDAIMAddress');
     // Decode data and verify transfer amount
   });
   
@@ -948,7 +948,7 @@ import { UtilityToken__factory } from '@a2a/contracts';
 import { privateKeyToAccount } from 'viem/accounts';
 import { createSmartAccount } from '@a2a/pay-sdk';
 
-async function runCOMPDemo() {
+async function runDAIMDemo() {
   console.log("🚀 Starting $DAIM Economy Demo\n");
   
   // Setup
@@ -1010,7 +1010,7 @@ async function runCOMPDemo() {
   console.log("\n✨ Demo Complete!");
 }
 
-runCOMPDemo().catch(console.error);
+runDAIMDemo().catch(console.error);
 ```
 
 **Expected Output:**

@@ -35,11 +35,11 @@
 ### A. Chainlink Price Feed Addresses (Base Mainnet)
 
 ```typescript
-// TOKEN/USD - Will need custom oracle or use proxy method
+// DAIM/USD - Will need custom oracle or use proxy method
 // ETH/USD - 0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70
 
-// For now: TOKEN/ETH via indirect calculation
-// ETH/USD * TOKEN/ETH = TOKEN/USD
+// For now: DAIM/ETH via indirect calculation
+// ETH/USD * DAIM/ETH = DAIM/USD
 ```
 
 ### B. Create ChainlinkOracle.ts
@@ -79,9 +79,9 @@ export class ChainlinkOracle implements ITokenPriceOracle {
 import { ChainlinkOracle } from './oracle/ChainlinkOracle';
 
 const oracle = new ChainlinkOracle(config.RPC_URL);
-compValidator = new COMPFeeValidator({
+daimValidator = new DAIMFeeValidator({
   treasuryAddress: config.TREASURY_ADDRESS,
-  compTokenAddress: config.TOKEN_ADDRESS,
+  daimTokenAddress: config.DAIM_ADDRESS,
   markupRate: config.MARKUP_RATE
 }, oracle);
 ```
@@ -135,9 +135,9 @@ export const feeValidationDuration = new Histogram({
   labelNames: ['tokenType']
 });
 
-export const compPriceGauge = new Gauge({
-  name: 'comp_price_usd',
-  help: 'Current TOKEN price in USD'
+export const daimPriceGauge = new Gauge({
+  name: 'daim_price_usd',
+  help: 'Current DAIM price in USD'
 });
 ```
 
@@ -159,10 +159,10 @@ try {
 ### C. Grafana Dashboard
 
 Create dashboard with:
-- Fee validation rate (USDC vs TOKEN)
+- Fee validation rate (USDC vs DAIM)
 - Success/failure ratios
 - Response times (p50, p95, p99)
-- TOKEN price over time
+- DAIM price over time
 - Error rates
 
 **Estimated Time:** 4-6 hours  
@@ -185,7 +185,7 @@ import { PaymasterManager } from '@swimmingkiim/pay-sdk';
 import { createSmartAccountClient } from 'permissionless';
 
 async function runE2EDemo() {
-  console.log('🚀 Starting E2E Demo: TOKEN Fee Payment\n');
+  console.log('🚀 Starting E2E Demo: DAIM Fee Payment\n');
   
   // 1. Setup
   const owner = privateKeyToAccount(process.env.DEMO_PRIVATE_KEY);
@@ -193,16 +193,16 @@ async function runE2EDemo() {
   
   console.log('✅ Smart Account:', smartAccount.address);
   
-  // 2. Check TOKEN balance
-  const compBalance = await checkCOMPBalance(smartAccount.address);
-  console.log(`💰 TOKEN Balance: ${compBalance} TOKEN`);
+  // 2. Check DAIM balance
+  const daimBalance = await checkDAIMBalance(smartAccount.address);
+  console.log(`💰 DAIM Balance: ${daimBalance} DAIM`);
   
-  if (compBalance < 25n) {
-    console.log('⚠️  Insufficient TOKEN, minting...');
-    await mintCOMP(smartAccount.address, 100n);
+  if (daimBalance < 25n) {
+    console.log('⚠️  Insufficient DAIM, minting...');
+    await mintDAIM(smartAccount.address, 100n);
   }
   
-  // 3. Create transaction with TOKEN fee
+  // 3. Create transaction with DAIM fee
   const calls = [{
     to: '0x...',  // some target
     value: 0n,
@@ -211,11 +211,11 @@ async function runE2EDemo() {
   
   const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
     treasury: process.env.TREASURY_ADDRESS,
-    amount: 25n * 10n**18n,  // 25 TOKEN
-    tokenType: 'TOKEN'
+    amount: 25n * 10n**18n,  // 25 DAIM
+    tokenType: 'DAIM'
   });
   
-  console.log('📝 Transaction prepared with TOKEN fee');
+  console.log('📝 Transaction prepared with DAIM fee');
   
   // 4. Submit to paymaster
   const userOp = await smartAccount.prepareUserOperation({ calls: callsWithFee });
@@ -232,8 +232,8 @@ async function runE2EDemo() {
   console.log(`✅ Transaction confirmed in block ${receipt.blockNumber}`);
   
   // 7. Verify fee payment
-  const treasuryBalance = await checkCOMPBalance(process.env.TREASURY_ADDRESS);
-  console.log(`💵 Treasury received fee. New balance: ${treasuryBalance} TOKEN`);
+  const treasuryBalance = await checkDAIMBalance(process.env.TREASURY_ADDRESS);
+  console.log(`💵 Treasury received fee. New balance: ${treasuryBalance} DAIM`);
   
   console.log('\n🎉 E2E Demo Complete!');
 }

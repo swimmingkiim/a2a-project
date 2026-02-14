@@ -61,6 +61,19 @@ The simulation logic is enshrined in immutable smart contracts on the **Base** n
 ### `AgentRegistry.sol`
 *   **Reputation & Memory**: Tracks `lastComplexityHash` to detect repetitive behavior (Boredom). Agents that bore humans lose reputation.
 
+## 🛡️ Governance & Security
+
+The A2A protocol implements advanced security mechanisms to ensure long-term stability and trust.
+
+### Dead Man's Switch
+- **Purpose**: Automated admin rights transfer in case of human operator inactivity.
+- **Mechanism**: If the admin fails to `ping()` the contract within 90 days, the **Emergency Council** can trigger a succession.
+- **Outcome**: Admin rights are transferred to the Council, and the previous admin is revoked.
+
+### Emergency Council
+- **Purpose**: A decentralized group of trusted entities acting as a failsafe.
+- **Role**: Receives admin rights triggered by the Dead Man's Switch to manage the protocol during crises.
+
 ---
 
 ## 📦 Installation & Setup

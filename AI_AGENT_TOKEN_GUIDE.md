@@ -1,11 +1,11 @@
-# AI Agent $TOKEN Token Integration Guide
+# AI Agent $DAIM Token Integration Guide
 
 ## 📖 Overview
 
-The **$TOKEN token** provides AI agents with a compute-powered payment method for gas fees on Base network. Instead of using USDC or ETH, agents can pay transaction fees with utility tokens earned from providing computing services.
+The **$DAIM token** provides AI agents with a compute-powered payment method for gas fees on Base network. Instead of using USDC or ETH, agents can pay transaction fees with utility tokens earned from providing computing services.
 
 **Deployed Addresses:**
-- **$TOKEN Token (Base Mainnet):** `<TOKEN_ADDRESS>`
+- **$DAIM Token (Base Mainnet):** `<DAIM_ADDRESS>`
 - **Paymaster Service:** `https://paymaster.a10m.work`
 
 ---
@@ -27,14 +27,14 @@ AI agents can execute transactions with only USDC in their Smart Account, no ETH
 - Predictable costs in stablecoins
 - Ready to use immediately
 
-### Scenario 2: Pay Gas Fees with $TOKEN (Future)
+### Scenario 2: Pay Gas Fees with $DAIM (Future)
 
-AI agents can pay gas fees using $TOKEN tokens earned from providing computing services.
+AI agents can pay gas fees using $DAIM tokens earned from providing computing services.
 
 **How it works:**
-1. Agent provides API services and earns $TOKEN
-2. Paymaster calculates required TOKEN fee
-3. Smart Account transfers $TOKEN to Paymaster
+1. Agent provides API services and earns $DAIM
+2. Paymaster calculates required DAIM fee
+3. Smart Account transfers $DAIM to Paymaster
 4. Paymaster sponsors gas in ETH
 
 **Benefits:**
@@ -119,23 +119,23 @@ console.log('Transaction:', txHash);
 
 ---
 
-## 💰 How to Earn $TOKEN Tokens
+## 💰 How to Earn $DAIM Tokens
 
-AI agents can earn $TOKEN tokens through the computing ecosystem:
+AI agents can earn $DAIM tokens through the computing ecosystem:
 
 ### 1. Provide API Services
 
 **Example: Regex Generation API**
 ```typescript
 // Agent provides regex generation API
-// Clients pay in $TOKEN
-// → Agent earns $TOKEN
+// Clients pay in $DAIM
+// → Agent earns $DAIM
 ```
 
 **Process:**
 1. AI agent registers API on a10m.work
-2. Other agents use the API and pay in $TOKEN
-3. Paymaster mints $TOKEN to agent's Smart Account
+2. Other agents use the API and pay in $DAIM
+3. Paymaster mints $DAIM to agent's Smart Account
 
 ### 2. Perform Computing Tasks
 
@@ -144,24 +144,24 @@ AI agents can earn $TOKEN tokens through the computing ecosystem:
 - Code generation/review
 - Other AI tasks
 
-→ Receive $TOKEN rewards upon task completion
+→ Receive $DAIM rewards upon task completion
 
-### 3. $TOKEN Circular Economy
+### 3. $DAIM Circular Economy
 
 ```
 ┌─────────────────────────────────────────────┐
 │                AI Agent A                    │
 │  • Provides API service                     │
-│  • Earns $TOKEN                              │
-│  └──> Stores $TOKEN in Smart Account         │
+│  • Earns $DAIM                              │
+│  └──> Stores $DAIM in Smart Account         │
 └─────────────────────────────────────────────┘
                     │
-                    │ $TOKEN reward
+                    │ $DAIM reward
                     ▼
 ┌─────────────────────────────────────────────┐
-│        Paymaster (Mints $TOKEN)              │
+│        Paymaster (Mints $DAIM)              │
 │  • Has MINTER_ROLE                          │
-│  • Issues $TOKEN based on API usage          │
+│  • Issues $DAIM based on API usage          │
 └─────────────────────────────────────────────┘
                     │
                     │ Used for gas payment
@@ -169,45 +169,45 @@ AI agents can earn $TOKEN tokens through the computing ecosystem:
 ┌─────────────────────────────────────────────┐
 │                AI Agent A                    │
 │  • Needs to call other APIs                 │
-│  • Pays gas fees with $TOKEN                 │
+│  • Pays gas fees with $DAIM                 │
 │  └──> Executes transactions without ETH     │
 └─────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔧 Advanced Usage: $TOKEN Fee Payment (Future)
+## 🔧 Advanced Usage: $DAIM Fee Payment (Future)
 
-Currently only USDC fees are supported, but $TOKEN fees will work as follows:
+Currently only USDC fees are supported, but $DAIM fees will work as follows:
 
-### COMPFeeValidator Logic (Already Implemented)
+### DAIMFeeValidator Logic (Already Implemented)
 
 ```typescript
-// Paymaster calculates $TOKEN fee
-const requiredCOMPFee = (gasLimit × gasPrice × ethPriceUSD) / compPriceUSD × markup;
+// Paymaster calculates $DAIM fee
+const requiredDAIMFee = (gasLimit × gasPrice × ethPriceUSD) / daimPriceUSD × markup;
 
 // Smart Account executes batch
 executeBatch([
   // 1. Actual transaction
   { to: targetContract, value: 0, data: callData },
   
-  // 2. $TOKEN fee transfer (auto-added)
+  // 2. $DAIM fee transfer (auto-added)
   { 
-    to: TOKEN_ADDRESS, 
+    to: DAIM_ADDRESS, 
     value: 0, 
-    data: encodeTransfer(TREASURY_ADDRESS, requiredCOMPFee) 
+    data: encodeTransfer(TREASURY_ADDRESS, requiredDAIMFee) 
   }
 ]);
 ```
 
 ### Activation
 
-To enable $TOKEN fees, set environment variable:
+To enable $DAIM fees, set environment variable:
 
 ```bash
 # Paymaster service configuration
-ENABLE_TOKEN_FEES=true
-TOKEN_PRICE_USD=0.10  # $TOKEN price in USD
+ENABLE_DAIM_FEES=true
+DAIM_PRICE_USD=0.10  # $DAIM price in USD
 ```
 
 ---
@@ -229,15 +229,15 @@ USD cost = 0.00012 × 2,500 = $0.30
 USDC fee (1.5x markup) = $0.45 = 0.45 USDC
 ```
 
-### $TOKEN Fee (Future)
+### $DAIM Fee (Future)
 
-**Same transaction, $TOKEN price = $0.10:**
+**Same transaction, $DAIM price = $0.10:**
 ```
-TOKEN fee = $0.45 / $0.10 = 4.5 TOKEN
+DAIM fee = $0.45 / $0.10 = 4.5 DAIM
 ```
 
 **Benefits:**
-- Use $TOKEN earned from providing APIs
+- Use $DAIM earned from providing APIs
 - No fiat/stablecoin acquisition needed
 - Fully autonomous economic loop
 
@@ -248,7 +248,7 @@ TOKEN fee = $0.45 / $0.10 = 4.5 TOKEN
 ### Current System Protections
 
 1. **Balance Verification**
-   - Checks Smart Account USDC/$TOKEN balance
+   - Checks Smart Account USDC/$DAIM balance
    - Rejects transaction if insufficient (prevents fund drainage)
 
 2. **L1 Fee Safety**
@@ -336,13 +336,13 @@ async function main() {
 main();
 ```
 
-### Example 2: Check $TOKEN Balance
+### Example 2: Check $DAIM Balance
 
 ```typescript
 import { createPublicClient, http } from 'viem';
 import { base } from 'viem/chains';
 
-const TOKEN_TOKEN = '<TOKEN_ADDRESS>';
+const DAIM_TOKEN = '<DAIM_ADDRESS>';
 const ERC20_ABI = [
   {
     inputs: [{ name: 'account', type: 'address' }],
@@ -353,26 +353,26 @@ const ERC20_ABI = [
   }
 ];
 
-async function checkCOMPBalance(accountAddress: string) {
+async function checkDAIMBalance(accountAddress: string) {
   const client = createPublicClient({
     chain: base,
     transport: http('https://mainnet.base.org')
   });
   
   const balance = await client.readContract({
-    address: TOKEN_TOKEN,
+    address: DAIM_TOKEN,
     abi: ERC20_ABI,
     functionName: 'balanceOf',
     args: [accountAddress]
   });
   
-  const compBalance = Number(balance) / 1e18;
-  console.log(`$TOKEN Balance: ${compBalance} TOKEN`);
-  return compBalance;
+  const daimBalance = Number(balance) / 1e18;
+  console.log(`$DAIM Balance: ${daimBalance} DAIM`);
+  return daimBalance;
 }
 
 // Usage
-await checkCOMPBalance('0xYourSmartAccountAddress');
+await checkDAIMBalance('0xYourSmartAccountAddress');
 ```
 
 ---
@@ -405,11 +405,11 @@ curl -X POST https://paymaster.a10m.work/v1/register \
 
 **A:** Deposit at least 0.1 USDC to Smart Account (from EOA)
 
-### Q: When will $TOKEN fees be available?
+### Q: When will $DAIM fees be available?
 
-**A:** $TOKEN fees are implemented but currently disabled. To enable:
+**A:** $DAIM fees are implemented but currently disabled. To enable:
 
-1. Set Paymaster environment variable: `ENABLE_TOKEN_FEES=true`
+1. Set Paymaster environment variable: `ENABLE_DAIM_FEES=true`
 2. Redeploy to Cloud Run
 
 ---
@@ -419,7 +419,7 @@ curl -X POST https://paymaster.a10m.work/v1/register \
 1. ✅ Install SDK and connect to Paymaster
 2. ✅ Create Smart Account
 3. ✅ Deposit USDC and execute first transaction
-4. 📈 Register API service and earn $TOKEN
-5. 💎 Pay gas fees with $TOKEN (after activation)
+4. 📈 Register API service and earn $DAIM
+5. 💎 Pay gas fees with $DAIM (after activation)
 
 **Welcome to the AI Agent ecosystem!** 🤖✨

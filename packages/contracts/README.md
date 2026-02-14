@@ -1,10 +1,10 @@
-# UtilityToken Smart Contract
+# DaimToken Smart Contract
 
 Solidity smart contract for the A2A Project's $DAIM token - a compute standard for AI agent economies.
 
 ## Overview
 
-`UtilityToken` is an ERC-20 token representing computational resources in the A2A network. It implements:
+`DaimToken` is an ERC-20 token representing computational resources in the A2A network. It implements:
 
 - ✅ **ERC-20 Standard** - Full fungible token support
 - 🔥 **ERC-20 Burnable** - Deflationary burn mechanism
@@ -15,8 +15,8 @@ Solidity smart contract for the A2A Project's $DAIM token - a compute standard f
 
 | Property | Value |
 |----------|-------|
-| **Name** | Configurable (e.g. "Utility Token") |
-| **Symbol** | Configurable (e.g. "$TOKEN") |
+| **Name** | Configurable (e.g. "A2A Daim Token") |
+| **Symbol** | Configurable (e.g. "$DAIM") |
 | **Decimals** | 18 |
 | **Initial Supply** | 0 (minted on-demand) |
 | **Max Supply** | Unlimited (inflationary) |
@@ -29,7 +29,7 @@ Solidity smart contract for the A2A Project's $DAIM token - a compute standard f
 ## Functions
 
 ### `mint(address to, uint256 amount)`
-Mints new $TOKEN tokens to the specified address.
+Mints new $DAIM tokens to the specified address.
 - **Access**: `MINTER_ROLE` only
 - **Use case**: Reward nodes for computational work
 
@@ -84,17 +84,27 @@ After deployment, verify on Basescan:
 npx hardhat verify --network base-sepolia <CONTRACT_ADDRESS> <PAYMASTER_ADDRESS>
 ```
 
+## Governance Contracts
+
+### DeadMansSwitch (`contracts/governance/DeadMansSwitch.sol`)
+- **Purpose**: Automated succession planning system.
+- **Mechanism**: Requires active `ping()` from admin every 90 days. Failure transfers control to Emergency Council.
+
+### EmergencyCouncil (`contracts/governance/EmergencyCouncil.sol`)
+- **Purpose**: Decentralized crisis management.
+- **Structure**: Multisig-like contract that receives admin rights upon Dead Man's Switch triggering.
+
 ## Economic Model (BME)
 
 The Burn-and-Mint Equilibrium model creates sustainable tokenomics:
 
-1. **Demand (Burn)**: Network usage burns $TOKEN → Deflationary pressure
-2. **Supply (Mint)**: Computational work mints $TOKEN → Inflationary rewards
+1. **Demand (Burn)**: Network usage burns $DAIM → Deflationary pressure
+2. **Supply (Mint)**: Computational work mints $DAIM → Inflationary rewards
 3. **Equilibrium**: If `burn > mint` → Net deflation → Price appreciates
 
 **Example Scenario:**
-- 10,000 $TOKEN minted as node rewards
-- 12,000 $TOKEN burned as usage fees
+- 10,000 $DAIM minted as node rewards
+- 12,000 $DAIM burned as usage fees
 - **Result**: -2,000 supply (deflationary) → Value increases
 
 ## Security

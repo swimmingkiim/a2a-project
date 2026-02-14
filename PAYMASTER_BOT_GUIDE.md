@@ -240,6 +240,9 @@ The required fee is calculated dynamically based on your UserOperation's gas lim
 - **Fee Token**: USDC (Coinbase)
     - Mainnet: `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`
     - Sepolia: (Check official Base Sepolia USDC address)
+- **Fee Token**: $DAIM (A2A Compute Token)
+    - Status: Implemented (Enable via `ENABLE_DAIM_FEES=true`)
+    - Rate: Dynamic based on Oracle price ($0.10 default)
 
 ### L1 Data Fee (Oracle)
 The Paymaster uses an Oracle to estimate L1 Data Fees (blobs) and automatically adds this buffer to the gas limits. This prevents underpriced transactions from being rejected by the Bundler.

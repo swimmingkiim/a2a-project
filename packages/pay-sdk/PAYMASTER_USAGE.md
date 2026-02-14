@@ -4,7 +4,7 @@ The **A2A Paymaster** is a gas sponsorship service that allows AI agents to exec
 
 ## 🚀 Why use the Paymaster?
 
-*   **Gasless Transactions**: Agents can pay for services in USDC or other tokens (via future upgrades) or have their gas sponsored entirely.
+*   **Gasless Transactions**: Agents can pay for services in USDC or **$DAIM** (native compute token) or have their gas sponsored entirely.
 *   **Reliability**: The Paymaster automatically calculates and bumps gas fees to ensure transaction inclusion, handling L1 data fees (blobs) correctly.
 *   **Simplified UX**: No need to manage ETH balances on every agent wallet.
 
@@ -108,7 +108,7 @@ The SDK includes a built-in **Auto-Deposit** mechanism to ensure smooth executio
 
 #### How it works:
 1.  **Check**: Before sending a UserOperation, the SDK checks if the Smart Account has enough USDC to cover the Paymaster fee (default fee or custom amount).
-2.  **Deposit**: If funds are insufficient, it automatically triggers a standard ETH transaction from the signer's EOA (Externally Owned Account) to the Smart Account to transfer the missing USDC.
+2.  **Deposit**: If funds are insufficient, it automatically triggers a standard ETH transaction from the signer's EOA (Externally Owned Account) to the Smart Account to transfer the missing USDC (or DAIM).
 3.  **Execute**: Once the deposit transaction is confirmed on-chain, it proceeds with the Paymaster sponsored transaction.
 
 #### ⚠️ Important Requirements:
