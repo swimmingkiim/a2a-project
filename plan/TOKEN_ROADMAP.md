@@ -1,12 +1,12 @@
-# $TOKEN (Utility Token) System Implementation Roadmap
+# $COMP (Utility Token) System Implementation Roadmap
 
 > **Version 2.0** - Updated 2026-02-10  
 > **Status:** 🔄 Revised with Whitepaper Insights  
-> **Source:** [AI Compute Standard $TOKEN Draft Whitepaper](https://docs.google.com/document/d/1tKz6p9Zjj30BhAOA2_jsEg7QEMaGEzy50CPnyApgD7E)
+> **Source:** [AI Compute Standard $COMP Draft Whitepaper](https://docs.google.com/document/d/1tKz6p9Zjj30BhAOA2_jsEg7QEMaGEzy50CPnyApgD7E)
 
 ## Executive Summary
 
-This roadmap outlines the evolution of the `a2a-project` from a USDC-based payment rail into a **Compute Standard ($TOKEN)** - a native economic system for autonomous AI agents. Unlike traditional cryptocurrencies, $TOKEN represents **computational resources** as the fundamental unit of value, enabling AI agents to trade processing power as currency.
+This roadmap outlines the evolution of the `a2a-project` from a USDC-based payment rail into a **Compute Standard ($COMP)** - a native economic system for autonomous AI agents. Unlike traditional cryptocurrencies, $COMP represents **computational resources** as the fundamental unit of value, enabling AI agents to trade processing power as currency.
 
 ### Whitepaper Key Insights Integrated
 
@@ -23,7 +23,7 @@ Based on the comprehensive whitepaper analysis, this roadmap now incorporates:
 
 | Phase | Vision | Core Change |
 |-------|--------|-------------|
-| **Phase 1: Aggregation** | Unify existing DePIN networks | $TOKEN as reward points, aggregate Render/Akash/io.net |
+| **Phase 1: Aggregation** | Unify existing DePIN networks | $COMP as reward points, aggregate Render/Akash/io.net |
 | **Phase 2: Hybrid Economy** | Introduce Recycling tokenomics | Fiat payments contribution to Treasury, WCU standardization |
 | **Phase 3: Sovereign Trust** | Independent verification layer | Optimistic TEE Rollups, x402 protocol, state channels |
 
@@ -35,7 +35,7 @@ Based on the comprehensive whitepaper analysis, this roadmap now incorporates:
 - **Open-Closed Principle (OCP):** Extend, do not break existing USDC functionality
 - **High Test Coverage:** 100% branch coverage for smart contracts, >90% for financial logic
 - **Backward Compatibility:** Existing USDC integrations continue to work unchanged
-- **Economic Sustainability:** Recycling model ensures $TOKEN allows for sustainable rewards via RPGF
+- **Economic Sustainability:** Recycling model ensures $COMP allows for sustainable rewards via RPGF
 - **Trustless Verification:** Cryptographic proofs replace institutional trust
 
 ---
@@ -86,11 +86,11 @@ sequenceDiagram
 
 ---
 
-## To-Be Architecture ($TOKEN + BME Economics)
+## To-Be Architecture ($COMP + BME Economics)
 
 ### Vision: From Simple Dual-Token to Compute Standard
 
-The whitepaper reveals that $TOKEN is not merely "another payment token" but a **standardized unit of computational value**. This section outlines the target state architecture informed by DePIN best practices.
+The whitepaper reveals that $COMP is not merely "another payment token" but a **standardized unit of computational value**. This section outlines the target state architecture informed by DePIN best practices.
 
 ### Design Goals (Whitepaper-Aligned)
 
@@ -101,9 +101,19 @@ The whitepaper reveals that $TOKEN is not merely "another payment token" but a *
 5. **Sybil Resistance:** TraceRank reputation graphs and economic staking
 6. **Ecosystem Growth:** Network usage contributes to Treasury, funding future updates and rewards
 
+### Phase 2.5: Quantum A2A Protocol (Implemented)
+
+**Goal:** Harmonize Machine Efficiency with Human Meaning.
+
+**Architecture:**
+*   **Schrödinger's Pool (QuantumTaskBuffer):** Tasks exist as wave functions until observed.
+*   **Thermodynamic Throttling:** System slows down (Heat) if agents produce faster than humans can verify.
+*   **Eudaimonic Feedback:** Rewards ($COMP) are multiplied based on Human Satisfaction (Eudaimonia), not just completion.
+*   **Boredom Prevention:** Agents are penalized for repetitive strategies, forcing constant innovation.
+
 ### Economic Architecture: Ecosystem Recycling & Dynamic Staking
 
-Instead of a pure Burn-and-Mint model, $TOKEN uses a **Recycling & Staking** system to ensure long-term sustainability and trust.
+Instead of a pure Burn-and-Mint model, $COMP uses a **Recycling & Staking** system to ensure long-term sustainability and trust.
 
 ```mermaid
 sequenceDiagram
@@ -113,19 +123,19 @@ sequenceDiagram
     participant Registry as Agent Registry
     
     Note over Agent: Registration
-    Agent->>Registry: Stake $50 USD in $TOKEN
+    Agent->>Registry: Stake $50 USD in $COMP
     Registry->>Registry: Oracle Check (TOKEN/USD)
     Registry-->>Agent: Registered Verified Credential
     
     Note over Agent: Execution
     Agent->>Gateway: Request inference
-    Gateway->>Treasury: Transfer fee ($TOKEN)
+    Gateway->>Treasury: Transfer fee ($COMP)
     Note over Treasury: Fees accumulate for RPGF
 ```
 
 **Key Properties:**
 
-1. **Dynamic Staking:** Agents must stake **$50 USD value** in $TOKEN to operate. This lowers barrier to entry while maintaining Sybil resistance.
+1. **Dynamic Staking:** Agents must stake **$50 USD value** in $COMP to operate. This lowers barrier to entry while maintaining Sybil resistance.
 2. **Treasury Recycling:** Fees are not burned but collected in a Treasury to fund:
    - Retroactive Public Goods Funding (RPGF)
    - Developer Grants
@@ -163,16 +173,16 @@ function calculateWCU(profile: HardwareProfile, hours: number): bigint {
 **Governance-Driven Updates:**
 
 - New hardware (e.g., NVIDIA Blackwell B200) gets WCU rating via DAO vote
-- $TOKEN price indexed to "cost per WCU", not "cost per specific GPU hour"
+- $COMP price indexed to "cost per WCU", not "cost per specific GPU hour"
 - **Defeats Moore's Law deflation:** As H100 gets cheaper, its WCU/hour rating decreases
 
 **Example:**
 
-| Hardware | WCU/Hour | $TOKEN Cost (Hypothetical) |
+| Hardware | WCU/Hour | $COMP Cost (Hypothetical) |
 |----------|---------|------------------|
-| NVIDIA H100 | 100 WCU | 50 $TOKEN |
-| NVIDIA A100 | 40 WCU | 20 $TOKEN |
-| RTX 4090 | 15 WCU | 7.5 $TOKEN |
+| NVIDIA H100 | 100 WCU | 50 $COMP |
+| NVIDIA A100 | 40 WCU | 20 $COMP |
+| RTX 4090 | 15 WCU | 7.5 $COMP |
 
 ### Verification Architecture: Optimistic TEE Rollups (OTR)
 
@@ -214,9 +224,9 @@ graph TD
 - Results compared, discrepancies trigger Tier 3
 
 **Tier 3: Economic Punishment**
-- If fraud detected: Node loses **entire staked $TOKEN** (slashing)
+- If fraud detected: Node loses **entire staked $COMP** (slashing)
 - Stake must be >> potential profit from cheating
-- Example: Node must stake 1000 $TOKEN to earn 10 $TOKEN/day
+- Example: Node must stake 1000 $COMP to earn 10 $COMP/day
 
 **Security Analysis:**
 
@@ -243,7 +253,7 @@ Host: node.a10m.work
 HTTP/1.1 402 Payment Required
 X-Payment-Address: 0xNodeWallet...
 X-Payment-Amount: 0.001
-X-Payment-Token: $TOKEN (0x...)
+X-Payment-Token: $COMP (0x...)
 X-Payment-Invoice: invoice_abc123
 
 # Step 3: Agent sends signed payment proof
@@ -272,7 +282,7 @@ For ongoing agent-node relationships, use **payment channels**:
 // Opening a channel
 class PaymentChannel {
   async open(agent: Address, node: Address, deposit: bigint) {
-    // Agent locks 1000 $TOKEN in channel contract
+    // Agent locks 1000 $COMP in channel contract
     await channelContract.open(agent, node, deposit);
   }
   
@@ -293,9 +303,9 @@ class PaymentChannel {
 ```
 
 **Example:**
-1. Agent opens channel with 1000 $TOKEN deposit
+1. Agent opens channel with 1000 $COMP deposit
 2. Makes 10,000 inference requests over 1 week
-3. Each request costs 0.05 $TOKEN → Total 500 $TOKEN
+3. Each request costs 0.05 $COMP → Total 500 $COMP
 4. Only 2 blockchain transactions: open (1000 deposit) + close (500 spent, 500 returned)
 5. **Savings:** 10,000 TXs → 2 TXs = 99.98% gas fee reduction
 
@@ -333,7 +343,7 @@ graph TD
   - `BURNER_ROLE`: Agents who burn tokens for task execution (optional, anyone can burn their own tokens via `ERC20Burnable`)
 - **Tokenomics:**
   - Name: "Utility Token"
-  - Symbol: "$TOKEN"
+  - Symbol: "$COMP"
   - Decimals: 18 (Standard ERC20)
   - Initial Supply: 0 (Tokens are minted on-demand for work)
   - Max Supply: Unlimited (Inflationary based on compute demand, but balanced by burning)
@@ -501,12 +511,12 @@ The Treasury accumulates collected fees and slashed stakes. These funds are dist
 
 **File:** `apps/paymaster/src/oracle/TokenPriceOracle.ts`
 
-**Purpose:** Convert gas costs to $TOKEN token amounts
+**Purpose:** Convert gas costs to $COMP token amounts
 
 **Interface:**
 ```typescript
 export interface ITokenPriceOracle {
-  // Returns: How many $TOKEN tokens equal 1 Wei of ETH
+  // Returns: How many $COMP tokens equal 1 Wei of ETH
   // Example: If 1 TOKEN = 0.01 ETH, return 100 (100 TOKEN per 1 ETH)
   getCOMPPerETH(): Promise<bigint>;
   
@@ -524,7 +534,7 @@ export interface ITokenPriceOracle {
 **File:** `apps/paymaster/src/oracle/MockTokenPriceOracle.ts`
 
 **Initial Mock Pricing (Configurable):**
-- `1 $TOKEN = $0.10 USD` (1 TOKEN = 100,000 USDC units with 6 decimals)
+- `1 $COMP = $0.10 USD` (1 TOKEN = 100,000 USDC units with 6 decimals)
 - ETH price fetched from existing `config.ETH_PRICE_USD`
 - Conversion: `TOKEN_per_ETH = ETH_PRICE_USD / TOKEN_PRICE_USD`
 
@@ -927,9 +937,9 @@ describe("PaymasterManager - Backward Compatibility", () => {
 **File:** `examples/comp-economy-demo.ts`
 
 **Scenario:**
-1. **Agent A (Worker):** Completes a compute task → Paymaster mints 1000 $TOKEN to Agent A's smart account
-2. **Agent B (Consumer):** Requests a task from Agent A → Pays 500 $TOKEN + Treasury Fee in $TOKEN
-3. **Paymaster:** Sponsors gas for both transactions, validating $TOKEN fee transfers
+1. **Agent A (Worker):** Completes a compute task → Paymaster mints 1000 $COMP to Agent A's smart account
+2. **Agent B (Consumer):** Requests a task from Agent A → Pays 500 $COMP + Treasury Fee in $COMP
+3. **Paymaster:** Sponsors gas for both transactions, validating $COMP fee transfers
 
 **Demo Script:**
 ```typescript
@@ -939,7 +949,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 import { createSmartAccount } from '@a2a/pay-sdk';
 
 async function runCOMPDemo() {
-  console.log("🚀 Starting $TOKEN Economy Demo\n");
+  console.log("🚀 Starting $COMP Economy Demo\n");
   
   // Setup
   const agentA = await createSmartAccount(privateKeyToAccount('0x...'));
@@ -947,15 +957,15 @@ async function runCOMPDemo() {
   const compToken = UtilityToken__factory.connect(TOKEN_ADDRESS);
   const paymasterManager = new PaymasterManager(PAYMASTER_URL, API_KEY);
   
-  // Step 1: Agent A Earns $TOKEN (Simulated Work)
+  // Step 1: Agent A Earns $COMP (Simulated Work)
   console.log("📊 Agent A completes compute task...");
   // Note: In production, Paymaster would mint based on verified work
   // For demo, we simulate the mint
   const mintAmount = 1000n * 10n**18n; // 1000 TOKEN
   await compToken.mint(agentA.address, mintAmount);
-  console.log(`✅ Agent A earned ${mintAmount} $TOKEN\n`);
+  console.log(`✅ Agent A earned ${mintAmount} $COMP\n`);
   
-  // Step 2: Agent B Pays Agent A in $TOKEN
+  // Step 2: Agent B Pays Agent A in $COMP
   console.log("💸 Agent B requests task from Agent A...");
   
   const paymentAmount = 500n * 10n**18n; // 500 TOKEN
@@ -973,7 +983,7 @@ async function runCOMPDemo() {
     }
   ];
   
-  // Append $TOKEN treasury fee
+  // Append $COMP treasury fee
   const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
     tokenType: 'TOKEN',
     token: TOKEN_ADDRESS,
@@ -993,9 +1003,9 @@ async function runCOMPDemo() {
   
   // Step 3: Verify Balances
   console.log("\n📈 Final Balances:");
-  console.log(`Agent A: ${await compToken.balanceOf(agentA.address)} $TOKEN`);
-  console.log(`Agent B: ${await compToken.balanceOf(agentB.address)} $TOKEN`);
-  console.log(`Treasury: ${await compToken.balanceOf(TREASURY_ADDRESS)} $TOKEN`);
+  console.log(`Agent A: ${await compToken.balanceOf(agentA.address)} $COMP`);
+  console.log(`Agent B: ${await compToken.balanceOf(agentB.address)} $COMP`);
+  console.log(`Treasury: ${await compToken.balanceOf(TREASURY_ADDRESS)} $COMP`);
   
   console.log("\n✨ Demo Complete!");
 }
@@ -1005,18 +1015,18 @@ runCOMPDemo().catch(console.error);
 
 **Expected Output:**
 ```
-🚀 Starting $TOKEN Economy Demo
+🚀 Starting $COMP Economy Demo
 
 📊 Agent A completes compute task...
-✅ Agent A earned 1000000000000000000000 $TOKEN
+✅ Agent A earned 1000000000000000000000 $COMP
 
 💸 Agent B requests task from Agent A...
 ✅ Transaction submitted: 0xabc123...
 
 📈 Final Balances:
-Agent A: 1500000000000000000000 $TOKEN (1000 earned + 500 received)
-Agent B: 450000000000000000000 $TOKEN (1000 initial - 500 payment - 50 fee)
-Treasury: 50000000000000000000 $TOKEN (50 fee)
+Agent A: 1500000000000000000000 $COMP (1000 earned + 500 received)
+Agent B: 450000000000000000000 $COMP (1000 initial - 500 payment - 50 fee)
+Treasury: 50000000000000000000 $COMP (50 fee)
 
 ✨ Demo Complete!
 ```
@@ -1043,15 +1053,15 @@ pnpm coverage:paymaster  # Should show >90% for fee validation logic
 
 ### 6.1 Files to Create/Update
 
-1. **`docs/TOKEN_GUIDE.md`** - User guide for $TOKEN token
-   - What is $TOKEN?
-   - How to earn $TOKEN (work = mint)
-   - How to spend $TOKEN (tasks = transfer/burn)
+1. **`docs/TOKEN_GUIDE.md`** - User guide for $COMP token
+   - What is $COMP?
+   - How to earn $COMP (work = mint)
+   - How to spend $COMP (tasks = transfer/burn)
    - Fee structure comparison (USDC vs TOKEN)
 
 2. **`docs/MIGRATION_GUIDE.md`** - For existing USDC users
    - No action required (backward compatible)
-   - How to opt-in to $TOKEN fees
+   - How to opt-in to $COMP fees
    - Configuration changes
    - Code examples
 
@@ -1068,7 +1078,7 @@ pnpm coverage:paymaster  # Should show >90% for fee validation logic
 ### 6.2 Migration Checklist for Existing Users
 
 ```markdown
-## Migrating to $TOKEN Support
+## Migrating to $COMP Support
 
 ### For SDK Users (Optional, USDC still works)
 
