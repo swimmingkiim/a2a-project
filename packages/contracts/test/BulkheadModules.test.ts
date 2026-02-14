@@ -53,13 +53,14 @@ describe("Bulkhead Architecture (ERC-7579 Modules)", function () {
             ).to.not.be.reverted;
         });
 
-        it("should revert if Soft Limit exceeded (Gradual Throttling)", async function () {
+        it("should emit warning if Soft Limit exceeded (Gradual Throttling)", async function () {
             // Soft Limit is 1 ETH. Send 1.1 ETH.
-            // We expect custom error SoftLimitExceeded(uint256)
-            // Hardhat matcher needs exact error signature or just name
+            // We expect event SoftLimitReached(address, uint256)
+            // It allows the tx but emits a warning event.
             await expect(
                 circuitBreaker.connect(owner).preCheck(owner.address, ethers.parseEther("1.1"), "0x")
-            ).to.be.revertedWithCustomError(circuitBreaker, "SoftLimitExceeded");
+            ).to.emit(circuitBreaker, "SoftLimitReached")
+                .withArgs(owner.address, ethers.parseEther("1.1"));
         });
     });
 });

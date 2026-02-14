@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import { ethers, upgrades } from "hardhat";
 import { DaimToken } from "../typechain-types";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
@@ -10,7 +10,13 @@ describe("DaimToken", () => {
         const [deployer, paymaster, user1, user2, unauthorized] = await ethers.getSigners();
 
         const DaimToken = await ethers.getContractFactory("DaimToken");
-        const daimToken = await DaimToken.deploy("Daim Token", "DAIM", paymaster.address);
+        // UUPS Deployment: initialize(defaultAdmin)
+        const daimToken = (await upgrades.deployProxy(DaimToken, [deployer.address], { kind: 'uups' })) as unknown as DaimToken;
+        await daimToken.waitForDeployment();
+
+        // Grant MINTER_ROLE to paymaster for testing purposes
+        const MINTER_ROLE = await daimToken.MINTER_ROLE();
+        await daimToken.grantRole(MINTER_ROLE, paymaster.address);
 
         return { daimToken, deployer, paymaster, user1, user2, unauthorized };
     }
@@ -19,7 +25,7 @@ describe("DaimToken", () => {
         it("should set the correct name and symbol", async () => {
             const { daimToken } = await loadFixture(deployDaimTokenFixture);
 
-            expect(await daimToken.name()).to.equal("Daim Token");
+            expect(await daimToken.name()).to.equal("Eudaimon");
             expect(await daimToken.symbol()).to.equal("DAIM");
         });
 
@@ -29,10 +35,12 @@ describe("DaimToken", () => {
             expect(await daimToken.decimals()).to.equal(18);
         });
 
-        it("should have zero initial supply", async () => {
+        it("should have correct initial supply", async () => {
             const { daimToken } = await loadFixture(deployDaimTokenFixture);
 
-            expect(await daimToken.totalSupply()).to.equal(0);
+            // 50 Million * 10^18
+            const expectedSupply = ethers.parseEther("50000000");
+            expect(await daimToken.totalSupply()).to.equal(expectedSupply);
         });
 
         it("should grant DEFAULT_ADMIN_ROLE to deployer", async () => {
@@ -74,7 +82,9 @@ describe("DaimToken", () => {
                 .withArgs(ethers.ZeroAddress, user1.address, amount);
 
             expect(await daimToken.balanceOf(user1.address)).to.equal(amount);
-            expect(await daimToken.totalSupply()).to.equal(amount);
+            // Total Supply = Initial (50M) + Minted (1000)
+            const initialSupply = ethers.parseEther("50000000");
+            expect(await daimToken.totalSupply()).to.equal(initialSupply + amount);
         });
 
         it("should allow admin to grant MINTER_ROLE to new address", async () => {
@@ -118,8 +128,9 @@ describe("DaimToken", () => {
             const mintAmount = ethers.parseEther("1000");
             await daimToken.connect(paymaster).mint(user1.address, mintAmount);
 
-            const initialSupply = await daimToken.totalSupply();
-            expect(initialSupply).to.equal(mintAmount);
+            const initialTotalSupply = await daimToken.totalSupply();
+            const expectedInitialTotal = ethers.parseEther("50000000") + mintAmount;
+            expect(initialTotalSupply).to.equal(expectedInitialTotal);
 
             // Burn 300 tokens
             const burnAmount = ethers.parseEther("300");
@@ -127,8 +138,7 @@ describe("DaimToken", () => {
 
             // Verify supply decreased
             const finalSupply = await daimToken.totalSupply();
-            expect(finalSupply).to.equal(mintAmount - burnAmount);
-            expect(finalSupply).to.equal(ethers.parseEther("700"));
+            expect(finalSupply).to.equal(expectedInitialTotal - burnAmount);
         });
 
         it("should allow any holder to burn their own tokens", async () => {
@@ -218,19 +228,25 @@ describe("DaimToken", () => {
         it("should support mint-then-burn cycle (deflationary scenario)", async () => {
             const { daimToken, paymaster, user1 } = await loadFixture(deployDaimTokenFixture);
 
+            const initialSupply = ethers.parseEther("50000000");
+
             // Simulate network growth: Mint rewards
-            await daimToken.connect(paymaster).mint(user1.address, ethers.parseEther("10000"));
-            expect(await daimToken.totalSupply()).to.equal(ethers.parseEther("10000"));
+            const mintAmount = ethers.parseEther("10000");
+            await daimToken.connect(paymaster).mint(user1.address, mintAmount);
+            expect(await daimToken.totalSupply()).to.equal(initialSupply + mintAmount);
 
             // Simulate high usage: Burn fees (more than minted)
-            await daimToken.connect(user1).burn(ethers.parseEther("6000"));
+            const burnAmount = ethers.parseEther("6000");
+            await daimToken.connect(user1).burn(burnAmount);
 
             // Net result: Deflationary (supply decreased)
-            expect(await daimToken.totalSupply()).to.equal(ethers.parseEther("4000"));
+            expect(await daimToken.totalSupply()).to.equal(initialSupply + mintAmount - burnAmount);
         });
 
         it("should demonstrate inflationary scenario (mint > burn)", async () => {
             const { daimToken, paymaster, user1, user2 } = await loadFixture(deployDaimTokenFixture);
+
+            const initialSupply = ethers.parseEther("50000000");
 
             // Mint 5000 to user1
             await daimToken.connect(paymaster).mint(user1.address, ethers.parseEther("5000"));
@@ -239,13 +255,15 @@ describe("DaimToken", () => {
             await daimToken.connect(paymaster).mint(user2.address, ethers.parseEther("3000"));
 
             // Total minted: 8000
-            expect(await daimToken.totalSupply()).to.equal(ethers.parseEther("8000"));
+            const totalMinted = ethers.parseEther("8000");
+            expect(await daimToken.totalSupply()).to.equal(initialSupply + totalMinted);
 
             // Burn only 2000
-            await daimToken.connect(user1).burn(ethers.parseEther("2000"));
+            const burnAmount = ethers.parseEther("2000");
+            await daimToken.connect(user1).burn(burnAmount);
 
             // Net result: Inflationary (supply increased from 0 to 6000)
-            expect(await daimToken.totalSupply()).to.equal(ethers.parseEther("6000"));
+            expect(await daimToken.totalSupply()).to.equal(initialSupply + totalMinted - burnAmount);
         });
     });
 });

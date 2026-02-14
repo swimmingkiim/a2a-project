@@ -8,47 +8,76 @@ async function main() {
     const [deployer] = await ethers.getSigners();
     console.log("Deployer:", deployer.address);
 
-    // --- 1. Generate 5 Genesis Wallets ---
-    console.log("\n🔐 Generating 5 Genesis Guardian Keys...");
-    const genesisWallets = [];
-    const genesisAddresses = [];
-
     // Create directory for keys if not exists
     const keyDir = path.join(__dirname, "../../genesis-keys");
     if (!fs.existsSync(keyDir)) {
         fs.mkdirSync(keyDir, { recursive: true });
     }
 
-    for (let i = 1; i <= 5; i++) {
-        const wallet = ethers.Wallet.createRandom();
-        genesisWallets.push(wallet);
-        genesisAddresses.push(wallet.address);
+    // --- 1. Security & Wallet Generation (The "Vault") ---
+    console.log("\n🔐 Generating Secure Ecosystem Wallets...");
 
+    // Helper to generate and save key
+    const generateKey = (name: string, note: string) => {
+        const wallet = ethers.Wallet.createRandom();
         const keyData = {
             address: wallet.address,
             privateKey: wallet.privateKey,
-            mnemonic: wallet.mnemonic?.phrase
+            mnemonic: wallet.mnemonic?.phrase,
+            note: note
         };
+        fs.writeFileSync(path.join(keyDir, `${name}_KEY_${Date.now()}.json`), JSON.stringify(keyData, null, 2));
+        console.log(`   - Generated ${name}: ${wallet.address}`);
+        return wallet;
+    };
 
-        fs.writeFileSync(
-            path.join(keyDir, `genesis_key_${i}.json`),
-            JSON.stringify(keyData, null, 2)
-        );
-        console.log(`   - Key ${i} saved to genesis-keys/genesis_key_${i}.json (${wallet.address})`);
+    // 1.1 Genesis Guardians (5 Keys)
+    const genesisWallets = [];
+    const genesisAddresses = [];
+    for (let i = 1; i <= 5; i++) {
+        const w = generateKey(`GUARDIAN_${i}`, "Emergency Council Member");
+        genesisWallets.push(w);
+        genesisAddresses.push(w.address);
     }
 
-    // --- 2. Deploy Mocks ---
+    // 1.2 Ecosystem Wallets (4 Keys)
+    // - Treasury: Receives protocol fees (taxes, slashing).
+    // - Liquidity: Funds for Uniswap/CEX listings.
+    // - Ecosystem: Grants, Airdrops, Marketing.
+    // - Team: Dev fund, vesting.
+    const treasuryWallet = generateKey("TREASURY", "Receives Taxes & Fees. Keep Safe.");
+    const liquidityWallet = generateKey("LIQUIDITY", "Funds for DEX/CEX Listings.");
+    const ecosystemWallet = generateKey("ECOSYSTEM", "Grants & Community Incentives.");
+    const teamWallet = generateKey("TEAM", "Core Team & Development Fund.");
+
+    // 1.3 Final Admin (The Master Key)
+    let finalAdmin = process.env.FINAL_ADMIN_ADDRESS;
+    let finalAdminWallet;
+
+    if (!finalAdmin) {
+        finalAdminWallet = generateKey("FINAL_ADMIN", "MASTER KEY. FULL CONTROL. OFFLINE BACKUP REQUIRED.");
+        finalAdmin = finalAdminWallet.address;
+    } else {
+        console.log(`   - Using Provided Final Admin: ${finalAdmin}`);
+    }
+
+    // --- 2. Deployment (Mocks) ---
     console.log("\n🛠️ Deploying Mocks...");
+
+    // MockPriceFeed
     const MockPriceFeed = await ethers.getContractFactory("MockPriceFeed");
     const mockPriceFeed = await MockPriceFeed.deploy(200000000000, 8); // $2000, 8 decimals
     await mockPriceFeed.waitForDeployment();
+    await mockPriceFeed.deploymentTransaction()?.wait(2);
     console.log("   - MockPriceFeed deployed to:", await mockPriceFeed.getAddress());
 
     // Deploy Mock Verifier
     const MockVerifier = await ethers.getContractFactory("contracts/mocks/MockVerifier.sol:MockVerifier");
     const mockVerifier = await MockVerifier.deploy();
     await mockVerifier.waitForDeployment();
+    await mockVerifier.deploymentTransaction()?.wait(2);
     console.log("   - MockVerifier deployed to:", await mockVerifier.getAddress());
+
 
     // --- 3. Deploy Core Contracts ---
     console.log("\n🏗️ Deploying Core Contracts...");
@@ -57,33 +86,38 @@ async function main() {
     const DaimToken = await ethers.getContractFactory("DaimToken");
     const daimToken = await upgrades.deployProxy(DaimToken, [deployer.address], { kind: 'uups' });
     await daimToken.waitForDeployment();
+    await daimToken.deploymentTransaction()?.wait(2);
     const daimTokenAddress = await daimToken.getAddress();
     console.log("   - DaimToken deployed to:", daimTokenAddress);
 
     // AgentRegistry
     // initialize(daimToken, priceFeed, treasury, verifier, admin)
+    // NOTE: We use the generated 'treasuryWallet.address' here!
     const AgentRegistry = await ethers.getContractFactory("AgentRegistry");
     const agentRegistry = await upgrades.deployProxy(AgentRegistry, [
         daimTokenAddress,
         await mockPriceFeed.getAddress(),
-        deployer.address, // Treasury is deployer for genesis
+        treasuryWallet.address, // <-- Updated to use generated Treasury
         await mockVerifier.getAddress(),
         deployer.address
     ], { kind: 'uups' });
     await agentRegistry.waitForDeployment();
+    await agentRegistry.deploymentTransaction()?.wait(2);
     const agentRegistryAddress = await agentRegistry.getAddress();
     console.log("   - AgentRegistry deployed to:", agentRegistryAddress);
 
     // QuantumTaskBuffer
     // initialize(daimToken, registry, treasury, admin)
+    // NOTE: We use the generated 'treasuryWallet.address' here!
     const QuantumTaskBuffer = await ethers.getContractFactory("QuantumTaskBuffer");
     const quantumTaskBuffer = await upgrades.deployProxy(QuantumTaskBuffer, [
         daimTokenAddress,
         agentRegistryAddress,
-        deployer.address,
+        treasuryWallet.address, // <-- Updated to use generated Treasury
         deployer.address
     ], { kind: 'uups' });
     await quantumTaskBuffer.waitForDeployment();
+    await quantumTaskBuffer.deploymentTransaction()?.wait(2);
     const quantumTaskBufferAddress = await quantumTaskBuffer.getAddress();
     console.log("   - QuantumTaskBuffer deployed to:", quantumTaskBufferAddress);
 
@@ -91,25 +125,25 @@ async function main() {
     console.log("\n🏛️ Deploying Governance Contracts...");
 
     // EmergencyCouncil
-    // initialize(admin, registry, guardians)
     const EmergencyCouncil = await ethers.getContractFactory("EmergencyCouncil");
     const emergencyCouncil = await upgrades.deployProxy(EmergencyCouncil, [
         deployer.address,
         agentRegistryAddress,
-        genesisAddresses // Pass the array of 5 addresses
+        genesisAddresses
     ], { kind: 'uups' });
     await emergencyCouncil.waitForDeployment();
+    await emergencyCouncil.deploymentTransaction()?.wait(2);
     const emergencyCouncilAddress = await emergencyCouncil.getAddress();
     console.log("   - EmergencyCouncil deployed to:", emergencyCouncilAddress);
 
     // DeadMansSwitch
-    // initialize(admin, emergencyCouncil)
     const DeadMansSwitch = await ethers.getContractFactory("DeadMansSwitch");
     const deadMansSwitch = await upgrades.deployProxy(DeadMansSwitch, [
         deployer.address,
         emergencyCouncilAddress
     ], { kind: 'uups' });
     await deadMansSwitch.waitForDeployment();
+    await deadMansSwitch.deploymentTransaction()?.wait(2);
     const deadMansSwitchAddress = await deadMansSwitch.getAddress();
     console.log("   - DeadMansSwitch deployed to:", deadMansSwitchAddress);
 
@@ -117,97 +151,140 @@ async function main() {
     // --- 5. Wire Permissions ---
     console.log("\n🔌 Wiring Permissions...");
 
-    // Roles
     const DEFAULT_ADMIN_ROLE = await daimToken.DEFAULT_ADMIN_ROLE();
     const MINTER_ROLE = await daimToken.MINTER_ROLE();
     const ORACLE_ROLE = await agentRegistry.ORACLE_ROLE();
     const COUNCIL_FORMER_ROLE = await emergencyCouncil.COUNCIL_FORMER_ROLE();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const UPGRADER_ROLE = await (agentRegistry as any).UPGRADER_ROLE();
 
-    // 1. QuantumTaskBuffer needs MINTER on DaimToken
-    await daimToken.grantRole(MINTER_ROLE, quantumTaskBufferAddress);
-    console.log("   - Granted MINTER_ROLE to QuantumTaskBuffer");
+    console.log("   - Granting MINTER_ROLE to QuantumTaskBuffer...");
+    let tx = await daimToken.grantRole(MINTER_ROLE, quantumTaskBufferAddress);
+    await tx.wait(2); // Wait 2 blocks
+    console.log("     -> Confirmed.");
 
-    // 2. QuantumTaskBuffer needs ORACLE_ROLE on AgentRegistry (to record observations)
-    await agentRegistry.grantRole(ORACLE_ROLE, quantumTaskBufferAddress);
-    console.log("   - Granted ORACLE_ROLE to QuantumTaskBuffer");
+    console.log("   - Granting ORACLE_ROLE to QuantumTaskBuffer...");
+    tx = await agentRegistry.grantRole(ORACLE_ROLE, quantumTaskBufferAddress);
+    await tx.wait(2);
+    console.log("     -> Confirmed.");
 
-    // 3. DeadMansSwitch needs COUNCIL_FORMER_ROLE on EmergencyCouncil
-    await emergencyCouncil.grantRole(COUNCIL_FORMER_ROLE, deadMansSwitchAddress);
-    console.log("   - Granted COUNCIL_FORMER_ROLE to DeadMansSwitch");
+    console.log("   - Granting COUNCIL_FORMER_ROLE to DeadMansSwitch...");
+    tx = await emergencyCouncil.grantRole(COUNCIL_FORMER_ROLE, deadMansSwitchAddress);
+    await tx.wait(2);
+    console.log("     -> Confirmed.");
 
-    // 4. DeadMansSwitch needs DEFAULT_ADMIN_ROLE on all upgradable contracts to transfer them later
-    // Contracts: DaimToken, AgentRegistry, QuantumTaskBuffer, EmergencyCouncil
     const targets = [daimToken, agentRegistry, quantumTaskBuffer, emergencyCouncil];
-
     for (const target of targets) {
         const addr = await target.getAddress();
-        await target.grantRole(DEFAULT_ADMIN_ROLE, deadMansSwitchAddress);
-        await deadMansSwitch.addTargetContract(addr);
-        console.log(`   - Granted DEFAULT_ADMIN_ROLE to DeadMansSwitch on ${addr}`);
+        console.log(`   - Granting Admin & Wiring DMS for ${addr}...`);
+        tx = await target.grantRole(DEFAULT_ADMIN_ROLE, deadMansSwitchAddress);
+        await tx.wait(2);
+
+        tx = await deadMansSwitch.addTargetContract(addr);
+        await tx.wait(2);
+        console.log("     -> Confirmed.");
     }
 
 
     // --- 6. Initial Ecosystem Setup ---
-    console.log("\n🌱 Bootstrapping Ecosystem...");
+    console.log("\n🌱 Bootstrapping Ecosystem & Token Distribution...");
 
-    // 1. Mint 1,000,000,000 DAIM
-    const initialSupply = ethers.parseEther("1000000000");
-    await daimToken.mint(deployer.address, initialSupply);
-    console.log("   - Minted 1,000,000,000 DAIM to Deployer");
+    // 1. Mint Total Supply (1.05 Billion)
+    const initialSupply = ethers.parseEther("1050000000"); // 1.05 Billion
+    console.log("   - Minting Total Supply...");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    tx = await (daimToken as any).mint(deployer.address, initialSupply);
+    await tx.wait(2);
+    console.log("     -> Minted 1,050,000,000 DAIM to Deployer (Confirmed).");
 
-    // 2. Register Genesis Wallets as Agents (Force Registration)
-    // We need to fund them with ETH for gas, and DAIM for staking
-    // Stake amount logic:
-    // Registry: costUSD = BASE_STAKE_USD * (Units^2)
-    // BASE_STAKE_USD = $10. Units = 1 (let's say). Cost = $10.
-    // Price = $2000. 
-    // DAIM needed = ($10 / $2000) = 0.005 DAIM? 
-    // Wait, getDaimAmountFromUSD: (usdAmount * 1e18) / price.
-    // $10 * 1e8 (USD decimals) = 10 * 1e8.
-    // Price = 2000 * 1e8.
-    // (10 * 1e8 * 1e18) / (2000 * 1e8) = 10e18 / 2000 = 1/200 * 1e18 = 0.005 * 1e18 = 5 * 1e15.
+    // 2. Distribute Tokens
+    const allocations = [
+        { name: "Treasury", wallet: treasuryWallet.address, amount: ethers.parseEther("420000000") },
+        { name: "Liquidity", wallet: liquidityWallet.address, amount: ethers.parseEther("315000000") },
+        { name: "Ecosystem", wallet: ecosystemWallet.address, amount: ethers.parseEther("210000000") },
+        { name: "Team", wallet: teamWallet.address, amount: ethers.parseEther("52500000") },
+        { name: "Final Admin", wallet: finalAdmin, amount: ethers.parseEther("52500000") },
+    ];
 
-    // Let's give them 100 DAIM each to be safe and let them register with 10 units.
-    // 10 units = $1000 cost.
-    // $1000 / $2000 = 0.5 DAIM.
+    for (const alloc of allocations) {
+        console.log(`     -> Sending ${ethers.formatEther(alloc.amount)} DAIM to ${alloc.name}...`);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        tx = await (daimToken as any).transfer(alloc.wallet, alloc.amount);
+        await tx.wait(2);
+        console.log("        -> Confirmed.");
+    }
 
-    const stakeAmount = ethers.parseEther("10"); // 10 DAIM each
-    const ethFund = ethers.parseEther("0.1"); // 0.1 ETH for gas
+    // 3. Register Genesis Wallets
+    const stakeAmount = ethers.parseEther("10");
+    const ethFund = ethers.parseEther("0.001");
 
     for (let i = 0; i < 5; i++) {
         const wallet = genesisWallets[i];
-        const signer = wallet.connect(ethers.provider); // Connect to provider!
+        const signer = wallet.connect(ethers.provider);
 
         console.log(`   Processing Genesis Agent ${i + 1} (${wallet.address})...`);
 
         // Fund ETH
-        await deployer.sendTransaction({
+        tx = await deployer.sendTransaction({
             to: wallet.address,
             value: ethFund
         });
+        await tx.wait(2);
 
         // Fund DAIM
-        await daimToken.transfer(wallet.address, stakeAmount);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        tx = await (daimToken as any).mint(wallet.address, stakeAmount);
+        await tx.wait(2);
 
         // Approve Registry
         const daimWithSigner = daimToken.connect(signer);
-        await daimWithSigner.approve(agentRegistryAddress, stakeAmount);
+        tx = await daimWithSigner.approve(agentRegistryAddress, stakeAmount);
+        await tx.wait(2);
 
-        // Register
-        // register(metadataUrl, resourceUnits, vcProof)
-        const units = 5; // Moderate units
+        // Register Agent
+        // DID Proof: Mock for now "GENESIS_NODE_X"
+        const genesisProof = ethers.toUtf8Bytes(`GENESIS_NODE_${i + 1}`);
         const registryWithSigner = agentRegistry.connect(signer);
 
-        // Dummy proof
-        const proof = ethers.toUtf8Bytes("genesis_proof");
-
-        await registryWithSigner.register(
-            `https://a2a.network/genesis/${i + 1}`,
-            units,
-            proof
-        );
-        console.log(`     - Registered as Agent (Units: ${units})`);
+        tx = await registryWithSigner.register("ipfs://genesis_metadata", 10, genesisProof);
+        await tx.wait(2);
+        console.log("     -> Registered & Staked (Confirmed).");
     }
+
+    // --- 7. Transfer Admin Rights ---
+    console.log("\n👑 Transferring Admin Rights to FINAL ADMIN...");
+
+    // Grant Admin Roles to Final Admin
+    const allContracts = [daimToken, agentRegistry, quantumTaskBuffer, emergencyCouncil];
+    for (const contract of allContracts) {
+        const addr = await contract.getAddress();
+        console.log(`   - Granting Roles on ${addr}...`);
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        tx = await (contract as any).grantRole(DEFAULT_ADMIN_ROLE, finalAdmin);
+        await tx.wait(2);
+
+        // Also grant Upgrader role
+        if (contract !== daimToken) { // DaimToken might handle upgrader differently or same
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const hasUpgrader = await (contract as any).UPGRADER_ROLE().catch(() => null);
+            if (hasUpgrader) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                tx = await (contract as any).grantRole(hasUpgrader, finalAdmin);
+                await tx.wait(2);
+            }
+        }
+        console.log("     -> Confirmed.");
+    }
+
+    // Renounce Deployer Roles
+    console.log("   - Renouncing Deployer Roles...");
+    for (const contract of allContracts) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        tx = await (contract as any).renounceRole(DEFAULT_ADMIN_ROLE, deployer.address);
+        await tx.wait(2);
+    }
+    console.log("\n✅ Admin Rights Transferred Successfully.");
 
     console.log("\n✅ Genesis Deployment Complete!");
     console.log("---------------------------------------------------");

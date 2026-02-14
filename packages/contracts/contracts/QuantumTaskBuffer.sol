@@ -55,8 +55,8 @@ contract QuantumTaskBuffer is Initializable, UUPSUpgradeable, AccessControlUpgra
     // Configuration
     uint256 public constant CRITICAL_MASS = 100; // Overheat threshold
     uint256 public constant DECAY_PERIOD = 3 days; // Time until a task becomes stale
-    uint256 public baseDeposit = 10 * 1e18; // 10 DAIM
-    uint256 public baseReward = 50 * 1e18; // 50 DAIM (Flexible Reward)
+    uint256 public baseDeposit; // Assigned in initialize
+    uint256 public baseReward; // Assigned in initialize
 
     // Events
     event TaskSubmitted(uint256 indexed taskId, address indexed creator, uint256 deposit, bool overheated);
@@ -91,6 +91,10 @@ contract QuantumTaskBuffer is Initializable, UUPSUpgradeable, AccessControlUpgra
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
         _grantRole(ORACLE_ROLE, _registry); // Allow registry to call finalizeTask
         _grantRole(UPGRADER_ROLE, _admin);
+
+        // Initialize State Variables
+        baseDeposit = 10 * 1e18; // 10 DAIM
+        baseReward = 50 * 1e18; // 50 DAIM
     }
 
     function _authorizeUpgrade(address newImplementation) internal onlyRole(UPGRADER_ROLE) override {}

@@ -30,3 +30,4 @@ packages/contracts/ComputeToken_StandardInput.json
 # Utility Scripts (Optional)
 scripts/generate-wallet.ts
 
+packages/genesis-keys/

@@ -121,6 +121,7 @@ contract AgentRegistry is Initializable, UUPSUpgradeable, AccessControlUpgradeab
         adminAddress = _admin;
 
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
+        _grantRole(ADMIN_ROLE, _admin); // Grant specific admin role
         _grantRole(ORACLE_ROLE, _admin); // Allow admin to act as oracle for simplicity
         _grantRole(UPGRADER_ROLE, _admin);
     }

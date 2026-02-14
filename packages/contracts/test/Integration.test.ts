@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import { ethers, upgrades } from "hardhat";
 import {
     DaimToken,
     TreasuryController,
@@ -19,6 +19,7 @@ describe("Full System Integration Test", function () {
     let mockOracle: MockV3Aggregator;
     let mockVerifier: MockVerifier;
 
+    let deployer: SignerWithAddress;
     let admin: SignerWithAddress;
     let agent: SignerWithAddress;
     let treasury: SignerWithAddress;
@@ -28,16 +29,19 @@ describe("Full System Integration Test", function () {
 
     beforeEach(async function () {
         [deployer, agent, treasury] = await ethers.getSigners(); // Updated signer names
+        admin = deployer; // Alias admin to deployer for consistency
 
         // 1. Deploy Token
         const TokenFactory = await ethers.getContractFactory("DaimToken");
-        daimToken = await TokenFactory.deploy("Daim Token", "DAIM", deployer.address); // Added name, symbol, and deployer as initial minter
+        // UUPS Deployment
+        daimToken = (await upgrades.deployProxy(TokenFactory, [deployer.address], { kind: 'uups' })) as unknown as DaimToken;
         await daimToken.waitForDeployment();
 
         // Grant minter/paymaster role to deployer (who is also the initial minter)
         // The deployer is already the minter by default from the constructor, so this line is redundant
         // await compToken.grantRole(await compToken.MINTER_ROLE(), deployer.address);
-        await daimToken.mint(agent.address, ethers.parseEther("10000")); // Seed agent
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (daimToken as any).mint(agent.address, ethers.parseEther("10000")); // Seed agent
 
         // 2. Deploy Oracle
         const OracleFactory = await ethers.getContractFactory("MockV3Aggregator");
@@ -57,18 +61,19 @@ describe("Full System Integration Test", function () {
         await treasuryController.waitForDeployment();
 
         // 4. Deploy Verifier & Registry
-        const VerifierFactory = await ethers.getContractFactory("MockVerifier");
+        const VerifierFactory = await ethers.getContractFactory("contracts/mocks/MockVerifier.sol:MockVerifier");
         mockVerifier = await VerifierFactory.deploy();
         await mockVerifier.waitForDeployment();
 
         const RegistryFactory = await ethers.getContractFactory("AgentRegistry");
-        registry = await RegistryFactory.deploy(
+        // initialize(daimToken, priceFeed, treasury, verifier, admin)
+        registry = (await upgrades.deployProxy(RegistryFactory, [
             await daimToken.getAddress(),
             await mockOracle.getAddress(),
             treasury.address,
             await mockVerifier.getAddress(),
             admin.address
-        );
+        ], { kind: 'uups' })) as unknown as AgentRegistry;
         await registry.waitForDeployment();
 
         // 5. Deploy Circuit Breaker

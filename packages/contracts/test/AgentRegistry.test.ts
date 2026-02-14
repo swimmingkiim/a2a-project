@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import { ethers, upgrades } from "hardhat";
 import { AgentRegistry, MockV3Aggregator, MockVerifier, DaimToken } from "../typechain-types";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 
@@ -17,24 +17,25 @@ describe("AgentRegistry (Quadratic Staking)", function () {
     let agent2: SignerWithAddress; // New signer, not used in this snippet but good for consistency
 
     const BASE_STAKE_USD = ethers.parseUnits("10", 8); // $10 USD (from contract constant)
-    // We'll set Oracle Price to $1.00 for easy math
     const ORACLE_PRICE = ethers.parseUnits("1", 8);
 
     beforeEach(async function () {
         [deployer, paymaster, agent1, agent2] = await ethers.getSigners();
+        admin = deployer; // Assign admin to deployer
+        user = agent1; // Alias user to agent1
+        treasury = paymaster; // Alias treasury to paymaster (or separate if needed)
 
         // 1. Deploy Mock Token
         const TokenFactory = await ethers.getContractFactory("DaimToken");
-        // Pass name, symbol, and paymaster address as the initial Paymaster/Minter role holder for testing simplicity
-        daimToken = await TokenFactory.deploy("Test Token", "TEST", paymaster.address);
+        // UUPS Deployment: initialize(defaultAdmin)
+        daimToken = (await upgrades.deployProxy(TokenFactory, [deployer.address], { kind: 'uups' })) as unknown as DaimToken;
         await daimToken.waitForDeployment();
 
-        // Mint tokens to agent1 for staking
-        // 100,000 DAIM should be enough for any test
+        // Grant MINTER_ROLE to paymaster/admin for testing purposes
         const MINTER_ROLE = await daimToken.MINTER_ROLE();
-        // Admin already has MINTER_ROLE from deployment if we passed admin address
-        // But let's verify or grant if needed. In strict mode, constructor only grants to msg.sender (admin) and passed paymaster.
-        // Here passed paymaster is admin. So admin is MINTER.
+        await daimToken.grantRole(MINTER_ROLE, admin.address);
+
+        // Mint tokens to user for staking
         await daimToken.mint(user.address, ethers.parseEther("100000"));
 
         // 2. Deploy Mock Oracle
@@ -43,19 +44,20 @@ describe("AgentRegistry (Quadratic Staking)", function () {
         await mockOracle.waitForDeployment();
 
         // 3. Deploy Mock Verifier
-        const VerifierFactory = await ethers.getContractFactory("MockVerifier");
+        const VerifierFactory = await ethers.getContractFactory("contracts/mocks/MockVerifier.sol:MockVerifier");
         mockVerifier = await VerifierFactory.deploy();
         await mockVerifier.waitForDeployment();
 
         // 4. Deploy AgentRegistry
         const RegistryFactory = await ethers.getContractFactory("AgentRegistry");
-        registry = await RegistryFactory.deploy(
+        // initialize(daimToken, priceFeed, treasury, verifier, admin)
+        registry = (await upgrades.deployProxy(RegistryFactory, [
             await daimToken.getAddress(),
             await mockOracle.getAddress(),
-            treasury.address,
+            treasury.address, // Treasury Wallet
             await mockVerifier.getAddress(),
-            admin.address
-        );
+            admin.address // Council/Admin
+        ], { kind: 'uups' })) as unknown as AgentRegistry;
         await registry.waitForDeployment();
 
         // Approve registry to spend user tokens

@@ -72,7 +72,7 @@ export class PaymasterManager {
      */
     static TOKEN_ADDRESSES: Record<string, string> = {
         'USDC': '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
-        'DAIM': '0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3',  // DaimToken on Base Sepolia
+        'DAIM': '0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2',  // DaimToken on Base Mainnet
     };
 
 

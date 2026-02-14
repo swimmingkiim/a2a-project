@@ -15,13 +15,13 @@ const envSchema = z.object({
     RPC_URL: z.string().url(),
     MARKUP_RATE: z.string().regex(/^\d+(\.\d+)?$/).transform(Number).default('0.1'),
 
-    TREASURY_ADDRESS: z.string().startsWith('0x').default('0x0000000000000000000000000000000000000000'), // [REQUIRED] Address to receive fees
+    TREASURY_ADDRESS: z.string().startsWith('0x').default('0x129154b7E3f0Ab0E59615ef578f6511b072FB431'), // [REQUIRED] Address to receive fees
     FEE_TOKEN_ADDRESS: z.string().startsWith('0x').default('0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'), // Default to USDC on Base
     FEE_AMOUNT: z.string().regex(/^\d+$/).default('100000'), // 0.1 USDC (6 decimals)
     ETH_PRICE_USD: z.string().regex(/^\d+(\.\d+)?$/).default('2500'), // Default ETH Price ($2500)
 
     // $DAIM Token Configuration
-    DAIM_TOKEN_ADDRESS: z.string().startsWith('0x').optional(), // Deployed DaimToken address
+    DAIM_TOKEN_ADDRESS: z.string().startsWith('0x').default('0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2'), // Deployed DaimToken address
     DAIM_PRICE_USD: z.string().regex(/^\d+(\.\d+)?$/).default('0.10'), // Default $0.10 per DAIM
     ENABLE_DAIM_FEES: z.string().transform(v => v === 'true').default('false'), // Feature flag
 

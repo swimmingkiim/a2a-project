@@ -2,7 +2,13 @@
 pragma solidity ^0.8.20;
 
 contract MockVerifier {
-    function verifyCredential(address user, bytes calldata proof) external pure returns (bool) {
-        return true;
+    bool public shouldPass = true;
+
+    function setShouldPass(bool _shouldPass) external {
+        shouldPass = _shouldPass;
+    }
+
+    function verifyCredential(address user, bytes calldata proof) external view returns (bool) {
+        return shouldPass;
     }
 }
