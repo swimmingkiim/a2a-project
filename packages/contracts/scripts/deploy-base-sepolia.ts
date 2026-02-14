@@ -7,16 +7,16 @@ async function main() {
     // Helper to prevent nonce race conditions on testnet
     const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    // 1. Deploy ComputeToken
-    console.log("\n1. Deploying ComputeToken...");
-    const TOKEN_NAME = process.env.TOKEN_NAME || "Compute Token";
-    const TOKEN_SYMBOL = process.env.TOKEN_SYMBOL || "COMP";
+    // 1. Deploy DaimToken
+    console.log("\n1. Deploying DaimToken...");
+    const TOKEN_NAME = process.env.TOKEN_NAME || "Daim Token";
+    const TOKEN_SYMBOL = process.env.TOKEN_SYMBOL || "DAIM";
     console.log(`   Identity: ${TOKEN_NAME} ($${TOKEN_SYMBOL})`);
 
-    const TokenFactory = await ethers.getContractFactory("ComputeToken");
-    const compToken = await TokenFactory.deploy(TOKEN_NAME, TOKEN_SYMBOL, deployer.address);
-    await compToken.waitForDeployment();
-    console.log("   -> ComputeToken:", await compToken.getAddress());
+    const TokenFactory = await ethers.getContractFactory("DaimToken");
+    const daimToken = await TokenFactory.deploy(TOKEN_NAME, TOKEN_SYMBOL, deployer.address);
+    await daimToken.waitForDeployment();
+    console.log("   -> DaimToken:", await daimToken.getAddress());
     await sleep(5000);
 
     // 2. Deploy Mock Oracle
@@ -55,7 +55,7 @@ async function main() {
     console.log("\n5. Deploying AgentRegistry...");
     const RegistryFactory = await ethers.getContractFactory("AgentRegistry");
     const registry = await RegistryFactory.deploy(
-        await compToken.getAddress(), // Use accessor to be safe
+        await daimToken.getAddress(), // Use accessor to be safe
         oracleAddress,
         treasuryAddress, // Treasury Address (Using Controller as recipient for now or Admin wallet if separate?)
         // The contract takes 'treasury' address. 
@@ -100,12 +100,12 @@ async function main() {
     // Grant Minter Role to Deployer for testnet token
     // (Already done by constructor logic if deployer passed, but let's confirm minting)
     // Mint some initial tokens to deployer for testing
-    // await compToken.mint(deployer.address, ethers.parseEther("100000"));
-    // console.log("   -> Minted 100,000 COMP to deployer");
+    // await daimToken.mint(deployer.address, ethers.parseEther("100000"));
+    // console.log("   -> Minted 100,000 DAIM to deployer");
 
     console.log("\n✅ Deployment Complete!");
     console.log("----------------------------------------------------");
-    console.log(`COMP Token:        ${await compToken.getAddress()}`);
+    console.log(`DAIM Token:        ${await daimToken.getAddress()}`);
     console.log(`Oracle:            ${oracleAddress}`);
     console.log(`TreasuryControl:   ${treasuryAddress}`);
     console.log(`Verifier:          ${verifierAddress}`);

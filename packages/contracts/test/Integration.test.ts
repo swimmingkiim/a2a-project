@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import {
-    ComputeToken,
+    DaimToken,
     TreasuryController,
     AgentRegistry,
     CircuitBreakerModule,
@@ -12,7 +12,7 @@ import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 import { time } from "@nomicfoundation/hardhat-network-helpers";
 
 describe("Full System Integration Test", function () {
-    let compToken: ComputeToken;
+    let daimToken: DaimToken;
     let treasuryController: TreasuryController;
     let registry: AgentRegistry;
     let circuitBreaker: CircuitBreakerModule;
@@ -30,14 +30,14 @@ describe("Full System Integration Test", function () {
         [deployer, agent, treasury] = await ethers.getSigners(); // Updated signer names
 
         // 1. Deploy Token
-        const TokenFactory = await ethers.getContractFactory("ComputeToken");
-        compToken = await TokenFactory.deploy("Compute Token", "COMP", deployer.address); // Added name, symbol, and deployer as initial minter
-        await compToken.waitForDeployment();
+        const TokenFactory = await ethers.getContractFactory("DaimToken");
+        daimToken = await TokenFactory.deploy("Daim Token", "DAIM", deployer.address); // Added name, symbol, and deployer as initial minter
+        await daimToken.waitForDeployment();
 
         // Grant minter/paymaster role to deployer (who is also the initial minter)
         // The deployer is already the minter by default from the constructor, so this line is redundant
         // await compToken.grantRole(await compToken.MINTER_ROLE(), deployer.address);
-        await compToken.mint(agent.address, ethers.parseEther("10000")); // Seed agent
+        await daimToken.mint(agent.address, ethers.parseEther("10000")); // Seed agent
 
         // 2. Deploy Oracle
         const OracleFactory = await ethers.getContractFactory("MockV3Aggregator");
@@ -63,7 +63,7 @@ describe("Full System Integration Test", function () {
 
         const RegistryFactory = await ethers.getContractFactory("AgentRegistry");
         registry = await RegistryFactory.deploy(
-            await compToken.getAddress(),
+            await daimToken.getAddress(),
             await mockOracle.getAddress(),
             treasury.address,
             await mockVerifier.getAddress(),
@@ -77,24 +77,24 @@ describe("Full System Integration Test", function () {
         await circuitBreaker.waitForDeployment();
 
         // Approve registry
-        await compToken.connect(agent).approve(await registry.getAddress(), ethers.MaxUint256);
+        await daimToken.connect(agent).approve(await registry.getAddress(), ethers.MaxUint256);
     });
 
     it("should simulate full lifecycle: Registration -> Staking -> PID Adjustment -> Safety Trip", async function () {
         // --- Step 1: Quadratic Staking Registration ---
         console.log("1. Registering Agent with Quadratic Staking...");
         // 5 Units. Cost = $10 * 5^2 = $250.
-        // Price is $50/COMP. Required = 5 COMP.
-        const startBal = await compToken.balanceOf(agent.address);
+        // Price is $50/DAIM. Required = 5 DAIM.
+        const startBal = await daimToken.balanceOf(agent.address);
 
         const dummyProof = ethers.toUtf8Bytes("proof");
         await registry.connect(agent).register("ipfs://meta", 5, dummyProof);
 
-        const endBal = await compToken.balanceOf(agent.address);
+        const endBal = await daimToken.balanceOf(agent.address);
         const paid = startBal - endBal;
 
         expect(paid).to.equal(ethers.parseEther("5"));
-        console.log("   -> Paid 5 COMP for 5 Units (Correct)");
+        console.log("   -> Paid 5 DAIM for 5 Units (Correct)");
 
         // --- Step 2: PID Controller Response to Price Shock ---
         console.log("2. Simulating Price Dump & PID Response...");

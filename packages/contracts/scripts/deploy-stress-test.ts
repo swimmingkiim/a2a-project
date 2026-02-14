@@ -9,11 +9,11 @@ async function main() {
     const DELAY_MS = 10000; // Safe delay for testnet
 
     // 1. Deploy Mock Token
-    console.log("\n1. Deploying ComputeToken...");
-    const TokenFactory = await ethers.getContractFactory("ComputeToken");
-    const compToken = await TokenFactory.deploy("Test Token", "TEST", deployer.address);
-    await compToken.waitForDeployment();
-    console.log("   -> Token:", await compToken.getAddress());
+    console.log("\n1. Deploying DaimToken...");
+    const TokenFactory = await ethers.getContractFactory("DaimToken");
+    const daimToken = await TokenFactory.deploy("Test Token", "TEST", deployer.address);
+    await daimToken.waitForDeployment();
+    console.log("   -> Token:", await daimToken.getAddress());
     await sleep(DELAY_MS);
 
     // 2. Deploy Mock Oracle (Start at $50)
@@ -48,7 +48,7 @@ async function main() {
     console.log("\n5. Deploying Registry...");
     const RegistryFactory = await ethers.getContractFactory("AgentRegistry");
     const registry = await RegistryFactory.deploy(
-        await compToken.getAddress(),
+        await daimToken.getAddress(),
         await mockOracle.getAddress(),
         await treasury.getAddress(),
         await verifier.getAddress(),
@@ -66,14 +66,14 @@ async function main() {
     await sleep(DELAY_MS);
 
     // 7. Mint Tokens for Testing
-    console.log("\n7. Minting 10,000 COMP...");
-    const txMint = await compToken.mint(deployer.address, ethers.parseEther("10000"));
+    console.log("\n7. Minting 10,000 DAIM...");
+    const txMint = await daimToken.mint(deployer.address, ethers.parseEther("10000"));
     await txMint.wait();
     await sleep(DELAY_MS);
 
     // 8. Approve Registry
     console.log("\n8. Approving Registry...");
-    const txApprove = await compToken.approve(await registry.getAddress(), ethers.MaxUint256);
+    const txApprove = await daimToken.approve(await registry.getAddress(), ethers.MaxUint256);
     await txApprove.wait();
 
     console.log("\n✅ Stress Test Env Ready!");

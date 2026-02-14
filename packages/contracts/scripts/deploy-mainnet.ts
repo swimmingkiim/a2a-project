@@ -6,11 +6,11 @@ async function main() {
     console.log("===================================================\n");
 
     // Check Inputs
-    const COMP_TOKEN_ADDRESS = process.env.COMP_TOKEN_ADDRESS;
-    if (!COMP_TOKEN_ADDRESS || !ethers.isAddress(COMP_TOKEN_ADDRESS)) {
-        throw new Error("❌ MISSING or INVALID 'COMP_TOKEN_ADDRESS' in .env or environment variables.");
+    const DAIM_TOKEN_ADDRESS = process.env.DAIM_TOKEN_ADDRESS;
+    if (!DAIM_TOKEN_ADDRESS || !ethers.isAddress(DAIM_TOKEN_ADDRESS)) {
+        throw new Error("❌ MISSING or INVALID 'DAIM_TOKEN_ADDRESS' in .env or environment variables.");
     }
-    console.log("Target Token:", COMP_TOKEN_ADDRESS);
+    console.log("Target Token:", DAIM_TOKEN_ADDRESS);
 
     // 1. Generate Ephemeral Wallet
     const randomWallet = ethers.Wallet.createRandom();
@@ -74,7 +74,7 @@ async function main() {
     console.log("   [4/5] AgentRegistry...");
     const RegistryFactory = await ethers.getContractFactory("AgentRegistry", deployer);
     const registry = await RegistryFactory.deploy(
-        COMP_TOKEN_ADDRESS,
+        DAIM_TOKEN_ADDRESS,
         oracleAddr,
         treasuryAddr,
         verifierAddr,
@@ -114,7 +114,7 @@ async function main() {
     console.log("✅ PART 2 COMPLETE");
     console.log("-----------------------------------------");
     console.log("Contracts Deployed & Transferred:");
-    console.log("Token:   ", COMP_TOKEN_ADDRESS);
+    console.log("Token:   ", DAIM_TOKEN_ADDRESS);
     console.log("Oracle:  ", oracleAddr);
     console.log("Treasury:", treasuryAddr);
     console.log("Verifier:", verifierAddr);

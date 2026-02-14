@@ -1,6 +1,6 @@
 # UtilityToken Smart Contract
 
-Solidity smart contract for the A2A Project's $TOKEN token - a compute standard for AI agent economies.
+Solidity smart contract for the A2A Project's $DAIM token - a compute standard for AI agent economies.
 
 ## Overview
 

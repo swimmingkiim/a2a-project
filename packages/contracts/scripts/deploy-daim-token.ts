@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 
 /**
- * Deploys the ComputeToken contract to the configured network
+ * Deploys the DaimToken contract to the configured network
  * 
  * Usage:
  *   pnpm deploy:sepolia    # Deploy to Base Sepolia testnet
@@ -16,7 +16,7 @@ import { ethers } from "hardhat";
 async function main() {
     const [deployer] = await ethers.getSigners();
 
-    console.log("🚀 Deploying ComputeToken with account:", deployer.address);
+    console.log("🚀 Deploying DaimToken with account:", deployer.address);
     console.log("💰 Account balance:", ethers.formatEther(await ethers.provider.getBalance(deployer.address)), "ETH");
 
     // Get Paymaster address from environment
@@ -32,28 +32,28 @@ async function main() {
 
     console.log("🔑 Paymaster address (will receive MINTER_ROLE):", paymasterAddress);
 
-    // Deploy ComputeToken
-    const ComputeToken = await ethers.getContractFactory("ComputeToken");
-    const computeToken = await ComputeToken.deploy(paymasterAddress);
+    // Deploy DaimToken
+    const DaimToken = await ethers.getContractFactory("DaimToken");
+    const daimToken = await DaimToken.deploy(paymasterAddress);
 
-    await computeToken.waitForDeployment();
+    await daimToken.waitForDeployment();
 
-    const tokenAddress = await computeToken.getAddress();
+    const tokenAddress = await daimToken.getAddress();
 
-    console.log("\n✅ ComputeToken deployed successfully!");
+    console.log("\n✅ DaimToken deployed successfully!");
     console.log("📍 Contract address:", tokenAddress);
-    console.log("📝 Token name:", await computeToken.name());
-    console.log("🔤 Token symbol:", await computeToken.symbol());
-    console.log("🔢 Decimals:", await computeToken.decimals());
-    console.log("💎 Total supply:", ethers.formatEther(await computeToken.totalSupply()), "COMP");
+    console.log("📝 Token name:", await daimToken.name());
+    console.log("🔤 Token symbol:", await daimToken.symbol());
+    console.log("🔢 Decimals:", await daimToken.decimals());
+    console.log("💎 Total supply:", ethers.formatEther(await daimToken.totalSupply()), "DAIM");
 
     // Verify roles
-    const MINTER_ROLE = await computeToken.MINTER_ROLE();
-    const DEFAULT_ADMIN_ROLE = await computeToken.DEFAULT_ADMIN_ROLE();
+    const MINTER_ROLE = await daimToken.MINTER_ROLE();
+    const DEFAULT_ADMIN_ROLE = await daimToken.DEFAULT_ADMIN_ROLE();
 
     console.log("\n🔐 Access Control:");
-    console.log("  - Admin:", deployer.address, await computeToken.hasRole(DEFAULT_ADMIN_ROLE, deployer.address) ? "✅" : "❌");
-    console.log("  - Minter:", paymasterAddress, await computeToken.hasRole(MINTER_ROLE, paymasterAddress) ? "✅" : "❌");
+    console.log("  - Admin:", deployer.address, await daimToken.hasRole(DEFAULT_ADMIN_ROLE, deployer.address) ? "✅" : "❌");
+    console.log("  - Minter:", paymasterAddress, await daimToken.hasRole(MINTER_ROLE, paymasterAddress) ? "✅" : "❌");
 
     // Save deployment info
     const deploymentInfo = {
@@ -63,7 +63,7 @@ async function main() {
         deployer: deployer.address,
         paymaster: paymasterAddress,
         deploymentTime: new Date().toISOString(),
-        txHash: computeToken.deploymentTransaction()?.hash,
+        txHash: daimToken.deploymentTransaction()?.hash,
     };
 
     console.log("\n📋 Deployment Summary:");

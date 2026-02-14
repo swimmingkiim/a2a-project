@@ -7,7 +7,7 @@ async function main() {
 
     // Configuration (Load from Env in real usage)
     const TREASURY_ADDR = process.env.MAINNET_TREASURY_ADDR || "";
-    const ORACLE_ADDR = process.env.MAINNET_ORACLE_ADDR || "0x71041dddad3595F745215C5c8b314F29152e245E"; // Chainlink ETH/USD or similar? Need COMP/USD. 
+    const ORACLE_ADDR = process.env.MAINNET_ORACLE_ADDR || "0x71041dddad3595F745215C5c8b314F29152e245E"; // Chainlink ETH/USD or similar? Need DAIM/USD. 
     // On Base Mainnet, we might need a specific/custom oracle or Uniswap TWAP. 
     // For now, assuming standard Chainlink Interface availability.
 

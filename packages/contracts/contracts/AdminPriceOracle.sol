@@ -11,13 +11,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract AdminPriceOracle is Ownable {
     int256 private price;
     uint8 private constant DECIMALS = 8;
-    string private constant DESCRIPTION = "COMP/USD Admin Feed";
+    string private constant DESCRIPTION = "DAIM/USD Admin Feed";
     uint256 private constant VERSION = 1;
 
     event PriceUpdated(int256 oldPrice, int256 newPrice, uint256 timestamp);
 
     /**
-     * @param _initialPrice Initial price of COMP in USD (8 decimals). 
+     * @param _initialPrice Initial price of DAIM in USD (8 decimals). 
      *                      e.g., $0.10 => 10000000
      */
     constructor(int256 _initialPrice) Ownable(msg.sender) {

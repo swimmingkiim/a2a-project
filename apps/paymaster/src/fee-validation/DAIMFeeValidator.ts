@@ -109,7 +109,7 @@ export class DAIMFeeValidator implements IFeeValidator {
 
             // Convert ETH Wei to DAIM using Oracle
             // Get DAIM per 1 ETH (in DAIM 18 decimals)
-            const daimPerETH = await this.oracle.getCOMPPerETH(); // Method name might be generic or need change in Oracle too
+            const daimPerETH = await this.oracle.getDAIMPerETH(); // Method name might be generic or need change in Oracle too
 
             // Calculate required DAIM: (totalCostEthWei * daimPerETH) / 10^18
             const requiredDAIM = (totalCostEthWei * daimPerETH) / 10n ** 18n;

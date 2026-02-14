@@ -62,7 +62,7 @@ contract TreasuryController is AccessControl {
     /**
      * @notice Updates the PID loop and calculates new rates.
      * @dev Should be called by a Keeper or automated script every epoch.
-     * @param currentPrice The current COMP/USD price from Oracle (18 decimals).
+     * @param currentPrice The current DAIM/USD price from Oracle (18 decimals).
      */
     function updateEpoch(uint256 currentPrice) external {
         if (block.timestamp < lastEpochTime + epochDuration) revert EpochNotFinished();

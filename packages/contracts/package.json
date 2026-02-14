@@ -1,19 +1,20 @@
 {
     "name": "@a2a/contracts",
     "version": "0.1.0",
-    "description": "Smart contracts for A2A $COMP token system",
+    "description": "Smart contracts for A2A $DAIM token system",
     "main": "index.js",
     "scripts": {
         "test": "hardhat test",
         "compile": "hardhat compile",
-        "deploy:sepolia": "hardhat run scripts/deploy-compute-token.ts --network base-sepolia",
-        "deploy:mainnet": "hardhat run scripts/deploy-compute-token.ts --network base-mainnet",
+        "deploy:sepolia": "hardhat run scripts/deploy-daim-token.ts --network base-sepolia",
+        "deploy:mainnet": "hardhat run scripts/deploy-daim-token.ts --network base-mainnet",
         "coverage": "hardhat coverage"
     },
     "keywords": [
         "ethereum",
         "smart-contracts",
-        "compute",
+        "daim",
+        "eudaimonia",
         "depin"
     ],
     "author": "A2A Project",

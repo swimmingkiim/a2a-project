@@ -6,11 +6,11 @@ import { ITokenPriceOracle } from './ITokenPriceOracle';
  * Chainlink Price Feed Oracle for Base/Base Sepolia
  * 
  * Uses Chainlink's battle-tested price feeds for accurate ETH/USD pricing.
- * COMP price is currently calculated via manual configuration until COMP/USD feed exists.
+ * DAIM price is currently calculated via manual configuration until DAIM/USD feed exists.
  */
 export class ChainlinkOracle implements ITokenPriceOracle {
     private client: PublicClient;
-    private compPriceUSD: number;
+    private daimPriceUSD: number;
 
     // Chainlink Price Feed Addresses
     private static readonly PRICE_FEEDS = {
@@ -29,34 +29,34 @@ export class ChainlinkOracle implements ITokenPriceOracle {
         'function decimals() external view returns (uint8)'
     ]);
 
-    constructor(rpcUrl: string, compPriceUSD: number, isMainnet: boolean = false) {
+    constructor(rpcUrl: string, daimPriceUSD: number, isMainnet: boolean = false) {
         this.client = createPublicClient({
             chain: isMainnet ? base : baseSepolia,
             transport: http(rpcUrl)
         }) as PublicClient;
-        this.compPriceUSD = compPriceUSD;
+        this.daimPriceUSD = daimPriceUSD;
     }
 
     /**
-     * Calculate how many COMP tokens equal 1 ETH
-     * Uses Chainlink for ETH/USD, configured price for COMP/USD
+     * Calculate how many DAIM tokens equal 1 ETH
+     * Uses Chainlink for ETH/USD, configured price for DAIM/USD
      */
-    async getCOMPPerETH(): Promise<bigint> {
+    async getDAIMPerETH(): Promise<bigint> {
         const ethPriceUSD = await this.getETHPriceFromChainlink();
 
-        if (this.compPriceUSD === 0) {
-            throw new Error('COMP price cannot be zero');
+        if (this.daimPriceUSD === 0) {
+            throw new Error('DAIM price cannot be zero');
         }
 
-        const ratio = ethPriceUSD / this.compPriceUSD;
+        const ratio = ethPriceUSD / this.daimPriceUSD;
         return BigInt(Math.floor(ratio)) * 10n ** 18n;
     }
 
     /**
-     * Calculate how many USDC equals 1 COMP
+     * Calculate how many USDC equals 1 DAIM
      */
-    async getUSDCPerCOMP(): Promise<bigint> {
-        const usdcUnits = Math.floor(this.compPriceUSD * 1_000_000);
+    async getUSDCPerDAIM(): Promise<bigint> {
+        const usdcUnits = Math.floor(this.daimPriceUSD * 1_000_000);
         return BigInt(usdcUnits);
     }
 
@@ -110,23 +110,23 @@ export class ChainlinkOracle implements ITokenPriceOracle {
     }
 
     /**
-     * Update COMP price (for manual configuration)
+     * Update DAIM price (for manual configuration)
      */
-    updateCOMPPrice(newPrice: number): void {
+    updateDAIMPrice(newPrice: number): void {
         if (newPrice <= 0) {
-            throw new Error('COMP price must be positive');
+            throw new Error('DAIM price must be positive');
         }
 
-        console.log(`[ChainlinkOracle] Updating COMP price: $${this.compPriceUSD} → $${newPrice}`);
-        this.compPriceUSD = newPrice;
+        console.log(`[ChainlinkOracle] Updating DAIM price: $${this.daimPriceUSD} → $${newPrice}`);
+        this.daimPriceUSD = newPrice;
     }
 
     /**
      * Get current configured prices (for debugging)
      */
-    getCurrentPrices(): { compPriceUSD: number; ethPriceUSD: number | null } {
+    getCurrentPrices(): { daimPriceUSD: number; ethPriceUSD: number | null } {
         return {
-            compPriceUSD: this.compPriceUSD,
+            daimPriceUSD: this.daimPriceUSD,
             ethPriceUSD: null // Will be fetched from Chainlink dynamically
         };
     }

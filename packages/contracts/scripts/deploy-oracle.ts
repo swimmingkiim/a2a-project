@@ -5,7 +5,7 @@ async function main() {
 
     // Default Initial Price: $0.10 (8 decimals)
     // 0.10 * 10^8 = 10,000,000
-    const INITIAL_PRICE = process.env.INITIAL_COMP_PRICE || "10000000";
+    const INITIAL_PRICE = process.env.INITIAL_DAIM_PRICE || "10000000";
 
     console.log(`   - Initial Price: ${INITIAL_PRICE} ($${parseInt(INITIAL_PRICE) / 100000000})`);
 

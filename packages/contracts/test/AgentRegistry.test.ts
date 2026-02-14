@@ -1,11 +1,11 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { AgentRegistry, MockV3Aggregator, MockVerifier, ComputeToken } from "../typechain-types";
+import { AgentRegistry, MockV3Aggregator, MockVerifier, DaimToken } from "../typechain-types";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 
 describe("AgentRegistry (Quadratic Staking)", function () {
     let registry: AgentRegistry;
-    let compToken: ComputeToken;
+    let daimToken: DaimToken;
     let mockOracle: MockV3Aggregator;
     let mockVerifier: MockVerifier;
     let admin: SignerWithAddress;
@@ -24,18 +24,18 @@ describe("AgentRegistry (Quadratic Staking)", function () {
         [deployer, paymaster, agent1, agent2] = await ethers.getSigners();
 
         // 1. Deploy Mock Token
-        const TokenFactory = await ethers.getContractFactory("ComputeToken");
+        const TokenFactory = await ethers.getContractFactory("DaimToken");
         // Pass name, symbol, and paymaster address as the initial Paymaster/Minter role holder for testing simplicity
-        compToken = await TokenFactory.deploy("Test Token", "TEST", paymaster.address);
-        await compToken.waitForDeployment();
+        daimToken = await TokenFactory.deploy("Test Token", "TEST", paymaster.address);
+        await daimToken.waitForDeployment();
 
         // Mint tokens to agent1 for staking
-        // 100,000 COMP should be enough for any test
-        const MINTER_ROLE = await compToken.MINTER_ROLE();
+        // 100,000 DAIM should be enough for any test
+        const MINTER_ROLE = await daimToken.MINTER_ROLE();
         // Admin already has MINTER_ROLE from deployment if we passed admin address
         // But let's verify or grant if needed. In strict mode, constructor only grants to msg.sender (admin) and passed paymaster.
         // Here passed paymaster is admin. So admin is MINTER.
-        await compToken.mint(user.address, ethers.parseEther("100000"));
+        await daimToken.mint(user.address, ethers.parseEther("100000"));
 
         // 2. Deploy Mock Oracle
         const OracleFactory = await ethers.getContractFactory("MockV3Aggregator");
@@ -50,7 +50,7 @@ describe("AgentRegistry (Quadratic Staking)", function () {
         // 4. Deploy AgentRegistry
         const RegistryFactory = await ethers.getContractFactory("AgentRegistry");
         registry = await RegistryFactory.deploy(
-            await compToken.getAddress(),
+            await daimToken.getAddress(),
             await mockOracle.getAddress(),
             treasury.address,
             await mockVerifier.getAddress(),
@@ -59,14 +59,14 @@ describe("AgentRegistry (Quadratic Staking)", function () {
         await registry.waitForDeployment();
 
         // Approve registry to spend user tokens
-        await compToken.connect(user).approve(await registry.getAddress(), ethers.MaxUint256);
+        await daimToken.connect(user).approve(await registry.getAddress(), ethers.MaxUint256);
     });
 
     describe("Quadratic Cost Calculation", function () {
         it("should calculate correct cost for 1 Unit", async function () {
             // Cost = $10 * (1^2) = $10
-            // Oracle = $1.00 -> 10 COMP
-            const cost = await registry.getCompAmountFromUSD(ethers.parseUnits("10", 8));
+            // Oracle = $1.00 -> 10 DAIM
+            const cost = await registry.getDaimAmountFromUSD(ethers.parseUnits("10", 8));
 
             // Register with 1 Unit
             const dummyProof = ethers.toUtf8Bytes("proof");
@@ -78,9 +78,9 @@ describe("AgentRegistry (Quadratic Staking)", function () {
         it("should calculate correct cost for 10 Units (Quadratic)", async function () {
             // Cost = $10 * (10^2) = $1000
             // Linear would be $100 -> Quadratic is 10x more expensive
-            // Oracle = $1.00 -> 1000 COMP
+            // Oracle = $1.00 -> 1000 DAIM
             const expectedCostUSD = BigInt(1000) * BigInt(1e8);
-            const expectedComp = await registry.getCompAmountFromUSD(expectedCostUSD);
+            const expectedComp = await registry.getDaimAmountFromUSD(expectedCostUSD);
 
             const dummyProof = ethers.toUtf8Bytes("proof");
             await expect(registry.connect(user).register("meta", 10, dummyProof))
@@ -90,9 +90,9 @@ describe("AgentRegistry (Quadratic Staking)", function () {
 
         it("should calculate correct cost for 100 Units (Max)", async function () {
             // Cost = $10 * (100^2) = $100,000
-            // Oracle = $1.00 -> 100,000 COMP
+            // Oracle = $1.00 -> 100,000 DAIM
             const expectedCostUSD = BigInt(100000) * BigInt(1e8);
-            const expectedComp = await registry.getCompAmountFromUSD(expectedCostUSD);
+            const expectedComp = await registry.getDaimAmountFromUSD(expectedCostUSD);
 
             const dummyProof = ethers.toUtf8Bytes("proof");
             await expect(registry.connect(user).register("meta", 100, dummyProof))
@@ -113,18 +113,18 @@ describe("AgentRegistry (Quadratic Staking)", function () {
     });
 
     describe("Oracle Updates", function () {
-        it("should adjust COMP cost when price changes", async function () {
+        it("should adjust DAIM cost when price changes", async function () {
             // Set Price to $2.00
             await mockOracle.updatePrice(ethers.parseUnits("2", 8));
 
             // Cost for 1 Unit is still $10 USD
-            // At $2.00/COMP, that is 5 COMP
-            const startBalance = await compToken.balanceOf(user.address);
+            // At $2.00/DAIM, that is 5 DAIM
+            const startBalance = await daimToken.balanceOf(user.address);
 
             const dummyProof = ethers.toUtf8Bytes("proof");
             await registry.connect(user).register("meta", 1, dummyProof);
 
-            const endBalance = await compToken.balanceOf(user.address);
+            const endBalance = await daimToken.balanceOf(user.address);
             const paid = startBalance - endBalance;
 
             const expectedComp = ethers.parseEther("5");
@@ -146,7 +146,7 @@ describe("AgentRegistry (Quadratic Staking)", function () {
                 .withArgs(user.address, stake, treasury.address);
 
             // Verify Treasury Received Funds
-            expect(await compToken.balanceOf(treasury.address)).to.equal(stake);
+            expect(await daimToken.balanceOf(treasury.address)).to.equal(stake);
 
             // Verify Agent Removed
             const agent = await registry.agents(user.address);

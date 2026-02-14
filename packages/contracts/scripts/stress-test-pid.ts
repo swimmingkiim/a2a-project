@@ -67,14 +67,14 @@ async function main() {
         // For simplicity, we just Calculate Cost to see impact of Price.)
 
         // Cost = Base($10) * Units^2
-        // If Price is Low, Cost in COMP should be High.
-        // If Price is High, Cost in COMP should be Low.
+        // If Price is Low, Cost in DAIM should be High.
+        // If Price is High, Cost in DAIM should be Low.
 
         const units = 5;
         const costUSD = BigInt(250 * 1e8); // $10 * 25 = $250
-        const costComp = await Registry.getCompAmountFromUSD(costUSD);
+        const costComp = await Registry.getDaimAmountFromUSD(costUSD);
 
-        console.log(`[Agent] Cost for 5 Units ($250): ${ethers.formatEther(costComp)} COMP`);
+        console.log(`[Agent] Cost for 5 Units ($250): ${ethers.formatEther(costComp)} DAIM`);
 
         console.log("Waiting 30 seconds...");
         await new Promise(r => setTimeout(r, 30000));

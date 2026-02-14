@@ -18,26 +18,26 @@ export class HybridOracle implements ITokenPriceOracle {
         private maxFailoversPerHour: number = 10
     ) { }
 
-    async getCOMPPerETH(): Promise<bigint> {
+    async getDAIMPerETH(): Promise<bigint> {
         try {
-            const ratio = await this.chainlinkOracle.getCOMPPerETH();
+            const ratio = await this.chainlinkOracle.getDAIMPerETH();
             this.resetFailoverCount();
             return ratio;
         } catch (error) {
-            return this.handleFailover('getCOMPPerETH', async () => {
-                return await this.mockOracle.getCOMPPerETH();
+            return this.handleFailover('getDAIMPerETH', async () => {
+                return await this.mockOracle.getDAIMPerETH();
             }, error);
         }
     }
 
-    async getUSDCPerCOMP(): Promise<bigint> {
+    async getUSDCPerDAIM(): Promise<bigint> {
         try {
-            const usdc = await this.chainlinkOracle.getUSDCPerCOMP();
+            const usdc = await this.chainlinkOracle.getUSDCPerDAIM();
             this.resetFailoverCount();
             return usdc;
         } catch (error) {
-            return this.handleFailover('getUSDCPerCOMP', async () => {
-                return await this.mockOracle.getUSDCPerCOMP();
+            return this.handleFailover('getUSDCPerDAIM', async () => {
+                return await this.mockOracle.getUSDCPerDAIM();
             }, error);
         }
     }

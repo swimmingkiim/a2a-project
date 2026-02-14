@@ -8,31 +8,31 @@ async function main() {
     // Addresses (From Deployed Artifact)
     // In a real automated script, we'd read DEPLOYED_ADDRESSES.md or a json file.
     // UPDATE THESE VALUES AFTER DEPLOYMENT
-    const COMP_TOKEN_ADDR = process.env.COMP_TOKEN_ADDRESS || "0x...";
+    const DAIM_TOKEN_ADDR = process.env.DAIM_TOKEN_ADDRESS || "0x...";
     const AGENT_REGISTRY_ADDR = process.env.AGENT_REGISTRY_ADDRESS || "0x...";
     const MOCK_ORACLE_ADDR = "0x...";
 
     // 1. Setup Interfaces
-    const ComputeToken = await ethers.getContractAt("ComputeToken", COMP_TOKEN_ADDR);
+    const DaimToken = await ethers.getContractAt("DaimToken", DAIM_TOKEN_ADDR);
     const AgentRegistry = await ethers.getContractAt("AgentRegistry", AGENT_REGISTRY_ADDR);
 
-    // 2. Mint COMP (Simulate acquiring tokens)
-    console.log("\n1. Acquiring COMP Tokens...");
+    // 2. Mint DAIM (Simulate acquiring tokens)
+    console.log("\n1. Acquiring DAIM Tokens...");
     // Mock token allows deployer to mint
-    const mintAmount = ethers.parseEther("1000"); // 1000 COMP
+    const mintAmount = ethers.parseEther("1000"); // 1000 DAIM
     try {
-        const txMint = await ComputeToken.mint(deployer.address, mintAmount);
+        const txMint = await DaimToken.mint(deployer.address, mintAmount);
         await txMint.wait();
-        console.log("   -> Minted 1000 COMP");
+        console.log("   -> Minted 1000 DAIM");
     } catch (e) {
         console.log("   -> Minting failed (maybe not owner?):", e.message);
     }
 
     // 3. Approve Registry
     console.log("\n2. Approving Registry...");
-    const txApprove = await ComputeToken.approve(AGENT_REGISTRY_ADDR, ethers.MaxUint256);
+    const txApprove = await DaimToken.approve(AGENT_REGISTRY_ADDR, ethers.MaxUint256);
     await txApprove.wait();
-    console.log("   -> Approved Infinite COMP");
+    console.log("   -> Approved Infinite DAIM");
 
     // 4. Register Agent
     console.log("\n3. Registering Agent...");
@@ -47,9 +47,9 @@ async function main() {
     const baseStakeUSD = ethers.parseUnits("10", 8); // $10 with 8 decimals
     const costUSD = baseStakeUSD * BigInt(unitPrice * unitPrice);
 
-    // Convert to COMP using contract helper
-    const cost = await AgentRegistry.getCompAmountFromUSD(costUSD);
-    console.log(`   -> Calculated Cost for 10 units: ${ethers.formatEther(cost)} COMP`);
+    // Convert to DAIM using contract helper
+    const cost = await AgentRegistry.getCompAmountFromUSD(costUSD); // NOTE: Method name on Registry might still be old?
+    console.log(`   -> Calculated Cost for 10 units: ${ethers.formatEther(cost)} DAIM`);
 
     const txRegister = await AgentRegistry.register(
         "ipfs://QmTestAgentMetadata",
@@ -64,7 +64,7 @@ async function main() {
     const agent = await AgentRegistry.agents(deployer.address);
     if (agent.isRegistered) {
         console.log("   -> Verified: Agent is registered.");
-        console.log("   -> Staked Amount:", ethers.formatEther(agent.stakedAmount), "COMP");
+        console.log("   -> Staked Amount:", ethers.formatEther(agent.stakedAmount), "DAIM");
         console.log("   -> Metadata:", agent.metadataUrl);
     } else {
         console.log("❌ Agent not found in registry (Eventual consistency delay?)");

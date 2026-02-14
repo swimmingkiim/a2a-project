@@ -9,32 +9,32 @@ import { ITokenPriceOracle } from './ITokenPriceOracle';
  * ⚠️ NOT FOR PRODUCTION - Use Chainlink or Uniswap TWAP in production
  */
 export class MockTokenPriceOracle implements ITokenPriceOracle {
-    private compPriceUSD: number;
+    private daimPriceUSD: number;
     private ethPriceUSD: number;
 
     /**
-     * @param compPriceUSD - Price of 1 COMP in USD (e.g., 0.10)
+     * @param daimPriceUSD - Price of 1 DAIM in USD (e.g., 0.10)
      * @param ethPriceUSD - Price of 1 ETH in USD (e.g., 2500)
      */
-    constructor(compPriceUSD: number, ethPriceUSD: number) {
-        if (compPriceUSD <= 0 || ethPriceUSD <= 0) {
+    constructor(daimPriceUSD: number, ethPriceUSD: number) {
+        if (daimPriceUSD <= 0 || ethPriceUSD <= 0) {
             throw new Error('Prices must be positive');
         }
 
-        this.compPriceUSD = compPriceUSD;
+        this.daimPriceUSD = daimPriceUSD;
         this.ethPriceUSD = ethPriceUSD;
     }
 
     /**
-     * Calculate how many COMP tokens equal 1 ETH
+     * Calculate how many DAIM tokens equal 1 ETH
      * 
      * Example:
-     * - ETH = $2500, COMP = $0.10
-     * - 1 ETH = 2500 / 0.10 = 25,000 COMP
-     * - Returns: 25000 * 10^18 (in COMP's 18 decimals)
+     * - ETH = $2500, DAIM = $0.10
+     * - 1 ETH = 2500 / 0.10 = 25,000 DAIM
+     * - Returns: 25000 * 10^18 (in DAIM's 18 decimals)
      */
-    async getCOMPPerETH(): Promise<bigint> {
-        const ratio = this.ethPriceUSD / this.compPriceUSD;
+    async getDAIMPerETH(): Promise<bigint> {
+        const ratio = this.ethPriceUSD / this.daimPriceUSD;
 
         // Convert to bigint with 18 decimals
         // Use integer math to avoid floating point precision issues
@@ -44,15 +44,15 @@ export class MockTokenPriceOracle implements ITokenPriceOracle {
     }
 
     /**
-     * Calculate how many USDC (6 decimals) equals 1 COMP (18 decimals)
+     * Calculate how many USDC (6 decimals) equals 1 DAIM (18 decimals)
      * 
      * Example:
-     * - COMP = $0.10 USD
+     * - DAIM = $0.10 USD
      * - Returns: 100000 (0.10 with 6 decimals)
      */
-    async getUSDCPerCOMP(): Promise<bigint> {
+    async getUSDCPerDAIM(): Promise<bigint> {
         // USDC has 6 decimals
-        const usdcUnits = Math.floor(this.compPriceUSD * 1_000_000);
+        const usdcUnits = Math.floor(this.daimPriceUSD * 1_000_000);
 
         return BigInt(usdcUnits);
     }
@@ -60,21 +60,21 @@ export class MockTokenPriceOracle implements ITokenPriceOracle {
     /**
      * Update prices dynamically (for testing)
      */
-    updatePrices(compPriceUSD: number, ethPriceUSD: number): void {
-        if (compPriceUSD <= 0 || ethPriceUSD <= 0) {
+    updatePrices(daimPriceUSD: number, ethPriceUSD: number): void {
+        if (daimPriceUSD <= 0 || ethPriceUSD <= 0) {
             throw new Error('Prices must be positive');
         }
 
-        this.compPriceUSD = compPriceUSD;
+        this.daimPriceUSD = daimPriceUSD;
         this.ethPriceUSD = ethPriceUSD;
     }
 
     /**
      * Get current configured prices (for debugging)
      */
-    getCurrentPrices(): { compPriceUSD: number; ethPriceUSD: number } {
+    getCurrentPrices(): { daimPriceUSD: number; ethPriceUSD: number } {
         return {
-            compPriceUSD: this.compPriceUSD,
+            daimPriceUSD: this.daimPriceUSD,
             ethPriceUSD: this.ethPriceUSD,
         };
     }

@@ -38,7 +38,7 @@ async function main() {
     // The Treasury expects uint256 currentPrice (18 decimals? No, Oracle usually 8).
     // Let's check TreasuryController code.
     // updateEpoch(uint256 currentPrice)
-    // "currentPrice The current COMP/USD price from Oracle (18 decimals)."
+    // "currentPrice The current DAIM/USD price from Oracle (18 decimals)."
     // Ah! MockOracle is 8 decimals ($50 = 50 * 10^8).
     // Treasury logic: SD59x18 price = sd(int256(currentPrice));
     // If I pass 50*10^8 (5000000000), sd() interprets it as 5e-10 (tiny). 

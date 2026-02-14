@@ -10,7 +10,7 @@ const ERC20_ABI = parseAbi(['function transfer(address to, uint256 amount) retur
 export interface FeeConfig {
     treasury: string;
     amount: bigint;
-    tokenType: 'USDC' | 'COMP';
+    tokenType: 'USDC' | 'DAIM';
     tokenAddress?: string; // Optional override for custom token address
 }
 
@@ -48,7 +48,7 @@ export class PaymasterManager {
     /**
      * Appends a fee transfer transaction to the list of calls.
      * 
-     * Supports dual-token economy: USDC (default) or COMP.
+     * Supports dual-token economy: USDC (default) or DAIM.
      * 
      * @param calls Array of transaction calls { to, value, data }
      * @param feeConfig Configuration for the fee
@@ -63,16 +63,16 @@ export class PaymasterManager {
      * });
      * 
      * @example
-     * // COMP fee (new)
+     * // DAIM fee (new)
      * const calls = PaymasterManager.appendFeeToCalls([], {
      *   treasury: '0x...',
-     *   amount: 25n * 10n**18n,  // 25 COMP (18 decimals)
-     *   tokenType: 'COMP'
+     *   amount: 25n * 10n**18n,  // 25 DAIM (18 decimals)
+     *   tokenType: 'DAIM'
      * });
      */
     static TOKEN_ADDRESSES: Record<string, string> = {
         'USDC': '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
-        'COMP': '0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3',  // ComputeToken on Base Sepolia
+        'DAIM': '0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3',  // DaimToken on Base Sepolia
     };
 
 
