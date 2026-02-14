@@ -5,6 +5,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
 interface AggregatorV3Interface {
     function decimals() external view returns (uint8);
@@ -59,7 +60,24 @@ contract AgentRegistry is Initializable, UUPSUpgradeable, AccessControlUpgradeab
     }
 
     mapping(address => Agent) public agents;
-    mapping(address => bool) public isAgentRegistered;
+    using EnumerableSet for EnumerableSet.AddressSet;
+
+    EnumerableSet.AddressSet private _registeredAgents;
+    // DEPRECATED: Use _registeredAgents.contains(address) instead, but keeping for external read compatibility if needed, 
+    // or we can remove it since it's a mapping and standard in earlier version. 
+    // Given this is "Genesis" free of backfill, we can remove 'isAgentRegistered' mapping and rely on EnumerableSet ONLY 
+    // to save storage, OR keep it for public ease of access. 
+    // The prompt says "Initial deployment", so we can choose optimal structure.
+    // I will remove isAgentRegistered mapping and use Set logic, but for ABI backward compat or simple checks, 
+    // EnumerableSet has 'contains'. 
+    // Let's keep a public 'isAgentRegistered' getter via function if needed? 
+    // Actually, let's keep the mapping 'agents' which has 'isRegistered' boolean to avoid confusion or just use Set.
+    // The previous code had 'mapping(address => bool) public isAgentRegistered;'.
+    // I'll replace it with the Set and maybe a view function if required, but strictly strictly the plan says "Modify... Add EnumerableSet".
+    // I will remove the separate bool mapping if I can, but to match "isRegistered" boolean in logic, I can checks 'agents[x].isRegistered'.
+    // The original code had `mapping(address => bool) public isAgentRegistered;`.
+    // I will remove it and use `_registeredAgents.contains(addr)`.
+
 
     event AgentRegistered(address indexed agentAddress, string metadataUrl, uint256 resourceUnits, uint256 stakedAmount);
     event AgentUnstaked(address indexed agentAddress, uint256 returnedAmount);
@@ -121,7 +139,7 @@ contract AgentRegistry is Initializable, UUPSUpgradeable, AccessControlUpgradeab
         uint256 _resourceUnits,
         bytes calldata _vcProof
     ) external {
-        require(!agents[msg.sender].isRegistered, "Agent already registered");
+        require(!_registeredAgents.contains(msg.sender), "Agent already registered");
         require(_resourceUnits > 0, "Units must be > 0");
         require(_resourceUnits <= 100, "Max resource units exceeded"); // Cap to prevent overflow
 
@@ -153,6 +171,8 @@ contract AgentRegistry is Initializable, UUPSUpgradeable, AccessControlUpgradeab
             lastComplexityHash: 0,
             reputation: 50 // Start with neutral reputation
         });
+        
+        _registeredAgents.add(msg.sender);
 
         emit AgentRegistered(msg.sender, _metadataUrl, _resourceUnits, requiredDaim);
     }
@@ -167,6 +187,7 @@ contract AgentRegistry is Initializable, UUPSUpgradeable, AccessControlUpgradeab
         uint256 amountToReturn = agent.stakedAmount;
         
         delete agents[msg.sender];
+        _registeredAgents.remove(msg.sender);
         // Note: In a real system, we might want to keep the VC nullifier used
 
         bool success = daimToken.transfer(msg.sender, amountToReturn);
@@ -185,6 +206,7 @@ contract AgentRegistry is Initializable, UUPSUpgradeable, AccessControlUpgradeab
         uint256 amountToSlash = agent.stakedAmount;
         
         delete agents[_agentAddress];
+        _registeredAgents.remove(_agentAddress);
 
         bool success = daimToken.transfer(treasury, amountToSlash);
         require(success, "Transfer failed");
@@ -211,7 +233,7 @@ contract AgentRegistry is Initializable, UUPSUpgradeable, AccessControlUpgradeab
      * @param complexityHash Hash of the task's complexity/content
      */
     function recordObservation(address agent, uint256 complexityHash) external onlyRole(ORACLE_ROLE) {
-        require(agents[agent].isRegistered, "Agent not registered");
+        require(_registeredAgents.contains(agent), "Agent not registered");
         
         Agent storage a = agents[agent];
         
@@ -233,4 +255,37 @@ contract AgentRegistry is Initializable, UUPSUpgradeable, AccessControlUpgradeab
 
         emit ObservationRecorded(agent, complexityHash, a.reputation);
     }
+
+    /**
+     * @notice Returns a list of eligible candidates for governance.
+     * @param minReputation Minimum reputation required (0-100).
+     * @param minTenure Seconds since registration.
+     */
+    function getEligibleCandidates(uint256 minReputation, uint256 minTenure) external view returns (address[] memory) {
+        uint256 total = _registeredAgents.length();
+        address[] memory candidates = new address[](total);
+        uint256 count = 0;
+
+        for (uint256 i = 0; i < total; i++) {
+            address agentAddr = _registeredAgents.at(i);
+            Agent storage agent = agents[agentAddr];
+
+            if (agent.reputation >= minReputation) {
+                if (block.timestamp >= uint256(agent.registeredAt) + minTenure) {
+                    candidates[count] = agentAddr;
+                    count++;
+                }
+            }
+        }
+
+        // Resize array to fit
+        assembly {
+            mstore(candidates, count)
+        }
+        
+        return candidates;
+    }
+
+    // Gap for upgrade safety
+    uint256[50] private __gap;
 }
