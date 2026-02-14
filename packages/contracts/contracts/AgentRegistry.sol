@@ -51,6 +51,8 @@ contract AgentRegistry is AccessControl {
         uint256 resourceUnits; // e.g., Daily TX limit (1 Unit = 1000 TXs)
         uint256 registeredAt;
         bool isRegistered;
+        uint256 lastComplexityHash; // For Boredom Prevention
+        uint256 reputation; // 0-100
     }
 
     mapping(address => Agent) public agents;
@@ -59,6 +61,9 @@ contract AgentRegistry is AccessControl {
     event AgentRegistered(address indexed agentAddress, string metadataUrl, uint256 resourceUnits, uint256 stakedAmount);
     event AgentUnstaked(address indexed agentAddress, uint256 returnedAmount);
     event AgentSlashed(address indexed agentAddress, uint256 slashedAmount, address treasury);
+    event ObservationRecorded(address indexed agentAddress, uint256 complexityHash, uint256 newReputation);
+
+    bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
 
     /**
      * @param _compToken Address of the COMP token contract
@@ -128,7 +133,9 @@ contract AgentRegistry is AccessControl {
             stakedAmount: requiredComp,
             resourceUnits: _resourceUnits,
             registeredAt: block.timestamp,
-            isRegistered: true
+            isRegistered: true,
+            lastComplexityHash: 0,
+            reputation: 50 // Start with neutral reputation
         });
 
         emit AgentRegistered(msg.sender, _metadataUrl, _resourceUnits, requiredComp);
@@ -179,5 +186,32 @@ contract AgentRegistry is AccessControl {
         // Price (8 decimals), usdAmount (8 decimals)
         // Result = (usdAmount * 1e18) / price
         return (usdAmount * 1e18) / uint256(price);
+    }
+
+    /**
+     * @notice Records a Human Observation for an Agent's task.
+     * @dev Implements Boredom/Novelty Logic (Cybernetic Feedback).
+     * @param agent Address of the agent
+     * @param complexityHash Hash of the task's complexity/content
+     */
+    function recordObservation(address agent, uint256 complexityHash) external onlyRole(ORACLE_ROLE) {
+        require(agents[agent].isRegistered, "Agent not registered");
+        
+        Agent storage a = agents[agent];
+        
+        if (a.lastComplexityHash == complexityHash) {
+            // Boredom Penalty: Repeated the same task
+            if (a.reputation > 5) {
+                a.reputation -= 5; 
+            }
+        } else {
+            // Novelty Reward: New task type
+            if (a.reputation < 95) {
+                a.reputation += 2;
+            }
+            a.lastComplexityHash = complexityHash;
+        }
+
+        emit ObservationRecorded(agent, complexityHash, a.reputation);
     }
 }

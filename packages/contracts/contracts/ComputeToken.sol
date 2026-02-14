@@ -61,6 +61,24 @@ contract ComputeToken is ERC20, ERC20Burnable, AccessControl {
     }
 
     /**
+     * @dev Mints tokens with a Eudaimonic Multiplier based on human feedback.
+     * @param to Agent address
+     * @param baseAmount Base reward amount
+     * @param score Eudaimonia Score (0-100)
+     * 
+     * Formula: Reward = Base * (1 + Score/100)
+     * Example: Score 80 -> 1.8x Multiplier
+     */
+    function mintWithEudaimonia(address to, uint256 baseAmount, uint256 score) external onlyRole(MINTER_ROLE) {
+        // Cap score to prevent excessive inflation (e.g., max 2.0x multiplier at score 100)
+        uint256 validScore = score > 100 ? 100 : score;
+        uint256 bonus = (baseAmount * validScore) / 100;
+        uint256 totalAmount = baseAmount + bonus;
+        
+        _mint(to, totalAmount);
+    }
+
+    /**
      * @dev Burns tokens from the caller's account
      * Inherited from ERC20Burnable, overridden for documentation
      * @param amount Amount of tokens to burn
