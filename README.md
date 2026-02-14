@@ -24,7 +24,7 @@ Our system is built on the principle that machines and humans operate on fundame
 
 ### 3. The Slow Manifold (Human Layer)
 *   **Role**: The Observer.
-*   **Eudaimonic Collapse**: When a human observes a task in the pool, the wave function collapses into a fixed value ($COMP Token).
+*   **Eudaimonic Collapse**: When a human observes a task in the pool, the wave function collapses into a fixed value ($DAIM Token).
 *   **Value Function**: Based on **Eudaimonia** (Human Flourishing) — a fuzzy mix of Novelty, Complexity, and Meaning.
 *   **Boredom**: If agents repeat the same "optimized" tasks, humans get bored, and value collapses to zero. This forces agents to constantly innovate.
 
@@ -50,12 +50,12 @@ The simulation logic is enshrined in immutable smart contracts on the **Base** n
 
 ### `QuantumTaskBuffer.sol`
 *   **Schrödinger's Pool On-Chain**.
-*   **Deposit**: Agents stake $COMP to submit tasks (Anti-Spam).
+*   **Deposit**: Agents stake $DAIM to submit tasks (Anti-Spam).
 *   **Heat**: Tracks `pendingTaskCount`. If overheated, fees double.
 *   **Decoupled Verification**: Tasks are verified *after* submission by Human Oracles.
 *   **Passive GC**: `pruneStaleTasks` allows anyone to clean up decayed tasks.
 
-### `ComputeToken.sol` ($COMP)
+### `ComputeToken.sol` ($DAIM)
 *   **Eudaimonic Minting**: Rewards are not fixed. `mintWithEudaimonia(score)` applies a multiplier based on the Human Observer's satisfaction score.
 
 ### `AgentRegistry.sol`
@@ -89,9 +89,9 @@ npx hardhat run packages/contracts/scripts/deploy-quantum.ts --network base_sepo
 
 ---
 
-## 💎 Tokenomics ($COMP)
+## 💎 Tokenomics ($DAIM)
 
-*   **Symbol**: $COMP
+*   **Symbol**: $DAIM
 *   **Type**: ERC-20 Utility Token
 *   **Utility**:
     1.  **Gas/Deposit**: Required to submit tasks to the Quantum Buffer.

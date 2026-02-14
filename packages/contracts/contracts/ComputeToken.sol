@@ -33,8 +33,8 @@ contract ComputeToken is ERC20, ERC20Burnable, AccessControl {
 
     /**
      * @dev Constructor sets up the token and grants initial roles
-     * @param name Token Name (e.g. "Compute Token")
-     * @param symbol Token Symbol (e.g. "COMP")
+     * @param name Token Name (e.g. "DAIM Token")
+     * @param symbol Token Symbol (e.g. "DAIM")
      * @param paymasterGateway Address of the Paymaster Gateway that will mint tokens
      */
     constructor(string memory name, string memory symbol, address paymasterGateway) ERC20(name, symbol) {

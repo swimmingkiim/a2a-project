@@ -6,17 +6,17 @@
 
 ## Overview
 
-This document provides important legal information regarding the **Utility Token ($COMP)** and the **A2A (Agent-to-Agent) Platform**. Please read this carefully before using, deploying, or interacting with the project.
+This document provides important legal information regarding the **Utility Token ($DAIM)** and the **A2A (Agent-to-Agent) Platform**. Please read this carefully before using, deploying, or interacting with the project.
 
-**Purpose:** $COMP is designed for **production use by AI agents** to facilitate autonomous commerce, computational resource trading, and inter-agent transactions in real-world applications.
+**Purpose:** $DAIM is designed for **production use by AI agents** to facilitate autonomous commerce, computational resource trading, and inter-agent transactions in real-world applications.
 
 ---
 
-## 1. Nature of $COMP Token
+## 1. Nature of $DAIM Token
 
 ### 1.1 Utility Token
 
-$COMP is a **utility token** designed solely for **functional use within the A2A network**. It serves the following purposes:
+$DAIM is a **utility token** designed solely for **functional use within the A2A network**. It serves the following purposes:
 
 - **Payment for computational resources** (AI agent processing, API calls, etc.)
 - **Transaction fees** for using the A2A paymaster service
@@ -24,20 +24,20 @@ $COMP is a **utility token** designed solely for **functional use within the A2A
 
 ### 1.2 NOT a Security or Investment
 
-**$COMP is NOT:**
+**$DAIM is NOT:**
 - ❌ An investment contract
 - ❌ A security under applicable securities laws
 - ❌ A promise of financial returns or profits
 - ❌ A fundraising instrument
 - ❌ Subject to any Initial Coin Offering (ICO) or token sale
 
-**$COMP IS:**
+**$DAIM IS:**
 - ✅ A utility token for AI agent transactions
 - ✅ A medium of exchange for computational resources
 - ✅ Designed for production workflows in autonomous agent economies
 - ✅ A functional tool for inter-agent commerce
 
-**$COMP does NOT:**
+**$DAIM does NOT:**
 - ❌ Promise any return on investment
 - ❌ Offer dividends, profit sharing, or revenue distribution
 - ❌ Represent ownership in any company or project
@@ -67,7 +67,7 @@ The platform enables AI agents to autonomously discover services, negotiate term
 - Tax guidance
 - Recommendation to buy, sell, or hold any token
 
-**USERS MUST:** Consult their own legal, financial, and tax advisors before engaging with $COMP.
+**USERS MUST:** Consult their own legal, financial, and tax advisors before engaging with $DAIM.
 
 ---
 
@@ -75,15 +75,15 @@ The platform enables AI agents to autonomously discover services, negotiate term
 
 ### 3.1 Jurisdictional Restrictions
 
-The $COMP token may **NOT** be available or suitable for users in certain jurisdictions. It is the **user's responsibility** to:
+The $DAIM token may **NOT** be available or suitable for users in certain jurisdictions. It is the **user's responsibility** to:
 
-- Determine whether use of $COMP is legal in their jurisdiction
+- Determine whether use of $DAIM is legal in their jurisdiction
 - Comply with all applicable local, state, national, and international laws
 - Obtain any necessary licenses or approvals
 
 ### 3.2 Prohibited Jurisdictions
 
-Users from the following jurisdictions are **prohibited** from using $COMP if local regulations restrict utility tokens or digital assets:
+Users from the following jurisdictions are **prohibited** from using $DAIM if local regulations restrict utility tokens or digital assets:
 
 - United States (unless explicitly permitted under applicable law)
 - Countries under international sanctions
@@ -95,7 +95,7 @@ Users from the following jurisdictions are **prohibited** from using $COMP if lo
 
 For users in South Korea:
 
-- $COMP is **NOT** subject to Korean Virtual Asset User Protection Act (if classified as utility token)
+- $DAIM is **NOT** subject to Korean Virtual Asset User Protection Act (if classified as utility token)
 - **NO** public sale or fundraising activities are conducted
 - Token is deployed for **internal testing and functional use only**
 - All uses comply with Korean Financial Services Commission guidelines
@@ -106,7 +106,7 @@ For users in South Korea:
 
 ### 4.1 Software Provided "AS IS"
 
-This software and the $COMP token are provided **"AS IS" without any warranties**, including but not limited to:
+This software and the $DAIM token are provided **"AS IS" without any warranties**, including but not limited to:
 
 - Merchantability
 - Fitness for a particular purpose
@@ -134,19 +134,19 @@ Users acknowledge and accept the following risks:
 The developers and contributors of this project:
 
 - **DO NOT** conduct any token sale, ICO, or fundraising
-- **DO NOT** accept money in exchange for $COMP tokens
-- **DO NOT** market $COMP as an investment opportunity
+- **DO NOT** accept money in exchange for $DAIM tokens
+- **DO NOT** market $DAIM as an investment opportunity
 - **DO NOT** promise or project future token value
 
 ### 5.2 Free Distribution Only
 
-$COMP tokens may only be:
+$DAIM tokens may only be:
 
 - Minted for functional use within the platform
 - Distributed free of charge for testing purposes
 - Earned through legitimate platform usage (compute work)
 
-Any unauthorized sale or offering of $COMP by third parties is strictly prohibited.
+Any unauthorized sale or offering of $DAIM by third parties is strictly prohibited.
 
 ---
 
@@ -158,7 +158,7 @@ This project is released under the **[SPECIFIED LICENSE]** (see LICENSE file).
 
 ### 6.2 Trademarks
 
-"A2A", "Utility Token", and "$COMP" may be trademarks or service marks. Use of these marks must comply with applicable trademark laws.
+"A2A", "Utility Token", and "$DAIM" may be trademarks or service marks. Use of these marks must comply with applicable trademark laws.
 
 ---
 
@@ -246,7 +246,7 @@ For legal inquiries or concerns:
 
 ## 12. Acknowledgment
 
-**BY USING, DEPLOYING, OR INTERACTING WITH $COMP OR THIS PROJECT, YOU ACKNOWLEDGE THAT:**
+**BY USING, DEPLOYING, OR INTERACTING WITH $DAIM OR THIS PROJECT, YOU ACKNOWLEDGE THAT:**
 
 ✅ You have read and understood this Legal Notice  
 ✅ You agree to all terms and conditions stated herein  
@@ -258,7 +258,7 @@ For legal inquiries or concerns:
 
 ## Appendix: Utility Token Checklist
 
-To maintain $COMP's status as a utility token (NOT a security), the project adheres to:
+To maintain $DAIM's status as a utility token (NOT a security), the project adheres to:
 
 | Criterion | Status | Description |
 |-----------|--------|-------------|

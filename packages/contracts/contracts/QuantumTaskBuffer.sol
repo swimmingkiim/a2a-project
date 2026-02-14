@@ -27,7 +27,7 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
 
     bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
     
-    IERC20 public immutable compToken;
+    IERC20 public immutable daimToken;
     IComputeToken public immutable minterToken; // Same token, just explicitly casting for mint interface
     IAgentRegistry public immutable registry;
     address public immutable treasury;
@@ -49,7 +49,7 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
     // Configuration
     uint256 public constant CRITICAL_MASS = 100; // Overheat threshold
     uint256 public constant DECAY_PERIOD = 3 days; // Time until a task becomes stale
-    uint256 public baseDeposit = 10 * 1e18; // 10 COMP
+    uint256 public baseDeposit = 10 * 1e18; // 10 DAIM
 
     // Events
     event TaskSubmitted(uint256 indexed taskId, address indexed creator, uint256 deposit, bool overheated);
@@ -58,17 +58,17 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
     event StaleTaskPruned(uint256 indexed taskId);
 
     constructor(
-        address _compToken,
+        address _daimToken,
         address _registry,
         address _treasury,
         address _admin
     ) {
-        require(_compToken != address(0), "Invalid token");
+        require(_daimToken != address(0), "Invalid token");
         require(_registry != address(0), "Invalid registry");
         require(_treasury != address(0), "Invalid treasury");
 
-        compToken = IERC20(_compToken);
-        minterToken = IComputeToken(_compToken);
+        daimToken = IERC20(_daimToken);
+        minterToken = IComputeToken(_daimToken);
         registry = IAgentRegistry(_registry);
         treasury = _treasury;
 
@@ -98,7 +98,7 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
         }
 
         // Transfer Deposit
-        compToken.safeTransferFrom(msg.sender, address(this), requiredDeposit);
+        daimToken.safeTransferFrom(msg.sender, address(this), requiredDeposit);
 
         // Add to Pool
         tasks[nextTaskId] = Task({
@@ -133,11 +133,11 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
         // 1. Spam Check / Slashing
         if (_assessedComplexity < 20) { // < 0.2 in simulation
             // Slashing: Deposit goes to Treasury
-            compToken.safeTransfer(treasury, task.deposit);
+            daimToken.safeTransfer(treasury, task.deposit);
             emit TaskSlashed(_taskId, task.creator, "Low Complexity (Spam)");
         } else {
             // 2. Success: Return Deposit
-            compToken.safeTransfer(task.creator, task.deposit);
+            daimToken.safeTransfer(task.creator, task.deposit);
 
             // 3. Mint Reward with Eudaimonia Multiplier
             // Base Reward matches deposit for simplicity in this model, or could be dynamic.
@@ -168,7 +168,7 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
                 // Prune: Deposit is burned (or sent to treasury) to punish staleness?
                 // Or returned? Let's say returned to be nice, but task is cancelled.
                 // In a strict system, maybe slashed. Let's return for now.
-                compToken.safeTransfer(task.creator, task.deposit);
+                daimToken.safeTransfer(task.creator, task.deposit);
                 
                 delete tasks[id];
                 if (pendingTaskCount > 0) pendingTaskCount--;

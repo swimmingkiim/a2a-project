@@ -9,12 +9,12 @@ async function main() {
     // --- 1. Environment / Mock Setup ---
     // If addresses are provided in env, use them. Otherwise deploy Mocks/Fresh.
 
-    let compTokenAddress = process.env.COMP_TOKEN_ADDRESS;
+    let daimTokenAddress = process.env.DAIM_TOKEN_ADDRESS;
     let oracleAddress = process.env.CHAINLINK_ORACLE_ADDRESS;
     let verifierAddress = process.env.VERIFIER_ADDRESS;
     let treasuryAddress = process.env.TREASURY_ADDRESS || deployer.address; // Default to deployer for logic check
 
-    let compToken;
+    let daimToken;
     let registry;
     let taskBuffer;
 
@@ -42,17 +42,17 @@ async function main() {
     // and need the new functions (mintWithEudaimonia, recordObservation).
     // Using existing address with changed code would fail or define undefined behavior on interface call.
     if (true) {
-        console.log("🔸 Deploying ComputeToken (New Logic)...");
+        console.log("🔸 Deploying ComputeToken (DAIM)...");
         const ComputeToken = await ethers.getContractFactory("ComputeToken");
-        compToken = await ComputeToken.deploy("Compute Token", "COMP", deployer.address);
-        await compToken.waitForDeployment();
-        compTokenAddress = await compToken.getAddress();
-        console.log("   -> ComputeToken deployed at:", compTokenAddress);
+        daimToken = await ComputeToken.deploy("DAIM Token", "DAIM", deployer.address);
+        await daimToken.waitForDeployment();
+        daimTokenAddress = await daimToken.getAddress();
+        console.log("   -> ComputeToken (DAIM) deployed at:", daimTokenAddress);
 
         console.log("🔸 Deploying AgentRegistry (New Logic)...");
         const AgentRegistry = await ethers.getContractFactory("AgentRegistry");
         registry = await AgentRegistry.deploy(
-            compTokenAddress,
+            daimTokenAddress,
             oracleAddress,
             treasuryAddress,
             verifierAddress,
@@ -63,7 +63,7 @@ async function main() {
         console.log("   -> AgentRegistry deployed at:", registryAddress);
     } else {
         // Attach existings (Not recommended for this update step)
-        // compToken = await ethers.getContractAt("ComputeToken", compTokenAddress);
+        // daimToken = await ethers.getContractAt("ComputeToken", daimTokenAddress);
     }
 
     // --- 3. Deploy QuantumTaskBuffer ---
@@ -72,7 +72,7 @@ async function main() {
     const registryAddress = await registry.getAddress();
 
     taskBuffer = await QuantumTaskBuffer.deploy(
-        compTokenAddress,
+        daimTokenAddress,
         registryAddress,
         treasuryAddress,
         deployer.address
@@ -85,8 +85,8 @@ async function main() {
     console.log("🔌 Wiring Contracts...");
 
     // A. Grant MINTER_ROLE to QuantumTaskBuffer in ComputeToken
-    const MINTER_ROLE = await compToken.MINTER_ROLE();
-    const tx1 = await compToken.grantRole(MINTER_ROLE, taskBufferAddress);
+    const MINTER_ROLE = await daimToken.MINTER_ROLE();
+    const tx1 = await daimToken.grantRole(MINTER_ROLE, taskBufferAddress);
     await tx1.wait();
     console.log("   -> Granted MINTER_ROLE to TaskBuffer");
 
@@ -106,7 +106,7 @@ async function main() {
 
     // --- 5. Verification Hint ---
     console.log("\nTo verify manually:");
-    console.log(`npx hardhat verify --network base_mainnet ${taskBufferAddress} ${compTokenAddress} ${registryAddress} ${treasuryAddress} ${deployer.address}`);
+    console.log(`npx hardhat verify --network base_mainnet ${taskBufferAddress} ${daimTokenAddress} ${registryAddress} ${treasuryAddress} ${deployer.address}`);
 }
 
 main().catch((error) => {

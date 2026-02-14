@@ -35,7 +35,7 @@ interface IVerifiedCredentialVerifier {
  * @dev Implements $Cost = BaseStake * (ResourceUnits)^2 formula.
  */
 contract AgentRegistry is AccessControl {
-    IERC20 public immutable compToken;
+    IERC20 public immutable daimToken;
     AggregatorV3Interface public immutable priceFeed;
     address public immutable treasury;
     IVerifiedCredentialVerifier public immutable verifier; // External DID verifier
@@ -66,25 +66,25 @@ contract AgentRegistry is AccessControl {
     bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
 
     /**
-     * @param _compToken Address of the COMP token contract
-     * @param _priceFeed Address of the Chainlink price feed (COMP/USD)
+     * @param _daimToken Address of the DAIM token contract
+     * @param _priceFeed Address of the Chainlink price feed (DAIM/USD)
      * @param _treasury Address of the treasury
      * @param _verifier Address of the VC Verifier contract
      * @param _admin Address to be granted the ADMIN_ROLE
      */
     constructor(
-        address _compToken, 
+        address _daimToken, 
         address _priceFeed, 
         address _treasury, 
         address _verifier,
         address _admin
     ) {
-        require(_compToken != address(0), "Invalid token address");
+        require(_daimToken != address(0), "Invalid token address");
         require(_priceFeed != address(0), "Invalid oracle address");
         require(_treasury != address(0), "Invalid treasury address");
         require(_admin != address(0), "Invalid admin address");
 
-        compToken = IERC20(_compToken);
+        daimToken = IERC20(_daimToken);
         priceFeed = AggregatorV3Interface(_priceFeed);
         treasury = _treasury;
         verifier = IVerifiedCredentialVerifier(_verifier);
@@ -118,19 +118,19 @@ contract AgentRegistry is AccessControl {
         // Example: 10 Units = $10 * 100 = $1000 (100x cost for 10x resource)
         uint256 costUSD = BASE_STAKE_USD * (_resourceUnits * _resourceUnits);
 
-        // 3. Convert USD to COMP
-        uint256 requiredComp = getCompAmountFromUSD(costUSD);
+        // 3. Convert USD to DAIM
+        uint256 requiredDaim = getDaimAmountFromUSD(costUSD);
         
-        require(compToken.allowance(msg.sender, address(this)) >= requiredComp, "Insufficient allowance");
-        require(compToken.balanceOf(msg.sender) >= requiredComp, "Insufficient balance");
+        require(daimToken.allowance(msg.sender, address(this)) >= requiredDaim, "Insufficient allowance");
+        require(daimToken.balanceOf(msg.sender) >= requiredDaim, "Insufficient balance");
 
         // 4. Transfer tokens
-        bool success = compToken.transferFrom(msg.sender, address(this), requiredComp);
+        bool success = daimToken.transferFrom(msg.sender, address(this), requiredDaim);
         require(success, "Transfer failed");
 
         agents[msg.sender] = Agent({
             metadataUrl: _metadataUrl,
-            stakedAmount: requiredComp,
+            stakedAmount: requiredDaim,
             resourceUnits: _resourceUnits,
             registeredAt: block.timestamp,
             isRegistered: true,
@@ -138,11 +138,11 @@ contract AgentRegistry is AccessControl {
             reputation: 50 // Start with neutral reputation
         });
 
-        emit AgentRegistered(msg.sender, _metadataUrl, _resourceUnits, requiredComp);
+        emit AgentRegistered(msg.sender, _metadataUrl, _resourceUnits, requiredDaim);
     }
 
     /**
-     * @notice Unstakes the COMP tokens and deregisters the agent.
+     * @notice Unstakes the DAIM tokens and deregisters the agent.
      */
     function unstake() external {
         Agent storage agent = agents[msg.sender];
@@ -153,7 +153,7 @@ contract AgentRegistry is AccessControl {
         delete agents[msg.sender];
         // Note: In a real system, we might want to keep the VC nullifier used
 
-        bool success = compToken.transfer(msg.sender, amountToReturn);
+        bool success = daimToken.transfer(msg.sender, amountToReturn);
         require(success, "Transfer failed");
 
         emit AgentUnstaked(msg.sender, amountToReturn);
@@ -170,16 +170,16 @@ contract AgentRegistry is AccessControl {
         
         delete agents[_agentAddress];
 
-        bool success = compToken.transfer(treasury, amountToSlash);
+        bool success = daimToken.transfer(treasury, amountToSlash);
         require(success, "Transfer failed");
 
         emit AgentSlashed(_agentAddress, amountToSlash, treasury);
     }
 
     /**
-     * @notice Converts USD amount (8 decimals) to COMP wei (18 decimals).
+     * @notice Converts USD amount (8 decimals) to DAIM wei (18 decimals).
      */
-    function getCompAmountFromUSD(uint256 usdAmount) public view returns (uint256) {
+    function getDaimAmountFromUSD(uint256 usdAmount) public view returns (uint256) {
         (, int256 price, , , ) = priceFeed.latestRoundData();
         require(price > 0, "Invalid price from oracle");
 
