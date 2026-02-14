@@ -42,12 +42,12 @@ async function main() {
     // and need the new functions (mintWithEudaimonia, recordObservation).
     // Using existing address with changed code would fail or define undefined behavior on interface call.
     if (true) {
-        console.log("🔸 Deploying ComputeToken (DAIM)...");
-        const ComputeToken = await ethers.getContractFactory("ComputeToken");
-        daimToken = await ComputeToken.deploy("DAIM Token", "DAIM", deployer.address);
+        console.log("🔸 Deploying DaimToken...");
+        const DaimToken = await ethers.getContractFactory("DaimToken");
+        daimToken = await DaimToken.deploy("Eudaimon", "DAIM", deployer.address);
         await daimToken.waitForDeployment();
         daimTokenAddress = await daimToken.getAddress();
-        console.log("   -> ComputeToken (DAIM) deployed at:", daimTokenAddress);
+        console.log("   -> DaimToken deployed at:", daimTokenAddress);
 
         console.log("🔸 Deploying AgentRegistry (New Logic)...");
         const AgentRegistry = await ethers.getContractFactory("AgentRegistry");
@@ -63,7 +63,7 @@ async function main() {
         console.log("   -> AgentRegistry deployed at:", registryAddress);
     } else {
         // Attach existings (Not recommended for this update step)
-        // daimToken = await ethers.getContractAt("ComputeToken", daimTokenAddress);
+        // daimToken = await ethers.getContractAt("DaimToken", daimTokenAddress);
     }
 
     // --- 3. Deploy QuantumTaskBuffer ---

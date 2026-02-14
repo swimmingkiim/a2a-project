@@ -27,13 +27,13 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
  *
  * @author A2A Project
  */
-contract ComputeToken is ERC20, ERC20Burnable, AccessControl {
+contract DaimToken is ERC20, ERC20Burnable, AccessControl {
     /// @dev Role identifier for addresses that can mint tokens
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     /**
      * @dev Constructor sets up the token and grants initial roles
-     * @param name Token Name (e.g. "DAIM Token")
+     * @param name Token Name (e.g. "Eudaimon")
      * @param symbol Token Symbol (e.g. "DAIM")
      * @param paymasterGateway Address of the Paymaster Gateway that will mint tokens
      */

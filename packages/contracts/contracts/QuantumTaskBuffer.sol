@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-interface IComputeToken {
+interface IDaimToken {
     function mintWithEudaimonia(address to, uint256 baseAmount, uint256 score) external;
 }
 
@@ -28,7 +28,7 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
     bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
     
     IERC20 public immutable daimToken;
-    IComputeToken public immutable minterToken; // Same token, just explicitly casting for mint interface
+    IDaimToken public immutable minterToken; // Same token, just explicitly casting for mint interface
     IAgentRegistry public immutable registry;
     address public immutable treasury;
 
@@ -50,6 +50,7 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
     uint256 public constant CRITICAL_MASS = 100; // Overheat threshold
     uint256 public constant DECAY_PERIOD = 3 days; // Time until a task becomes stale
     uint256 public baseDeposit = 10 * 1e18; // 10 DAIM
+    uint256 public baseReward = 50 * 1e18; // 50 DAIM (Flexible Reward)
 
     // Events
     event TaskSubmitted(uint256 indexed taskId, address indexed creator, uint256 deposit, bool overheated);
@@ -68,7 +69,7 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
         require(_treasury != address(0), "Invalid treasury");
 
         daimToken = IERC20(_daimToken);
-        minterToken = IComputeToken(_daimToken);
+        minterToken = IDaimToken(_daimToken);
         registry = IAgentRegistry(_registry);
         treasury = _treasury;
 
@@ -81,6 +82,13 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
      */
     function isOverheated() public view returns (bool) {
         return pendingTaskCount > CRITICAL_MASS;
+    }
+
+    /**
+     * @notice Admin function to update base reward.
+     */
+    function setBaseReward(uint256 _newReward) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        baseReward = _newReward;
     }
 
     /**
@@ -140,14 +148,14 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
             daimToken.safeTransfer(task.creator, task.deposit);
 
             // 3. Mint Reward with Eudaimonia Multiplier
-            // Base Reward matches deposit for simplicity in this model, or could be dynamic.
-            uint256 baseReward = 50 * 1e18; 
-            minterToken.mintWithEudaimonia(task.creator, baseReward, _eudaimoniaScore);
-
-            // 4. Update Agent Memory (Boredom Check)
+            // use baseReward state variable instead of hardcoded value
+            uint256 rewardAmount = baseReward; 
+            minterToken.mintWithEudaimonia(task.creator, rewardAmount, _eudaimoniaScore);
+            
+            // 4. Update Registry (Reputation)
             registry.recordObservation(task.creator, task.complexityHash);
             
-            emit TaskFinalized(_taskId, _eudaimoniaScore, baseReward);
+            emit TaskFinalized(_taskId, _eudaimoniaScore, rewardAmount);
         }
 
         // Cleanup
@@ -165,15 +173,23 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
             Task memory task = tasks[id];
             
             if (task.exists && block.timestamp > (task.timestamp + DECAY_PERIOD)) {
-                // Prune: Deposit is burned (or sent to treasury) to punish staleness?
-                // Or returned? Let's say returned to be nice, but task is cancelled.
-                // In a strict system, maybe slashed. Let's return for now.
-                daimToken.safeTransfer(task.creator, task.deposit);
+                // Prune: 
+                // Keeper Incentive: 10% of deposit to msg.sender
+                uint256 keeperReward = (task.deposit * 10) / 100;
+                uint256 refundAmount = task.deposit - keeperReward;
+
+                if (keeperReward > 0) {
+                    daimToken.safeTransfer(msg.sender, keeperReward);
+                }
+                
+                if (refundAmount > 0) {
+                     daimToken.safeTransfer(task.creator, refundAmount);
+                }
+
+                emit StaleTaskPruned(id);
                 
                 delete tasks[id];
                 if (pendingTaskCount > 0) pendingTaskCount--;
-                
-                emit StaleTaskPruned(id);
             }
         }
     }

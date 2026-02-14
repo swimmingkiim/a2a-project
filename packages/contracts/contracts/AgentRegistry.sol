@@ -201,8 +201,11 @@ contract AgentRegistry is AccessControl {
         
         if (a.lastComplexityHash == complexityHash) {
             // Boredom Penalty: Repeated the same task
-            if (a.reputation > 5) {
+            // [Fix] Underflow Protection
+            if (a.reputation >= 5) {
                 a.reputation -= 5; 
+            } else {
+                a.reputation = 0;
             }
         } else {
             // Novelty Reward: New task type
