@@ -56,20 +56,19 @@ cd packages/contracts
 # BASE_MAINNET_RPC_URL=https://mainnet.base.org
 
 # Deploy contract
-pnpm hardhat run scripts/deploy-compute-token.ts --network baseMainnet
+pnpm hardhat run scripts/deploy-genesis.ts --network baseMainnet
 
 # Expected output:
-# ✅ UtilityToken deployed to: 0x...
-# ✅ Admin role granted to: 0x...
-# ✅ Minter role granted to: 0x...
+# ✅ DaimToken deployed to: 0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
+# ✅ AgentRegistry deployed to: 0xF720826C02AAfaEC56959387d61efA501eB1E56e
 ```
 
-**Record the deployed address:** `0x________________`
+**Record the deployed address:** `0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2`
 
 ### Step 2: Verify Contract on Basescan
 
 ```bash
-pnpm hardhat verify --network baseMainnet <DEPLOYED_ADDRESS>
+pnpm hardhat verify --network baseMainnet 0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
 
 # Verify role assignments
 pnpm hardhat run scripts/verify-roles.ts --network baseMainnet
@@ -81,7 +80,7 @@ pnpm hardhat run scripts/verify-roles.ts --network baseMainnet
 
 ```bash
 # Update TOKEN token address to mainnet deployment
-TOKEN_ADDRESS=<MAINNET_DEPLOYED_ADDRESS>
+TOKEN_ADDRESS=0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
 
 # Set conservative initial price
 TOKEN_PRICE_USD=0.10
@@ -93,7 +92,7 @@ ENABLE_TOKEN_FEES=false
 RPC_URL=https://mainnet.base.org
 
 # Ensure treasury and fee token are mainnet addresses
-TREASURY_ADDRESS=<YOUR_MAINNET_TREASURY>
+TREASURY_ADDRESS=0x129154b7E3f0Ab0E59615ef578f6511b072FB431
 FEE_TOKEN_ADDRESS=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913  # USDC Base Mainnet
 ```
 
@@ -140,7 +139,7 @@ Update token addresses for mainnet:
 ```typescript
 const TOKEN_ADDRESSES = {
   'USDC': '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC Base Mainnet
-  'TOKEN': '<MAINNET_DEPLOYED_ADDRESS>',  // Update this
+  'TOKEN': '0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2',  // Update this
 };
 ```
 

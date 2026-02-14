@@ -28,7 +28,7 @@ PAYMASTER_URL=http://localhost:8080/v1/paymaster
   - Get from [Base Sepolia Faucet](https://www.coinbase.com/faucets/base-ethereum-goerli-faucet)
   
 - **MINTER_ROLE on TOKEN Token**: To mint test TOKEN
-  - Contract: `<TOKEN_ADDRESS>`
+  - Contract: `0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2`
   - Grant via: `npx hardhat run scripts/grant-minter-role.ts --network baseSepolia`
 
 ### 3. Dependencies
@@ -62,8 +62,8 @@ tsx scripts/e2e-comp-demo.ts
 
 📋 Step 1: Environment Check
    Wallet: 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0
-   TOKEN Token: <TOKEN_ADDRESS>
-   Treasury: 0x1234567890123456789012345678901234567890
+   TOKEN Token: 0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
+   Treasury: 0x129154b7E3f0Ab0E59615ef578f6511b072FB431
    RPC: https://sepolia.base.org
    ETH Balance: 0.05 ETH
 
@@ -73,7 +73,7 @@ tsx scripts/e2e-comp-demo.ts
 
 📝 Step 3: Preparing TOKEN Fee Transaction
    Fee Amount: 25 TOKEN
-   Treasury: 0x1234567890123456789012345678901234567890
+   Treasury: 0x129154b7E3f0Ab0E59615ef578f6511b072FB431
    ✅ Fee transaction encoded
 
 📤 Step 4: Sending TOKEN Fee Payment
@@ -171,7 +171,7 @@ https://sepolia.basescan.org/tx/YOUR_TX_HASH
 
 Check TOKEN token contract:
 ```
-https://sepolia.basescan.org/address/<TOKEN_ADDRESS>
+https://sepolia.basescan.org/address/0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
 ```
 
 ## Success Criteria

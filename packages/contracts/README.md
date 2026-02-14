@@ -21,6 +21,18 @@ Solidity smart contract for the A2A Project's $DAIM token - a compute standard f
 | **Initial Supply** | 0 (minted on-demand) |
 | **Max Supply** | Unlimited (inflationary) |
 
+## Deployed Addresses (Base Mainnet)
+
+| Contract | Address |
+|----------|---------|
+| **DaimToken** | `0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2` |
+| **AgentRegistry** | `0xF720826C02AAfaEC56959387d61efA501eB1E56e` |
+| **QuantumTaskBuffer** | `0x59230623FCcFDdaAF2F4d0eC24c03507cd5d0E35` |
+| **EmergencyCouncil** | `0x9347215D6eA62BF4bed324aC9c7E4Ffb7d33c07C` |
+| **DeadMansSwitch** | `0x536DA557b820a37E54121476e3c883f3A16b97c7` |
+| **Treasury** | `0x129154b7E3f0Ab0E59615ef578f6511b072FB431` |
+
+
 ## Roles
 
 - **`DEFAULT_ADMIN_ROLE`**: Can grant/revoke roles (deployer)

@@ -78,7 +78,7 @@ Edit `apps/paymaster/.env`:
 
 ```bash
 # Add TOKEN token address
-TOKEN_ADDRESS=<DEPLOYED_ADDRESS>
+TOKEN_ADDRESS=0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
 
 # Keep fees disabled initially
 ENABLE_TOKEN_FEES=false
@@ -86,7 +86,7 @@ ENABLE_TOKEN_FEES=false
 # Other mainnet settings
 RPC_URL=https://mainnet.base.org
 FEE_TOKEN_ADDRESS=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913  # USDC Base
-TREASURY_ADDRESS=<YOUR_TREASURY>
+TREASURY_ADDRESS=0x129154b7E3f0Ab0E59615ef578f6511b072FB431
 ```
 
 ### Step 4: Deploy Paymaster Service
@@ -113,7 +113,7 @@ Edit `packages/pay-sdk/src/paymaster/paymaster.ts`:
 
 Update TOKEN address in TOKEN_ADDRESSES:
 ```typescript
-'TOKEN': '<DEPLOYED_ADDRESS>',  // Update from Sepolia to Mainnet
+'TOKEN': '0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2',  // Update from Sepolia to Mainnet
 ```
 
 Publish new version:
