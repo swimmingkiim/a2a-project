@@ -1,115 +1,123 @@
-import { ethers, run } from "hardhat";
+
+import { ethers, upgrades } from "hardhat";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+console.log("-----------------------------------------");
+console.log("   QUANTUM A2A DEPLOYMENT: UUPS UPGRADE  ");
+console.log("-----------------------------------------");
 
 async function main() {
-    console.log("🚀 Starting Quantum A2A Protocol Deployment...");
-
     const [deployer] = await ethers.getSigners();
     console.log("🔹 Deployer:", deployer.address);
+    const balance = await ethers.provider.getBalance(deployer.address);
+    // console.log("🔹 Balance:", ethers.formatEther(balance), "ETH");
 
-    // --- 1. Environment / Mock Setup ---
-    // If addresses are provided in env, use them. Otherwise deploy Mocks/Fresh.
+    // --- 0. Prepare Dependencies ---
+    let daimTokenAddress = process.env.DAIM_TOKEN_ADDRESS || "";
+    let mockOracleAddress = process.env.CHAINLINK_ORACLE_ADDRESS || "";
+    let mockVerifierAddress = process.env.DID_VERIFIER_ADDRESS || "";
+    const treasuryAddress = process.env.TREASURY_ADDRESS || deployer.address;
 
-    let daimTokenAddress = process.env.DAIM_TOKEN_ADDRESS;
-    let oracleAddress = process.env.CHAINLINK_ORACLE_ADDRESS;
-    let verifierAddress = process.env.VERIFIER_ADDRESS;
-    let treasuryAddress = process.env.TREASURY_ADDRESS || deployer.address; // Default to deployer for logic check
-
-    let daimToken;
-    let registry;
-    let taskBuffer;
-
-    // Deploy Mocks if needed (Localhost or Testnet without config)
-    if (!oracleAddress) {
+    // --- 1. Mocks (If missing) ---
+    if (!mockOracleAddress) {
         console.log("🔸 Deploying MockOracle...");
         const MockOracle = await ethers.getContractFactory("MockV3Aggregator");
-        const mockOracle = await MockOracle.deploy(8, 1000000000); // $10.00
+        const mockOracle = await MockOracle.deploy(8, 200000000000); // $2000 ETH
         await mockOracle.waitForDeployment();
-        oracleAddress = await mockOracle.getAddress();
-        console.log("   -> MockOracle deployed at:", oracleAddress);
+        mockOracleAddress = await mockOracle.getAddress();
+        console.log("   -> MockOracle deployed at:", mockOracleAddress);
     }
 
-    if (!verifierAddress) {
+    if (!mockVerifierAddress) {
         console.log("🔸 Deploying MockVerifier...");
         const MockVerifier = await ethers.getContractFactory("MockVerifier");
         const mockVerifier = await MockVerifier.deploy();
         await mockVerifier.waitForDeployment();
-        verifierAddress = await mockVerifier.getAddress();
-        console.log("   -> MockVerifier deployed at:", verifierAddress);
+        mockVerifierAddress = await mockVerifier.getAddress();
+        console.log("   -> MockVerifier deployed at:", mockVerifierAddress);
     }
 
-    // --- 2. Deploy Core Contracts (if not existing) ---
-    // Note: We force redeploy of ComputeToken and AgentRegistry because we modified source code 
-    // and need the new functions (mintWithEudaimonia, recordObservation).
-    // Using existing address with changed code would fail or define undefined behavior on interface call.
-    if (true) {
+    // --- 2. Deploy DaimToken (Not Upgradeable) ---
+    let daimToken;
+    if (!daimTokenAddress) {
         console.log("🔸 Deploying DaimToken...");
         const DaimToken = await ethers.getContractFactory("DaimToken");
         daimToken = await DaimToken.deploy("Eudaimon", "DAIM", deployer.address);
         await daimToken.waitForDeployment();
         daimTokenAddress = await daimToken.getAddress();
         console.log("   -> DaimToken deployed at:", daimTokenAddress);
-
-        console.log("🔸 Deploying AgentRegistry (New Logic)...");
-        const AgentRegistry = await ethers.getContractFactory("AgentRegistry");
-        registry = await AgentRegistry.deploy(
-            daimTokenAddress,
-            oracleAddress,
-            treasuryAddress,
-            verifierAddress,
-            deployer.address
-        );
-        await registry.waitForDeployment();
-        const registryAddress = await registry.getAddress();
-        console.log("   -> AgentRegistry deployed at:", registryAddress);
     } else {
-        // Attach existings (Not recommended for this update step)
-        // daimToken = await ethers.getContractAt("DaimToken", daimTokenAddress);
+        const DaimToken = await ethers.getContractFactory("DaimToken");
+        daimToken = DaimToken.attach(daimTokenAddress);
     }
 
-    // --- 3. Deploy QuantumTaskBuffer ---
-    console.log("🔸 Deploying QuantumTaskBuffer...");
-    const QuantumTaskBuffer = await ethers.getContractFactory("QuantumTaskBuffer");
-    const registryAddress = await registry.getAddress();
+    // --- 3. Deploy AgentRegistry (UUPS Upgradeable) ---
+    console.log("🔸 Deploying AgentRegistry (UUPS Proxy)...");
+    const AgentRegistry = await ethers.getContractFactory("AgentRegistry");
+    const agentRegistry = await upgrades.deployProxy(AgentRegistry, [
+        daimTokenAddress,
+        mockOracleAddress,
+        treasuryAddress,
+        mockVerifierAddress,
+        deployer.address
+    ], { kind: 'uups' });
+    await agentRegistry.waitForDeployment();
+    const registryAddress = await agentRegistry.getAddress();
+    console.log("   -> AgentRegistry Proxy deployed at:", registryAddress);
 
-    taskBuffer = await QuantumTaskBuffer.deploy(
+    // --- 4. Deploy QuantumTaskBuffer (UUPS Upgradeable) ---
+    console.log("🔸 Deploying QuantumTaskBuffer (UUPS Proxy)...");
+    const QuantumTaskBuffer = await ethers.getContractFactory("QuantumTaskBuffer");
+    const taskBuffer = await upgrades.deployProxy(QuantumTaskBuffer, [
         daimTokenAddress,
         registryAddress,
         treasuryAddress,
         deployer.address
-    );
+    ], { kind: 'uups' });
     await taskBuffer.waitForDeployment();
     const taskBufferAddress = await taskBuffer.getAddress();
-    console.log("✅ QuantumTaskBuffer deployed at:", taskBufferAddress);
+    console.log("✅ QuantumTaskBuffer Proxy deployed at:", taskBufferAddress);
 
-    // --- 4. Setup Roles (Wiring) ---
+    // --- 5. Wiring Contracts & Verification ---
     console.log("🔌 Wiring Contracts...");
 
-    // A. Grant MINTER_ROLE to QuantumTaskBuffer in ComputeToken
-    const MINTER_ROLE = await daimToken.MINTER_ROLE();
-    const tx1 = await daimToken.grantRole(MINTER_ROLE, taskBufferAddress);
-    await tx1.wait();
-    console.log("   -> Granted MINTER_ROLE to TaskBuffer");
+    // Grant MINTER_ROLE to TaskBuffer (so it can mint rewards)
+    if (daimToken) {
+        // @ts-ignore
+        const MINTER_ROLE = await daimToken.MINTER_ROLE();
+        // @ts-ignore
+        const hasRole = await daimToken.hasRole(MINTER_ROLE, taskBufferAddress);
+        if (!hasRole) {
+            console.log("   -> Granting MINTER_ROLE to TaskBuffer...");
+            // @ts-ignore
+            await daimToken.grantRole(MINTER_ROLE, taskBufferAddress);
+        }
+    }
 
-    // B. Grant ORACLE_ROLE to QuantumTaskBuffer in AgentRegistry
-    // Note: The registry needs to allow the Buffer to call `recordObservation`. 
-    // Wait, AgentRegistry.sol has `onlyRole(ORACLE_ROLE)` on `recordObservation`.
-    // So we need to grant ORACLE_ROLE to the Buffer.
-    const REGISTRY_ORACLE_ROLE = await registry.ORACLE_ROLE();
-    const tx2 = await registry.grantRole(REGISTRY_ORACLE_ROLE, taskBufferAddress);
-    await tx2.wait();
-    console.log("   -> Granted ORACLE_ROLE (Registry) to TaskBuffer");
-
-    // C. Grant ORACLE_ROLE to Admin in QuantumTaskBuffer (so Admin can finalize tasks for testing)
-    // Already done in constructor, but let's verify or add another oracle if needed.
+    // Grant ORACLE_ROLE in Registry to TaskBuffer (so TaskBuffer can update reputation)
+    // @ts-ignore
+    const ORACLE_ROLE = await agentRegistry.ORACLE_ROLE();
+    // @ts-ignore
+    const hasOracleRole = await agentRegistry.hasRole(ORACLE_ROLE, taskBufferAddress);
+    if (!hasOracleRole) {
+        console.log("   -> Granting ORACLE_ROLE (Registry) to TaskBuffer...");
+        // @ts-ignore
+        await agentRegistry.grantRole(ORACLE_ROLE, taskBufferAddress);
+    }
 
     console.log("🎉 Deployment & Wiring Complete!");
-
-    // --- 5. Verification Hint ---
-    console.log("\nTo verify manually:");
-    console.log(`npx hardhat verify --network base_mainnet ${taskBufferAddress} ${daimTokenAddress} ${registryAddress} ${treasuryAddress} ${deployer.address}`);
+    console.log("----------------------------------------------------");
+    console.log("Contract Addresses for Verification:");
+    console.log("DAIM Token: ", daimTokenAddress);
+    console.log("AgentRegistry (Proxy): ", registryAddress);
+    console.log("QuantumTaskBuffer (Proxy): ", taskBufferAddress);
+    console.log("----------------------------------------------------");
 }
 
 main().catch((error) => {
     console.error(error);
     process.exitCode = 1;
 });
+

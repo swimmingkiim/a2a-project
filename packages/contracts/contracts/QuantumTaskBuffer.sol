@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
@@ -22,23 +24,27 @@ interface IAgentRegistry {
  *      - Eudaimonic Collapse (Oracle Verification)
  *      - Spam Filtering (Deposit & Slashing)
  */
-contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
+contract QuantumTaskBuffer is Initializable, UUPSUpgradeable, AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     using SafeERC20 for IERC20;
 
     bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
+    bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
     
-    IERC20 public immutable daimToken;
-    IDaimToken public immutable minterToken; // Same token, just explicitly casting for mint interface
-    IAgentRegistry public immutable registry;
-    address public immutable treasury;
+    IERC20 public daimToken; // Removed immutable
+    IDaimToken public minterToken; // Same token, just explicitly casting for mint interface
+    IAgentRegistry public registry; // Removed immutable
+    address public treasury; // Removed immutable
 
     // --- State Variables ---
     
     struct Task {
+        uint256 id;
         address creator;
         uint256 deposit;
-        uint256 timestamp;
-        uint256 complexityHash; // Hash of the task content/params
+        uint256 complexityHash;
+        uint256 submissionTime;
+        uint256 assessedComplexity;
+        uint256 eudaimoniaScore;
         bool exists;
     }
 
@@ -54,16 +60,25 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
 
     // Events
     event TaskSubmitted(uint256 indexed taskId, address indexed creator, uint256 deposit, bool overheated);
-    event TaskFinalized(uint256 indexed taskId, uint256 eudaimoniaScore, uint256 reward);
+    event TaskFinalized(uint256 indexed taskId, address indexed creator, uint256 assessedComplexity, uint256 eudaimoniaScore, uint256 reward, bool slashed);
     event TaskSlashed(uint256 indexed taskId, address indexed creator, string reason);
     event StaleTaskPruned(uint256 indexed taskId);
 
-    constructor(
-        address _daimToken,
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
+
+    function initialize(
+        address _daimToken, 
         address _registry,
         address _treasury,
         address _admin
-    ) {
+    ) initializer public {
+        __AccessControl_init();
+        __UUPSUpgradeable_init();
+        __ReentrancyGuard_init();
+
         require(_daimToken != address(0), "Invalid token");
         require(_registry != address(0), "Invalid registry");
         require(_treasury != address(0), "Invalid treasury");
@@ -74,8 +89,11 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
         treasury = _treasury;
 
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
-        _grantRole(ORACLE_ROLE, _admin); // Admin is initial Oracle
+        _grantRole(ORACLE_ROLE, _registry); // Allow registry to call finalizeTask
+        _grantRole(UPGRADER_ROLE, _admin);
     }
+
+    function _authorizeUpgrade(address newImplementation) internal onlyRole(UPGRADER_ROLE) override {}
 
     /**
      * @notice Checks if the system is Overheated (Thermodynamic Throttling).
@@ -110,10 +128,13 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
 
         // Add to Pool
         tasks[nextTaskId] = Task({
+            id: nextTaskId,
             creator: msg.sender,
             deposit: requiredDeposit,
-            timestamp: block.timestamp,
             complexityHash: _complexityHash,
+            submissionTime: block.timestamp,
+            assessedComplexity: 0,
+            eudaimoniaScore: 0,
             exists: true
         });
 
@@ -155,7 +176,7 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
             // 4. Update Registry (Reputation)
             registry.recordObservation(task.creator, task.complexityHash);
             
-            emit TaskFinalized(_taskId, _eudaimoniaScore, rewardAmount);
+            emit TaskFinalized(_taskId, task.creator, _assessedComplexity, _eudaimoniaScore, rewardAmount, false);
         }
 
         // Cleanup
@@ -172,7 +193,7 @@ contract QuantumTaskBuffer is AccessControl, ReentrancyGuard {
             uint256 id = _taskIds[i];
             Task memory task = tasks[id];
             
-            if (task.exists && block.timestamp > (task.timestamp + DECAY_PERIOD)) {
+            if (task.exists && block.timestamp > (task.submissionTime + DECAY_PERIOD)) {
                 // Prune: 
                 // Keeper Incentive: 10% of deposit to msg.sender
                 uint256 keeperReward = (task.deposit * 10) / 100;

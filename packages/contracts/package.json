@@ -33,6 +33,8 @@
     },
     "dependencies": {
         "@openzeppelin/contracts": "^5.0.1",
+        "@openzeppelin/contracts-upgradeable": "^5.4.0",
+        "@openzeppelin/hardhat-upgrades": "^3.9.1",
         "@prb/math": "^4.1.1"
     }
 }

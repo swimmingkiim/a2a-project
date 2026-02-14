@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
 
 interface AggregatorV3Interface {
     function decimals() external view returns (uint8);
@@ -34,11 +36,12 @@ interface IVerifiedCredentialVerifier {
  * @notice Registry for AI Agents with Quadratic Staking and Sybil Resistance.
  * @dev Implements $Cost = BaseStake * (ResourceUnits)^2 formula.
  */
-contract AgentRegistry is AccessControl {
-    IERC20 public immutable daimToken;
-    AggregatorV3Interface public immutable priceFeed;
-    address public immutable treasury;
-    IVerifiedCredentialVerifier public immutable verifier; // External DID verifier
+contract AgentRegistry is Initializable, UUPSUpgradeable, AccessControlUpgradeable {
+    IERC20 public daimToken;
+    AggregatorV3Interface public priceFeed;
+    address public treasury;
+    IVerifiedCredentialVerifier public verifier; // External DID verifier
+    address public adminAddress;
 
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     
@@ -47,16 +50,16 @@ contract AgentRegistry is AccessControl {
 
     struct Agent {
         string metadataUrl;
-        uint256 stakedAmount;
-        uint256 resourceUnits; // e.g., Daily TX limit (1 Unit = 1000 TXs)
-        uint256 registeredAt;
+        uint256 stakedAmount; // Amount in wei of the token
+        uint256 resourceUnits;
+        uint64 registeredAt;
         bool isRegistered;
-        uint256 lastComplexityHash; // For Boredom Prevention
-        uint256 reputation; // 0-100
+        uint8 reputation; // 0-100 scale
+        uint256 lastComplexityHash; // For boredom detection
     }
 
     mapping(address => Agent) public agents;
-    mapping(address => bool) public hasRegisteredVC; // Prevent same address using VC multiple times (simple check)
+    mapping(address => bool) public isAgentRegistered;
 
     event AgentRegistered(address indexed agentAddress, string metadataUrl, uint256 resourceUnits, uint256 stakedAmount);
     event AgentUnstaked(address indexed agentAddress, uint256 returnedAmount);
@@ -64,6 +67,12 @@ contract AgentRegistry is AccessControl {
     event ObservationRecorded(address indexed agentAddress, uint256 complexityHash, uint256 newReputation);
 
     bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
+    bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
+
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
 
     /**
      * @param _daimToken Address of the DAIM token contract
@@ -72,13 +81,16 @@ contract AgentRegistry is AccessControl {
      * @param _verifier Address of the VC Verifier contract
      * @param _admin Address to be granted the ADMIN_ROLE
      */
-    constructor(
+    function initialize(
         address _daimToken, 
         address _priceFeed, 
         address _treasury, 
         address _verifier,
         address _admin
-    ) {
+    ) initializer public {
+        __AccessControl_init();
+        __UUPSUpgradeable_init();
+
         require(_daimToken != address(0), "Invalid token address");
         require(_priceFeed != address(0), "Invalid oracle address");
         require(_treasury != address(0), "Invalid treasury address");
@@ -88,10 +100,14 @@ contract AgentRegistry is AccessControl {
         priceFeed = AggregatorV3Interface(_priceFeed);
         treasury = _treasury;
         verifier = IVerifiedCredentialVerifier(_verifier);
+        adminAddress = _admin;
 
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
-        _grantRole(ADMIN_ROLE, _admin);
+        _grantRole(ORACLE_ROLE, _admin); // Allow admin to act as oracle for simplicity
+        _grantRole(UPGRADER_ROLE, _admin);
     }
+
+    function _authorizeUpgrade(address newImplementation) internal onlyRole(UPGRADER_ROLE) override {}
 
     /**
      * @notice Registers an agent with Quadratic Staking.
@@ -132,7 +148,7 @@ contract AgentRegistry is AccessControl {
             metadataUrl: _metadataUrl,
             stakedAmount: requiredDaim,
             resourceUnits: _resourceUnits,
-            registeredAt: block.timestamp,
+            registeredAt: uint64(block.timestamp),
             isRegistered: true,
             lastComplexityHash: 0,
             reputation: 50 // Start with neutral reputation
