@@ -1,60 +1,63 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20BurnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 /**
- * @title ComputeToken
- * @dev ERC-20 token representing computational resources in the A2A network
+ * @title DaimToken
+ * @dev ERC-20 token representing computational resources in the A2A network (Upgradeable)
  * 
  * Tokenomics:
- * - Symbol: $COMP
+ * - Symbol: $DAIM (Eudaimon)
  * - Decimals: 18
- * - Initial Supply: 0 (minted on-demand)
+ * - Initial Supply: 50,000,000 (Minted to Admin)
  * - Max Supply: Unlimited (inflationary based on compute demand)
  * - Deflationary Mechanism: Tokens can be burned by anyone
  * 
  * Access Control:
  * - DEFAULT_ADMIN_ROLE: Can grant/revoke roles
  * - MINTER_ROLE: Can mint new tokens (typically Paymaster Gateway)
- * 
- * Economic Model (BME - Burn-and-Mint Equilibrium):
- * - Network usage burns $COMP (demand-driven deflation)
- * - Compute work mints $COMP (supply-driven inflation)
- * - If burn > mint → Net deflation → Price appreciates
- *
- * @author A2A Project
+ * - UPGRADER_ROLE: Can upgrade the contract implementation
  */
-contract DaimToken is ERC20, ERC20Burnable, AccessControl {
+contract DaimToken is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, AccessControlUpgradeable, UUPSUpgradeable {
     /// @dev Role identifier for addresses that can mint tokens
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    /// @dev Role identifier for addresses that can upgrade the contract
+    bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
+
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
 
     /**
-     * @dev Constructor sets up the token and grants initial roles
-     * @param name Token Name (e.g. "Eudaimon")
-     * @param symbol Token Symbol (e.g. "DAIM")
-     * @param paymasterGateway Address of the Paymaster Gateway that will mint tokens
+     * @dev Initializer replaces constructor for upgradeable contracts
+     * @param defaultAdmin Address to receive the initial supply and admin roles
      */
-    constructor(string memory name, string memory symbol, address paymasterGateway) ERC20(name, symbol) {
-        require(paymasterGateway != address(0), "ComputeToken: paymaster is zero address");
+    function initialize(address defaultAdmin) initializer public {
+        __ERC20_init("Eudaimon", "DAIM");
+        __ERC20Burnable_init();
+        __AccessControl_init();
+        __UUPSUpgradeable_init();
 
-        // Grant admin role to deployer
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
+        _grantRole(MINTER_ROLE, defaultAdmin);
+        _grantRole(UPGRADER_ROLE, defaultAdmin);
 
-        // Grant minter role to Paymaster Gateway
-        _grantRole(MINTER_ROLE, paymasterGateway);
+        // Mint initial supply: 50,000,000 DAIM
+        _mint(defaultAdmin, 50000000 * 10 ** decimals());
     }
+
+    function _authorizeUpgrade(address newImplementation) internal onlyRole(UPGRADER_ROLE) override {}
 
     /**
      * @dev Mints new tokens to the specified address
      * @param to Address that will receive the minted tokens
      * @param amount Amount of tokens to mint (in wei, 18 decimals)
-     * 
-     * Requirements:
-     * - Caller must have MINTER_ROLE
-     * - `to` cannot be the zero address
      */
     function mint(address to, uint256 amount) external onlyRole(MINTER_ROLE) {
         _mint(to, amount);
@@ -76,43 +79,5 @@ contract DaimToken is ERC20, ERC20Burnable, AccessControl {
         uint256 totalAmount = baseAmount + bonus;
         
         _mint(to, totalAmount);
-    }
-
-    /**
-     * @dev Burns tokens from the caller's account
-     * Inherited from ERC20Burnable, overridden for documentation
-     * @param amount Amount of tokens to burn
-     * 
-     * This function drives the deflationary mechanism of the BME model.
-     * Network usage fees are burned, reducing total supply.
-     */
-    function burn(uint256 amount) public override {
-        super.burn(amount);
-    }
-
-    /**
-     * @dev Burns tokens from a specified account using allowance
-     * Inherited from ERC20Burnable, overridden for documentation
-     * @param account Account to burn tokens from
-     * @param amount Amount of tokens to burn
-     * 
-     * Requirements:
-     * - Caller must have sufficient allowance
-     */
-    function burnFrom(address account, uint256 amount) public override {
-        super.burnFrom(account, amount);
-    }
-
-    /**
-     * @dev See {IERC165-supportsInterface}
-     * Required override for multiple inheritance
-     */
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(AccessControl)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceId);
     }
 }

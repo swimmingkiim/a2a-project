@@ -39,15 +39,20 @@ async function main() {
         console.log("   -> MockVerifier deployed at:", mockVerifierAddress);
     }
 
-    // --- 2. Deploy DaimToken (Not Upgradeable) ---
+    // --- 2. Deploy DaimToken (UUPS Upgradeable) ---
     let daimToken;
+
     if (!daimTokenAddress) {
-        console.log("🔸 Deploying DaimToken...");
+        console.log("🔸 Deploying DaimToken (UUPS Proxy)...");
         const DaimToken = await ethers.getContractFactory("DaimToken");
-        daimToken = await DaimToken.deploy("Eudaimon", "DAIM", deployer.address);
+        // Initialize with deployer as default admin
+        daimToken = await upgrades.deployProxy(DaimToken, [deployer.address], {
+            kind: 'uups',
+            initializer: 'initialize'
+        });
         await daimToken.waitForDeployment();
         daimTokenAddress = await daimToken.getAddress();
-        console.log("   -> DaimToken deployed at:", daimTokenAddress);
+        console.log("   -> DaimToken Proxy deployed at:", daimTokenAddress);
     } else {
         const DaimToken = await ethers.getContractFactory("DaimToken");
         daimToken = DaimToken.attach(daimTokenAddress);
