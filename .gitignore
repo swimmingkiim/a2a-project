@@ -31,3 +31,9 @@ packages/contracts/ComputeToken_StandardInput.json
 scripts/generate-wallet.ts
 
 packages/genesis-keys/
+
+# Security Verification Scripts
+packages/contracts/scripts/check-default-keys.ts
+packages/contracts/scripts/check-minter-role.ts
+packages/contracts/scripts/audit-security.ts
+packages/contracts/scripts/verify-paymaster-secret.ts

@@ -26,7 +26,7 @@ const envSchema = z.object({
     ENABLE_DAIM_FEES: z.string().transform(v => v === 'true').default('false'), // Feature flag
 
     // Monitoring
-    MIN_SIGNER_BALANCE_ETH: z.string().regex(/^\d+(\.\d+)?$/).transform(Number).default('0.01'), // Alert threshold
+    MIN_SIGNER_BALANCE_ETH: z.string().regex(/^\d+(\.\d+)?$/).transform(Number).default('0.002'), // Alert threshold
 
     // Paymaster Configuration
     PAYMASTER_URL: z.string().url().optional(),
