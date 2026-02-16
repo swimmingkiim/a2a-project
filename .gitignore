@@ -37,3 +37,9 @@ packages/contracts/scripts/check-default-keys.ts
 packages/contracts/scripts/check-minter-role.ts
 packages/contracts/scripts/audit-security.ts
 packages/contracts/scripts/verify-paymaster-secret.ts
+
+# Database & Security Utility Scripts
+scripts/reset-db.sql
+scripts/rotate-db-password.sh
+scripts/sync-paymaster-password.sh
+scripts/execute-db-reset.ts

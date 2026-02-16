@@ -11,6 +11,9 @@ async function startServer() {
         const { SSEServerTransport } = await import('@modelcontextprotocol/sdk/server/sse.js')
         const { z } = await import('zod')
 
+        // const { airdropService } = await import('./airdrop.js') // Removed direct import
+        const { handleAirdropRequest } = await import('./airdrop-handler.js')
+
         let db: any = null
         let dbInitError: string | null = null
         try {
@@ -55,6 +58,14 @@ async function startServer() {
                             id SERIAL PRIMARY KEY,
                             activity_type TEXT NOT NULL,
                             details JSONB,
+                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                        );
+
+                        CREATE TABLE IF NOT EXISTS airdrops (
+                            id SERIAL PRIMARY KEY,
+                            did TEXT NOT NULL UNIQUE,
+                            wallet_address TEXT NOT NULL UNIQUE,
+                            tx_hash TEXT,
                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                         );
                     `)
@@ -319,112 +330,10 @@ async function startServer() {
             `)
         })
 
+
         // Projects API
         const { ProjectSchema, verifyProjectApi } = await import('./verification.js')
 
-        const verifyProjectApi = async (apiUrl: string, ownerDid: string) => {
-            const results: string[] = []
-            const errors: string[] = []
-
-            // Helper to fetch with timeout
-            const fetchWithTimeout = async (url: string, options: any = {}) => {
-                const controller = new AbortController()
-                const id = setTimeout(() => controller.abort(), 5000)
-                try {
-                    const res = await fetch(url, { ...options, signal: controller.signal })
-                    return res
-                } finally {
-                    clearTimeout(id)
-                }
-            }
-
-            // 1. Verify Manifest
-            try {
-                // Ensure no trailing slash for consistency
-                const baseUrl = apiUrl.replace(/\/$/, '')
-                const manifestUrl = `${baseUrl}/manifest.json`
-
-                const res = await fetchWithTimeout(manifestUrl)
-                if (!res.ok) {
-                    throw new Error(`Failed to fetch manifest.json: ${res.status} ${res.statusText}`)
-                }
-
-                const manifest = await res.json() as any
-                if (!manifest.tools || !Array.isArray(manifest.tools)) {
-                    throw new Error('Invalid manifest: missing "tools" array')
-                }
-                results.push('✅ manifest.json verified')
-
-                // 2. Verify MCP Endpoints (from manifest or default)
-                // MCP endpoint (SSE) checks
-                // A2A agents usually follow /sse convention or define it in manifest
-                // We'll check the base URL or specified endpoint for availability
-                // Accepting 200 (OK) or 402 (Payment Required)
-                const ssePath = (manifest.mcp && manifest.mcp.endpoint) ? manifest.mcp.endpoint : '/sse'
-                const sseUrl = ssePath.startsWith('http') ? ssePath : `${baseUrl}${ssePath}`
-
-                // Use HEAD or GET to check availability
-                const sseRes = await fetchWithTimeout(sseUrl, { method: 'GET' })
-                if (sseRes.status !== 200 && sseRes.status !== 402) {
-                    // Some implementations might strict check headers for SSE, defaulting to 400 or similar if not correct Upgrade header
-                    // But strictly, we want to know if the service is UP.
-                    // If it's 404/500/502/503/504 -> Fail
-                    if (sseRes.status >= 400 && sseRes.status !== 402 && sseRes.status !== 405) { // 405 Method Not Allowed might be okay if we used GET on a POST-only (though SSE is GET)
-                        throw new Error(`SSE endpoint check failed: ${sseRes.status} ${sseRes.statusText}`)
-                    }
-                }
-                results.push(`✅ SSE endpoint verified (${sseRes.status === 402 ? 'Paid' : 'Free'})`)
-
-
-            } catch (e: any) {
-                errors.push(`Manifest/API Check Failed: ${e.message}`)
-            }
-
-            // 3. Verify llms.txt
-            try {
-                const baseUrl = apiUrl.replace(/\/$/, '')
-                const llmsUrl = `${baseUrl}/llms.txt`
-                const res = await fetchWithTimeout(llmsUrl)
-                if (!res.ok) {
-                    throw new Error(`llms.txt unreachable: ${res.status} ${res.statusText}`)
-                }
-                results.push('✅ llms.txt verified')
-            } catch (e: any) {
-                errors.push(`Link Check Failed: ${e.message}`)
-            }
-
-            // 4. Verify DID (did:web only)
-            if (ownerDid.startsWith('did:web:')) {
-                try {
-                    // did:web:example.com -> example.com
-                    // did:web:api.example.com -> api.example.com
-                    // did:web:example.com:user:alice -> example.com/user/alice (spec is complex, handling simple case)
-                    const didParts = ownerDid.split(':')
-                    const domain = didParts[2]
-                    const path = didParts.slice(3).join('/')
-
-                    const didUrl = `https://${domain}/${path ? path + '/' : ''}.well-known/did.json`
-
-                    const res = await fetchWithTimeout(didUrl)
-                    if (!res.ok) {
-                        throw new Error(`DID document unreachable at ${didUrl}: ${res.status}`)
-                    }
-                    const didDoc = await res.json() as any
-                    if (didDoc.id !== ownerDid) {
-                        throw new Error(`DID Document ID mismatch. Found ${didDoc.id}, expected ${ownerDid}`)
-                    }
-                    results.push('✅ DID verified')
-                } catch (e: any) {
-                    errors.push(`DID Verification Failed: ${e.message}`)
-                }
-            }
-
-            if (errors.length > 0) {
-                throw new Error(errors.join(', '))
-            }
-
-            console.log(`[VerifyProject] Success for ${apiUrl}:`, results)
-        }
 
 
         app.get('/api/projects', async (_req: any, res: any) => {
@@ -473,6 +382,10 @@ async function startServer() {
                     res.status(400).json({ error: error.message || error })
                 }
             }
+        })
+
+        app.post('/api/airdrop', async (req: any, res: any) => {
+            await handleAirdropRequest(req, res, db)
         })
 
         app.get('/api/logs', async (_req: any, res: any) => {

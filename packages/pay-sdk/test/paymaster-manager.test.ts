@@ -28,18 +28,18 @@ describe('PaymasterManager.appendFeeToCalls', () => {
         expect(result[0].data).toBe(expectedData);
     });
 
-    it('should append COMP fee call correctly', () => {
+    it('should append DAIM fee call correctly', () => {
         const calls: any[] = [];
         const feeConfig: FeeConfig = {
             treasury: '0x1234567890123456789012345678901234567890',
-            amount: 25n * 10n ** 18n, // 25 COMP
-            tokenType: 'COMP'
+            amount: 25n * 10n ** 18n, // 25 DAIM
+            tokenType: 'DAIM'
         };
 
         const result = PaymasterManager.appendFeeToCalls(calls, feeConfig);
 
         expect(result.length).toBe(1);
-        expect(result[0].to).toBe('0xED175F6ff582318b6DC16FE76e8B5CA7F8fB3Ce3'); // COMP on Base Sepolia
+        expect(result[0].to).toBe('0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2'); // DAIM on Base Mainnet
         expect(result[0].value).toBe(0n);
     });
 
