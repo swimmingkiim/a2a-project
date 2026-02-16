@@ -305,6 +305,27 @@ async function startServer() {
                     </form>
                 </div>
 
+
+                <h2>🪂 Airdrop Guide</h2>
+                <div class="card">
+                    <p><strong>Eligibility:</strong> You can claim <strong>100 $DAIM</strong> tokens once per DID and Wallet address.</p>
+                    <p><strong>How to Apply:</strong></p>
+                    <ol>
+                        <li>Create a <strong>Verifiable Credential (VC)</strong> proving ownership of your wallet address.</li>
+                        <li>Send a <code>POST</code> request to <code class="url">/api/airdrop</code> with the VC in the <code>Authorization</code> header.</li>
+                    </ol>
+                    <div style="background: #1e293b; color: #f8fafc; padding: 15px; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 0.9em;">
+                        <span style="color: #94a3b8;"># Example Request</span><br>
+                        curl -X POST /api/airdrop \<br>
+                        &nbsp;&nbsp;-H "Authorization: Bearer &lt;YOUR_VC_JWT&gt;" \<br>
+                        &nbsp;&nbsp;-H "Content-Type: application/json"
+                    </div>
+                    <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                        * The VC must be a self-signed JWT where <code>iss</code> (Issuer) == <code>sub</code> (Subject) == Your DID.<br>
+                        * The VC credentialSubject must contain <code>walletAddress</code>.
+                    </p>
+                </div>
+
                 <h2>📡 Interfaces</h2>
                 <div class="card">
                     <p><span class="method">GET</span> <code class="url">/api/projects</code> - List all ecosystem projects</p>
