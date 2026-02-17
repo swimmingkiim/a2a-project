@@ -1,17 +1,17 @@
 
 // import { VCHandler } from '@swimmingkiim/trust-sdk'; // Moved to dynamic import or injection
-// import { airdropService } from './airdrop.js'; // Moved to injection
+// import { grantService } from './grant.js'; // Moved to injection
 
-export interface AirdropDependencies {
+export interface GrantDependencies {
     db: any;
     vcHandler?: any; // Instance or class? Let's say instance for simplicity in mocking
-    airdropService?: any;
+    grantService?: any;
 }
 
-export const handleAirdropRequest = async (req: any, res: any, dbOrDeps: any) => {
+export const handleGrantRequest = async (req: any, res: any, dbOrDeps: any) => {
     // Backward compatibility or dependency injection support
     let db: any;
-    let deps: AirdropDependencies;
+    let deps: GrantDependencies;
 
     if (dbOrDeps && dbOrDeps.query) {
         db = dbOrDeps;
@@ -27,18 +27,18 @@ export const handleAirdropRequest = async (req: any, res: any, dbOrDeps: any) =>
     }
 
     // Load dependencies (Default to real ones if not injected)
-    let service = deps.airdropService;
+    let service = deps.grantService;
     if (!service) {
         try {
-            const module = await import('./airdrop.js');
-            service = module.airdropService;
+            const module = await import('./grant.js');
+            service = module.grantService;
         } catch (e) {
-            console.warn("Failed to load airdrop service:", e);
+            console.warn("Failed to load grant service:", e);
         }
     }
 
     if (!service || !service.isEnabled()) {
-        res.status(503).json({ error: 'Airdrop service is disabled (No Wallet Configured)' });
+        res.status(503).json({ error: 'Grant service is disabled (No Wallet Configured)' });
         return;
     }
 
@@ -89,35 +89,35 @@ export const handleAirdropRequest = async (req: any, res: any, dbOrDeps: any) =>
 
         // 3. Anti-Sybil Checks (DB Constraints)
         // Check if DID already claimed
-        const didCheck = await db.query('SELECT * FROM airdrops WHERE did = $1', [issuerDid]);
+        const didCheck = await db.query('SELECT * FROM developer_grants WHERE did = $1', [issuerDid]);
         if (didCheck.rows.length > 0) {
-            return res.status(409).json({ error: 'Airdrop already claimed for this DID' });
+            return res.status(409).json({ error: 'Grant already claimed for this DID' });
         }
 
         // Check if Wallet already claimed
-        const walletCheck = await db.query('SELECT * FROM airdrops WHERE wallet_address = $1', [walletAddress]);
+        const walletCheck = await db.query('SELECT * FROM developer_grants WHERE wallet_address = $1', [walletAddress]);
         if (walletCheck.rows.length > 0) {
-            return res.status(409).json({ error: 'Airdrop already claimed for this Wallet Address' });
+            return res.status(409).json({ error: 'Grant already claimed for this Wallet Address' });
         }
 
-        // 4. Send Airdrop
-        console.log(`[API] Processing Airdrop for ${issuerDid} -> ${walletAddress}`);
-        const txHash = await service.sendAirdrop(walletAddress);
+        // 4. Send Grant
+        console.log(`[API] Processing Grant for ${issuerDid} -> ${walletAddress}`);
+        const txHash = await service.sendGrant(walletAddress);
 
         // 5. Record in DB
         await db.query(
-            'INSERT INTO airdrops (did, wallet_address, tx_hash) VALUES ($1, $2, $3)',
+            'INSERT INTO developer_grants (did, wallet_address, tx_hash) VALUES ($1, $2, $3)',
             [issuerDid, walletAddress, txHash]
         );
 
         res.status(200).json({
             success: true,
-            message: 'Airdrop sent!',
+            message: 'Grant sent!',
             txHash
         });
 
     } catch (error: any) {
-        console.error('[API] Airdrop Error:', error);
+        console.error('[API] Grant Error:', error);
         res.status(500).json({ error: error.message || 'Internal Server Error' });
     }
 }

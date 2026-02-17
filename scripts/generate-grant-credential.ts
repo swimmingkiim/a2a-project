@@ -15,7 +15,7 @@ async function main() {
     console.log(`Your DID: ${did.did}`);
 
     // 2. Define the Claims
-    // The Airdrop requires proving you own a wallet address.
+    // The Grant requires proving you own a wallet address.
     const walletAddress = "0xYOUR_WALLET_ADDRESS_HERE"; // User should replace this
 
     console.log(`Generating VC for wallet: ${walletAddress}`);
@@ -34,7 +34,7 @@ async function main() {
     console.log("\n--- Verifiable Credential (JWT) ---");
     console.log(vc.proof.jwt);
     console.log("-----------------------------------\n");
-    console.log("Use this JWT in the Authorization header or body for POST /api/airdrop");
+    console.log("Use this JWT in the Authorization header or body for POST /api/grant");
 }
 
 main().catch(console.error);

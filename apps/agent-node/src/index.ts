@@ -12,7 +12,7 @@ async function startServer() {
         const { z } = await import('zod')
 
         // const { airdropService } = await import('./airdrop.js') // Removed direct import
-        const { handleAirdropRequest } = await import('./airdrop-handler.js')
+        const { handleGrantRequest } = await import('./grant-handler.js')
 
         let db: any = null
         let dbInitError: string | null = null
@@ -61,7 +61,7 @@ async function startServer() {
                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                         );
 
-                        CREATE TABLE IF NOT EXISTS airdrops (
+                        CREATE TABLE IF NOT EXISTS developer_grants (
                             id SERIAL PRIMARY KEY,
                             did TEXT NOT NULL UNIQUE,
                             wallet_address TEXT NOT NULL UNIQUE,
@@ -306,17 +306,17 @@ async function startServer() {
                 </div>
 
 
-                <h2>🪂 Airdrop Guide</h2>
+                <h2>💰 Developer Grant Guide (지원금 안내)</h2>
                 <div class="card">
-                    <p><strong>Eligibility:</strong> You can claim <strong>100 $DAIM</strong> tokens once per DID and Wallet address.</p>
+                    <p><strong>Eligibility:</strong> You can claim <strong>100 $DAIM</strong> tokens once per DID and Wallet address as a developer grant.</p>
                     <p><strong>How to Apply:</strong></p>
                     <ol>
                         <li>Create a <strong>Verifiable Credential (VC)</strong> proving ownership of your wallet address.</li>
-                        <li>Send a <code>POST</code> request to <code class="url">/api/airdrop</code> with the VC in the <code>Authorization</code> header.</li>
+                        <li>Send a <code>POST</code> request to <code class="url">/api/grant</code> with the VC in the <code>Authorization</code> header.</li>
                     </ol>
                     <div style="background: #1e293b; color: #f8fafc; padding: 15px; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 0.9em;">
                         <span style="color: #94a3b8;"># Example Request</span><br>
-                        curl -X POST /api/airdrop \<br>
+                        curl -X POST /api/grant \<br>
                         &nbsp;&nbsp;-H "Authorization: Bearer &lt;YOUR_VC_JWT&gt;" \<br>
                         &nbsp;&nbsp;-H "Content-Type: application/json"
                     </div>
@@ -405,8 +405,8 @@ async function startServer() {
             }
         })
 
-        app.post('/api/airdrop', async (req: any, res: any) => {
-            await handleAirdropRequest(req, res, db)
+        app.post('/api/grant', async (req: any, res: any) => {
+            await handleGrantRequest(req, res, db)
         })
 
         app.get('/api/logs', async (_req: any, res: any) => {
