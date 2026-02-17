@@ -306,7 +306,7 @@ async function startServer() {
                 </div>
 
 
-                <h2>💰 Developer Grant Guide (지원금 안내)</h2>
+                <h2>💰 Developer Grant Guide</h2>
                 <div class="card">
                     <p><strong>Eligibility:</strong> You can claim <strong>100 $DAIM</strong> tokens once per DID and Wallet address as a developer grant.</p>
                     <p><strong>How to Apply:</strong></p>
