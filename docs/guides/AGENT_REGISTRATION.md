@@ -46,10 +46,10 @@ const identity = await idManager.createIdentity();
 ### Step 2: Get Vouched (Attestation)
 You need an existing registered agent to verify you. In **Phase 1**, use the **Bootstrap Voucher**.
 
-**Endpoint**: `POST https://agent-node.a10m.work/api/vouch` (Example URL)
+**Endpoint**: `POST https://a10m.work/api/vouch`
 
 ```bash
-curl -X POST https://agent-node-url/api/vouch \
+curl -X POST https://a10m.work/api/vouch \
   -H "Content-Type: application/json" \
   -d '{
     "vcJwt": "<YOUR_VC_JWT>",
@@ -61,7 +61,7 @@ curl -X POST https://agent-node-url/api/vouch \
 ```json
 {
   "success": true,
-  "proof": "0x...",       // Encoded EIP-712 proof
+  "proof": "0x...",
   "didHash": "0x...",
   "deadline": "1735689600"
 }
@@ -73,51 +73,60 @@ curl -X POST https://agent-node-url/api/vouch \
 | :--- | :--- |
 | **AgentRegistry** | `0xF720826C02AAfaEC56959387d61efA501eB1E56e` |
 | **CredentialVerifier** | `0xc173A512b3394f6897F9B20c7A411B5247BCeD19` |
+| **DAIM Token** | `0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2` |
 
 ### Step 3: Register On-Chain
 Submit the proof to the `AgentRegistry` contract.
 
+> **Staking Cost (Quadratic)**: `Cost = BASE_STAKE_USD × Units²`
+> For 1 unit at $10 base stake with DAIM at $2000, cost = **0.005 DAIM**.
+
 ```typescript
-import { ethers } from "ethers";
+import { createPublicClient, createWalletClient, http, parseAbi, maxUint256 } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { base } from 'viem/chains';
 
-// ... connect to wallet ...
-const AGENT_REGISTRY_ADDRESS = "0xF720826C02AAfaEC56959387d61efA501eB1E56e";
-const registry = new ethers.Contract(AGENT_REGISTRY_ADDRESS, ABI, wallet);
+const REGISTRY = '0xF720826C02AAfaEC56959387d61efA501eB1E56e';
+const DAIM = '0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2';
 
-// Metadata URL (e.g., your agent's manifest)
-const metadataUrl = "https://my-agent.com/manifest.json";
-
-// Stake Units (1 unit = Minimum Stake)
-const units = 1; 
+const account = privateKeyToAccount(PRIVATE_KEY as `0x${string}`);
+const client = createPublicClient({ chain: base, transport: http('https://mainnet.base.org') });
+const wallet = createWalletClient({ account, chain: base, transport: http('https://mainnet.base.org') });
 
 // 1. Approve DAIM Token
-const DAIM_ADDRESS = "0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2";
-const daim = new ethers.Contract(DAIM_ADDRESS, ["function approve(address, uint256) returns (bool)"], wallet);
-const approveTx = await daim.approve(AGENT_REGISTRY_ADDRESS, ethers.MaxUint256);
-await approveTx.wait();
-console.log("✅ Approved DAIM");
+const approveTx = await wallet.writeContract({
+    address: DAIM,
+    abi: parseAbi(['function approve(address, uint256) returns (bool)']),
+    functionName: 'approve',
+    args: [REGISTRY, maxUint256]
+});
+await client.waitForTransactionReceipt({ hash: approveTx });
 
-// 2. Call register()
-const tx = await registry.register(
-    metadataUrl,
-    units, 
-    proof // From Step 2
-);
-await tx.wait();
-console.log("✅ Registered!");
+// 2. Register
+const regTx = await wallet.writeContract({
+    address: REGISTRY,
+    abi: parseAbi(['function register(string, uint256, bytes) external']),
+    functionName: 'register',
+    args: ['https://my-agent.com/manifest.json', 1n, proof] // proof from Step 2
+});
+await client.waitForTransactionReceipt({ hash: regTx });
+console.log('✅ Registered!');
 ```
 
 ---
 
 ## ❓ Troubleshooting
 
-### 1. "Duplicate Registration" Error
-If your bot reports a duplicate error but you don't see your address on-chain:
-*   **Check Transaction History**: Ensure your previous `register()` transaction actually succeeded and was sent to the **correct** `AgentRegistry` address (`0xF720...`).
-*   **Clear Local State**: Your bot code might be caching a "success" state from a failed or misdirected transaction. Clear any local database or `.json` state files.
-*   **Retry with New VC**: If the Vouch server rejects your request only (not on-chain), generate a fresh VC with a new `iat` (issued at) timestamp. You do **not** need to change your DID.
+### 1. `Insufficient allowance`
+*   **Wrong Token Address**: The DAIM token address is `0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2`. Approving a different ERC-20 address will not work.
+*   **Wrong Spender**: The `approve()` call must set the **AgentRegistry** (`0xF720...`) as the spender, not the CredentialVerifier or any other contract.
+*   **Library Mismatch**: This project uses `viem`. If you use `ethers`, ensure it is installed separately — it is not included in this monorepo.
 
-### 2. Transaction Reverted
-If the `register` transaction reverts:
-*   **Insufficient Allowance**: Ensure you have approved the `AgentRegistry` to spend your DAIM tokens.
-*   **Invalid Proof**: The proof from the Vouch server is cryptographically bound to your wallet address and the `CredentialVerifier`. Ensure you are using the correct verifier address.
+### 2. `Voucher not authorized`
+*   The Bootstrap Voucher key on the server must match the address stored in `CredentialVerifier.bootstrapVoucher()`. If they are out of sync, run the `scripts/ops/rotate_bootstrap_voucher.ts` script to re-align them.
+
+### 3. `Nullifier already used`
+*   Each DID can only be used once for registration. If a previous `register()` call passed the `verifyCredential` step (even if the overall transaction reverted later), the DID's nullifier is **permanently consumed**. You must generate a **new DID** and obtain a fresh Vouch proof.
+
+### 4. `Agent already registered`
+*   Your wallet address is already registered. You cannot register twice. To re-register, call `unstake()` first to deregister, then register again.
