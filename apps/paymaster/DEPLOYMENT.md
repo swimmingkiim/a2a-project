@@ -12,7 +12,7 @@ Before deploying to Base Mainnet, verify all items below:
 - [ ] `MARKUP_RATE >= 1.5` for gas volatility protection
 - [ ] All token addresses are for **Base Mainnet**:
   - `USDC_TOKEN_ADDRESS=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`
-  - `TOKEN_ADDRESS=0x...` (Your deployed token)
+  - `DAIM_ADDRESS=0x...` (Your deployed token)
   - `TREASURY_ADDRESS=0x...` (Your treasury)
 
 ### Wallet Funding
@@ -51,7 +51,7 @@ DISABLE_PAYMASTER=false
 
 # Base Mainnet Addresses
 USDC_TOKEN_ADDRESS=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
-TOKEN_ADDRESS=0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2  // Your deployed token
+DAIM_ADDRESS=0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2  // DaimToken on Base Mainnet
 TREASURY_ADDRESS=0x129154b7E3f0Ab0E59615ef578f6511b072FB431    // Your treasury
 
 # Safety Settings

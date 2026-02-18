@@ -69,7 +69,7 @@ const paymasterManager = new PaymasterManager(PAYMASTER_URL, PAYMASTER_API_KEY);
 
 app.post('/api/sponsor', async (req, res) => {
     // ... validate user ...
-    const paymasterAndData = await paymasterManager.getPaymasterAndData(userOperation, chainId);
+    const paymasterAndData = await paymasterManager.getStubPaymasterData(userOperation);
     res.json({ paymasterAndData });
 });
 ```
@@ -79,16 +79,20 @@ The client uses a custom "Proxy Manager" to talk to your server:
 
 ```typescript
 // src/client.ts
-class ProxyPaymasterManager {
-    constructor(private proxyUrl: string) {}
+// No custom Paymaster Manager needed!
+// Use the real PaymasterManager from the SDK, pointed at your local proxy.
+const paymasterManager = new PaymasterManager(
+    "http://localhost:3000/rpc",  // Your backend proxy
+    undefined  // No API key needed on client — server handles it
+);
 
-    async getPaymasterAndData(userOperation: any, chainId: number): Promise<string> {
-        const response = await fetch(this.proxyUrl, {
-             method: 'POST',
-             body: JSON.stringify({ userOperation, chainId })
-        });
-        const data = await response.json();
-        return data.paymasterAndData;
-    }
-}
+const smartAccountManager = new SmartAccountManager(
+    walletClient,
+    publicClient,
+    "http://localhost:3000/rpc", // Use local RPC Proxy as Bundler
+    paymasterManager
+);
+
+await smartAccountManager.createSafeAccount();
+const txHash = await smartAccountManager.executeBatch([...calls]);
 ```

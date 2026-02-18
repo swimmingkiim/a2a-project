@@ -217,10 +217,10 @@ app.post('/api/protected-endpoint', async (req, res) => {
     1000000n // 1 USDC minimum
   );
   
-  if (!verification.valid) {
+  if (!verification.isValid) {
     return res.status(402).json({ 
       error: 'Invalid payment',
-      reason: verification.reason 
+      details: verification.error 
     });
   }
   

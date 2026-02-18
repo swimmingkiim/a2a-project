@@ -806,7 +806,7 @@ export class PaymasterManager {
     
     if (tokenType === 'USDC') {
       return this.appendUSDCFee(calls, feeConfig);
-    } else if (tokenType === 'TOKEN') {
+    } else if (tokenType === 'DAIM') {
       return this.appendDAIMFee(calls, feeConfig);
     }
     
@@ -897,25 +897,25 @@ describe("PaymasterManager - USDC Fee", () => {
   });
 });
 
-describe("PaymasterManager - TOKEN Fee", () => {
-  it("should append TOKEN fee when tokenType='TOKEN'", () => {
+describe("PaymasterManager - DAIM Fee", () => {
+  it("should append DAIM fee when tokenType='DAIM'", () => {
     const calls = [];
     const result = PaymasterManager.appendFeeToCalls(calls, {
-      tokenType: 'TOKEN',
+      tokenType: 'DAIM',
       token: '0xDAIMAddress',
       treasury: '0xTreasury',
-      amount: 50n * 10n**18n // 50 TOKEN
+      amount: 50n * 10n**18n // 50 DAIM
     });
     
-    // Assert: Transfer to TOKEN token contract
+    // Assert: Transfer to DAIM token contract
     expect(result[0].to).toBe('0xDAIMAddress');
     // Decode data and verify transfer amount
   });
   
-  it("should throw error if TOKEN address not configured", () => {
+  it("should throw error if DAIM address not configured", () => {
     expect(() => {
-      PaymasterManager.appendFeeToCalls([], { tokenType: 'TOKEN' });
-    }).toThrow("TOKEN token address not configured");
+      PaymasterManager.appendFeeToCalls([], { tokenType: 'DAIM' });
+    }).toThrow("DAIM token address not configured");
   });
 });
 
@@ -985,7 +985,7 @@ async function runDAIMDemo() {
   
   // Append $DAIM treasury fee
   const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
-    tokenType: 'TOKEN',
+    tokenType: 'DAIM',
     token: TOKEN_ADDRESS,
     treasury: TREASURY_ADDRESS,
     amount: treasuryFee
@@ -1095,10 +1095,10 @@ pnpm coverage:paymaster  # Should show >90% for fee validation logic
    // After (Explicit USDC, same behavior)
    const calls = PaymasterManager.appendFeeToCalls(userCalls, { tokenType: 'USDC' });
    
-   // After (Switch to TOKEN)
+   // After (Switch to DAIM)
    const calls = PaymasterManager.appendFeeToCalls(userCalls, {
-     tokenType: 'TOKEN',
-     token: process.env.TOKEN_ADDRESS,
+     tokenType: 'DAIM',
+     token: process.env.DAIM_ADDRESS,
      treasury: process.env.TREASURY_ADDRESS,
      amount: 50n * 10n**18n
    });

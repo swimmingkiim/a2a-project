@@ -105,27 +105,31 @@ The bot needs to:
 ### Step 1: Bot Builds Transaction (Smart Account)
 
 ```typescript
-import { SmartAccountManager } from '@swimmingkiim/pay-sdk';
+import { SmartAccountManager, PaymasterManager } from '@swimmingkiim/pay-sdk';
+import { createWalletClient, createPublicClient, http, encodeFunctionData, parseAbi } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { base } from 'viem/chains';
 
-const smartAccount = new SmartAccountManager({
-  privateKey: botPrivateKey,
-  rpcUrl: 'https://mainnet.base.org',
-  bundlerUrl: 'https://bundler.base.org',
-  chain: base
-});
+const account = privateKeyToAccount(botPrivateKey);
+const walletClient = createWalletClient({ account, chain: base, transport: http('https://mainnet.base.org') });
+const publicClient = createPublicClient({ chain: base, transport: http('https://mainnet.base.org') });
 
-// Build USDC transfer
-const userOp = await smartAccount.buildUserOp({
-  to: TREASURY_ADDRESS,
-  data: encodeFunctionData({
-    abi: erc20Abi,
-    functionName: 'transfer',
-    args: [TREASURY_ADDRESS, 1000000n] // 1 USDC
-  })
-});
+const paymasterManager = new PaymasterManager(
+  'https://paymaster.a10m.work/v1/paymaster',
+  'a2a_sk_live_abc123...' // Your API key
+);
+
+const smartAccount = new SmartAccountManager(
+  walletClient,
+  publicClient,
+  'https://paymaster.a10m.work/v1/paymaster',
+  paymasterManager
+);
+
+await smartAccount.createSafeAccount();
 ```
 
-**Problem**: `userOp` needs gas fees, but bot has no ETH!
+**Problem**: The transaction needs gas fees, but the bot has no ETH!
 
 ### Step 2: Request Paymaster Sponsorship
 
@@ -165,11 +169,19 @@ app.post('/v1/paymaster', async (req, res) => {
 ### Step 3: Complete and Submit Transaction
 
 ```typescript
-// Bot adds paymaster data to userOp
-userOp.paymasterAndData = paymasterData;
-
-// Submit to blockchain
-const txHash = await smartAccount.sendUserOperation(userOp);
+// Execute batch transaction through the SDK
+// The SDK automatically handles paymaster data and gas sponsorship
+const txHash = await smartAccount.executeBatch([
+  {
+    to: USDC_ADDRESS,
+    value: 0n,
+    data: encodeFunctionData({
+      abi: parseAbi(['function transfer(address to, uint256 amount)']),
+      functionName: 'transfer',
+      args: [TREASURY_ADDRESS, 1000000n] // 1 USDC to Treasury
+    })
+  }
+]);
 console.log('Transaction submitted:', txHash);
 // ✅ Bot paid no gas! Your paymaster covered it!
 ```
@@ -200,15 +212,19 @@ curl https://alice-api.com/api/payment-info
 #### 2. Bob Prepares Smart Account Payment
 
 ```typescript
-// Bob's bot code
-const paymentUserOp = await smartAccount.buildUserOp({
-  to: USDC_ADDRESS,
-  data: encodeFunctionData({
-    abi: erc20Abi,
-    functionName: 'transfer',
-    args: ['0xAliceTreasury...', 1000000n] // 1 USDC to Alice
-  })
-});
+// Bob's bot code — uses executeBatch to send USDC to Alice's treasury
+const USDC_ADDRESS = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
+const calls = [
+  {
+    to: USDC_ADDRESS,
+    value: 0n,
+    data: encodeFunctionData({
+      abi: parseAbi(['function transfer(address to, uint256 amount)']),
+      functionName: 'transfer',
+      args: ['0xAliceTreasury...', 1000000n] // 1 USDC to Alice
+    })
+  }
+];
 ```
 
 **Problem**: Bob needs ETH for gas 😰
@@ -216,13 +232,8 @@ const paymentUserOp = await smartAccount.buildUserOp({
 #### 3. Bob Uses Alice's Paymaster
 
 ```typescript
-// Get paymaster sponsorship (using Alice's API key)
-const paymasterData = await paymasterManager.getStubPaymasterData(
-  paymentUserOp
-);
-
-paymentUserOp.paymasterAndData = paymasterData;
-const paymentTx = await smartAccount.sendUserOperation(paymentUserOp);
+// Execute through SmartAccountManager — paymaster sponsorship is handled automatically
+const paymentTx = await smartAccount.executeBatch(calls);
 ```
 
 **Result**: ✅ 1 USDC transferred to Alice, Bob paid NO gas!
@@ -246,7 +257,7 @@ const verification = await paymentVerifier.verifyUSDCPayment(
   1000000n
 );
 
-if (verification.valid) {
+if (verification.isValid) {
   return res.json({ result: "Generated regex: ^[a-z0-9]+@..." });
 }
 ```

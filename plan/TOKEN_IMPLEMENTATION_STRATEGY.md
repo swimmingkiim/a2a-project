@@ -1,4 +1,4 @@
-# $TOKEN System: Whitepaper vs Implementation Roadmap
+# $DAIM System: Whitepaper vs Implementation Roadmap
 
 ## Document Purpose
 
@@ -11,8 +11,8 @@ This document clarifies the relationship between the **ambitious long-term visio
 The whitepaper outlines a **Phase 3: Sovereign Trust** architecture with advanced features:
 
 ### 1. BME (Burn-and-Mint Equilibrium) Economics
-- **Agents pay in stable USD** → Gateway buys & burns $TOKEN → **Deflationary pressure**
-- **Nodes earn fresh-minted $TOKEN** → Inflationary rewards
+- **Agents pay in stable USD** → Gateway buys & burns $DAIM → **Deflationary pressure**
+- **Nodes earn fresh-minted $DAIM** → Inflationary rewards
 - **Net effect:** If usage > inflation rate → Price appreciates
 
 ### 2. WCU (Weighted Compute Units)
@@ -44,9 +44,9 @@ The `TOKEN_ROADMAP.md` focuses on **Phase 2: Hybrid Economy** foundations:
 
 | Component | Scope | Purpose |
 |-----------|-------|---------|
-| **UtilityToken.sol** | ERC-20 + AccessControl | Basic minting infrastructure |
-| **Dual-Token Support** | USDC + $TOKEN validation | Enable agents to pay in either token |
-| **Mock Oracle** | Simple ETH→TOKEN conversion | Price discovery prototype |
+| **DaimToken.sol** | ERC-20 + AccessControl | Basic minting infrastructure |
+| **Dual-Token Support** | USDC + $DAIM validation | Enable agents to pay in either token |
+| **Mock Oracle** | Simple ETH→DAIM conversion | Price discovery prototype |
 | **Strategy Pattern** | Paymaster fee routing | Extensible validation logic |
 | **SDK Updates** | `tokenType` parameter | Client-side token selection |
 
@@ -104,15 +104,15 @@ The `TOKEN_ROADMAP.md` now includes:
 
 ### 1. Initial $TOKEN Economics
 
-**Option A (Simple):** Paymaster mints $TOKEN as rewards, no burning yet  
-**Option B (BME Lite):** Treasury manually burns $TOKEN quarterly  
+**Option A (Simple):** Paymaster mints $DAIM as rewards, no burning yet  
+**Option B (BME Lite):** Treasury manually burns $DAIM quarterly  
 **Option C (Full BME):** Requires DEX integration, more complex
 
 **Recommendation:** Start with **Option A**, add BME in Phase 2 after proving demand.
 
 ### 2. WCU Implementation Timeline
 
-**Short-term (Now):** Simple pricing - "$X of $TOKEN per inference request"  
+**Short-term (Now):** Simple pricing - "$X of $DAIM per inference request"  
 **Medium-term (6 months):** Basic WCU - "H100 costs 2x A100"  
 **Long-term (12 months):** Governance-driven WCU with DAO votes
 

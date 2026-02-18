@@ -1,6 +1,6 @@
-# E2E Demo Guide: TOKEN Token Fee Payment
+# E2E Demo Guide: DAIM Token Fee Payment
 
-This demo validates the complete TOKEN token fee payment flow on Base Sepolia testnet.
+This demo validates the complete DAIM token fee payment flow on Base Sepolia testnet.
 
 ## Prerequisites
 
@@ -27,7 +27,7 @@ PAYMASTER_URL=http://localhost:8080/v1/paymaster
 - **ETH on Base Sepolia**: For gas fees
   - Get from [Base Sepolia Faucet](https://www.coinbase.com/faucets/base-ethereum-goerli-faucet)
   
-- **MINTER_ROLE on TOKEN Token**: To mint test TOKEN
+- **MINTER_ROLE on DAIM Token**: To mint test DAIM
   - Contract: `0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2`
   - Grant via: `npx hardhat run scripts/grant-minter-role.ts --network baseSepolia`
 
@@ -48,37 +48,37 @@ tsx scripts/e2e-comp-demo.ts
 
 **What it does:**
 1. ✅ Checks wallet ETH balance
-2. ✅ Checks TOKEN balance (mints if needed)
-3. ✅ Sends 25 TOKEN to treasury
+2. ✅ Checks DAIM balance (mints if needed)
+3. ✅ Sends 25 DAIM to treasury
 4. ✅ Verifies fee payment
 5. ✅ Displays transaction details
 
 ### Expected Output
 
 ```
-🚀 Starting E2E Demo: TOKEN Fee Payment
+🚀 Starting E2E Demo: DAIM Fee Payment
 
 ============================================================
 
 📋 Step 1: Environment Check
    Wallet: 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0
-   TOKEN Token: 0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
+   DAIM Token: 0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
    Treasury: 0x129154b7E3f0Ab0E59615ef578f6511b072FB431
    RPC: https://sepolia.base.org
    ETH Balance: 0.05 ETH
 
-💰 Step 2: TOKEN Balance Check
-   Current TOKEN Balance: 100 TOKEN
+💰 Step 2: DAIM Balance Check
+   Current DAIM Balance: 100 DAIM
    ✅ Sufficient balance
 
-📝 Step 3: Preparing TOKEN Fee Transaction
-   Fee Amount: 25 TOKEN
+📝 Step 3: Preparing DAIM Fee Transaction
+   Fee Amount: 25 DAIM
    Treasury: 0x129154b7E3f0Ab0E59615ef578f6511b072FB431
    ✅ Fee transaction encoded
 
-📤 Step 4: Sending TOKEN Fee Payment
-   Sending 25 TOKEN to Treasury...
-   Treasury balance before: 150 TOKEN
+📤 Step 4: Sending DAIM Fee Payment
+   Sending 25 DAIM to Treasury...
+   Treasury balance before: 150 DAIM
    Transaction: 0xabc123...
 
 ⏳ Step 5: Waiting for Confirmation
@@ -86,17 +86,17 @@ tsx scripts/e2e-comp-demo.ts
    Gas used: 52000
 
 ✅ Step 6: Verifying Fee Payment
-   User balance after: 75 TOKEN
-   Treasury balance after: 175 TOKEN
-   Treasury received: 25 TOKEN
+   User balance after: 75 DAIM
+   Treasury balance after: 175 DAIM
+   Treasury received: 25 DAIM
    ✅ Fee payment verified!
 
 ============================================================
 🎉 E2E Demo Complete!
 
 Summary:
-  ✅ TOKEN token transfer successful
-  ✅ Treasury received 25 TOKEN
+  ✅ DAIM token transfer successful
+  ✅ Treasury received 25 DAIM
   ✅ Transaction confirmed on Base Sepolia
   ✅ Block: 1234567
   ✅ TX: 0xabc123...
@@ -104,7 +104,7 @@ Summary:
 📚 Next Steps:
   1. Integrate with actual Smart Account
   2. Submit UserOp to Paymaster
-  3. Test with ENABLE_TOKEN_FEES=true
+  3. Test with ENABLE_DAIM_FEES=true
   4. Deploy to Base Mainnet
 ```
 
@@ -144,11 +144,11 @@ For complete integration with Smart Accounts and Paymaster:
 ```typescript
 import { PaymasterManager } from '@swimmingkiim/pay-sdk';
 
-// 1. Create calls with TOKEN fee
+// 1. Create calls with DAIM fee
 const calls = PaymasterManager.appendFeeToCalls(baseCalls, {
   treasury: TREASURY_ADDRESS,
   amount: 25n * 10n**18n,
-  tokenType: 'TOKEN'
+  tokenType: 'DAIM'
 });
 
 // 2. Create UserOp
@@ -169,7 +169,7 @@ Check transaction on Base Sepolia Explorer:
 https://sepolia.basescan.org/tx/YOUR_TX_HASH
 ```
 
-Check TOKEN token contract:
+Check DAIM token contract:
 ```
 https://sepolia.basescan.org/address/0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
 ```
@@ -177,7 +177,7 @@ https://sepolia.basescan.org/address/0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
 ## Success Criteria
 
 ✅ Demo wallet has ETH  
-✅ TOKEN tokens minted successfully  
+✅ DAIM tokens minted successfully  
 ✅ Fee transfer completes  
 ✅ Treasury balance increases  
 ✅ Transaction confirmed on-chain

@@ -1,5 +1,5 @@
-# $TOKEN System# Utility Token Quick Start
-This guide helps you interact with the Utility Token (default symbol: $TOKEN) ecosystem.rs
+# $DAIM System — Utility Token Quick Start
+This guide helps you interact with the $DAIM Token ecosystem.
 
 ## For Developers
 
@@ -17,25 +17,25 @@ const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
 });
 ```
 
-### 2. Using TOKEN Fees (New)
+### 2. Using DAIM Fees (New)
 
 ```typescript
 const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
   treasury: process.env.TREASURY_ADDRESS,
-  amount: 25n * 10n**18n,  // 25 TOKEN
-  tokenType: 'TOKEN'
+  amount: 25n * 10n**18n,  // 25 DAIM
+  tokenType: 'DAIM'
 });
 ```
 
 ## For Operators
 
-### Enable TOKEN Fees
+### Enable DAIM Fees
 
 1. **Update `.env`:**
    ```bash
-   TOKEN_ADDRESS=<TOKEN_ADDRESS>
-   TOKEN_PRICE_USD=0.10
-   ENABLE_TOKEN_FEES=true
+   DAIM_ADDRESS=0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2
+   DAIM_PRICE_USD=0.10
+   ENABLE_DAIM_FEES=true
    ```
 
 2. **Restart Paymaster:**
@@ -47,7 +47,7 @@ const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
 
 3. **Verify Logs:**
    ```
-   ✅ TOKEN fee validation enabled (Token: 0xED17..., Price: $0.10)
+   ✅ DAIM fee validation enabled (Token: 0xE0Bf..., Price: $0.10)
    ```
 
 ## Test Results
@@ -60,11 +60,10 @@ const callsWithFee = PaymasterManager.appendFeeToCalls(calls, {
 
 ## Deployed Contracts
 
-**UtilityToken (Base Sepolia):**  
-`<TOKEN_ADDRESS>`
+**DaimToken (Base Mainnet):**  
+`0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2`
 
 ## Documentation
 
-- [Full Walkthrough](file:///Users/kimsooyoung/.gemini/antigravity/brain/63025d8d-84f6-409a-90bf-51fb9181ffea/walkthrough.md)
-- [Phase 4 Implementation Plan](file:///Users/kimsooyoung/.gemini/antigravity/brain/63025d8d-84f6-409a-90bf-51fb9181ffea/phase4_integration_plan.md)
-- [TOKEN Roadmap](file:///Users/kimsooyoung/Developments/projects/a2a-projects/plan/TOKEN_ROADMAP.md)
+- [Paymaster Bot Guide](file:///Users/kimsooyoung/Developments/projects/a2a-projects/docs/guides/PAYMASTER_BOT_GUIDE.md)
+- [AI Agent Token Guide](file:///Users/kimsooyoung/Developments/projects/a2a-projects/docs/guides/AI_AGENT_TOKEN_GUIDE.md)
