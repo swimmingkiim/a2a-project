@@ -287,6 +287,16 @@ contract AgentRegistry is Initializable, UUPSUpgradeable, AccessControlUpgradeab
         return candidates;
     }
 
+    /**
+     * @notice Updates the verifier contract address.
+     * @dev Only callable by admin. Used to migrate from MockVerifier to production CredentialVerifier.
+     * @param _newVerifier Address of the new verifier contract
+     */
+    function setVerifier(address _newVerifier) external onlyRole(ADMIN_ROLE) {
+        require(_newVerifier != address(0), "Invalid verifier address");
+        verifier = IVerifiedCredentialVerifier(_newVerifier);
+    }
+
     // Gap for upgrade safety
     uint256[50] private __gap;
 }
