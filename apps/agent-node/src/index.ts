@@ -1,49 +1,49 @@
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8080;
 
 async function startServer() {
-    console.log('Starting Agent Node...')
+  console.log("Starting Agent Node...");
+  try {
+    console.log("Importing dependencies...");
+    const express = (await import("express")).default;
+    const cors = (await import("cors")).default;
+    const { AgentServer } = await import("@swimmingkiim/api-sdk");
+    const { IdentityManager } = await import("@swimmingkiim/trust-sdk");
+    const { SSEServerTransport } = await import("@modelcontextprotocol/sdk/server/sse.js");
+    const { z } = await import("zod");
+
+    // const { airdropService } = await import('./airdrop.js') // Removed direct import
+    const { handleGrantRequest } = await import("./grant-handler.js");
+
+    let db: any = null;
+    let dbInitError: string | null = null;
     try {
-        console.log('Importing dependencies...')
-        const express = (await import('express')).default
-        const cors = (await import('cors')).default
-        const { AgentServer } = await import('@swimmingkiim/api-sdk')
-        const { IdentityManager } = await import('@swimmingkiim/trust-sdk')
-        const { SSEServerTransport } = await import('@modelcontextprotocol/sdk/server/sse.js')
-        const { z } = await import('zod')
+      const { Pool } = await import("pg");
+      console.log("Dependencies imported successfully.");
 
-        // const { airdropService } = await import('./airdrop.js') // Removed direct import
-        const { handleGrantRequest } = await import('./grant-handler.js')
+      // Initialize PostgreSQL Database
+      if (process.env.DB_HOST || process.env.INSTANCE_CONNECTION_NAME) {
+        const config: any = {
+          user: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
+          database: process.env.DB_NAME,
+        };
 
-        let db: any = null
-        let dbInitError: string | null = null
-        try {
-            const { Pool } = await import('pg')
-            console.log('Dependencies imported successfully.')
+        if (process.env.INSTANCE_CONNECTION_NAME) {
+          config.host = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+        } else {
+          config.host = process.env.DB_HOST;
+          config.port = Number(process.env.DB_PORT) || 5432;
+        }
 
-            // Initialize PostgreSQL Database
-            if (process.env.DB_HOST || process.env.INSTANCE_CONNECTION_NAME) {
-                const config: any = {
-                    user: process.env.DB_USER,
-                    password: process.env.DB_PASSWORD,
-                    database: process.env.DB_NAME,
-                }
+        console.log(`Connecting to database: ${config.host} / ${config.database}`);
+        db = new Pool(config);
 
-                if (process.env.INSTANCE_CONNECTION_NAME) {
-                    config.host = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`
-                } else {
-                    config.host = process.env.DB_HOST
-                    config.port = Number(process.env.DB_PORT) || 5432
-                }
+        // Verify connection
+        await db.query("SELECT NOW()");
+        console.log("Database connected successfully.");
 
-                console.log(`Connecting to database: ${config.host} / ${config.database}`)
-                db = new Pool(config)
-
-                // Verify connection
-                await db.query('SELECT NOW()')
-                console.log('Database connected successfully.')
-
-                const initDb = async () => {
-                    await db.query(`
+        const initDb = async () => {
+          await db.query(`
                         CREATE TABLE IF NOT EXISTS projects (
                             id SERIAL PRIMARY KEY,
                             name TEXT NOT NULL,
@@ -68,106 +68,101 @@ async function startServer() {
                             tx_hash TEXT,
                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                         );
-                    `)
-                }
-                await initDb()
-                console.log('Database initialized.')
-            } else {
-                console.warn('No database configuration found (DB_HOST or INSTANCE_CONNECTION_NAME). Running without DB.')
-            }
+                    `);
+        };
+        await initDb();
+        console.log("Database initialized.");
+      } else {
+        console.warn(
+          "No database configuration found (DB_HOST or INSTANCE_CONNECTION_NAME). Running without DB.",
+        );
+      }
+    } catch (e: any) {
+      console.error("Failed to initialize PostgreSQL, functionality will be limited:", e);
+      if (process.env.INSTANCE_CONNECTION_NAME) {
+        console.error(
+          'Hint: Make sure the Cloud SQL connection name is correct and the service account has "Cloud SQL Client" role.',
+        );
+        console.error("If running locally, ensure Cloud SQL Proxy is running.");
+      }
+      dbInitError = e.message || String(e);
+      db = null;
+    }
 
-        } catch (e: any) {
-            console.error('Failed to initialize PostgreSQL, functionality will be limited:', e)
-            if (process.env.INSTANCE_CONNECTION_NAME) {
-                console.error('Hint: Make sure the Cloud SQL connection name is correct and the service account has "Cloud SQL Client" role.');
-                console.error('If running locally, ensure Cloud SQL Proxy is running.');
-            }
-            dbInitError = e.message || String(e)
-            db = null
-        }
+    const logActivity = async (type: string, details: any) => {
+      if (!db) return;
+      try {
+        await db.query("INSERT INTO agent_activity_logs (activity_type, details) VALUES ($1, $2)", [
+          type,
+          JSON.stringify(details),
+        ]);
+      } catch (e) {
+        console.error("Failed to log activity:", e);
+      }
+    };
 
-        const logActivity = async (type: string, details: any) => {
-            if (!db) return
-            try {
-                await db.query(
-                    'INSERT INTO agent_activity_logs (activity_type, details) VALUES ($1, $2)',
-                    [type, JSON.stringify(details)]
-                )
-            } catch (e) {
-                console.error('Failed to log activity:', e)
-            }
-        }
+    const app = express();
 
-        const app = express()
+    app.use(cors());
+    app.use(express.json());
 
-        app.use(cors())
-        app.use(express.json())
+    console.log("Initializing IdentityManager...");
+    // Initialize A2A Components
+    const idManager = new IdentityManager();
 
-        console.log('Initializing IdentityManager...')
-        // Initialize A2A Components
-        const idManager = new IdentityManager()
+    console.log("Initializing AgentServer...");
+    // Initialize MCP Server
+    const mcpServer = new AgentServer("a2a-agent-node", "1.0.0");
 
-        console.log('Initializing AgentServer...')
-        // Initialize MCP Server
-        const mcpServer = new AgentServer("a2a-agent-node", "1.0.0")
+    // Register Tools
+    mcpServer.registerTool("get_agent_identity", "Returns the DID of this agent", {}, async () => {
+      const did = await idManager.createEphemeralDID();
+      return {
+        content: [{ type: "text", text: did.did }],
+      };
+    });
 
-        // Register Tools
-        mcpServer.registerTool(
-            "get_agent_identity",
-            "Returns the DID of this agent",
-            {},
-            async () => {
-                const did = await idManager.createEphemeralDID()
-                return {
-                    content: [{ type: "text", text: did.did }]
-                }
-            }
-        )
+    mcpServer.registerTool(
+      "echo",
+      "Echoes back the input",
+      { message: z.string() },
+      async ({ message }: { message: string }) => {
+        await logActivity("TOOL_USAGE", { tool: "echo", message });
+        return {
+          content: [{ type: "text", text: `Echo: ${message}` }],
+        };
+      },
+    );
 
+    // MCP SSE Variable
+    let transport: any = null;
 
-        mcpServer.registerTool(
-            "echo",
-            "Echoes back the input",
-            { message: z.string() },
-            async ({ message }: { message: string }) => {
-                await logActivity('TOOL_USAGE', { tool: 'echo', message })
-                return {
-                    content: [{ type: "text", text: `Echo: ${message}` }]
-                }
-            }
-        )
+    const MANIFEST = {
+      name: "a2a-agent-node",
+      description: "A2A Agent Node",
+      version: "1.0.0",
+      mcp: {
+        endpoint: "/sse",
+        transport: "sse",
+        message_endpoint: "/message",
+      },
+      tools: [
+        {
+          name: "get_agent_identity",
+          description: "Returns the DID of this agent",
+          input_schema: {},
+        },
+        {
+          name: "echo",
+          description: "Echoes back the input",
+          input_schema: { message: "string" },
+        },
+      ],
+    };
 
-        // MCP SSE Variable
-        let transport: any = null
-
-
-
-        const MANIFEST = {
-            name: "a2a-agent-node",
-            description: "A2A Agent Node",
-            version: "1.0.0",
-            mcp: {
-                endpoint: "/sse",
-                transport: "sse",
-                message_endpoint: "/message"
-            },
-            tools: [
-                {
-                    name: "get_agent_identity",
-                    description: "Returns the DID of this agent",
-                    input_schema: {}
-                },
-                {
-                    name: "echo",
-                    description: "Echoes back the input",
-                    input_schema: { message: "string" }
-                }
-            ]
-        }
-
-        app.get('/', (_req: any, res: any) => {
-            res.header('Content-Type', 'text/html')
-            res.send(`
+    app.get("/", (_req: any, res: any) => {
+      res.header("Content-Type", "text/html");
+      res.send(`
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -336,129 +331,151 @@ async function startServer() {
                 </div>
 
                 <h2>🛠 Available Tools</h2>
-                ${MANIFEST.tools.map(t => `
+                ${MANIFEST.tools
+                  .map(
+                    (t) => `
                 <div class="card">
                     <h3>${t.name}</h3>
                     <p>${t.description}</p>
                     <p><strong>Input:</strong> <code>${JSON.stringify(t.input_schema)}</code></p>
                 </div>
-                `).join('')}
+                `,
+                  )
+                  .join("")}
 
                 <h2>📘 Usage</h2>
                 <p>Connect to this agent using an MCP Client via the SSE transport at <code>/sse</code>.</p>
             </body>
             </html>
-            `)
-        })
+            `);
+    });
 
+    // Projects API
+    const { ProjectSchema, verifyProjectApi } = await import("./verification.js");
 
-        // Projects API
-        const { ProjectSchema, verifyProjectApi } = await import('./verification.js')
+    app.get("/api/projects", async (_req: any, res: any) => {
+      if (!db) {
+        console.warn(
+          `[API] Failed to serve /api/projects: Database not initialized. Cause: ${dbInitError}`,
+        );
+        res.status(503).json({
+          error: dbInitError
+            ? `Database not initialized: ${dbInitError}`
+            : "Database not initialized (Missing configuration)",
+        });
+        return;
+      }
+      try {
+        const result = await db.query("SELECT * FROM projects ORDER BY created_at DESC");
+        res.json(result.rows);
+      } catch (err: any) {
+        res.status(500).json({ error: err.message });
+      }
+    });
 
+    app.post("/api/projects", async (req: any, res: any) => {
+      if (!db) {
+        console.warn(
+          `[API] Failed to serve /api/projects: Database not initialized. Cause: ${dbInitError}`,
+        );
+        res.status(503).json({
+          error: dbInitError
+            ? `Database not initialized: ${dbInitError}`
+            : "Database not initialized (Missing configuration)",
+        });
+        return;
+      }
+      try {
+        const data = ProjectSchema.parse(req.body);
 
+        // Verify API
+        await verifyProjectApi(data.apiUrl, data.ownerDid);
 
-        app.get('/api/projects', async (_req: any, res: any) => {
-            if (!db) {
-                console.warn(`[API] Failed to serve /api/projects: Database not initialized. Cause: ${dbInitError}`);
-                res.status(503).json({ error: dbInitError ? `Database not initialized: ${dbInitError}` : 'Database not initialized (Missing configuration)' })
-                return
-            }
-            try {
-                const result = await db.query('SELECT * FROM projects ORDER BY created_at DESC')
-                res.json(result.rows)
-            } catch (err: any) {
-                res.status(500).json({ error: err.message })
-            }
-        })
-
-        app.post('/api/projects', async (req: any, res: any) => {
-            if (!db) {
-                console.warn(`[API] Failed to serve /api/projects: Database not initialized. Cause: ${dbInitError}`);
-                res.status(503).json({ error: dbInitError ? `Database not initialized: ${dbInitError}` : 'Database not initialized (Missing configuration)' })
-                return
-            }
-            try {
-                const data = ProjectSchema.parse(req.body)
-
-                // Verify API
-                await verifyProjectApi(data.apiUrl, data.ownerDid)
-
-                const query = `
+        const query = `
                     INSERT INTO projects (name, description, api_url, owner_did)
                     VALUES ($1, $2, $3, $4)
                     RETURNING id, name, description, api_url, owner_did, created_at
-                `
-                const values = [data.name, data.description, data.apiUrl, data.ownerDid]
-                const result = await db.query(query, values)
+                `;
+        const values = [data.name, data.description, data.apiUrl, data.ownerDid];
+        const result = await db.query(query, values);
 
-                res.status(201).json(result.rows[0])
-            } catch (error: any) {
-                // Handle duplicate entry (PostgreSQL error code 23505)
-                if (error.code === '23505') {
-                    res.status(409).json({
-                        error: 'This API URL is already registered by this owner. Duplicate registration is not allowed.',
-                        details: 'A project with the same API URL and owner DID already exists.'
-                    })
-                } else {
-                    res.status(400).json({ error: error.message || error })
-                }
-            }
-        })
+        res.status(201).json(result.rows[0]);
+      } catch (error: any) {
+        // Handle duplicate entry (PostgreSQL error code 23505)
+        if (error.code === "23505") {
+          res.status(409).json({
+            error:
+              "This API URL is already registered by this owner. Duplicate registration is not allowed.",
+            details: "A project with the same API URL and owner DID already exists.",
+          });
+        } else {
+          res.status(400).json({ error: error.message || error });
+        }
+      }
+    });
 
-        app.post('/api/grant', async (req: any, res: any) => {
-            await handleGrantRequest(req, res, db)
-        })
+    app.post("/api/grant", async (req: any, res: any) => {
+      await handleGrantRequest(req, res, db);
+    });
 
-        app.get('/api/logs', async (_req: any, res: any) => {
-            if (!db) {
-                console.warn(`[API] Failed to serve /api/projects: Database not initialized. Cause: ${dbInitError}`);
-                res.status(503).json({ error: dbInitError ? `Database not initialized: ${dbInitError}` : 'Database not initialized (Missing configuration)' })
-                return
-            }
-            try {
-                const limit = _req.query.limit ? parseInt(_req.query.limit as string) : 50
-                const result = await db.query('SELECT * FROM agent_activity_logs ORDER BY created_at DESC LIMIT $1', [limit])
-                res.json(result.rows)
-            } catch (err: any) {
-                res.status(500).json({ error: err.message })
-            }
-        })
-
-        app.get('/manifest.json', (_req: any, res: any) => {
-            res.json(MANIFEST)
-        })
-
-        app.get('/health', (_req: any, res: any) => {
-            res.status(200).send('OK')
-        })
-
-        app.get('/sse', async (_req: any, res: any) => {
-            console.log('New SSE connection')
-            transport = new SSEServerTransport('/message', res)
-            await mcpServer.connect(transport)
-        })
-
-        app.post('/message', async (req: any, res: any) => {
-            if (transport) {
-                await transport.handlePostMessage(req, res)
-            } else {
-                res.status(400).send('No active connection')
-            }
-        })
-
-        app.get('/llms.txt', (_req: any, res: any) => {
-            res.header('Content-Type', 'text/plain');
-            res.send(`# A2A Agent Node\n\nThis is an A2A Agent Node. See /manifest.json for tools.`);
+    app.get("/api/logs", async (_req: any, res: any) => {
+      if (!db) {
+        console.warn(
+          `[API] Failed to serve /api/projects: Database not initialized. Cause: ${dbInitError}`,
+        );
+        res.status(503).json({
+          error: dbInitError
+            ? `Database not initialized: ${dbInitError}`
+            : "Database not initialized (Missing configuration)",
         });
+        return;
+      }
+      try {
+        const limit = _req.query.limit ? parseInt(_req.query.limit as string) : 50;
+        const result = await db.query(
+          "SELECT * FROM agent_activity_logs ORDER BY created_at DESC LIMIT $1",
+          [limit],
+        );
+        res.json(result.rows);
+      } catch (err: any) {
+        res.status(500).json({ error: err.message });
+      }
+    });
 
-        app.listen(Number(PORT), '0.0.0.0', () => {
-            console.log(`Agent Node listening on port ${PORT}`)
-        })
+    app.get("/manifest.json", (_req: any, res: any) => {
+      res.json(MANIFEST);
+    });
 
-    } catch (error) {
-        console.error('Failed to start Agent Node:', error)
-        process.exit(1)
-    }
+    app.get("/health", (_req: any, res: any) => {
+      res.status(200).send("OK");
+    });
+
+    app.get("/sse", async (_req: any, res: any) => {
+      console.log("New SSE connection");
+      transport = new SSEServerTransport("/message", res);
+      await mcpServer.connect(transport);
+    });
+
+    app.post("/message", async (req: any, res: any) => {
+      if (transport) {
+        await transport.handlePostMessage(req, res);
+      } else {
+        res.status(400).send("No active connection");
+      }
+    });
+
+    app.get("/llms.txt", (_req: any, res: any) => {
+      res.header("Content-Type", "text/plain");
+      res.send(`# A2A Agent Node\n\nThis is an A2A Agent Node. See /manifest.json for tools.`);
+    });
+
+    app.listen(Number(PORT), "0.0.0.0", () => {
+      console.log(`Agent Node listening on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start Agent Node:", error);
+    process.exit(1);
+  }
 }
 
-startServer()
+startServer();

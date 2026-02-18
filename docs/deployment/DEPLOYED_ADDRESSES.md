@@ -12,6 +12,9 @@
 *   **DeadMansSwitch:** `0x536DA557b820a37E54121476e3c883f3A16b97c7`
 *   **Treasury Wallet:** `0x129154b7E3f0Ab0E59615ef578f6511b072FB431`
 
+## Services
+*   **Paymaster API:** `https://a2a-paymaster-145018595630.asia-northeast1.run.app`
+
 ## Mocks / Infra
 *   **MockPriceFeed:** `0xe89edb1cF56eA453BD1488D6716c0761f4aB0f41`
 *   **MockVerifier:** `0x9B4690Fc80cD87C6f52E1b4962C08E2036dFDf38`

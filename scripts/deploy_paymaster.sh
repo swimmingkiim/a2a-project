@@ -148,7 +148,7 @@ gcloud builds submit --config apps/paymaster/cloudbuild.yaml .
 echo "🚀 Deploying to Cloud Run..."
 
 # Production environment variables
-DAIM_TOKEN_ADDRESS="0x1F478c3F6a09c3820baBd3f6DCD8bEA4eE5dc806"
+DAIM_TOKEN_ADDRESS="0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2"
 USDC_TOKEN_ADDRESS="0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"  # Base Mainnet USDC
 FEE_AMOUNT="100000"  # 0.1 USDC
 ETH_PRICE_USD="2500"
