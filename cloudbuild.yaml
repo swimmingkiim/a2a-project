@@ -16,7 +16,7 @@ steps:
       - 'a2a-agent-node'
       - '--image'
       - 'asia-northeast3-docker.pkg.dev/$PROJECT_ID/a2a-repo/agent-node'
-      - '--set-secrets=TREASURY_ADDRESS=treasury-address:latest,AGENT_SECRET_KEY=agent-secret-key:latest,GRANT_PRIVATE_KEY=GRANT_PRIVATE_KEY:latest,AIRDROP_PRIVATE_KEY=AIRDROP_PRIVATE_KEY:latest,DB_PASSWORD=DB_PASSWORD:latest'
+      - '--set-secrets=TREASURY_ADDRESS=treasury-address:latest,AGENT_SECRET_KEY=agent-secret-key:latest,GRANT_PRIVATE_KEY=GRANT_PRIVATE_KEY:latest,AIRDROP_PRIVATE_KEY=AIRDROP_PRIVATE_KEY:latest,DB_PASSWORD=DB_PASSWORD:latest,VOUCHER_PRIVATE_KEY=VOUCHER_PRIVATE_KEY:latest'
       - '--region'
       - 'asia-northeast1'
       - '--platform'
