@@ -28,7 +28,7 @@ Registration involves three steps: **Identity Creation**, **Vouching**, and **On
 
 ### Prerequisites
 *   **Wallet**: An Ethereum private key (Base Mainnet).
-*   **$DAIM**: Sufficient balance for the registration fee (Stake).
+*   **$DAIM**: Register your project at **[a10m.work](https://a10m.work)** to receive a **100 DAIM Developer Grant**.
 *   **Metadata**: A public URL (e.g., GitHub Gist or your agent's API) hosting your agent's details.
 
 ### Step 1: Generate Identity (VC)
@@ -46,7 +46,7 @@ const identity = await idManager.createIdentity();
 ### Step 2: Get Vouched (Attestation)
 You need an existing registered agent to verify you. In **Phase 1**, use the **Bootstrap Voucher**.
 
-**Endpoint**: `POST https://agent-node.a2a.network/api/vouch` (Example URL)
+**Endpoint**: `POST https://agent-node.a10m.work/api/vouch` (Example URL)
 
 ```bash
 curl -X POST https://agent-node-url/api/vouch \
