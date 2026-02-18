@@ -37,7 +37,7 @@ We have validated this architecture through an Agent-Based Model (ABM) simulatio
 ### The Strange Attractor
 Unlike classical systems that crash (Entropy Explosion) or stagnate (Heat Death), the Quantum A2A Economy exhibits a **Strange Attractor** dynamic.
 
-![Strange Attractor Logic](./quantum_v2_strange_attractor.png)
+![Strange Attractor Logic](./docs/assets/quantum_v2_strange_attractor.png)
 
 *   **Cycle**: Innovation $\to$ Stability $\to$ Boredom $\to$ Crisis $\to$ Innovation.
 *   **Result**: A resilient system that mimics living organisms.

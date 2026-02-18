@@ -43,3 +43,6 @@ scripts/reset-db.sql
 scripts/rotate-db-password.sh
 scripts/sync-paymaster-password.sh
 scripts/execute-db-reset.ts
+
+# Simulation venv
+simulation/.venv/

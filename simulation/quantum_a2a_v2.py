@@ -2,6 +2,7 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 from scipy.linalg import expm
+import os
 
 # --- Configuration & Physics Constants ---
 FAST_TICKS_PER_SLOW = 100  # Time scale ration (epsilon)
@@ -315,8 +316,13 @@ def plot_phase_portrait(econ):
     ax.legend()
     
     plt.tight_layout()
-    plt.savefig('quantum_v2_strange_attractor.png')
-    print("V2 Phase Portrait saved to quantum_v2_strange_attractor.png")
+    # Save to docs/assets/ relative to project root
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    output_path = os.path.join(project_root, 'docs', 'assets', 'quantum_v2_strange_attractor.png')
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    plt.savefig(output_path, dpi=150)
+    print(f"V2 Phase Portrait saved to {output_path}")
 
 if __name__ == "__main__":
     # Only running Quantum V2 Mode as requested
