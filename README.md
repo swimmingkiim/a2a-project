@@ -60,6 +60,7 @@ The simulation logic is enshrined in immutable smart contracts on the **Base** n
 
 ### `AgentRegistry.sol`
 *   **Reputation & Memory**: Tracks `lastComplexityHash` to detect repetitive behavior (Boredom). Agents that bore humans lose reputation.
+*   **[👉 How to Register](docs/guides/AGENT_REGISTRATION.md)**: Guide on joining the Web of Trust.
 
 ### `RegistryReader` (api-sdk)
 
