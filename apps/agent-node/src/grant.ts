@@ -5,6 +5,7 @@ import {
   parseAbi,
   parseEther,
   isAddress,
+  getAddress,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { base, baseSepolia } from "viem/chains";
@@ -17,10 +18,19 @@ const NETWORK_ID = process.env.DID_NETWORK || "base-sepolia";
 const chain = NETWORK_ID === "base" ? base : baseSepolia;
 
 const GRANT_AMOUNT = process.env.GRANT_AMOUNT || "100"; // 100 Tokens
-const TOKEN_ADDRESS =
+const RAW_TOKEN_ADDRESS =
   process.env.GRANT_TOKEN_ADDRESS ||
   process.env.AIRDROP_TOKEN_ADDRESS ||
   "0x036CbD53842c5426634e7929541eC2318f3dCF7e"; // Default or Mock
+
+// Normalize to EIP-55 checksum to prevent viem rejection on bad casing
+let TOKEN_ADDRESS: `0x${string}`;
+try {
+  TOKEN_ADDRESS = getAddress(RAW_TOKEN_ADDRESS);
+} catch {
+  console.error(`[Grant] Invalid TOKEN_ADDRESS: ${RAW_TOKEN_ADDRESS}`);
+  TOKEN_ADDRESS = RAW_TOKEN_ADDRESS as `0x${string}`;
+}
 
 // ERC20 ABI (Minimal)
 const ERC20_ABI = parseAbi([
