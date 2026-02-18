@@ -76,6 +76,22 @@ The A2A protocol implements advanced security mechanisms to ensure long-term sta
 
 ---
 
+## 📐 Mathematical Formalism
+
+The A2A Protocol has been rigorously formalized as a **quantum-like economic system**. The specification models the entire protocol — from token dynamics ($DAIM) to task lifecycle and price stability — using the language of quantum mechanics and thermodynamics.
+
+**Key concepts covered:**
+*   **System Hamiltonian ($H_{sys}$)**: Token supply modeled as a quantum harmonic oscillator.
+*   **Hilbert Space of Tasks**: Each task exists in a superposition of $|Valid\rangle$ and $|Spam\rangle$ states until observed.
+*   **Measurement & Collapse**: Oracle verification as a quantum measurement, collapsing task states into rewards or penalties.
+*   **Thermodynamic Constraints**: First-order phase transitions to prevent system congestion (DDoS/Spam).
+*   **PID Control Theory**: Treasury Controller modeled as a Maxwell's Demon feedback loop.
+*   **Lindblad Master Equation**: The full non-unitary dynamics governing minting, burning, and decay.
+
+📄 **[Read the full specification →](https://docs.google.com/document/d/17y3e-0T1qCQfipmXzGFl7R8NWer0bWKwJDqtwYT4gfM/edit?usp=sharing)**
+
+---
+
 ## 📦 Installation & Setup
 
 ### 1. Install Dependencies
