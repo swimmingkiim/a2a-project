@@ -21,7 +21,7 @@ steps:
       - 'asia-northeast1'
       - '--platform'
       - 'managed'
-      - '--set-env-vars=NODE_ENV=production,DB_USER=agent_user,DB_NAME=agent_db,INSTANCE_CONNECTION_NAME=a2a-project-486504:asia-northeast1:a2a-agent-db,DID_NETWORK=base,RPC_URL=https://mainnet.base.org,GRANT_TOKEN_ADDRESS=0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2'
+      - '--set-env-vars=NODE_ENV=production,DB_USER=agent_user,DB_NAME=agent_db,INSTANCE_CONNECTION_NAME=a2a-project-486504:asia-northeast1:a2a-agent-db,DID_NETWORK=base,RPC_URL=https://mainnet.base.org,GRANT_TOKEN_ADDRESS=0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2,CREDENTIAL_VERIFIER_ADDRESS=0xc173A512b3394f6897F9B20c7A411B5247BCeD19,CHAIN_ID=8453'
       - '--add-cloudsql-instances=a2a-project-486504:asia-northeast1:a2a-agent-db'
       - '--allow-unauthenticated'
       - '--memory'
@@ -55,7 +55,7 @@ steps:
       - '--allow-unauthenticated'
       - '--add-cloudsql-instances=a2a-project-486504:asia-northeast3:a2a-paymaster-db'
       - '--set-env-vars=RPC_URL=https://mainnet.base.org,MARKUP_RATE=0.12,DB_USER=paymaster_admin,DB_NAME=paymaster_db,INSTANCE_CONNECTION_NAME=a2a-project-486504:asia-northeast3:a2a-paymaster-db'
-      - '--set-secrets=A2A_PAYMASTER_API_KEY=A2A_PAYMASTER_API_KEY:latest,UPSTREAM_PAYMASTER_URL=UPSTREAM_PAYMASTER_URL:latest,TREASURY_ADDRESS=TREASURY_ADDRESS:latest,DB_PASS=DB_PASSWORD:latest'
+      - '--set-secrets=A2A_PAYMASTER_API_KEY=A2A_PAYMASTER_API_KEY:latest,UPSTREAM_PAYMASTER_URL=UPSTREAM_PAYMASTER_URL:latest,TREASURY_ADDRESS=TREASURY_ADDRESS:latest,DB_PASS=DB_PASSWORD:latest,VOUCHER_PRIVATE_KEY=VOUCHER_PRIVATE_KEY:latest'
 
 images:
   - 'asia-northeast3-docker.pkg.dev/$PROJECT_ID/a2a-repo/agent-node'

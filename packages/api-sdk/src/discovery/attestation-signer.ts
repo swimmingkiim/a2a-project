@@ -37,7 +37,7 @@ const ATTESTATION_TYPES = {
 export type VerifyVCFunction = (vcJwt: string) => Promise<{ valid: boolean; did: string }>
 
 export interface AttestationSignerOptions {
-    /** Hex-encoded secp256k1 private key of the trusted signer */
+    /** Hex-encoded secp256k1 private key of the voucher (any registered agent or bootstrap) */
     privateKey: `0x${string}`
     /** Address of the deployed CredentialVerifier contract */
     verifierContractAddress: string
@@ -68,11 +68,8 @@ const DEFAULT_TTL_SECONDS = 3600 // 1 hour
 /**
  * Creates EIP-712 signed attestation proofs for the on-chain CredentialVerifier.
  *
- * Architecture:
- *   1. Verifies VC JWT using the injected verifyVC function
- *   2. Extracts the DID and hashes it (nullifier)
- *   3. Signs an EIP-712 typed data struct with the trusted signer key
- *   4. Returns encoded proof ready for AgentRegistry.register()
+ * Web of Trust: Any registered agent (or bootstrap voucher) can sign attestations
+ * to vouch for new agents. No single trusted signer required.
  *
  * @example
  * ```ts
@@ -80,13 +77,13 @@ const DEFAULT_TTL_SECONDS = 3600 // 1 hour
  * import { VCHandler } from '@swimmingkiim/trust-sdk'
  *
  * const vcHandler = new VCHandler()
+ * // Any registered agent's key can be used as voucher
  * const signer = new AttestationSigner({
- *     privateKey: process.env.SIGNER_KEY as `0x${string}`,
+ *     privateKey: process.env.VOUCHER_KEY as `0x${string}`,
  *     verifierContractAddress: '0x...',
  *     chainId: 8453,
  *     verifyVC: async (jwt) => {
  *         const valid = await vcHandler.verifyCredential(jwt)
- *         // Extract DID from JWT payload
  *         const payload = JSON.parse(atob(jwt.split('.')[1]))
  *         return { valid, did: payload.iss }
  *     },
@@ -135,6 +132,10 @@ export class AttestationSigner {
 
         // 4. Calculate deadline
         const deadline = BigInt(Math.floor(Date.now() / 1000) + this.ttlSeconds)
+
+        if (!this.account.signTypedData) {
+            throw new Error('Account does not support signTypedData')
+        }
 
         // 5. Sign EIP-712 typed data
         const signature = await this.account.signTypedData({

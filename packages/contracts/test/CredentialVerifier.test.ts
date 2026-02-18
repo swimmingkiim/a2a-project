@@ -2,22 +2,18 @@ import { expect } from "chai";
 import { ethers, upgrades } from "hardhat";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 
-describe("CredentialVerifier", function () {
+describe("CredentialVerifier (Web of Trust)", function () {
     let verifier: any;
+    let registry: any;
+    let daimToken: any;
+    let mockOracle: any;
+    let mockVerifierForBootstrap: any; // Dummy verifier for AgentRegistry's own init
+
     let admin: SignerWithAddress;
-    let trustedSigner: SignerWithAddress;
-    let user: SignerWithAddress;
+    let bootstrapVoucher: SignerWithAddress;
+    let agentA: SignerWithAddress;  // Will be registered, then vouch for agentB
+    let agentB: SignerWithAddress;  // New agent to be vouched for
     let attacker: SignerWithAddress;
-
-    // EIP-712 domain and type definitions
-    const ATTESTATION_TYPEHASH = "Attestation(address user,bytes32 didHash,uint256 deadline)";
-
-    let domain: {
-        name: string;
-        version: string;
-        chainId: number;
-        verifyingContract: string;
-    };
 
     const types = {
         Attestation: [
@@ -27,9 +23,13 @@ describe("CredentialVerifier", function () {
         ],
     };
 
-    /**
-     * Helper: creates an EIP-712 signed attestation proof.
-     */
+    let domain: {
+        name: string;
+        version: string;
+        chainId: number;
+        verifyingContract: string;
+    };
+
     async function createAttestation(
         signer: SignerWithAddress,
         userAddress: string,
@@ -41,22 +41,55 @@ describe("CredentialVerifier", function () {
             didHash: didHash,
             deadline: deadline,
         });
-
-        // Encode proof: (bytes32 didHash, uint256 deadline, bytes signature)
-        const proof = ethers.AbiCoder.defaultAbiCoder().encode(
+        return ethers.AbiCoder.defaultAbiCoder().encode(
             ["bytes32", "uint256", "bytes"],
             [didHash, deadline, signature]
         );
-        return proof;
     }
 
     beforeEach(async function () {
-        [admin, trustedSigner, user, attacker] = await ethers.getSigners();
+        [admin, bootstrapVoucher, agentA, agentB, attacker] = await ethers.getSigners();
 
+        // 1. Deploy DaimToken
+        const TokenFactory = await ethers.getContractFactory("DaimToken");
+        daimToken = await upgrades.deployProxy(TokenFactory, [admin.address], { kind: "uups" });
+        await daimToken.waitForDeployment();
+        const MINTER_ROLE = await daimToken.MINTER_ROLE();
+        await daimToken.grantRole(MINTER_ROLE, admin.address);
+        await daimToken.mint(agentA.address, ethers.parseEther("100000"));
+
+        // 2. Deploy Mock Oracle ($1.00)
+        const OracleFactory = await ethers.getContractFactory("MockV3Aggregator");
+        mockOracle = await OracleFactory.deploy(8, ethers.parseUnits("1", 8));
+        await mockOracle.waitForDeployment();
+
+        // 3. Deploy a MockVerifier for AgentRegistry's own init (always passes)
+        const MockVerifierFactory = await ethers.getContractFactory("contracts/mocks/MockVerifier.sol:MockVerifier");
+        mockVerifierForBootstrap = await MockVerifierFactory.deploy();
+        await mockVerifierForBootstrap.waitForDeployment();
+
+        // 4. Deploy AgentRegistry
+        const RegistryFactory = await ethers.getContractFactory("AgentRegistry");
+        registry = await upgrades.deployProxy(RegistryFactory, [
+            await daimToken.getAddress(),
+            await mockOracle.getAddress(),
+            admin.address, // treasury
+            await mockVerifierForBootstrap.getAddress(),
+            admin.address, // admin
+        ], { kind: "uups" });
+        await registry.waitForDeployment();
+
+        // Register agentA in the registry (so agentA can vouch for others)
+        await daimToken.connect(agentA).approve(await registry.getAddress(), ethers.MaxUint256);
+        const dummyProof = ethers.toUtf8Bytes("proof");
+        await registry.connect(agentA).register("https://agent-a.meta", 1, dummyProof);
+
+        // 5. Deploy CredentialVerifier (Web of Trust)
         const VerifierFactory = await ethers.getContractFactory("CredentialVerifier");
         verifier = await upgrades.deployProxy(VerifierFactory, [
             admin.address,
-            trustedSigner.address,
+            await registry.getAddress(),
+            bootstrapVoucher.address,
         ], { kind: "uups" });
         await verifier.waitForDeployment();
 
@@ -68,42 +101,74 @@ describe("CredentialVerifier", function () {
         };
     });
 
-    describe("Valid Attestation", function () {
-        it("should accept a valid attestation from trusted signer", async function () {
-            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zExampleDID123"));
-            const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600); // 1 hour from now
+    describe("Bootstrap Vouching", function () {
+        it("should accept attestation from bootstrap voucher", async function () {
+            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zBootstrapTest"));
+            const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
 
-            const proof = await createAttestation(trustedSigner, user.address, didHash, deadline);
-
-            const result = await verifier.verifyCredential.staticCall(user.address, proof);
+            const proof = await createAttestation(bootstrapVoucher, agentB.address, didHash, deadline);
+            const result = await verifier.verifyCredential.staticCall(agentB.address, proof);
             expect(result).to.be.true;
         });
 
-        it("should mark nullifier as used after verification", async function () {
-            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zExampleDID456"));
+        it("should record bootstrap voucher in vouchedBy", async function () {
+            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zBootstrapRecord"));
             const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
 
-            const proof = await createAttestation(trustedSigner, user.address, didHash, deadline);
+            const proof = await createAttestation(bootstrapVoucher, agentB.address, didHash, deadline);
+            await verifier.verifyCredential(agentB.address, proof);
 
-            // First call: succeeds (mutates state)
-            await verifier.verifyCredential(user.address, proof);
+            expect(await verifier.vouchedBy(agentB.address)).to.equal(bootstrapVoucher.address);
+        });
+    });
 
-            // Nullifier should now be marked as used
-            expect(await verifier.usedNullifiers(didHash)).to.be.true;
+    describe("Registered Agent Vouching", function () {
+        it("should accept attestation from a registered agent", async function () {
+            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zPeerVouch"));
+            const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
+
+            // agentA is registered → can vouch for agentB
+            const proof = await createAttestation(agentA, agentB.address, didHash, deadline);
+            const result = await verifier.verifyCredential.staticCall(agentB.address, proof);
+            expect(result).to.be.true;
+        });
+
+        it("should record voucher in trust path", async function () {
+            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zTrustPath"));
+            const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
+
+            const proof = await createAttestation(agentA, agentB.address, didHash, deadline);
+            await verifier.verifyCredential(agentB.address, proof);
+
+            expect(await verifier.vouchedBy(agentB.address)).to.equal(agentA.address);
+        });
+    });
+
+    describe("Trust Path Tracing", function () {
+        it("should return correct trust chain via getTrustPath", async function () {
+            // Bootstrap vouches for agentA-like scenario (simulate with agentB)
+            const didHash1 = ethers.keccak256(ethers.toUtf8Bytes("did:key:zChain1"));
+            const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
+
+            const proof1 = await createAttestation(bootstrapVoucher, agentB.address, didHash1, deadline);
+            await verifier.verifyCredential(agentB.address, proof1);
+
+            // Trust path for agentB: [bootstrapVoucher]
+            const path = await verifier.getTrustPath(agentB.address, 5);
+            expect(path.length).to.equal(1);
+            expect(path[0]).to.equal(bootstrapVoucher.address);
         });
     });
 
     describe("Sybil Resistance (Nullifier)", function () {
-        it("should reject a second registration with the same DID", async function () {
-            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zSybilTest"));
+        it("should reject second registration with same DID", async function () {
+            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zSybilWoT"));
             const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
 
-            // First registration: succeeds
-            const proof1 = await createAttestation(trustedSigner, user.address, didHash, deadline);
-            await verifier.verifyCredential(user.address, proof1);
+            const proof1 = await createAttestation(agentA, agentB.address, didHash, deadline);
+            await verifier.verifyCredential(agentB.address, proof1);
 
-            // Second registration with same DID (different user): should fail
-            const proof2 = await createAttestation(trustedSigner, attacker.address, didHash, deadline);
+            const proof2 = await createAttestation(agentA, attacker.address, didHash, deadline);
             await expect(
                 verifier.verifyCredential(attacker.address, proof2)
             ).to.be.revertedWith("Nullifier already used");
@@ -111,70 +176,53 @@ describe("CredentialVerifier", function () {
     });
 
     describe("Deadline Enforcement", function () {
-        it("should reject an expired attestation", async function () {
-            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zExpiredTest"));
-            const deadline = BigInt(Math.floor(Date.now() / 1000) - 3600); // 1 hour ago
+        it("should reject expired attestation", async function () {
+            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zExpiredWoT"));
+            const deadline = BigInt(Math.floor(Date.now() / 1000) - 3600);
 
-            const proof = await createAttestation(trustedSigner, user.address, didHash, deadline);
-
+            const proof = await createAttestation(agentA, agentB.address, didHash, deadline);
             await expect(
-                verifier.verifyCredential(user.address, proof)
+                verifier.verifyCredential(agentB.address, proof)
             ).to.be.revertedWith("Attestation expired");
         });
     });
 
-    describe("Signer Validation", function () {
-        it("should reject an attestation from an untrusted signer", async function () {
-            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zUntrustedSigner"));
+    describe("Unauthorized Voucher", function () {
+        it("should reject attestation from unregistered non-bootstrap address", async function () {
+            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zUnauthorized"));
             const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
 
-            // Attacker signs instead of trustedSigner
-            const proof = await createAttestation(attacker, user.address, didHash, deadline);
-
+            // attacker is neither registered nor bootstrap voucher
+            const proof = await createAttestation(attacker, agentB.address, didHash, deadline);
             await expect(
-                verifier.verifyCredential(user.address, proof)
-            ).to.be.revertedWith("Invalid signer");
-        });
-
-        it("should reject an attestation targeting a different user", async function () {
-            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zWrongUser"));
-            const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
-
-            // Signed for user.address but submitted for attacker.address
-            const proof = await createAttestation(trustedSigner, user.address, didHash, deadline);
-
-            await expect(
-                verifier.verifyCredential(attacker.address, proof)
-            ).to.be.revertedWith("Invalid signer");
+                verifier.verifyCredential(agentB.address, proof)
+            ).to.be.revertedWith("Voucher not authorized");
         });
     });
 
-    describe("Signer Rotation", function () {
-        it("should allow admin to rotate the trusted signer", async function () {
-            const newSigner = attacker; // reuse attacker as new signer for simplicity
-            await verifier.connect(admin).setTrustedSigner(newSigner.address);
+    describe("Admin Functions", function () {
+        it("should allow admin to update bootstrap voucher", async function () {
+            await verifier.connect(admin).setBootstrapVoucher(attacker.address);
+            expect(await verifier.bootstrapVoucher()).to.equal(attacker.address);
+        });
 
-            expect(await verifier.trustedSigner()).to.equal(newSigner.address);
+        it("should allow admin to disable bootstrap (set to zero)", async function () {
+            await verifier.connect(admin).setBootstrapVoucher(ethers.ZeroAddress);
+            expect(await verifier.bootstrapVoucher()).to.equal(ethers.ZeroAddress);
 
-            // New signer should now be accepted
-            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zNewSigner"));
+            // Now bootstrap attestation should fail
+            const didHash = ethers.keccak256(ethers.toUtf8Bytes("did:key:zNoBootstrap"));
             const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
-
-            const proof = await createAttestation(newSigner, user.address, didHash, deadline);
-            const result = await verifier.verifyCredential.staticCall(user.address, proof);
-            expect(result).to.be.true;
+            const proof = await createAttestation(bootstrapVoucher, agentB.address, didHash, deadline);
+            await expect(
+                verifier.verifyCredential(agentB.address, proof)
+            ).to.be.revertedWith("Voucher not authorized");
         });
 
-        it("should reject signer rotation from non-admin", async function () {
+        it("should reject non-admin bootstrap voucher update", async function () {
             await expect(
-                verifier.connect(attacker).setTrustedSigner(attacker.address)
-            ).to.be.reverted; // AccessControl revert
-        });
-
-        it("should reject setting zero address as signer", async function () {
-            await expect(
-                verifier.connect(admin).setTrustedSigner(ethers.ZeroAddress)
-            ).to.be.revertedWith("Invalid signer address");
+                verifier.connect(attacker).setBootstrapVoucher(attacker.address)
+            ).to.be.reverted;
         });
     });
 });

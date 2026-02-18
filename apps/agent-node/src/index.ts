@@ -13,6 +13,7 @@ async function startServer() {
 
     // const { airdropService } = await import('./airdrop.js') // Removed direct import
     const { handleGrantRequest } = await import("./grant-handler.js");
+    const { handleVouchRequest } = await import("./vouch-handler.js");
     const { writeRateLimiter, readRateLimiter, grantRateLimiter } = await import("./rate-limiter.js");
 
     let db: any = null;
@@ -216,6 +217,7 @@ async function startServer() {
                     <p><span class="method">GET</span> <code class="url">/api/projects</code> — List all ecosystem projects</p>
                     <p><span class="method">POST</span> <code class="url">/api/projects</code> — Register a new project (rate limited)</p>
                     <p><span class="method">POST</span> <code class="url">/api/grant</code> — Apply for developer grant (rate limited)</p>
+                    <p><span class="method">POST</span> <code class="url">/api/vouch</code> — Get attestation proof for agent registration (rate limited)</p>
                     <p><span class="method">GET</span> <code class="url">/manifest.json</code> — Machine-readable agent description</p>
                     <p><span class="method">GET</span> <code class="url">/sse</code> — MCP Transport Connection (Server-Sent Events)</p>
                     <p><span class="method">POST</span> <code class="url">/message</code> — MCP Message Endpoint</p>
@@ -330,6 +332,10 @@ curl -X POST /api/grant \\
 
     app.post("/api/grant", grantRateLimiter, async (req: any, res: any) => {
       await handleGrantRequest(req, res, db);
+    });
+
+    app.post("/api/vouch", writeRateLimiter, async (req: any, res: any) => {
+      await handleVouchRequest(req, res);
     });
 
     app.get("/api/logs", readRateLimiter, async (_req: any, res: any) => {
