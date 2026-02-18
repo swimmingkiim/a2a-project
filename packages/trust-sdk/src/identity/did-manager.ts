@@ -94,4 +94,46 @@ export class IdentityManager {
     async resolveDID(did: string): Promise<any> {
         return await this.resolver.resolve(did)
     }
+
+    /**
+     * Imports an existing Ed25519 secret key and derives the DID.
+     * Use this when you already have a fixed key (e.g., from did_keys.json).
+     *
+     * @param secretKey - 32-byte Ed25519 secret key as hex string or Uint8Array
+     * @returns EphemeralIdentity with the derived DID and key pair
+     */
+    async fromSecretKey(secretKey: string | Uint8Array): Promise<EphemeralIdentity> {
+        const rawSecretKey = typeof secretKey === 'string'
+            ? new Uint8Array(Buffer.from(secretKey.replace(/^0x/, ''), 'hex'))
+            : secretKey
+
+        if (rawSecretKey.length !== 32) {
+            throw new Error(`Invalid Ed25519 secret key length: expected 32 bytes, got ${rawSecretKey.length}`)
+        }
+
+        // Reconstruct Node.js KeyObject from raw bytes
+        // Ed25519 PKCS8 DER = fixed 16-byte header + 32-byte raw key
+        const pkcs8Header = Buffer.from([
+            0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06,
+            0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20,
+        ])
+        const pkcs8Der = Buffer.concat([pkcs8Header, Buffer.from(rawSecretKey)])
+        const privateKeyObject = crypto.createPrivateKey({
+            key: pkcs8Der,
+            format: 'der',
+            type: 'pkcs8',
+        })
+
+        // Derive public key
+        const publicKeyObject = crypto.createPublicKey(privateKeyObject)
+        const pubDer = publicKeyObject.export({ type: 'spki', format: 'der' })
+        const rawPublicKey = new Uint8Array(pubDer.subarray(pubDer.length - 32))
+
+        const did = publicKeyToDidKey(rawPublicKey)
+
+        return {
+            did,
+            keyPair: { publicKey: rawPublicKey, secretKey: rawSecretKey },
+        }
+    }
 }
