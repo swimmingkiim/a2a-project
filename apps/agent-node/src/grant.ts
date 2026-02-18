@@ -7,12 +7,16 @@ import {
   isAddress,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { baseSepolia } from "viem/chains"; // Default to testnet, configurable
+import { base, baseSepolia } from "viem/chains";
 
 // Environment variables
-const PRIVATE_KEY = process.env.GRANT_PRIVATE_KEY || process.env.AIRDROP_PRIVATE_KEY; // Fallback for backward compatibility
+const PRIVATE_KEY = process.env.GRANT_PRIVATE_KEY || process.env.AIRDROP_PRIVATE_KEY;
 const RPC_URL = process.env.RPC_URL || "https://sepolia.base.org";
-const GRANT_AMOUNT = process.env.GRANT_AMOUNT || "100"; // 100 Tokens (updated as per previous UI)
+const NETWORK_ID = process.env.DID_NETWORK || "base-sepolia";
+// ...
+const chain = NETWORK_ID === "base" ? base : baseSepolia;
+
+const GRANT_AMOUNT = process.env.GRANT_AMOUNT || "100"; // 100 Tokens
 const TOKEN_ADDRESS =
   process.env.GRANT_TOKEN_ADDRESS ||
   process.env.AIRDROP_TOKEN_ADDRESS ||
@@ -40,12 +44,12 @@ export class GrantService {
     try {
       this.account = privateKeyToAccount(PRIVATE_KEY as `0x${string}`);
       this.publicClient = createPublicClient({
-        chain: baseSepolia,
+        chain,
         transport: http(RPC_URL),
       });
       this.walletClient = createWalletClient({
         account: this.account,
-        chain: baseSepolia,
+        chain,
         transport: http(RPC_URL),
       });
       this.enabled = true;

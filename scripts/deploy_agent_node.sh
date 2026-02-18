@@ -35,8 +35,8 @@ gcloud run deploy $SERVICE_NAME \
   --platform managed \
   --region $REGION \
   --allow-unauthenticated \
-  --set-env-vars="NODE_ENV=production,INSTANCE_CONNECTION_NAME=$INSTANCE_CONNECTION_NAME,DB_NAME=paymaster_db,DB_USER=paymaster_admin,DID_NETWORK=base,RPC_URL=https://mainnet.base.org" \
-  --set-secrets="DB_PASSWORD=DB_PASSWORD:latest,AGENT_SECRET_KEY=agent-secret-key:latest" \
+  --set-env-vars="NODE_ENV=production,INSTANCE_CONNECTION_NAME=$INSTANCE_CONNECTION_NAME,DB_NAME=paymaster_db,DB_USER=paymaster_admin,DID_NETWORK=base,RPC_URL=https://mainnet.base.org,GRANT_TOKEN_ADDRESS=0xE0Bf76150259C3911c1eD494D68BCC7cCc5e6B26" \
+  --set-secrets="DB_PASSWORD=DB_PASSWORD:latest,AGENT_SECRET_KEY=agent-secret-key:latest,GRANT_PRIVATE_KEY=GRANT_PRIVATE_KEY:latest" \
   --add-cloudsql-instances="$INSTANCE_CONNECTION_NAME"
 
 echo "✅ Agent Node Deployed!"
