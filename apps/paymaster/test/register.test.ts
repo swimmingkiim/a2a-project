@@ -7,12 +7,9 @@ import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 jest.mock("../src/config", () => ({
   config: {
     PORT: 8080,
-    // Mock private key for airdrop
-    PAYMASTER_SIGNER_PRIVATE_KEY:
-      "0x0000000000000000000000000000000000000000000000000000000000000001",
-    DAIM_TOKEN_ADDRESS: "0xDAIMTOKEN",
-    RPC_URL: "https://mock.rpc",
     NODE_ENV: "test",
+    RPC_URL: "https://mock.rpc",
+    UPSTREAM_PAYMASTER_URL: "https://mock.upstream",
   },
 }));
 
@@ -26,25 +23,7 @@ jest.mock("../src/db", () => ({
   }),
 }));
 
-// Mock Viem
-const mockWriteContract = jest.fn().mockResolvedValue("0xTxHash");
-jest.mock("viem", () => {
-  const original = jest.requireActual("viem");
-  return {
-    __esModule: true,
-    ...original,
-    createWalletClient: () => {
-      return {
-        writeContract: jest.fn().mockResolvedValue("0xTxHash"),
-        extend: jest.fn(),
-      };
-    },
-    createPublicClient: () => ({}),
-    http: jest.fn(),
-  };
-});
 
-import { createWalletClient } from "viem";
 
 describe("Registration API Verification", () => {
   // Generate a real identity for testing
@@ -68,7 +47,6 @@ describe("Registration API Verification", () => {
 
   beforeEach(() => {
     fetchMock = jest.spyOn(global, "fetch");
-    mockWriteContract.mockClear();
   });
 
   afterEach(() => {
@@ -159,7 +137,7 @@ describe("Registration API Verification", () => {
     );
   });
 
-  it("[PASS] Should register and airdrop if all checks pass", async () => {
+  it("[PASS] Should register successfully if all checks pass", async () => {
     fetchMock
       .mockResolvedValueOnce({ ok: true } as Response) // Root
       .mockResolvedValueOnce({ ok: true, text: async () => "Rules..." } as Response) // llms.txt
@@ -178,19 +156,16 @@ describe("Registration API Verification", () => {
 
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
-    expect(res.body.airdropTx).toBe("0xTxHash");
+    expect(res.body.apiKey).toBeDefined();
   });
 
-  it("[PASS] Should register without airdrop if apiUrl missing", async () => {
-    // We need a fresh did or signature or strict validation might fail in real DB if conflict
-    // But we mock DB so it's fine.
+  it("[PASS] Should register without apiUrl", async () => {
     const payload = await generatePayload(undefined);
 
     const res = await request(app).post("/v1/register").send(payload);
 
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
-    expect(res.body.airdropTx).toBeUndefined(); // No airdrop
-    expect(mockWriteContract).not.toHaveBeenCalled();
+    expect(res.body.apiKey).toBeDefined();
   });
 });

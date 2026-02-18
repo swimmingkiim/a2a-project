@@ -9,10 +9,7 @@ const router: Router = Router();
 const getSignMessage = (did: string, timestamp: number) =>
   `Register A2A Paymaster for ${did} at ${timestamp}`;
 
-import { http, parseEther, parseAbi, createWalletClient } from "viem";
-import { privateKeyToAccount } from "viem/accounts";
-import { base } from "viem/chains";
-import { config } from "../config";
+
 
 // Verification Logic
 async function verifyApi(url: string): Promise<{ valid: boolean; reason?: string }> {
@@ -82,42 +79,7 @@ async function verifyApi(url: string): Promise<{ valid: boolean; reason?: string
   }
 }
 
-// Airdrop Logic
-async function airdropDaim(to: `0x${string}`) {
-  if (!config.PAYMASTER_SIGNER_PRIVATE_KEY) {
-    console.warn("⚠️  Skipping Airdrop: PAYMASTER_SIGNER_PRIVATE_KEY not set");
-    return;
-  }
 
-  try {
-    const account = privateKeyToAccount(config.PAYMASTER_SIGNER_PRIVATE_KEY as `0x${string}`);
-    console.log("DEBUG: Calling createWalletClient...");
-    const client = createWalletClient({
-      account,
-      chain: base,
-      transport: http(config.RPC_URL || "https://mainnet.base.org"),
-    });
-    console.log("DEBUG: Client created:", client);
-
-    const DAIM_ADDRESS = config.DAIM_TOKEN_ADDRESS as `0x${string}`;
-    const AMOUNT = parseEther("10"); // Airdrop 10 DAIM
-
-    const hash = await client.writeContract({
-      address: DAIM_ADDRESS,
-      abi: parseAbi(["function transfer(address to, uint256 amount) external returns (bool)"]),
-      functionName: "transfer",
-      args: [to, AMOUNT],
-    });
-
-    console.log(`💸 Airdropped 10 DAIM to ${to}. Tx: ${hash}`);
-    return hash;
-  } catch (error) {
-    console.error("❌ Airdrop Failed:", error);
-    console.error("DEBUG: Full error:", JSON.stringify(error, Object.getOwnPropertyNames(error)));
-    // Don't fail registration if airdrop fails, just log it.
-    return undefined;
-  }
-}
 
 router.post("/register", async (req: Request, res: Response) => {
   try {
@@ -184,18 +146,11 @@ router.post("/register", async (req: Request, res: Response) => {
 
     console.log(`✅ Registered API Key for DID: ${did}`);
 
-    // 7. [NEW] Airdrop Execution
-    let airdropTx;
-    if (apiUrl) {
-      airdropTx = await airdropDaim(addressPart as `0x${string}`);
-    }
-
     return res.json({
       success: true,
       did,
       apiKey,
       message: "Keep this key safe! It will not be shown again.",
-      airdropTx: airdropTx || undefined,
     });
   } catch (error: any) {
     console.error("Registration Error:", error);

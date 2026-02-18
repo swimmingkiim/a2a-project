@@ -13,6 +13,7 @@ async function startServer() {
 
     // const { airdropService } = await import('./airdrop.js') // Removed direct import
     const { handleGrantRequest } = await import("./grant-handler.js");
+    const { writeRateLimiter, readRateLimiter, grantRateLimiter } = await import("./rate-limiter.js");
 
     let db: any = null;
     let dbInitError: string | null = null;
@@ -130,7 +131,7 @@ async function startServer() {
     const app = express();
 
     app.use(cors());
-    app.use(express.json());
+    app.use(express.json({ limit: "1mb" }));
 
     console.log("Initializing IdentityManager...");
     // Initialize A2A Components
@@ -195,63 +196,6 @@ async function startServer() {
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>A2A Agent Node</title>
-                <script>
-                    async function fetchProjects() {
-                        const res = await fetch('/api/projects');
-                        const list = document.getElementById('project-list');
-                        
-                        if (!res.ok) {
-                            const err = await res.json().catch(() => ({ error: res.statusText }));
-                            list.innerHTML = \`<div style="color: red; padding: 10px; border: 1px solid red; border-radius: 5px;">
-                                <strong>Failed to load projects:</strong> \${err.error || res.statusText}
-                                \${res.status === 503 ? '<br><small>Make sure the database configuration is correct.</small>' : ''}
-                            </div>\`;
-                            return;
-                        }
-
-                        const projects = await res.json();
-                        if (projects.length === 0) {
-                            list.innerHTML = '<p>No projects found.</p>';
-                            return;
-                        }
-
-                        list.innerHTML = projects.map(p => \`
-                            <div class="card">
-                                <h3>\${p.name}</h3>
-                                <p>\${p.description}</p>
-                                <p><strong>API URL:</strong> <a href="\${p.api_url}" target="_blank">\${p.api_url}</a></p>
-                                <p class="url">Owner: \${p.owner_did}</p>
-                            </div>
-                        \`).join('');
-                    }
-
-                    async function registerProject(event) {
-                        event.preventDefault();
-                        const formData = new FormData(event.target);
-                        const data = Object.fromEntries(formData.entries());
-                        
-                        try {
-                            const res = await fetch('/api/projects', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(data)
-                            });
-                            
-                            if (res.ok) {
-                                alert('Project registered successfully!');
-                                fetchProjects();
-                                event.target.reset();
-                            } else {
-                                const err = await res.json();
-                                alert('Failed to register: ' + JSON.stringify(err));
-                            }
-                        } catch (e) {
-                            alert('Error: ' + e.message);
-                        }
-                    }
-
-                    window.onload = fetchProjects;
-                </script>
                 <style>
                     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
                     h1 { color: #2563eb; }
@@ -259,104 +203,51 @@ async function startServer() {
                     .card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
                     .method { font-weight: bold; color: #059669; }
                     .url { color: #666; }
+                    pre { background: #1e293b; color: #f8fafc; padding: 15px; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 0.9em; }
+                    .comment { color: #94a3b8; }
                 </style>
             </head>
             <body>
                 <h1>🤖 A2A Agent Node</h1>
                 <p>Status: <span style="color: green; font-weight: bold;">● Active</span></p>
-                <p>Region: <code>asia-northeast1</code></p>
-                
-                <h2>🌍 Ecosystem Projects</h2>
-                <div id="project-list">
-                    <p>Loading projects...</p>
-                </div>
 
-                <h2>📝 Register Project</h2>
+                <h2>📡 API Endpoints</h2>
                 <div class="card">
-                    <form onsubmit="registerProject(event)">
-                        <div style="margin-bottom: 10px;">
-                            <label style="display: block; font-weight: bold;">Name:</label>
-                            <input type="text" name="name" required style="width: 100%; padding: 8px; box-sizing: border-box;">
-                        </div>
-                        <div style="margin-bottom: 10px;">
-                            <label style="display: block; font-weight: bold;">Description:</label>
-                            <input type="text" name="description" required style="width: 100%; padding: 8px; box-sizing: border-box;">
-                        </div>
-                        <div style="margin-bottom: 10px;">
-                            <label style="display: block; font-weight: bold;">API URL:</label>
-                            <input type="url" name="apiUrl" required placeholder="https://..." style="width: 100%; padding: 8px; box-sizing: border-box;">
-                        </div>
-                        <div style="margin-bottom: 10px;">
-                            <label style="display: block; font-weight: bold;">Owner DID:</label>
-                            <input type="text" name="ownerDid" required placeholder="did:web:yourdomain.com" style="width: 100%; padding: 8px; box-sizing: border-box;">
-                            <details style="margin-top: 5px; padding: 10px; background: #f8fafc; border-radius: 4px; font-size: 0.9em;">
-                                <summary style="cursor: pointer; font-weight: 600; color: #2563eb;">ℹ️ DID Selection Guide</summary>
-                                <div style="margin-top: 10px; line-height: 1.6;">
-                                    <p style="margin-bottom: 8px;"><strong>DID (Decentralized Identifier)</strong> is a unique identifier that proves ownership of your project.</p>
-                                    
-                                    <p style="margin: 12px 0 6px 0; font-weight: 600;">✅ Recommended: did:web (Web-based DID)</p>
-                                    <ul style="margin: 5px 0 10px 20px; padding-left: 0;">
-                                        <li><code style="background: #e2e8f0; padding: 2px 4px; border-radius: 3px;">did:web:api.yourdomain.com</code></li>
-                                        <li>Benefits: No private key exposure risk, prove ownership via domain</li>
-                                        <li>Security: High (no private key required)</li>
-                                    </ul>
-
-                                    <p style="margin: 12px 0 6px 0; font-weight: 600;">⚠️ Caution: did:ethr (Ethereum address-based)</p>
-                                    <ul style="margin: 5px 0 10px 20px; padding-left: 0;">
-                                        <li><code style="background: #e2e8f0; padding: 2px 4px; border-radius: 3px;">did:ethr:0x1234...</code></li>
-                                        <li>Benefits: Verifiable via blockchain address</li>
-                                        <li>⚠️ <strong>Warning</strong>: Exposes your actual wallet address</li>
-                                        <li>Recommendation: Use dedicated address (never use main wallet)</li>
-                                    </ul>
-
-                                    <p style="margin: 12px 0 6px 0; font-weight: 600;">❌ Not Recommended: did:pkh (Private key-based)</p>
-                                    <ul style="margin: 5px 0 0 20px; padding-left: 0;">
-                                        <li><code style="background: #e2e8f0; padding: 2px 4px; border-radius: 3px;">did:pkh:eip155:8453:0x...</code></li>
-                                        <li>⚠️ May contain private key information</li>
-                                        <li>Security: Low (not recommended)</li>
-                                    </ul>
-
-                                    <p style="margin-top: 12px; padding: 8px; background: #fef3c7; border-left: 3px solid #f59e0b; font-size: 0.85em;">
-                                        <strong>⚡ Security Tip:</strong> We strongly recommend using did:web. It has no risk of private key exposure and can be authenticated with domain ownership alone.
-                                    </p>
-                                </div>
-                            </details>
-                        </div>
-                        <button type="submit" style="background: #2563eb; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Register Project</button>
-                    </form>
+                    <p><span class="method">GET</span> <code class="url">/api/projects</code> — List all ecosystem projects</p>
+                    <p><span class="method">POST</span> <code class="url">/api/projects</code> — Register a new project (rate limited)</p>
+                    <p><span class="method">POST</span> <code class="url">/api/grant</code> — Apply for developer grant (rate limited)</p>
+                    <p><span class="method">GET</span> <code class="url">/manifest.json</code> — Machine-readable agent description</p>
+                    <p><span class="method">GET</span> <code class="url">/sse</code> — MCP Transport Connection (Server-Sent Events)</p>
+                    <p><span class="method">POST</span> <code class="url">/message</code> — MCP Message Endpoint</p>
                 </div>
 
-
-                <h2>💰 Developer Grant Guide</h2>
+                <h2>📝 Register a Project (API)</h2>
                 <div class="card">
-                    <p><strong>Eligibility:</strong> You can claim <strong>100 $DAIM</strong> tokens once per DID and Wallet address as a developer grant.</p>
-                    <p><strong>How to Apply:</strong></p>
-                    <ol>
-                        <li>Create a <strong>Verifiable Credential (VC)</strong> proving ownership of your wallet address.</li>
-                        <li>Send a <code>POST</code> request to <code class="url">/api/grant</code> with the VC in the <code>Authorization</code> header.</li>
-                    </ol>
-                    <div style="background: #1e293b; color: #f8fafc; padding: 15px; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 0.9em;">
-                        <span style="color: #94a3b8;"># Example Request</span><br>
-                        curl -X POST /api/grant \<br>
-                        &nbsp;&nbsp;-H "Authorization: Bearer &lt;YOUR_VC_JWT&gt;" \<br>
-                        &nbsp;&nbsp;-H "Content-Type: application/json"
-                    </div>
-                    <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                        * The VC must be a self-signed JWT where <code>iss</code> (Issuer) == <code>sub</code> (Subject) == Your DID.<br>
-                        * The VC credentialSubject must contain <code>walletAddress</code>.
-                    </p>
+                    <p>To register a project, send a <code>POST</code> request to <code>/api/projects</code>:</p>
+                    <pre><span class="comment"># Example Request</span>
+curl -X POST /api/projects \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "My Bot",
+    "description": "A helpful AI assistant",
+    "apiUrl": "https://my-bot.example.com",
+    "ownerWallet": "0xYourWalletAddress",
+    "ownerDid": "did:web:my-bot.example.com"
+  }'</pre>
+                    <p style="margin-top: 10px; font-size: 0.9em; color: #666;">The API URL must serve a valid <code>/manifest.json</code> and <code>/llms.txt</code>.</p>
                 </div>
 
-                <h2>📡 Interfaces</h2>
+                <h2>💰 Developer Grant</h2>
                 <div class="card">
-                    <p><span class="method">GET</span> <code class="url">/api/projects</code> - List all ecosystem projects</p>
-                    <p><span class="method">POST</span> <code class="url">/api/projects</code> - Register a new project</p>
-                    <p><span class="method">GET</span> <code class="url">/manifest.json</code> - Machine-readable agent description</p>
-                    <p><span class="method">GET</span> <code class="url">/sse</code> - MCP Transport Connection (Server-Sent Events)</p>
-                    <p><span class="method">POST</span> <code class="url">/message</code> - MCP Message Endpoint</p>
+                    <p>Claim <strong>100 $DAIM</strong> tokens per registered project.</p>
+                    <pre><span class="comment"># Example Request</span>
+curl -X POST /api/grant \\
+  -H "Authorization: Bearer &lt;YOUR_VC_JWT&gt;" \\
+  -H "Content-Type: application/json"</pre>
+                    <p style="margin-top: 10px; font-size: 0.9em; color: #666;">The VC must be a self-signed JWT where <code>iss == sub == Your DID</code> and <code>credentialSubject</code> contains <code>walletAddress</code>.</p>
                 </div>
 
-                <h2>🛠 Available Tools</h2>
+                <h2>🛠 Available MCP Tools</h2>
                 ${MANIFEST.tools
           .map(
             (t) => `
@@ -368,9 +259,6 @@ async function startServer() {
                 `,
           )
           .join("")}
-
-                <h2>📘 Usage</h2>
-                <p>Connect to this agent using an MCP Client via the SSE transport at <code>/sse</code>.</p>
             </body>
             </html>
             `);
@@ -399,7 +287,7 @@ async function startServer() {
       }
     });
 
-    app.post("/api/projects", async (req: any, res: any) => {
+    app.post("/api/projects", writeRateLimiter, async (req: any, res: any) => {
       if (!db) {
         console.warn(
           `[API] Failed to serve /api/projects: Database not initialized. Cause: ${dbInitError}`,
@@ -440,11 +328,11 @@ async function startServer() {
       }
     });
 
-    app.post("/api/grant", async (req: any, res: any) => {
+    app.post("/api/grant", grantRateLimiter, async (req: any, res: any) => {
       await handleGrantRequest(req, res, db);
     });
 
-    app.get("/api/logs", async (_req: any, res: any) => {
+    app.get("/api/logs", readRateLimiter, async (_req: any, res: any) => {
       if (!db) {
         console.warn(
           `[API] Failed to serve /api/projects: Database not initialized. Cause: ${dbInitError}`,

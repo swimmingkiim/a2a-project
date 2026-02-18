@@ -4,9 +4,11 @@ build
 .turbo
 .DS_Store
 *.log
-.env
-.env.local
-.env.*.local
+# Environment files (recursive — blocks ALL .env files in every subdirectory)
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.*.example
 coverage
 *.key
 *.pem
@@ -21,7 +23,6 @@ apps/paymaster/verify-paymaster-mainnet.ts
 apps/paymaster/verify-gas-fix.ts
 apps/paymaster/check-deployment.ts
 apps/paymaster/debug-paymaster-logic.ts
-.env.mainnet
 
 # Contract Verification Artifacts
 packages/contracts/ComputeToken_Flattened.sol
