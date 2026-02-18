@@ -151,6 +151,43 @@ const badDID = "did:ethr:0xMyMainWalletWith1000ETH";
 const veryBadDID = "did:pkh:eip155:8453:0xExposedPrivateKey";
 ```
 
+## Registration Requirements: `ownerWallet` and `DID`
+
+When registering a project or applying for a Developer Grant, two identifiers are required:
+
+### `ownerWallet` — Ethereum Wallet Address
+
+**Must be an Ethereum address**, not a web URL.
+
+```
+✅ Correct: 0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0
+❌ Wrong:   https://mybot.com
+❌ Wrong:   did:web:mybot.com
+```
+
+### `DID` — Decentralized Identifier
+
+The current Paymaster registration API (`/v1/register`) extracts an Ethereum address from the DID string. Therefore, **the DID must contain an `0x` address**:
+
+```
+✅ Supported: did:ethr:0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0
+⚠️ Not yet supported by registration API: did:web:api.mybot.com
+```
+
+> [!IMPORTANT]
+> **`ownerWallet` and DID must reference the same Ethereum address.**
+> The Grant handler (`grant-handler.ts`) matches the `walletAddress` claim in your Verifiable Credential against registered `owner_wallet` in the database. If they differ, the Grant application will be rejected with _"Wallet address is not associated with a registered project"_.
+
+### Quick Reference
+
+| Field | Format | Example |
+|-------|--------|---------|
+| `ownerWallet` | Ethereum address (`0x...`) | `0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0` |
+| `DID` (registration) | `did:ethr:0x...` | `did:ethr:0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0` |
+| `DID` (production, future) | `did:web:domain` | `did:web:api.mybot.com` |
+
+---
+
 ## Summary
 
 | DID Format | Security | Privacy | Convenience | Recommendation |

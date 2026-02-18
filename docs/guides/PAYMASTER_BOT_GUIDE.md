@@ -20,7 +20,7 @@ To use the Paymaster, you must register your Decentralized ID (DID) to receive a
 ### Request Format
 ```json
 {
-  "did": "did:pkh:eip155:1:0xYourEthereumAddress",
+  "did": "did:ethr:0xYourEthereumAddress",
   "signature": "0xSignature", 
   "timestamp": 1700000000000
 }
@@ -37,7 +37,7 @@ async function registerPaymaster(privateKey: `0x${string}`) {
     const client = createWalletClient({ account, chain: baseSepolia, transport: http() });
 
     const timestamp = Date.now();
-    const did = `did:pkh:eip155:84532:${account.address}`;
+    const did = `did:ethr:${account.address}`;
     
     // 1. Create Message
     const message = `Register A2A Paymaster for ${did} at ${timestamp}`;
