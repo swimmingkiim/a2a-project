@@ -1,18 +1,14 @@
 
-import { VCHandler } from '@swimmingkiim/trust-sdk';
-import { IdentityManager } from '@swimmingkiim/trust-sdk';
+import { VCHandler, IdentityManager } from '@swimmingkiim/trust-sdk';
 
 async function main() {
     const idManager = new IdentityManager();
     const vcHandler = new VCHandler();
 
-    // 1. Create or Load Identity (Ephemeral for demo, normally you'd use existing DID)
-    console.log("Creating/Loading Identity...");
-    // ideally, load from local KMS if available, or create new ephemeral one
-    // For this script, we'll create a new ephemeral DID (did:key) just to demonstrate.
-    // In production, the bot would already HAVE a DID.
-    const did = await idManager.createEphemeralDID();
-    console.log(`Your DID: ${did.did}`);
+    // 1. Create Identity (Ephemeral did:key — in-memory, no DB)
+    console.log("Creating Identity...");
+    const identity = await idManager.createEphemeralDID();
+    console.log(`Your DID: ${identity.did}`);
 
     // 2. Define the Claims
     // The Grant requires proving you own a wallet address.
@@ -22,17 +18,18 @@ async function main() {
 
     // 3. Issue Self-Signed Credential
     // Issuer = Subject = Your DID
-    const vc = await vcHandler.createCredential(
-        did.did,
-        did.did,
+    const vcJwt = await vcHandler.createCredential(
+        identity.did,
+        identity.did,
         {
             walletAddress: walletAddress,
             project: "My Awesome Project"
-        }
+        },
+        identity.keyPair  // signing key from createEphemeralDID()
     );
 
     console.log("\n--- Verifiable Credential (JWT) ---");
-    console.log(vc.proof.jwt);
+    console.log(vcJwt);
     console.log("-----------------------------------\n");
     console.log("Use this JWT in the Authorization header or body for POST /api/grant");
 }

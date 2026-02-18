@@ -1,68 +1,58 @@
-import { describe, it, expect, beforeAll, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
+import { IdentityManager } from '../src/identity/did-manager'
 import { VCHandler } from '../src/credentials/vc-handler.service'
 
-// Mocking agent to simulate verification failure on tampered data
-vi.mock('../src/agent', () => {
-    const mockAgent = {
-        verifyCredential: vi.fn().mockImplementation(async ({ credential }) => {
-            // Check for expiration FIRST
-            if (credential.expirationDate === '1999-01-01T00:00:00Z') {
-                return { verified: false, error: 'Credential expired' }
-            }
-            // Then check for signature
-            if (credential.proof && credential.proof.jwt === 'valid_signature') {
-                return { verified: true }
-            }
-            return { verified: false, error: 'Invalid signature' }
-        }),
-        createVerifiableCredential: vi.fn().mockResolvedValue({
-            proof: { jwt: 'valid_signature' },
-            credentialSubject: { id: 'did:example:123', name: 'Test' },
-            issuanceDate: new Date().toISOString()
-        })
-    }
-    return {
-        agent: mockAgent,
-        // Ensure initAgent returns the object containing verify/create methods
-        initAgent: vi.fn().mockResolvedValue(mockAgent)
-    }
-})
-
+/**
+ * Security Tests (No Mocks — Real JWT Verification)
+ */
 describe('a2trust: Security Tests', () => {
+    let idManager: IdentityManager
     let vcHandler: VCHandler
 
-    beforeAll(async () => {
-        const { agent: mockAgent } = await import('../src/agent')
-        console.error('DEBUG: Security Test mockAgent keys:', Object.keys(mockAgent))
-        vcHandler = new VCHandler(mockAgent as any)
+    idManager = new IdentityManager()
+    vcHandler = new VCHandler()
+
+    it('should reject a tampered JWT', async () => {
+        const identity = await idManager.createEphemeralDID()
+
+        const validJwt = await vcHandler.createCredential(
+            identity.did,
+            identity.did,
+            { walletAddress: '0x123' },
+            identity.keyPair
+        )
+
+        // Tamper with the JWT payload
+        const parts = validJwt.split('.')
+        const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString())
+        payload.vc.credentialSubject.walletAddress = '0xHACKED'
+        parts[1] = Buffer.from(JSON.stringify(payload)).toString('base64url')
+        const tamperedJwt = parts.join('.')
+
+        const result = await vcHandler.verifyCredential(tamperedJwt)
+        expect(result).toBe(false)
     })
 
-    it('Security: Should reject tampered VC', async () => {
-        // 1. Create a "valid" VC (MOCKED)
-        const validVC = await vcHandler.createCredential('issuer', 'subject', {})
-
-        // 2. Tamper with the VC (e.g., change the signature)
-        const tamperedVC = { ...validVC, proof: { jwt: 'malicious_signature' } }
-
-        // 3. Verify -> Should rely on our mock logic simulating failure
-        // Import mocked agent
-        const { agent } = await import('../src/agent')
-        const result = await agent.verifyCredential({ credential: tamperedVC as any })
-
-        expect(result.verified).toBe(false)
-        expect(result.error).toBeDefined()
+    it('should reject a completely invalid JWT string', async () => {
+        const result = await vcHandler.verifyCredential('not.a.valid.jwt')
+        expect(result).toBe(false)
     })
 
-    it('Security: Should reject expired VC', async () => {
-        const { agent } = await import('../src/agent')
+    it('should reject a JWT signed by unknown issuer', async () => {
+        // Create a VC signed by identity A
+        const identityA = await idManager.createEphemeralDID()
+        const identityB = await idManager.createEphemeralDID()
 
-        const expiredVC = {
-            proof: { jwt: 'valid_signature' },
-            expirationDate: '1999-01-01T00:00:00Z'
-        }
+        // Sign with A's key but claim issuer is B
+        // This should fail because B's DID document won't match A's key
+        const vcJwt = await vcHandler.createCredential(
+            identityB.did,  // claim to be B
+            identityB.did,
+            { walletAddress: '0x123' },
+            identityA.keyPair  // but sign with A's key
+        )
 
-        const result = await agent.verifyCredential({ credential: expiredVC as any })
-        expect(result.verified).toBe(false)
-        expect(result.error).toMatch(/expired/)
+        const result = await vcHandler.verifyCredential(vcJwt)
+        expect(result).toBe(false)
     })
 })

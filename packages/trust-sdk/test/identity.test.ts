@@ -1,69 +1,81 @@
-import { describe, it, expect, beforeAll, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { IdentityManager } from '../src/identity/did-manager'
 import { VCHandler } from '../src/credentials/vc-handler.service'
-import { agent } from '../src/agent'
 
-// Mock the agent module to avoid loading Veramo dependencies which cause syntax errors in Node 22
-vi.mock('../src/agent', () => {
-    const mockAgent = {
-        didManagerCreate: vi.fn().mockResolvedValue({ did: 'did:key:mocked123' }),
-        createVerifiableCredential: vi.fn().mockResolvedValue({
-            proof: { jwt: 'mock_jwt' },
-            credentialSubject: { id: 'did:key:mocked123', name: 'Test Agent' }
-        }),
-        verifyCredential: vi.fn().mockResolvedValue({ verified: true })
-    }
-    return {
-        agent: mockAgent,
-        initAgent: vi.fn().mockResolvedValue(mockAgent)
-    }
-})
-
+/**
+ * Identity & Credentials Tests (No Mocks)
+ *
+ * These test REAL in-memory behavior — no vi.mock, no DB.
+ */
 describe('a2trust: Identity & Credentials', () => {
     let idManager: IdentityManager
     let vcHandler: VCHandler
-    let issuerDid: string
-    let subjectDid: string
 
-    beforeAll(async () => {
-        // Since we mocked the module, imports of ../src/agent return the mock
-        const { agent: mockAgent } = await import('../src/agent')
-
-        idManager = new IdentityManager()
-        // Inject the mocked agent into VCHandler
-        vcHandler = new VCHandler(mockAgent as any)
-    })
+    idManager = new IdentityManager()
+    vcHandler = new VCHandler()
 
     it('should create an ephemeral did:key', async () => {
-        // This calls idManager -> initAgent (mocked) -> agent.didManagerCreate (mocked)
-        const did = await idManager.createEphemeralDID()
-        expect(did).toBeDefined()
-        expect(did.did).toMatch(/^did:key:/)
-        issuerDid = did.did
+        const result = await idManager.createEphemeralDID()
+        expect(result).toBeDefined()
+        expect(result.did).toMatch(/^did:key:/)
     })
 
-    it('should create a persistent did:ethr', async () => {
-        // Mock returns same structure
-        const did = await idManager.createEphemeralDID()
-        subjectDid = did.did
-        expect(subjectDid).toBeDefined()
+    it('should resolve a created DID', async () => {
+        const created = await idManager.createEphemeralDID()
+        const resolved = await idManager.resolveDID(created.did)
+
+        expect(resolved).toBeDefined()
+        expect(resolved.didDocument).toBeDefined()
+        expect(resolved.didDocument?.id).toBe(created.did)
     })
 
-    it('should issue a Verifiable Credential', async () => {
+    it('should issue a Verifiable Credential as JWT', async () => {
+        const identity = await idManager.createEphemeralDID()
         const claims = { name: 'Test Agent', role: 'Tester' }
-        const vc = await vcHandler.createCredential(issuerDid, subjectDid, claims)
+
+        const vc = await vcHandler.createCredential(
+            identity.did,
+            identity.did,
+            claims,
+            identity.keyPair
+        )
 
         expect(vc).toBeDefined()
-        expect(vc.proof).toBeDefined()
-        expect(vc.credentialSubject.name).toBe('Test Agent')
+        expect(typeof vc).toBe('string')
+
+        // Should be a valid JWT (3 parts separated by dots)
+        const parts = vc.split('.')
+        expect(parts.length).toBe(3)
     })
 
-    it('should verify a Verifiable Credential', async () => {
+    it('should verify a valid Verifiable Credential', async () => {
+        const identity = await idManager.createEphemeralDID()
         const claims = { name: 'Verified Agent' }
-        const vc = await vcHandler.createCredential(issuerDid, subjectDid, claims)
 
-        // Use the imported (mocked) agent to verify
-        const result = await agent.verifyCredential({ credential: vc as any })
-        expect(result.verified).toBe(true)
+        const vcJwt = await vcHandler.createCredential(
+            identity.did,
+            identity.did,
+            claims,
+            identity.keyPair
+        )
+
+        const result = await vcHandler.verifyCredential(vcJwt)
+        expect(result).toBe(true)
+    })
+
+    it('createCredential should include claims in the VC payload', async () => {
+        const identity = await idManager.createEphemeralDID()
+        const claims = { walletAddress: '0xABCDEF1234567890' }
+
+        const vcJwt = await vcHandler.createCredential(
+            identity.did,
+            identity.did,
+            claims,
+            identity.keyPair
+        )
+
+        // Decode the JWT payload
+        const payload = JSON.parse(Buffer.from(vcJwt.split('.')[1], 'base64').toString())
+        expect(payload.vc.credentialSubject.walletAddress).toBe('0xABCDEF1234567890')
     })
 })

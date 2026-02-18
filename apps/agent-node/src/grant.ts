@@ -41,8 +41,10 @@ export class GrantService {
       return;
     }
 
+    const formattedKey = PRIVATE_KEY.startsWith("0x") ? PRIVATE_KEY : `0x${PRIVATE_KEY}`;
+
     try {
-      this.account = privateKeyToAccount(PRIVATE_KEY as `0x${string}`);
+      this.account = privateKeyToAccount(formattedKey as `0x${string}`);
       this.publicClient = createPublicClient({
         chain,
         transport: http(RPC_URL),

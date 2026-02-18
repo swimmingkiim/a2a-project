@@ -1,3 +1,5 @@
-export * from './identity/did-manager'
-export * from './credentials/vc-handler.service'
-export * from './agent'
+export { IdentityManager } from './identity/did-manager'
+export type { EphemeralIdentity } from './identity/did-manager'
+export { VCHandler } from './credentials/vc-handler.service'
+export { createResolver } from './resolver'
+export type { ResolverOptions } from './resolver'

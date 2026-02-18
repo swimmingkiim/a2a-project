@@ -1,6 +1,6 @@
 {
     "name": "@swimmingkiim/trust-sdk",
-    "version": "0.1.32",
+    "version": "0.2.0",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/swimmingkiim/a2a-project.git"
@@ -16,30 +16,18 @@
     },
     "scripts": {
         "build": "tsc",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "vitest run"
     },
     "dependencies": {
-        "@veramo/core": "^6.0.2",
-        "@veramo/credential-w3c": "^6.0.2",
-        "@veramo/data-store": "^6.0.2",
-        "@veramo/did-manager": "^6.0.2",
-        "@veramo/did-provider-ethr": "^6.0.2",
-        "@veramo/did-provider-key": "^6.0.2",
-        "@veramo/did-resolver": "^6.0.2",
-        "@veramo/key-manager": "^6.0.2",
-        "@veramo/kms-local": "^6.0.2",
-        "did-jwt-vc": "^3.2.0",
+        "did-jwt": "^8.0.9",
+        "did-jwt-vc": "^4.0.8",
         "did-resolver": "^4.1.0",
-        "ethers": "^6.11.1",
         "ethr-did-resolver": "^11.0.5",
-        "key-did-resolver": "^4.0.0",
-        "reflect-metadata": "^0.2.2",
-        "sqlite3": "^5.1.7",
-        "ts-node": "^10.9.2",
-        "typeorm": "^0.3.28"
+        "key-did-resolver": "^4.0.0"
     },
     "devDependencies": {
         "tsx": "^4.21.0",
-        "typescript": "^5.3.3"
+        "typescript": "^5.3.3",
+        "vitest": "^4.0.18"
     }
 }
