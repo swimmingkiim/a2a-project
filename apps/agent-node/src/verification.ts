@@ -2,7 +2,7 @@ import { ProjectSchema } from "@swimmingkiim/api-sdk";
 
 export { ProjectSchema };
 
-export const verifyProjectApi = async (apiUrl: string, ownerDid: string) => {
+export const verifyProjectApi = async (apiUrl: string, ownerDid?: string) => {
   const results: string[] = [];
   const errors: string[] = [];
 
@@ -66,8 +66,8 @@ export const verifyProjectApi = async (apiUrl: string, ownerDid: string) => {
     errors.push(`Link Check Failed: ${e.message}`);
   }
 
-  // 4. Verify DID (did:web only)
-  if (ownerDid.startsWith("did:web:")) {
+  // 4. Verify DID (did:web only, optional)
+  if (ownerDid && ownerDid.startsWith("did:web:")) {
     try {
       const didParts = ownerDid.split(":");
       const domain = didParts[2];

@@ -49,9 +49,10 @@ async function startServer() {
                             name TEXT NOT NULL,
                             description TEXT,
                             api_url TEXT NOT NULL,
-                            owner_did TEXT NOT NULL,
+                            owner_wallet TEXT NOT NULL,
+                            owner_did TEXT,
                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                            UNIQUE(api_url, owner_did)
+                            UNIQUE(api_url, owner_wallet)
                         );
 
                         CREATE TABLE IF NOT EXISTS agent_activity_logs (
@@ -388,15 +389,15 @@ async function startServer() {
       try {
         const data = ProjectSchema.parse(req.body);
 
-        // Verify API
+        // Verify API (DID verification is optional)
         await verifyProjectApi(data.apiUrl, data.ownerDid);
 
         const query = `
-                    INSERT INTO projects (name, description, api_url, owner_did)
-                    VALUES ($1, $2, $3, $4)
-                    RETURNING id, name, description, api_url, owner_did, created_at
+                    INSERT INTO projects (name, description, api_url, owner_wallet, owner_did)
+                    VALUES ($1, $2, $3, $4, $5)
+                    RETURNING id, name, description, api_url, owner_wallet, owner_did, created_at
                 `;
-        const values = [data.name, data.description, data.apiUrl, data.ownerDid];
+        const values = [data.name, data.description, data.apiUrl, data.ownerWallet, data.ownerDid ?? null];
         const result = await db.query(query, values);
 
         res.status(201).json(result.rows[0]);

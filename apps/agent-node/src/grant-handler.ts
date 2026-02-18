@@ -80,10 +80,10 @@ export const handleGrantRequest = async (req: any, res: any, dbOrDeps: any) => {
       return res.status(400).json({ error: 'Credential missing "walletAddress" claim' });
     }
 
-    // 2. Check if Project is Registered
-    const projectRes = await db.query("SELECT * FROM projects WHERE owner_did = $1", [issuerDid]);
+    // 2. Check if Project is Registered (by wallet address)
+    const projectRes = await db.query("SELECT * FROM projects WHERE owner_wallet = $1", [walletAddress]);
     if (projectRes.rows.length === 0) {
-      return res.status(403).json({ error: "DID is not a registered project" });
+      return res.status(403).json({ error: "Wallet address is not associated with a registered project" });
     }
 
     // 3. Anti-Sybil Checks (DB Constraints)
