@@ -332,16 +332,16 @@ async function startServer() {
 
                 <h2>🛠 Available Tools</h2>
                 ${MANIFEST.tools
-                  .map(
-                    (t) => `
+          .map(
+            (t) => `
                 <div class="card">
                     <h3>${t.name}</h3>
                     <p>${t.description}</p>
                     <p><strong>Input:</strong> <code>${JSON.stringify(t.input_schema)}</code></p>
                 </div>
                 `,
-                  )
-                  .join("")}
+          )
+          .join("")}
 
                 <h2>📘 Usage</h2>
                 <p>Connect to this agent using an MCP Client via the SSE transport at <code>/sse</code>.</p>
@@ -452,6 +452,13 @@ async function startServer() {
 
     app.get("/sse", async (_req: any, res: any) => {
       console.log("New SSE connection");
+      res.writeHead(200, {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "X-Accel-Buffering": "no",
+      });
+      res.write(": connected\n\n");
       transport = new SSEServerTransport("/message", res);
       await mcpServer.connect(transport);
     });
