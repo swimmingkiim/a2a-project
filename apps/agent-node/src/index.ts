@@ -70,6 +70,31 @@ async function startServer() {
                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                         );
                     `);
+
+          // --- Migrations: Add columns that may be missing on existing tables ---
+          await db.query(`
+                        DO $$
+                        BEGIN
+                            -- Add owner_wallet column if it doesn't exist
+                            IF NOT EXISTS (
+                                SELECT 1 FROM information_schema.columns
+                                WHERE table_name = 'projects' AND column_name = 'owner_wallet'
+                            ) THEN
+                                ALTER TABLE projects ADD COLUMN owner_wallet TEXT;
+                                -- Backfill existing rows with zero-address placeholder
+                                UPDATE projects SET owner_wallet = '0x0000000000000000000000000000000000000000' WHERE owner_wallet IS NULL;
+                                ALTER TABLE projects ALTER COLUMN owner_wallet SET NOT NULL;
+                            END IF;
+
+                            -- Add UNIQUE constraint on (api_url, owner_wallet) if it doesn't exist
+                            IF NOT EXISTS (
+                                SELECT 1 FROM pg_constraint
+                                WHERE conname = 'projects_api_url_owner_wallet_key'
+                            ) THEN
+                                ALTER TABLE projects ADD CONSTRAINT projects_api_url_owner_wallet_key UNIQUE (api_url, owner_wallet);
+                            END IF;
+                        END $$;
+                    `);
         };
         await initDb();
         console.log("Database initialized.");
