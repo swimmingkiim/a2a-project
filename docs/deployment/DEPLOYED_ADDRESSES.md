@@ -14,6 +14,7 @@
 
 ## Services
 *   **Paymaster API:** `https://a2a-paymaster-145018595630.asia-northeast1.run.app`
+*   **Agent Node:** `https://a2a-agent-node-145018595630.asia-northeast1.run.app`
 
 ## Mocks / Infra
 *   **MockPriceFeed:** `0xe89edb1cF56eA453BD1488D6716c0761f4aB0f41`
