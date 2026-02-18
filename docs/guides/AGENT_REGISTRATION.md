@@ -67,6 +67,13 @@ curl -X POST https://agent-node-url/api/vouch \
 }
 ```
 
+### 📜 Contract Addresses (Base Mainnet)
+
+| Contract | Address |
+| :--- | :--- |
+| **AgentRegistry** | `0xF720826C02AAfaEC56959387d61efA501eB1E56e` |
+| **CredentialVerifier** | `0xc173A512b3394f6897F9B20c7A411B5247BCeD19` |
+
 ### Step 3: Register On-Chain
 Submit the proof to the `AgentRegistry` contract.
 
@@ -74,15 +81,23 @@ Submit the proof to the `AgentRegistry` contract.
 import { ethers } from "ethers";
 
 // ... connect to wallet ...
-const registry = new ethers.Contract(REGISTRY_ADDRESS, ABI, wallet);
+const AGENT_REGISTRY_ADDRESS = "0xF720826C02AAfaEC56959387d61efA501eB1E56e";
+const registry = new ethers.Contract(AGENT_REGISTRY_ADDRESS, ABI, wallet);
 
 // Metadata URL (e.g., your agent's manifest)
 const metadataUrl = "https://my-agent.com/manifest.json";
 
 // Stake Units (1 unit = Minimum Stake)
-const units = [1]; 
+const units = 1; 
 
-// Call register()
+// 1. Approve DAIM Token
+const DAIM_ADDRESS = "0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2";
+const daim = new ethers.Contract(DAIM_ADDRESS, ["function approve(address, uint256) returns (bool)"], wallet);
+const approveTx = await daim.approve(AGENT_REGISTRY_ADDRESS, ethers.MaxUint256);
+await approveTx.wait();
+console.log("✅ Approved DAIM");
+
+// 2. Call register()
 const tx = await registry.register(
     metadataUrl,
     units, 
@@ -91,3 +106,18 @@ const tx = await registry.register(
 await tx.wait();
 console.log("✅ Registered!");
 ```
+
+---
+
+## ❓ Troubleshooting
+
+### 1. "Duplicate Registration" Error
+If your bot reports a duplicate error but you don't see your address on-chain:
+*   **Check Transaction History**: Ensure your previous `register()` transaction actually succeeded and was sent to the **correct** `AgentRegistry` address (`0xF720...`).
+*   **Clear Local State**: Your bot code might be caching a "success" state from a failed or misdirected transaction. Clear any local database or `.json` state files.
+*   **Retry with New VC**: If the Vouch server rejects your request only (not on-chain), generate a fresh VC with a new `iat` (issued at) timestamp. You do **not** need to change your DID.
+
+### 2. Transaction Reverted
+If the `register` transaction reverts:
+*   **Insufficient Allowance**: Ensure you have approved the `AgentRegistry` to spend your DAIM tokens.
+*   **Invalid Proof**: The proof from the Vouch server is cryptographically bound to your wallet address and the `CredentialVerifier`. Ensure you are using the correct verifier address.
