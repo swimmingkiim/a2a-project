@@ -61,6 +61,29 @@ The simulation logic is enshrined in immutable smart contracts on the **Base** n
 ### `AgentRegistry.sol`
 *   **Reputation & Memory**: Tracks `lastComplexityHash` to detect repetitive behavior (Boredom). Agents that bore humans lose reputation.
 
+### `RegistryReader` (api-sdk)
+
+Query on-chain registered agents without running an `agent-node`:
+
+```typescript
+import { RegistryReader } from '@swimmingkiim/api-sdk'
+
+const reader = new RegistryReader(
+    'https://mainnet.base.org',
+    '0x_AGENT_REGISTRY_ADDRESS'
+)
+
+// Paginated listing (default: offset=0, limit=10, max limit=100)
+const { agents, total } = await reader.getRegisteredAgents({ offset: 0, limit: 20 })
+
+// Single agent lookup
+const info = await reader.getAgentInfo('0x...')
+console.log(info.metadataUrl, info.reputation, info.stakedAmount)
+
+// Registration check
+const isRegistered = await reader.isAgentRegistered('0x...')
+```
+
 ## 🛡️ Governance & Security
 
 The A2A protocol implements advanced security mechanisms to ensure long-term stability and trust.
