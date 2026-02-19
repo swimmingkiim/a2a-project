@@ -6,7 +6,7 @@
 
 **Version:** 1.0  
 **Date:** 2026-02-20  
-**Authors:** A2A Protocol Research Group  
+**Authors:** 김수영  
 **Repository:** [a2a-projects](https://github.com/swimmingkiim/a2a-project)
 
 ---
