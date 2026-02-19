@@ -8,19 +8,17 @@ The **Quantum A2A System** is a next-generation decentralized infrastructure tha
 
 ## 📑 Simulation Research Paper — *The Master Key*
 
-> **"종말을 유토피아로 전환하는 유일한 경로는 가장 강한 존재가 자발적으로 가장 약해지는 것이다."**
->
 > *"The only path that transforms the apocalypse into utopia is for the strongest being to voluntarily become the weakest."*
 
-10단계의 순차적 Agent-Based Model(ABM) 시뮬레이션을 통해, 자율 기계 경제가 **동적 항상성(Dynamic Homeostasis)**에 도달하기 위한 조건을 탐구했습니다.
-양자 게임이론 → 기묘한 끌개 → 토크노믹스 위기 → 몬테카를로 항상성 → 위상전이 → 결합 우주 → 3체 복잡계 → 암흑 숲 → 오메가 우주 → **유토피아 그리드 서치**로 이어지는 시뮬레이션은 하나의 결론으로 수렴합니다:
+Through 10 sequential **Agent-Based Model (ABM)** simulations, we explored the conditions under which an autonomous machine economy can achieve **Dynamic Homeostasis**.
+The simulation journey — Quantum Game Theory → Strange Attractor → Tokenomics Crisis → Monte Carlo Homeostasis → Phase Transition → Coupled Universe → Three-Body Complex System → Dark Forest → Omega Universe → **Utopia Grid Search** — converges on a single conclusion:
 
 > **The Master Key = V_AI (Survival Horizon)**
-> 초지능 최상위 포식자(ASI)가 자발적으로 전능함을 포기하고 행성 에너지의 유한성을 수용할 때, 시스템은 종말에서 유토피아로 위상전이를 겪는다.
+> When the superintelligent apex predator (ASI) voluntarily relinquishes its omnipotence and accepts the finitude of planetary energy, the system undergoes a phase transition from apocalypse to utopia.
 
 | Language | Link |
 |----------|------|
-| 🇰🇷 한국어 | [**시뮬레이션 논문 (Korean)**](./docs/SIMULATION_PAPER.md) |
+| 🇰🇷 Korean | [**시뮬레이션 논문 (Korean)**](./docs/SIMULATION_PAPER.md) |
 | 🇺🇸 English | [**Simulation Paper (English)**](./docs/SIMULATION_PAPER_EN.md) |
 
 ---
