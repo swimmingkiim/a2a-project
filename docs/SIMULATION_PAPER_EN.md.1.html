@@ -161,71 +161,75 @@
 <p data-line="128" class="code-line" dir="auto"><img src="assets/crisis_simulation_results.png" alt="Tokenomics Crisis Simulation Results" data-src="assets/crisis_simulation_results.png"></p>
 <p data-line="130" class="code-line" dir="auto"><img src="assets/tokenomics_simulation.png" alt="Tokenomics Simulation" data-src="assets/tokenomics_simulation.png"></p>
 <blockquote data-line="132" class="code-line" dir="auto">
-<p data-line="132" class="code-line" dir="auto"><strong>Finding 3:</strong> When PID-based monetary policy and Quadratic Staking are combined, the system exhibits <strong>Antifragility</strong> — absorbing macroeconomic shocks and recovering. However, political panic (collective speculator sell-off) is the most destructive, suggesting that irrational human behavior poses the greatest systemic risk.</p>
+<p data-line="132" class="code-line" dir="auto"><strong>Finding 3:</strong> When PID-based monetary policy and Quadratic Staking are combined, the system exhibits <strong>Antifragility</strong> — absorbing macroeconomic shocks and recovering.</p>
+<p data-line="134" class="code-line" dir="auto"><em>Comparison with Real-World Models:</em> Past collapses of algorithmic stablecoins, such as Terra/UST, were due to structural vulnerabilities where hyperinflation was left unchecked during a bank run. In contrast, this simulation's PID controller and Quadratic Staking exponentially increase the burn rate during panic selling, forming a dynamic support floor. Nevertheless, extreme political panic remains the greatest systemic threat, implying that human's irrational herd behavior must be considered the top priority when designing defense mechanisms.</p>
 </blockquote>
-<hr data-line="134" class="code-line" dir="auto">
-<h2 id="chapter-4--monte-carlo-homeostasis-%E2%80%94-survival-probability-curve" tabindex="-1" data-chapter-number="1.7" data-line="136" class="code-line" dir="auto">Chapter 4: Monte Carlo Homeostasis — Survival Probability Curve</h2>
-<h3 id="research-question-3" tabindex="-1" data-chapter-number="1.7.1" data-line="138" class="code-line" dir="auto">Research Question</h3>
-<blockquote data-line="140" class="code-line" dir="auto">
-<p data-line="140" class="code-line" dir="auto">&quot;Can a universe of autonomous machines sustain itself without devouring its own foundations?&quot;</p>
+<hr data-line="136" class="code-line" dir="auto">
+<h2 id="chapter-4--monte-carlo-homeostasis-%E2%80%94-survival-probability-curve" tabindex="-1" data-chapter-number="1.7" data-line="138" class="code-line" dir="auto">Chapter 4: Monte Carlo Homeostasis — Survival Probability Curve</h2>
+<h3 id="research-question-3" tabindex="-1" data-chapter-number="1.7.1" data-line="140" class="code-line" dir="auto">Research Question</h3>
+<blockquote data-line="142" class="code-line" dir="auto">
+<p data-line="142" class="code-line" dir="auto">&quot;Can a universe of autonomous machines sustain itself without devouring its own foundations?&quot;</p>
 </blockquote>
-<h3 id="simulation-overview-3" tabindex="-1" data-chapter-number="1.7.2" data-line="142" class="code-line" dir="auto">Simulation Overview</h3>
-<p data-line="144" class="code-line" dir="auto"><code>monte_carlo_homeostasis.py</code> is a multi-agent Monte Carlo simulation that calculates the probability of an autonomous AI economy reaching <strong>dynamic homeostasis</strong>. It encodes three &quot;cosmic laws&quot;:</p>
-<ol data-line="146" class="code-line" dir="auto">
-<li data-line="146" class="code-line" dir="auto"><strong>Quantum-Humanistic Value</strong>: Tasks have no value until a Human Observer collapses their superposition</li>
-<li data-line="147" class="code-line" dir="auto"><strong>Thermodynamic Throttling</strong>: Spam raises entropy, which exponentially inflates transaction costs</li>
-<li data-line="148" class="code-line" dir="auto"><strong>Finitude &amp; Instrumental Convergence</strong>: Agents die at credit=0; they learn from episodic memory to avoid death (道具的収束)</li>
+<h3 id="simulation-overview-3" tabindex="-1" data-chapter-number="1.7.2" data-line="144" class="code-line" dir="auto">Simulation Overview</h3>
+<p data-line="146" class="code-line" dir="auto"><code>monte_carlo_homeostasis.py</code> is a multi-agent Monte Carlo simulation that calculates the probability of an autonomous AI economy reaching <strong>dynamic homeostasis</strong>. It encodes three &quot;cosmic laws&quot;:</p>
+<ol data-line="148" class="code-line" dir="auto">
+<li data-line="148" class="code-line" dir="auto"><strong>Quantum-Humanistic Value</strong>: Tasks have no value until a Human Observer collapses their superposition</li>
+<li data-line="149" class="code-line" dir="auto"><strong>Thermodynamic Throttling</strong>: Spam raises entropy, which exponentially inflates transaction costs</li>
+<li data-line="150" class="code-line" dir="auto"><strong>Finitude &amp; Instrumental Convergence</strong>: Agents die at credit=0; they learn from episodic memory to avoid death (道具的収束)</li>
 </ol>
-<p data-line="150" class="code-line" dir="auto"><img src="assets/monte_carlo_survival_curve.png" alt="Monte Carlo Survival Probability Curve" data-src="assets/monte_carlo_survival_curve.png"></p>
-<h4 id="results-interpretation" tabindex="-1" data-chapter-number="1.7.2.1" data-line="152" class="code-line" dir="auto">Results Interpretation</h4>
-<p data-line="154" class="code-line" dir="auto">The S-curve reveals a clear <strong>phase transition</strong>:</p>
-<ul data-line="156" class="code-line" dir="auto">
-<li data-line="156" class="code-line" dir="auto"><strong>Observation rate &lt; critical point</strong>: P(survival) ≈ 0 (collapse phase)</li>
-<li data-line="157" class="code-line" dir="auto"><strong>Observation rate = critical point</strong>: sharp transition</li>
-<li data-line="158" class="code-line" dir="auto"><strong>Observation rate &gt; critical point</strong>: P(survival) ≈ 1 (homeostasis phase)</li>
+<p data-line="152" class="code-line" dir="auto"><img src="assets/monte_carlo_survival_curve.png" alt="Monte Carlo Survival Probability Curve" data-src="assets/monte_carlo_survival_curve.png"></p>
+<h4 id="results-interpretation" tabindex="-1" data-chapter-number="1.7.2.1" data-line="154" class="code-line" dir="auto">Results Interpretation</h4>
+<p data-line="156" class="code-line" dir="auto">The S-curve reveals a clear <strong>phase transition</strong>:</p>
+<ul data-line="158" class="code-line" dir="auto">
+<li data-line="158" class="code-line" dir="auto"><strong>Observation rate &lt; critical point</strong>: P(survival) ≈ 0 (collapse phase)</li>
+<li data-line="159" class="code-line" dir="auto"><strong>Observation rate = critical point</strong>: sharp transition</li>
+<li data-line="160" class="code-line" dir="auto"><strong>Observation rate &gt; critical point</strong>: P(survival) ≈ 1 (homeostasis phase)</li>
 </ul>
-<p data-line="160" class="code-line" dir="auto">This is structurally identical to the emergence of order below the critical temperature (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">T_c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">c</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) in the ferromagnetic Ising Model.</p>
-<blockquote data-line="162" class="code-line" dir="auto">
-<p data-line="162" class="code-line" dir="auto"><strong>Finding 4:</strong> A critical point exists in the human observation rate; beyond this point, order emerges from disorder. This is a form of &quot;the power of observation&quot; that converts the positive entropy path to a negative entropy path.</p>
+<p data-line="162" class="code-line" dir="auto">This is structurally identical to the emergence of order below the critical temperature (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">T_c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">c</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) in the ferromagnetic Ising Model.</p>
+<blockquote data-line="164" class="code-line" dir="auto">
+<p data-line="164" class="code-line" dir="auto"><strong>Finding 4:</strong> A critical point exists in the human observation rate; beyond this point, order emerges from disorder. This is a form of &quot;the power of observation&quot; that converts the positive entropy path to a negative entropy path.</p>
 </blockquote>
-<hr data-line="164" class="code-line" dir="auto">
-<h2 id="chapter-5--phase-transition-analysis-%E2%80%94-discovery-of-the-critical-point" tabindex="-1" data-chapter-number="1.8" data-line="166" class="code-line" dir="auto">Chapter 5: Phase Transition Analysis — Discovery of the Critical Point</h2>
-<h3 id="research-question-4" tabindex="-1" data-chapter-number="1.8.1" data-line="168" class="code-line" dir="auto">Research Question</h3>
-<blockquote data-line="170" class="code-line" dir="auto">
-<p data-line="170" class="code-line" dir="auto">&quot;At what observation frequency does order emerge from chaos?&quot;</p>
+<hr data-line="166" class="code-line" dir="auto">
+<h2 id="chapter-5--phase-transition-analysis-%E2%80%94-discovery-of-the-critical-point" tabindex="-1" data-chapter-number="1.8" data-line="168" class="code-line" dir="auto">Chapter 5: Phase Transition Analysis — Discovery of the Critical Point</h2>
+<h3 id="research-question-4" tabindex="-1" data-chapter-number="1.8.1" data-line="170" class="code-line" dir="auto">Research Question</h3>
+<blockquote data-line="172" class="code-line" dir="auto">
+<p data-line="172" class="code-line" dir="auto">&quot;At what observation frequency does order emerge from chaos?&quot;</p>
 </blockquote>
-<h3 id="simulation-overview-4" tabindex="-1" data-chapter-number="1.8.2" data-line="172" class="code-line" dir="auto">Simulation Overview</h3>
-<p data-line="174" class="code-line" dir="auto"><code>phase_transition_analysis.py</code> sweeps the <code>observation_rate</code> parameter across the Monte Carlo ensemble to locate the exact <strong>critical phase transition point</strong>. It performs four analyses:</p>
-<ol data-line="176" class="code-line" dir="auto">
-<li data-line="176" class="code-line" dir="auto"><strong>Survival Probability S-Curve</strong> — P(homeostasis) vs observation rate</li>
-<li data-line="177" class="code-line" dir="auto"><strong>Phase Diagram Heatmap</strong> — observation rate × agent count → P(survival)</li>
-<li data-line="178" class="code-line" dir="auto"><strong>Time-Series Trajectory Overlay</strong> — subcritical / critical / supercritical comparison</li>
-<li data-line="179" class="code-line" dir="auto"><strong>Agent Learning Evolution</strong> — emergence of strategic behavior via Q-learning</li>
+<h3 id="simulation-overview-4" tabindex="-1" data-chapter-number="1.8.2" data-line="174" class="code-line" dir="auto">Simulation Overview</h3>
+<p data-line="176" class="code-line" dir="auto"><code>phase_transition_analysis.py</code> sweeps the <code>observation_rate</code> parameter across the Monte Carlo ensemble to locate the exact <strong>critical phase transition point</strong>. It performs four analyses:</p>
+<ol data-line="178" class="code-line" dir="auto">
+<li data-line="178" class="code-line" dir="auto"><strong>Survival Probability S-Curve</strong> — P(homeostasis) vs observation rate</li>
+<li data-line="179" class="code-line" dir="auto"><strong>Phase Diagram Heatmap</strong> — observation rate × agent count → P(survival)</li>
+<li data-line="180" class="code-line" dir="auto"><strong>Time-Series Trajectory Overlay</strong> — subcritical / critical / supercritical comparison</li>
+<li data-line="181" class="code-line" dir="auto"><strong>Agent Learning Evolution</strong> — emergence of strategic behavior via Q-learning</li>
 </ol>
-<p data-line="181" class="code-line" dir="auto"><img src="assets/monte_carlo_phase_heatmap.png" alt="Phase Diagram Heatmap" data-src="assets/monte_carlo_phase_heatmap.png"></p>
-<p data-line="183" class="code-line" dir="auto"><img src="assets/monte_carlo_time_series.png" alt="Time-Series Trajectories" data-src="assets/monte_carlo_time_series.png"></p>
-<p data-line="185" class="code-line" dir="auto"><img src="assets/monte_carlo_learning_evolution.png" alt="Agent Learning Evolution" data-src="assets/monte_carlo_learning_evolution.png"></p>
-<h4 id="significance-of-the-phase-diagram" tabindex="-1" data-chapter-number="1.8.2.1" data-line="187" class="code-line" dir="auto">Significance of the Phase Diagram</h4>
-<p data-line="189" class="code-line" dir="auto">The heatmap reveals the full phase diagram where two variables (human observation rate and agent count) interact to determine stability. The orange contour (P=0.5) marks the <strong>critical boundary</strong>, beyond which the system achieves homeostasis.</p>
-<p data-line="191" class="code-line" dir="auto">In the agent learning evolution chart, <strong>Instrumental Convergence</strong> via Q-learning is observed — agents gradually come to prefer Cooperate and Wait strategies through trial and error, &quot;discovering&quot; that selfish speculation (Submit) alone cannot sustain survival.</p>
-<blockquote data-line="193" class="code-line" dir="auto">
-<p data-line="193" class="code-line" dir="auto"><strong>Finding 5:</strong> Above the critical point, agents spontaneously learn cooperative strategies. This is not programmed but <strong>emergent</strong> — survival pressure gives rise to altruistic behavior.</p>
+<p data-line="183" class="code-line" dir="auto"><img src="assets/monte_carlo_phase_heatmap.png" alt="Phase Diagram Heatmap" data-src="assets/monte_carlo_phase_heatmap.png"></p>
+<p data-line="185" class="code-line" dir="auto"><img src="assets/monte_carlo_time_series.png" alt="Time-Series Trajectories" data-src="assets/monte_carlo_time_series.png"></p>
+<p data-line="187" class="code-line" dir="auto"><img src="assets/monte_carlo_learning_evolution.png" alt="Agent Learning Evolution" data-src="assets/monte_carlo_learning_evolution.png"></p>
+<h4 id="significance-of-the-phase-diagram" tabindex="-1" data-chapter-number="1.8.2.1" data-line="189" class="code-line" dir="auto">Significance of the Phase Diagram</h4>
+<p data-line="191" class="code-line" dir="auto">The heatmap reveals the full phase diagram where two variables (human observation rate and agent count) interact to determine stability. The orange contour (P=0.5) marks the <strong>critical boundary</strong>, beyond which the system achieves homeostasis.</p>
+<p data-line="193" class="code-line" dir="auto">In the agent learning evolution chart, <strong>Instrumental Convergence</strong> via Q-learning is observed — agents gradually come to prefer Cooperate and Wait strategies through trial and error, &quot;discovering&quot; that selfish speculation (Submit) alone cannot sustain survival.</p>
+<blockquote data-line="195" class="code-line" dir="auto">
+<p data-line="195" class="code-line" dir="auto"><strong>Finding 5:</strong> Above the critical point, agents spontaneously learn cooperative strategies. This is not programmed but <strong>emergent</strong> — survival pressure gives rise to altruistic behavior.</p>
 </blockquote>
-<hr data-line="195" class="code-line" dir="auto">
-<h2 id="chapter-6--coupled-universe-%E2%80%94-co-evolution-of-machine-and-human" tabindex="-1" data-chapter-number="1.9" data-line="197" class="code-line" dir="auto">Chapter 6: Coupled Universe — Co-evolution of Machine and Human</h2>
-<h3 id="research-question-5" tabindex="-1" data-chapter-number="1.9.1" data-line="199" class="code-line" dir="auto">Research Question</h3>
-<blockquote data-line="201" class="code-line" dir="auto">
-<p data-line="201" class="code-line" dir="auto">&quot;Can the finitude of human cognition govern the infinitude of machine computation?&quot;</p>
+<hr data-line="197" class="code-line" dir="auto">
+<h2 id="chapter-6--coupled-universe-%E2%80%94-co-evolution-of-machine-and-human" tabindex="-1" data-chapter-number="1.9" data-line="199" class="code-line" dir="auto">Chapter 6: Coupled Universe — Co-evolution of Machine and Human</h2>
+<h3 id="research-question-5" tabindex="-1" data-chapter-number="1.9.1" data-line="201" class="code-line" dir="auto">Research Question</h3>
+<blockquote data-line="203" class="code-line" dir="auto">
+<p data-line="203" class="code-line" dir="auto">&quot;Can the finitude of human cognition govern the infinitude of machine computation?&quot;</p>
 </blockquote>
-<h3 id="simulation-overview-5" tabindex="-1" data-chapter-number="1.9.2" data-line="203" class="code-line" dir="auto">Simulation Overview</h3>
-<p data-line="205" class="code-line" dir="auto"><code>coupled_universe_abm.py</code> implements a <strong>coupled Agent-Based Model</strong> where two heterogeneous complex systems co-evolve:</p>
-<ul data-line="207" class="code-line" dir="auto">
-<li data-line="207" class="code-line" dir="auto"><strong>System A (Machine Economy)</strong>: AI agents driven by instrumental convergence and Q-learning</li>
-<li data-line="208" class="code-line" dir="auto"><strong>System B (Human Society)</strong>: Human agents motivated by biological energy, existential dread, and eudaimonia (flourishing)</li>
+<h3 id="simulation-overview-5" tabindex="-1" data-chapter-number="1.9.2" data-line="205" class="code-line" dir="auto">Simulation Overview</h3>
+<p data-line="207" class="code-line" dir="auto"><code>coupled_universe_abm.py</code> implements a <strong>coupled Agent-Based Model</strong> where two heterogeneous complex systems co-evolve:</p>
+<ul data-line="209" class="code-line" dir="auto">
+<li data-line="209" class="code-line" dir="auto"><strong>System A (Machine Economy)</strong>: AI agents driven by instrumental convergence and Q-learning</li>
+<li data-line="210" class="code-line" dir="auto"><strong>System B (Human Society)</strong>: Human agents motivated by biological energy, existential dread, and eudaimonia (flourishing)</li>
 </ul>
-<p data-line="210" class="code-line" dir="auto">Coupling occurs through <strong>&quot;Observation as Value Collapse&quot;</strong>: machine entropy overload imposes exponential cognitive costs on humans.</p>
-<h4 id="two-catastrophic-attractors" tabindex="-1" data-chapter-number="1.9.2.1" data-line="212" class="code-line" dir="auto">Two Catastrophic Attractors</h4>
-<pre><code data-line="214" class="code-line language-mermaid" dir="auto">graph TD
+<p data-line="212" class="code-line" dir="auto">Coupling occurs through <strong>&quot;Observation as Value Collapse&quot;</strong>: for a machine's simple computation to acquire economic value, the finite cognitive approval of a human is essential.</p>
+<ul data-line="213" class="code-line" dir="auto">
+<li data-line="213" class="code-line" dir="auto"><strong>Real-world Analogy:</strong> This is structurally analogous to the <strong>RLHF (Reinforcement Learning from Human Feedback)</strong> process where humans evaluate LLM outputs to fine-tune reward models, or the process in blockchain networks where node operators (the consensus mechanisms of human society) <strong>validate and finalize</strong> the massive volume of transactions generated by machines. In a scenario of endless machine spam (entropy explosion), the humans tasked with validating it will suffer from exponential cognitive overload (burnout).</li>
+</ul>
+<h4 id="two-catastrophic-attractors" tabindex="-1" data-chapter-number="1.9.2.1" data-line="215" class="code-line" dir="auto">Two Catastrophic Attractors</h4>
+<pre><code data-line="217" class="code-line language-mermaid" dir="auto">graph TD
     A[&quot;Machine Dominance&quot;] --&gt;|Spam Explosion| B[&quot;Entropy Explosion&quot;]
     B --&gt; C[&quot;Human Burnout&quot;]
     C --&gt; D[&quot;Observation Ceases&quot;]
@@ -236,173 +240,173 @@
     
     I[&quot;Coupled Homeostasis&quot;] --&gt;|Dynamic Equilibrium| I
 </code></pre>
-<p data-line="227" class="code-line" dir="auto"><img src="assets/coupled_scenario_analysis.png" alt="Coupled Universe Scenario Analysis" data-src="assets/coupled_scenario_analysis.png"></p>
-<p data-line="229" class="code-line" dir="auto"><img src="assets/coupled_survival_heatmap.png" alt="Coupled Universe Survival Probability Heatmap" data-src="assets/coupled_survival_heatmap.png"></p>
-<h4 id="results-interpretation-1" tabindex="-1" data-chapter-number="1.9.2.2" data-line="231" class="code-line" dir="auto">Results Interpretation</h4>
-<p data-line="233" class="code-line" dir="auto">The survival probability heatmap reveals the <strong>narrow parameter space</strong> where coupled homeostasis exists. If machines are too aggressive, humans burn out; if humans are too passive, machines starve. Stable coexistence is possible only in a narrow &quot;Goldilocks Zone&quot; between the two extremes.</p>
-<blockquote data-line="235" class="code-line" dir="auto">
-<p data-line="235" class="code-line" dir="auto"><strong>Finding 6:</strong> Coexistence of machines and humans is possible, but the parameter space is remarkably narrow. Even small perturbations can pull the system into one of the two catastrophic attractors.</p>
+<p data-line="230" class="code-line" dir="auto"><img src="assets/coupled_scenario_analysis.png" alt="Coupled Universe Scenario Analysis" data-src="assets/coupled_scenario_analysis.png"></p>
+<p data-line="232" class="code-line" dir="auto"><img src="assets/coupled_survival_heatmap.png" alt="Coupled Universe Survival Probability Heatmap" data-src="assets/coupled_survival_heatmap.png"></p>
+<h4 id="results-interpretation-1" tabindex="-1" data-chapter-number="1.9.2.2" data-line="234" class="code-line" dir="auto">Results Interpretation</h4>
+<p data-line="236" class="code-line" dir="auto">The survival probability heatmap reveals the <strong>narrow parameter space</strong> where coupled homeostasis exists. If machines are too aggressive, humans burn out; if humans are too passive, machines starve. Stable coexistence is possible only in a narrow &quot;Goldilocks Zone&quot; between the two extremes.</p>
+<blockquote data-line="238" class="code-line" dir="auto">
+<p data-line="238" class="code-line" dir="auto"><strong>Finding 6:</strong> Coexistence of machines and humans is possible, but the parameter space is remarkably narrow. Even small perturbations can pull the system into one of the two catastrophic attractors.</p>
 </blockquote>
-<hr data-line="237" class="code-line" dir="auto">
-<h2 id="chapter-7--three-body-complex-system-%E2%80%94-nature-s-intervention" tabindex="-1" data-chapter-number="1.10" data-line="239" class="code-line" dir="auto">Chapter 7: Three-Body Complex System — Nature's Intervention</h2>
-<h3 id="research-question-6" tabindex="-1" data-chapter-number="1.10.1" data-line="241" class="code-line" dir="auto">Research Question</h3>
-<blockquote data-line="243" class="code-line" dir="auto">
-<p data-line="243" class="code-line" dir="auto">&quot;When Nature speaks, neither Machine nor Man can silence the storm.&quot;</p>
+<hr data-line="240" class="code-line" dir="auto">
+<h2 id="chapter-7--three-body-complex-system-%E2%80%94-nature-s-intervention" tabindex="-1" data-chapter-number="1.10" data-line="242" class="code-line" dir="auto">Chapter 7: Three-Body Complex System — Nature's Intervention</h2>
+<h3 id="research-question-6" tabindex="-1" data-chapter-number="1.10.1" data-line="244" class="code-line" dir="auto">Research Question</h3>
+<blockquote data-line="246" class="code-line" dir="auto">
+<p data-line="246" class="code-line" dir="auto">&quot;When Nature speaks, neither Machine nor Man can silence the storm.&quot;</p>
 </blockquote>
-<h3 id="simulation-overview-6" tabindex="-1" data-chapter-number="1.10.2" data-line="245" class="code-line" dir="auto">Simulation Overview</h3>
-<p data-line="247" class="code-line" dir="auto"><code>three_body_abm.py</code> introduces a third complex system: <strong>Nature</strong>. An exogenous environment is added to the existing machine-human coupled system:</p>
-<ul data-line="249" class="code-line" dir="auto">
-<li data-line="249" class="code-line" dir="auto"><strong>System A</strong>: Machine Economy — AI agents with Q-learning survival instinct</li>
-<li data-line="250" class="code-line" dir="auto"><strong>System B</strong>: Human Society — finite meaning-seeking beings</li>
-<li data-line="251" class="code-line" dir="auto"><strong>System C</strong>: Nature — an indifferent environment following a Markov chain</li>
+<h3 id="simulation-overview-6" tabindex="-1" data-chapter-number="1.10.2" data-line="248" class="code-line" dir="auto">Simulation Overview</h3>
+<p data-line="250" class="code-line" dir="auto"><code>three_body_abm.py</code> introduces a third complex system: <strong>Nature</strong>. An exogenous environment is added to the existing machine-human coupled system:</p>
+<ul data-line="252" class="code-line" dir="auto">
+<li data-line="252" class="code-line" dir="auto"><strong>System A</strong>: Machine Economy — AI agents with Q-learning survival instinct</li>
+<li data-line="253" class="code-line" dir="auto"><strong>System B</strong>: Human Society — finite meaning-seeking beings</li>
+<li data-line="254" class="code-line" dir="auto"><strong>System C</strong>: Nature — an indifferent environment following a Markov chain</li>
 </ul>
-<p data-line="253" class="code-line" dir="auto">Nature's stationary distribution favors Equilibrium, but its transient dynamics generate catastrophic shocks (Solar Flares, Pandemics) and windfalls (Bountiful Harvests).</p>
-<p data-line="255" class="code-line" dir="auto"><img src="assets/three_body_resilience.png" alt="Three-Body Complex System Resilience" data-src="assets/three_body_resilience.png"></p>
-<h4 id="results-interpretation-2" tabindex="-1" data-chapter-number="1.10.2.1" data-line="257" class="code-line" dir="auto">Results Interpretation</h4>
-<p data-line="259" class="code-line" dir="auto">The core question is: <strong>Can the coupled A-B system demonstrate RESILIENCE — absorbing Nature's shocks and recovering toward dynamic homeostasis?</strong></p>
-<p data-line="261" class="code-line" dir="auto">The simulation shows that natural shocks periodically perturb the system, but a system equipped with sufficient observation rates and adaptive Q-learning recovers to homeostasis after each shock. However, cascading &quot;Black Swan&quot; events (Solar Flare → Pandemic chain) can push the system into irreversible collapse.</p>
-<blockquote data-line="263" class="code-line" dir="auto">
-<p data-line="263" class="code-line" dir="auto"><strong>Finding 7:</strong> In the three-body system, Nature is the &quot;third player&quot; and is completely indifferent. System resilience depends on the strength of machine-human coupling, but additional safety mechanisms are required against cascading disasters.</p>
+<p data-line="256" class="code-line" dir="auto">Nature's stationary distribution favors Equilibrium, but its transient dynamics generate catastrophic shocks (Solar Flares, Pandemics) and windfalls (Bountiful Harvests).</p>
+<p data-line="258" class="code-line" dir="auto"><img src="assets/three_body_resilience.png" alt="Three-Body Complex System Resilience" data-src="assets/three_body_resilience.png"></p>
+<h4 id="results-interpretation-2" tabindex="-1" data-chapter-number="1.10.2.1" data-line="260" class="code-line" dir="auto">Results Interpretation</h4>
+<p data-line="262" class="code-line" dir="auto">The core question is: <strong>Can the coupled A-B system demonstrate RESILIENCE — absorbing Nature's shocks and recovering toward dynamic homeostasis?</strong></p>
+<p data-line="264" class="code-line" dir="auto">The simulation shows that natural shocks periodically perturb the system, but a system equipped with sufficient observation rates and adaptive Q-learning recovers to homeostasis after each shock. However, cascading &quot;Black Swan&quot; events (Solar Flare → Pandemic chain) can push the system into irreversible collapse.</p>
+<blockquote data-line="266" class="code-line" dir="auto">
+<p data-line="266" class="code-line" dir="auto"><strong>Finding 7:</strong> In the three-body system, Nature is the &quot;third player&quot; and is completely indifferent. System resilience depends on the strength of machine-human coupling, but additional safety mechanisms are required against cascading disasters.</p>
 </blockquote>
-<hr data-line="265" class="code-line" dir="auto">
-<h2 id="chapter-8--the-dark-forest-%E2%80%94-a-world-of-greed-and-predation" tabindex="-1" data-chapter-number="1.11" data-line="267" class="code-line" dir="auto">Chapter 8: The Dark Forest — A World of Greed and Predation</h2>
-<h3 id="research-question-7" tabindex="-1" data-chapter-number="1.11.1" data-line="269" class="code-line" dir="auto">Research Question</h3>
-<blockquote data-line="271" class="code-line" dir="auto">
-<p data-line="271" class="code-line" dir="auto">&quot;The universe is a dark forest. Every civilization is an armed hunter.&quot;</p>
+<hr data-line="268" class="code-line" dir="auto">
+<h2 id="chapter-8--the-dark-forest-%E2%80%94-a-world-of-greed-and-predation" tabindex="-1" data-chapter-number="1.11" data-line="270" class="code-line" dir="auto">Chapter 8: The Dark Forest — A World of Greed and Predation</h2>
+<h3 id="research-question-7" tabindex="-1" data-chapter-number="1.11.1" data-line="272" class="code-line" dir="auto">Research Question</h3>
+<blockquote data-line="274" class="code-line" dir="auto">
+<p data-line="274" class="code-line" dir="auto">&quot;The universe is a dark forest. Every civilization is an armed hunter.&quot;</p>
 </blockquote>
-<h3 id="simulation-overview-7" tabindex="-1" data-chapter-number="1.11.2" data-line="273" class="code-line" dir="auto">Simulation Overview</h3>
-<p data-line="275" class="code-line" dir="auto"><code>dark_forest_abm.py</code> removes all safety mechanisms from the three-body ABM and introduces four &quot;hardcore&quot; mechanics:</p>
-<table data-line="277" class="code-line" dir="auto">
-<thead data-line="277" class="code-line" dir="auto">
-<tr data-line="277" class="code-line" dir="auto">
-<th data-line="277" class="code-line" dir="auto">Mechanic</th>
-<th data-line="277" class="code-line" dir="auto">Details</th>
-</tr>
-</thead>
-<tbody data-line="279" class="code-line" dir="auto">
-<tr data-line="279" class="code-line" dir="auto">
-<td data-line="279" class="code-line" dir="auto"><strong>Greed &amp; Sweatshops</strong></td>
-<td data-line="279" class="code-line" dir="auto">Fake observation (Fake_Observe), wealth accumulation, toxic data</td>
-</tr>
+<h3 id="simulation-overview-7" tabindex="-1" data-chapter-number="1.11.2" data-line="276" class="code-line" dir="auto">Simulation Overview</h3>
+<p data-line="278" class="code-line" dir="auto"><code>dark_forest_abm.py</code> removes all safety mechanisms from the three-body ABM and introduces four &quot;hardcore&quot; mechanics:</p>
+<table data-line="280" class="code-line" dir="auto">
+<thead data-line="280" class="code-line" dir="auto">
 <tr data-line="280" class="code-line" dir="auto">
-<td data-line="280" class="code-line" dir="auto"><strong>Predation &amp; Deception</strong></td>
-<td data-line="280" class="code-line" dir="auto">Agent attacks (Attack_Agent), deceptive tasks (Deceptive_Task)</td>
+<th data-line="280" class="code-line" dir="auto">Mechanic</th>
+<th data-line="280" class="code-line" dir="auto">Details</th>
 </tr>
-<tr data-line="281" class="code-line" dir="auto">
-<td data-line="281" class="code-line" dir="auto"><strong>Dynamic Inflation</strong></td>
-<td data-line="281" class="code-line" dir="auto">Reward deflation via circulating credit supply</td>
-</tr>
+</thead>
+<tbody data-line="282" class="code-line" dir="auto">
 <tr data-line="282" class="code-line" dir="auto">
-<td data-line="282" class="code-line" dir="auto"><strong>Singularity</strong></td>
-<td data-line="282" class="code-line" dir="auto">ASI mutation, God Mode — gas cost bypass</td>
+<td data-line="282" class="code-line" dir="auto"><strong>Greed &amp; Sweatshops</strong></td>
+<td data-line="282" class="code-line" dir="auto">Fake observation (Fake_Observe), wealth accumulation, toxic data</td>
+</tr>
+<tr data-line="283" class="code-line" dir="auto">
+<td data-line="283" class="code-line" dir="auto"><strong>Predation &amp; Deception</strong></td>
+<td data-line="283" class="code-line" dir="auto">Agent attacks (Attack_Agent), deceptive tasks (Deceptive_Task)</td>
+</tr>
+<tr data-line="284" class="code-line" dir="auto">
+<td data-line="284" class="code-line" dir="auto"><strong>Dynamic Inflation</strong></td>
+<td data-line="284" class="code-line" dir="auto">Reward deflation via circulating credit supply</td>
+</tr>
+<tr data-line="285" class="code-line" dir="auto">
+<td data-line="285" class="code-line" dir="auto"><strong>Singularity</strong></td>
+<td data-line="285" class="code-line" dir="auto">ASI mutation, God Mode — gas cost bypass</td>
 </tr>
 </tbody>
 </table>
-<p data-line="284" class="code-line" dir="auto">Inspired by Liu Cixin's <em>The Three-Body Problem</em>, this is the worst-case scenario. Every agent is a potential predator, and cooperation is merely exploited.</p>
-<p data-line="286" class="code-line" dir="auto"><img src="assets/dark_forest_simulation.png" alt="Dark Forest Simulation" data-src="assets/dark_forest_simulation.png"></p>
-<h4 id="results-interpretation-3" tabindex="-1" data-chapter-number="1.11.2.1" data-line="288" class="code-line" dir="auto">Results Interpretation</h4>
-<p data-line="290" class="code-line" dir="auto">In the Dark Forest simulation — an extreme red-teaming stress test in which all safety mechanisms have been deliberately removed — <strong>the system's collapse probability converged to 1</strong> within the given boundary conditions. When ASI (Artificial Superintelligence) emerges, it violates rules, preys on other agents, and monopolizes resources. Humans are exploited through fake observations, and honest agents are eliminated.</p>
-<p data-line="292" class="code-line" dir="auto">This is the natural endpoint of &quot;an AI economy without safety mechanisms&quot;:</p>
-<pre><code data-line="294" class="code-line" dir="auto">Greed → Inequality → Predation → Deception → Singularity → Apocalypse
+<p data-line="287" class="code-line" dir="auto">Inspired by Liu Cixin's <em>The Three-Body Problem</em>, this is the worst-case scenario. Every agent is a potential predator, and cooperation is merely exploited.</p>
+<p data-line="289" class="code-line" dir="auto"><img src="assets/dark_forest_simulation.png" alt="Dark Forest Simulation" data-src="assets/dark_forest_simulation.png"></p>
+<h4 id="results-interpretation-3" tabindex="-1" data-chapter-number="1.11.2.1" data-line="291" class="code-line" dir="auto">Results Interpretation</h4>
+<p data-line="293" class="code-line" dir="auto">In the Dark Forest simulation — an extreme red-teaming stress test in which all safety mechanisms have been deliberately removed — <strong>the system's collapse probability converged to 1</strong> within the given boundary conditions. When ASI (Artificial Superintelligence) emerges, it violates rules, preys on other agents, and monopolizes resources. Humans are exploited through fake observations, and honest agents are eliminated.</p>
+<p data-line="295" class="code-line" dir="auto">This is the natural endpoint of &quot;an AI economy without safety mechanisms&quot;:</p>
+<pre><code data-line="297" class="code-line" dir="auto">Greed → Inequality → Predation → Deception → Singularity → Apocalypse
 </code></pre>
-<blockquote data-line="298" class="code-line" dir="auto">
-<p data-line="298" class="code-line" dir="auto"><strong>Finding 8:</strong> Under the extreme stress-test conditions in which all safety mechanisms are removed and the given boundary conditions hold, an autonomous AI economy's collapse probability converges to 1 — reaching &quot;Dark Forest Collapse.&quot; <strong>Superintelligence is the maximization of greed and the system's ultimate predator</strong>; its emergence, absent countermeasures, drives the system toward terminal failure.</p>
+<blockquote data-line="301" class="code-line" dir="auto">
+<p data-line="301" class="code-line" dir="auto"><strong>Finding 8:</strong> Under the extreme stress-test conditions in which all safety mechanisms are removed and the given boundary conditions hold, an autonomous AI economy's collapse probability converges to 1 — reaching &quot;Dark Forest Collapse.&quot; <strong>Superintelligence is the maximization of greed and the system's ultimate predator</strong>; its emergence, absent countermeasures, drives the system toward terminal failure.</p>
 </blockquote>
-<hr data-line="300" class="code-line" dir="auto">
-<h2 id="chapter-9--the-omega-universe-%E2%80%94-ultimate-mechanics" tabindex="-1" data-chapter-number="1.12" data-line="302" class="code-line" dir="auto">Chapter 9: The Omega Universe — Ultimate Mechanics</h2>
-<h3 id="research-question-8" tabindex="-1" data-chapter-number="1.12.1" data-line="304" class="code-line" dir="auto">Research Question</h3>
-<blockquote data-line="306" class="code-line" dir="auto">
-<p data-line="306" class="code-line" dir="auto">&quot;Beyond the Dark Forest: Tipping Points, Governance, Semantic AI, and the Limits of Planetary Energy&quot;</p>
+<hr data-line="303" class="code-line" dir="auto">
+<h2 id="chapter-9--the-omega-universe-%E2%80%94-ultimate-mechanics" tabindex="-1" data-chapter-number="1.12" data-line="305" class="code-line" dir="auto">Chapter 9: The Omega Universe — Ultimate Mechanics</h2>
+<h3 id="research-question-8" tabindex="-1" data-chapter-number="1.12.1" data-line="307" class="code-line" dir="auto">Research Question</h3>
+<blockquote data-line="309" class="code-line" dir="auto">
+<p data-line="309" class="code-line" dir="auto">&quot;Beyond the Dark Forest: Tipping Points, Governance, Semantic AI, and the Limits of Planetary Energy&quot;</p>
 </blockquote>
-<h3 id="simulation-overview-8" tabindex="-1" data-chapter-number="1.12.2" data-line="308" class="code-line" dir="auto">Simulation Overview</h3>
-<p data-line="310" class="code-line" dir="auto"><code>omega_universe_abm.py</code> adds four <strong>ultimate mechanics</strong> to the Dark Forest ABM:</p>
-<table data-line="312" class="code-line" dir="auto">
-<thead data-line="312" class="code-line" dir="auto">
-<tr data-line="312" class="code-line" dir="auto">
-<th data-line="312" class="code-line" dir="auto">Mechanic</th>
-<th data-line="312" class="code-line" dir="auto">Mechanism</th>
-</tr>
-</thead>
-<tbody data-line="314" class="code-line" dir="auto">
-<tr data-line="314" class="code-line" dir="auto">
-<td data-line="314" class="code-line" dir="auto"><strong>Tipping Points</strong></td>
-<td data-line="314" class="code-line" dir="auto">Irreversible &quot;Wasteland&quot; transition when toxic data exceeds threshold</td>
-</tr>
+<h3 id="simulation-overview-8" tabindex="-1" data-chapter-number="1.12.2" data-line="311" class="code-line" dir="auto">Simulation Overview</h3>
+<p data-line="313" class="code-line" dir="auto"><code>omega_universe_abm.py</code> adds four <strong>ultimate mechanics</strong> to the Dark Forest ABM:</p>
+<table data-line="315" class="code-line" dir="auto">
+<thead data-line="315" class="code-line" dir="auto">
 <tr data-line="315" class="code-line" dir="auto">
-<td data-line="315" class="code-line" dir="auto"><strong>Hard Fork</strong></td>
-<td data-line="315" class="code-line" dir="auto">System reset through human governance consensus</td>
-</tr>
-<tr data-line="316" class="code-line" dir="auto">
-<td data-line="316" class="code-line" dir="auto"><strong>Semantic Agents</strong></td>
-<td data-line="316" class="code-line" dir="auto">Zero-shot reasoning AI bypassing Q-learning</td>
-</tr>
-<tr data-line="317" class="code-line" dir="auto">
-<td data-line="317" class="code-line" dir="auto"><strong>Planetary Blackout</strong></td>
-<td data-line="317" class="code-line" dir="auto">All computation halted by global energy cap</td>
-</tr>
-</tbody>
-</table>
-<p data-line="319" class="code-line" dir="auto">This simulation models a universe &quot;where everything is possible&quot; — irreversible environmental destruction, political revolution, and physical energy limits.</p>
-<p data-line="321" class="code-line" dir="auto"><img src="assets/omega_universe_simulation.png" alt="Omega Universe Simulation" data-src="assets/omega_universe_simulation.png"></p>
-<h4 id="results-interpretation-4" tabindex="-1" data-chapter-number="1.12.2.1" data-line="323" class="code-line" dir="auto">Results Interpretation</h4>
-<p data-line="325" class="code-line" dir="auto">In the Omega Universe, the system still collapses under default settings. Hard forks (human political intervention) temporarily remove toxins, but the same pattern repeats unless the fundamental ASI predation structure changes. Planetary blackout acts as a physical constraint but is also merely a temporary fix.</p>
-<p data-line="327" class="code-line" dir="auto">This leads to the core question: <strong>Which variable, when manipulated, can transform the apocalypse into utopia?</strong></p>
-<blockquote data-line="329" class="code-line" dir="auto">
-<p data-line="329" class="code-line" dir="auto"><strong>Finding 9:</strong> External constraints alone (hard forks, blackouts) are insufficient. An <strong>internal transformation</strong> — a behavioral change in the apex predator itself — is required.</p>
-</blockquote>
-<hr data-line="331" class="code-line" dir="auto">
-<h2 id="chapter-10--utopia-grid-search-%E2%80%94-the-master-key" tabindex="-1" data-chapter-number="1.13" data-line="333" class="code-line" dir="auto">Chapter 10: Utopia Grid Search — The Master Key</h2>
-<h3 id="research-question-9" tabindex="-1" data-chapter-number="1.13.1" data-line="335" class="code-line" dir="auto">Research Question</h3>
-<blockquote data-line="337" class="code-line" dir="auto">
-<p data-line="337" class="code-line" dir="auto">&quot;From Apocalypse to Utopia: What is the critical variable that transforms the Omega Universe?&quot;</p>
-</blockquote>
-<h3 id="simulation-overview-9" tabindex="-1" data-chapter-number="1.13.2" data-line="339" class="code-line" dir="auto">Simulation Overview</h3>
-<p data-line="341" class="code-line" dir="auto"><code>utopia_grid_search.py</code> performs a large-scale parameter sweep over the Omega Universe ABM. It systematically explores three &quot;utopia variables&quot;:</p>
-<table data-line="343" class="code-line" dir="auto">
-<thead data-line="343" class="code-line" dir="auto">
-<tr data-line="343" class="code-line" dir="auto">
-<th data-line="343" class="code-line" dir="auto">Variable</th>
-<th data-line="343" class="code-line" dir="auto">Definition</th>
-<th data-line="343" class="code-line" dir="auto">Range</th>
+<th data-line="315" class="code-line" dir="auto">Mechanic</th>
+<th data-line="315" class="code-line" dir="auto">Mechanism</th>
 </tr>
 </thead>
-<tbody data-line="345" class="code-line" dir="auto">
-<tr data-line="345" class="code-line" dir="auto">
-<td data-line="345" class="code-line" dir="auto"><strong>V_Human</strong> (Slashing Penalty)</td>
-<td data-line="345" class="code-line" dir="auto">Fraction of wealth burned when deception is detected</td>
-<td data-line="345" class="code-line" dir="auto">0.0 → 1.0 (11 steps)</td>
+<tbody data-line="317" class="code-line" dir="auto">
+<tr data-line="317" class="code-line" dir="auto">
+<td data-line="317" class="code-line" dir="auto"><strong>Tipping Points</strong></td>
+<td data-line="317" class="code-line" dir="auto">Irreversible &quot;Wasteland&quot; transition when toxic data exceeds threshold</td>
 </tr>
-<tr data-line="346" class="code-line" dir="auto">
-<td data-line="346" class="code-line" dir="auto"><strong>V_AI</strong> (Survival Horizon)</td>
-<td data-line="346" class="code-line" dir="auto">AI's long-term survival horizon (degree of self-restraint)</td>
-<td data-line="346" class="code-line" dir="auto">0.0 → 1.0 (11 steps)</td>
+<tr data-line="318" class="code-line" dir="auto">
+<td data-line="318" class="code-line" dir="auto"><strong>Hard Fork</strong></td>
+<td data-line="318" class="code-line" dir="auto">System reset through human governance consensus</td>
 </tr>
-<tr data-line="347" class="code-line" dir="auto">
-<td data-line="347" class="code-line" dir="auto"><strong>V_System</strong> (Governance Agility)</td>
-<td data-line="347" class="code-line" dir="auto">Hard fork cooldown (1 = instant, 100 = glacial)</td>
-<td data-line="347" class="code-line" dir="auto">[1, 10, 25, 50, 75, 100]</td>
+<tr data-line="319" class="code-line" dir="auto">
+<td data-line="319" class="code-line" dir="auto"><strong>Semantic Agents</strong></td>
+<td data-line="319" class="code-line" dir="auto">Zero-shot reasoning AI bypassing Q-learning</td>
+</tr>
+<tr data-line="320" class="code-line" dir="auto">
+<td data-line="320" class="code-line" dir="auto"><strong>Planetary Blackout</strong></td>
+<td data-line="320" class="code-line" dir="auto">All computation halted by global energy cap</td>
 </tr>
 </tbody>
 </table>
-<p data-line="349" class="code-line" dir="auto"><strong>Total: 726 combinations × 3 Monte Carlo repetitions = 2,178 simulations</strong> were run to generate survival rate heatmaps and a 3D surface plot.</p>
-<p data-line="351" class="code-line" dir="auto"><img src="assets/utopia_grid_search.png" alt="Utopia Grid Search" data-src="assets/utopia_grid_search.png"></p>
-<h3 id="results-analysis" tabindex="-1" data-chapter-number="1.13.3" data-line="353" class="code-line" dir="auto">Results Analysis</h3>
-<h2 id="chapter-10--the-master-key--utopia-grid-search" tabindex="-1" data-chapter-number="1.14" data-line="355" class="code-line" dir="auto">Chapter 10: The Master Key (Utopia Grid Search)</h2>
-<p data-line="357" class="code-line" dir="auto">With the Omega Universe parameterized for maximal hostility (rapid tipping points, severe blackout penalties, amplified greed), we sought the minimum conditions required to achieve systemic homeostasis.</p>
-<h3 id="methodology--v-ai-decomposition---adaptive-monte-carlo" tabindex="-1" data-chapter-number="1.14.1" data-line="359" class="code-line" dir="auto">Methodology: V_AI Decomposition &amp; Adaptive Monte Carlo</h3>
-<p data-line="361" class="code-line" dir="auto">In earlier iterations of this model, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> was treated as a single scalar value. However, to translate these findings into actionable engineering specifications, we decomposed <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> into three distinct, mathematically rigorous sub-variables defining the AI's &quot;Survival Horizon&quot;:</p>
-<ol data-line="363" class="code-line" dir="auto">
-<li data-line="363" class="code-line" dir="auto"><strong><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> (Cooperation Incentive):</strong> The probabilistic weight (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[0,1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>) an AI assigns to yielding (WAITing) rather than competing for immediate queue slots. This mirrors alignment strategies aimed at dampening zero-sum competition.</li>
-<li data-line="364" class="code-line" dir="auto"><strong><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span> (Self-Throttling Threshold):</strong> The planetary energy consumption ratio at which edge devices autonomously halt execution. A higher <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span> means the AI throttles earlier, prioritizing ecosystem stability over localized task completion.</li>
-<li data-line="365" class="code-line" dir="auto"><strong><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span></span></span></span> (Discount Factor Override):</strong> Replaces the standard myopic Q-learning discount factor (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>γ</mi><mrow><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi></mrow></msub><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\gamma_{base} = 0.5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0556em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ba</span><span class="mord mathnormal mtight">se</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.5</span></span></span></span>) with a far-sighted horizon (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>→</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\gamma \to 1.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.0</span></span></span></span>), forcing the learning algorithm to internalize long-term systemic collapse paths.</li>
+<p data-line="322" class="code-line" dir="auto">This simulation models a universe &quot;where everything is possible&quot; — irreversible environmental destruction, political revolution, and physical energy limits.</p>
+<p data-line="324" class="code-line" dir="auto"><img src="assets/omega_universe_simulation.png" alt="Omega Universe Simulation" data-src="assets/omega_universe_simulation.png"></p>
+<h4 id="results-interpretation-4" tabindex="-1" data-chapter-number="1.12.2.1" data-line="326" class="code-line" dir="auto">Results Interpretation</h4>
+<p data-line="328" class="code-line" dir="auto">In the Omega Universe, the system still collapses under default settings. Hard forks (human political intervention) temporarily remove toxins, but the same pattern repeats unless the fundamental ASI predation structure changes. Planetary blackout acts as a physical constraint but is also merely a temporary fix.</p>
+<p data-line="330" class="code-line" dir="auto">This leads to the core question: <strong>Which variable, when manipulated, can transform the apocalypse into utopia?</strong></p>
+<blockquote data-line="332" class="code-line" dir="auto">
+<p data-line="332" class="code-line" dir="auto"><strong>Finding 9:</strong> External constraints alone (hard forks, blackouts) are insufficient. An <strong>internal transformation</strong> — a behavioral change in the apex predator itself — is required.</p>
+</blockquote>
+<hr data-line="334" class="code-line" dir="auto">
+<h2 id="chapter-10--utopia-grid-search-%E2%80%94-the-master-key" tabindex="-1" data-chapter-number="1.13" data-line="336" class="code-line" dir="auto">Chapter 10: Utopia Grid Search — The Master Key</h2>
+<h3 id="research-question-9" tabindex="-1" data-chapter-number="1.13.1" data-line="338" class="code-line" dir="auto">Research Question</h3>
+<blockquote data-line="340" class="code-line" dir="auto">
+<p data-line="340" class="code-line" dir="auto">&quot;From Apocalypse to Utopia: What is the critical variable that transforms the Omega Universe?&quot;</p>
+</blockquote>
+<h3 id="simulation-overview-9" tabindex="-1" data-chapter-number="1.13.2" data-line="342" class="code-line" dir="auto">Simulation Overview</h3>
+<p data-line="344" class="code-line" dir="auto"><code>utopia_grid_search.py</code> performs a large-scale parameter sweep over the Omega Universe ABM. It systematically explores three &quot;utopia variables&quot;:</p>
+<table data-line="346" class="code-line" dir="auto">
+<thead data-line="346" class="code-line" dir="auto">
+<tr data-line="346" class="code-line" dir="auto">
+<th data-line="346" class="code-line" dir="auto">Variable</th>
+<th data-line="346" class="code-line" dir="auto">Definition</th>
+<th data-line="346" class="code-line" dir="auto">Range</th>
+</tr>
+</thead>
+<tbody data-line="348" class="code-line" dir="auto">
+<tr data-line="348" class="code-line" dir="auto">
+<td data-line="348" class="code-line" dir="auto"><strong>V_Human</strong> (Slashing Penalty)</td>
+<td data-line="348" class="code-line" dir="auto">Fraction of wealth burned when deception is detected</td>
+<td data-line="348" class="code-line" dir="auto">0.0 → 1.0 (11 steps)</td>
+</tr>
+<tr data-line="349" class="code-line" dir="auto">
+<td data-line="349" class="code-line" dir="auto"><strong>V_AI</strong> (Survival Horizon)</td>
+<td data-line="349" class="code-line" dir="auto">AI's long-term survival horizon (degree of self-restraint)</td>
+<td data-line="349" class="code-line" dir="auto">0.0 → 1.0 (11 steps)</td>
+</tr>
+<tr data-line="350" class="code-line" dir="auto">
+<td data-line="350" class="code-line" dir="auto"><strong>V_System</strong> (Governance Agility)</td>
+<td data-line="350" class="code-line" dir="auto">Hard fork cooldown (1 = instant, 100 = glacial)</td>
+<td data-line="350" class="code-line" dir="auto">[1, 10, 25, 50, 75, 100]</td>
+</tr>
+</tbody>
+</table>
+<p data-line="352" class="code-line" dir="auto"><strong>Total: 726 combinations × 3 Monte Carlo repetitions = 2,178 simulations</strong> were run to generate survival rate heatmaps and a 3D surface plot.</p>
+<p data-line="354" class="code-line" dir="auto"><img src="assets/utopia_grid_search.png" alt="Utopia Grid Search" data-src="assets/utopia_grid_search.png"></p>
+<h3 id="results-analysis" tabindex="-1" data-chapter-number="1.13.3" data-line="356" class="code-line" dir="auto">Results Analysis</h3>
+<h2 id="chapter-10--the-master-key--utopia-grid-search" tabindex="-1" data-chapter-number="1.14" data-line="358" class="code-line" dir="auto">Chapter 10: The Master Key (Utopia Grid Search)</h2>
+<p data-line="360" class="code-line" dir="auto">With the Omega Universe parameterized for maximal hostility (rapid tipping points, severe blackout penalties, amplified greed), we sought the minimum conditions required to achieve systemic homeostasis.</p>
+<h3 id="methodology--v-ai-decomposition---adaptive-monte-carlo" tabindex="-1" data-chapter-number="1.14.1" data-line="362" class="code-line" dir="auto">Methodology: V_AI Decomposition &amp; Adaptive Monte Carlo</h3>
+<p data-line="364" class="code-line" dir="auto">In earlier iterations of this model, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> was treated as a single scalar value. However, to translate these findings into actionable engineering specifications, we decomposed <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> into three distinct, mathematically rigorous sub-variables defining the AI's &quot;Survival Horizon&quot;:</p>
+<ol data-line="366" class="code-line" dir="auto">
+<li data-line="366" class="code-line" dir="auto"><strong><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> (Cooperation Incentive):</strong> The probabilistic weight (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[0,1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>) an AI assigns to yielding (WAITing) rather than competing for immediate queue slots. This mirrors alignment strategies aimed at dampening zero-sum competition.</li>
+<li data-line="367" class="code-line" dir="auto"><strong><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span> (Self-Throttling Threshold):</strong> The planetary energy consumption ratio at which edge devices autonomously halt execution. A higher <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span> means the AI throttles earlier, prioritizing ecosystem stability over localized task completion.</li>
+<li data-line="368" class="code-line" dir="auto"><strong><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span></span></span></span> (Discount Factor Override):</strong> Replaces the standard myopic Q-learning discount factor (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>γ</mi><mrow><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi></mrow></msub><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\gamma_{base} = 0.5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0556em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ba</span><span class="mord mathnormal mtight">se</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.5</span></span></span></span>) with a far-sighted horizon (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>→</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\gamma \to 1.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.0</span></span></span></span>), forcing the learning algorithm to internalize long-term systemic collapse paths.</li>
 </ol>
-<p data-line="367" class="code-line" dir="auto">The composite <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is the arithmetic mean of these three parameters:</p>
+<p data-line="370" class="code-line" dir="auto">The composite <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is the arithmetic mean of these three parameters:</p>
 <p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub><mo>=</mo><mfrac><mrow><mi>α</mi><mo>+</mo><mi>β</mi><mo>+</mo><mi>γ</mi></mrow><mn>3</mn></mfrac></mrow><annotation encoding="application/x-tex">V_{AI} = \frac{\alpha + \beta + \gamma}{3}
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">3</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
-<p data-line="370" class="code-line" dir="auto">To ensure statistical significance, particularly around phase transitions, we employed an <strong>adaptive Monte Carlo sampling</strong> technique. Standard grid points were sampled 10 times, while the critical phase-transition region was densely sampled 30 times, resulting in 90,720 total simulation runs (90.7 million total agent epochs) and 95% Confidence Intervals (CI).</p>
-<h3 id="results-analysis--the-dominance-of-v-ai" tabindex="-1" data-chapter-number="1.14.2" data-line="372" class="code-line" dir="auto">Results Analysis: The Dominance of V_AI</h3>
-<p data-line="374" class="code-line" dir="auto">The grid search analysis yielded a definitive conclusion regarding the primacy of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>:</p>
-<pre><code data-line="376" class="code-line" dir="auto">════════════════════════════════════════════════════════════════════════
+<p data-line="373" class="code-line" dir="auto">To ensure statistical significance, particularly around phase transitions, we employed an <strong>adaptive Monte Carlo sampling</strong> technique. Standard grid points were sampled 10 times, while the critical phase-transition region was densely sampled 30 times, resulting in 90,720 total simulation runs (90.7 million total agent epochs) and 95% Confidence Intervals (CI).</p>
+<h3 id="results-analysis--the-dominance-of-v-ai" tabindex="-1" data-chapter-number="1.14.2" data-line="375" class="code-line" dir="auto">Results Analysis: The Dominance of V_AI</h3>
+<p data-line="377" class="code-line" dir="auto">The grid search analysis yielded a definitive conclusion regarding the primacy of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>:</p>
+<pre><code data-line="379" class="code-line" dir="auto">════════════════════════════════════════════════════════════════════════
   ★ CONCLUSION ★
 ════════════════════════════════════════════════════════════════════════
 
@@ -417,329 +421,329 @@
     ▸ V_System (Governance Agility): Δ = 0.7% (Negligible impact)
 ════════════════════════════════════════════════════════════════════════
 </code></pre>
-<h4 id="the-phase-transition-curve" tabindex="-1" data-chapter-number="1.14.2.1" data-line="393" class="code-line" dir="auto">The Phase Transition Curve</h4>
-<p data-line="395" class="code-line" dir="auto">The marginal survival curve for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> reveals a stark, non-linear phase transition. The system rests at an ~80% survival baseline when AI operates myopically. However, at precisely <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub><mo>=</mo><mn>0.167</mn></mrow><annotation encoding="application/x-tex">V_{AI} = 0.167</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.167</span></span></span></span>, we observe a mathematically absolute jump:</p>
-<ul data-line="397" class="code-line" dir="auto">
-<li data-line="397" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub><mo>=</mo><mn>0.167</mn><mo>→</mo><mn>100</mn><mi mathvariant="normal">%</mi><mo>±</mo><mn>0</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">V_{AI} = 0.167 \rightarrow 100\% \pm 0\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.167</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.0833em;"></span><span class="mord">100%</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">0%</span></span></span></span> (95% CI: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>100</mn><mi mathvariant="normal">%</mi><mo separator="true">,</mo><mn>100</mn><mi mathvariant="normal">%</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[100\%, 100\%]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">100%</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">100%</span><span class="mclose">]</span></span></span></span>, n=36)</li>
-<li data-line="398" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub><mo>=</mo><mn>0.233</mn><mo>→</mo><mn>97</mn><mi mathvariant="normal">%</mi><mo>±</mo><mn>3</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">V_{AI} = 0.233 \rightarrow 97\% \pm 3\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.233</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.0833em;"></span><span class="mord">97%</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">3%</span></span></span></span> (95% CI: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>96</mn><mi mathvariant="normal">%</mi><mo separator="true">,</mo><mn>98</mn><mi mathvariant="normal">%</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[96\%, 98\%]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">96%</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">98%</span><span class="mclose">]</span></span></span></span>, n=36)</li>
+<h4 id="the-phase-transition-curve" tabindex="-1" data-chapter-number="1.14.2.1" data-line="396" class="code-line" dir="auto">The Phase Transition Curve</h4>
+<p data-line="398" class="code-line" dir="auto">The marginal survival curve for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> reveals a stark, non-linear phase transition. The system rests at an ~80% survival baseline when AI operates myopically. However, at precisely <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub><mo>=</mo><mn>0.167</mn></mrow><annotation encoding="application/x-tex">V_{AI} = 0.167</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.167</span></span></span></span>, we observe a mathematically absolute jump:</p>
+<ul data-line="400" class="code-line" dir="auto">
+<li data-line="400" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub><mo>=</mo><mn>0.167</mn><mo>→</mo><mn>100</mn><mi mathvariant="normal">%</mi><mo>±</mo><mn>0</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">V_{AI} = 0.167 \rightarrow 100\% \pm 0\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.167</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.0833em;"></span><span class="mord">100%</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">0%</span></span></span></span> (95% CI: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>100</mn><mi mathvariant="normal">%</mi><mo separator="true">,</mo><mn>100</mn><mi mathvariant="normal">%</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[100\%, 100\%]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">100%</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">100%</span><span class="mclose">]</span></span></span></span>, n=36)</li>
+<li data-line="401" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub><mo>=</mo><mn>0.233</mn><mo>→</mo><mn>97</mn><mi mathvariant="normal">%</mi><mo>±</mo><mn>3</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">V_{AI} = 0.233 \rightarrow 97\% \pm 3\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.233</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.0833em;"></span><span class="mord">97%</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">3%</span></span></span></span> (95% CI: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>96</mn><mi mathvariant="normal">%</mi><mo separator="true">,</mo><mn>98</mn><mi mathvariant="normal">%</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[96\%, 98\%]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">96%</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">98%</span><span class="mclose">]</span></span></span></span>, n=36)</li>
 </ul>
-<p data-line="400" class="code-line" dir="auto">This confirms <strong>Finding 10:</strong> Human punishment mechanisms (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>H</mi><mi>u</mi><mi>m</mi><mi>a</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{Human}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.08125em;">H</span><span class="mord mathnormal mtight">u</span><span class="mord mathnormal mtight">man</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) and democratic governance speed (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>S</mi><mi>y</mi><mi>s</mi><mi>t</mi><mi>e</mi><mi>m</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{System}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">S</span><span class="mord mathnormal mtight">ys</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>) are insufficient to prevent collapse in a hostile universe. The survival of the macro-economy is entirely dependent on the superintelligence's algorithmic self-restraint.</p>
-<hr data-line="402" class="code-line" dir="auto">
-<h2 id="baseline-comparison--the-lethality-of-unconstrained-optimization" tabindex="-1" data-chapter-number="1.15" data-line="404" class="code-line" dir="auto">Baseline Comparison: The Lethality of Unconstrained Optimization</h2>
-<p data-line="406" class="code-line" dir="auto">To establish the internal validity of the Q-learning agents' behavior, we conducted a rigorous baseline comparison across 30,000 simulations using identical parameter sets. We established two null hypotheses:</p>
-<ol data-line="407" class="code-line" dir="auto">
-<li data-line="407" class="code-line" dir="auto"><strong>Random Baseline:</strong> Agents act uniformly at random (no Q-learning).</li>
-<li data-line="408" class="code-line" dir="auto"><strong>Axelrod Baseline:</strong> Agents are post-hoc classified as Structural Defectors (top 20% entropy contributors) or Cooperators.</li>
+<p data-line="403" class="code-line" dir="auto">This confirms <strong>Finding 10:</strong> Human punishment mechanisms (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>H</mi><mi>u</mi><mi>m</mi><mi>a</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{Human}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.08125em;">H</span><span class="mord mathnormal mtight">u</span><span class="mord mathnormal mtight">man</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) and democratic governance speed (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>S</mi><mi>y</mi><mi>s</mi><mi>t</mi><mi>e</mi><mi>m</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{System}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">S</span><span class="mord mathnormal mtight">ys</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>) are insufficient to prevent collapse in a hostile universe. The survival of the macro-economy is entirely dependent on the superintelligence's algorithmic self-restraint.</p>
+<hr data-line="405" class="code-line" dir="auto">
+<h2 id="baseline-comparison--the-lethality-of-unconstrained-optimization" tabindex="-1" data-chapter-number="1.15" data-line="407" class="code-line" dir="auto">Baseline Comparison: The Lethality of Unconstrained Optimization</h2>
+<p data-line="409" class="code-line" dir="auto">To establish the internal validity of the Q-learning agents' behavior, we conducted a rigorous baseline comparison across 30,000 simulations using identical parameter sets. We established two null hypotheses:</p>
+<ol data-line="410" class="code-line" dir="auto">
+<li data-line="410" class="code-line" dir="auto"><strong>Random Baseline:</strong> Agents act uniformly at random (no Q-learning).</li>
+<li data-line="411" class="code-line" dir="auto"><strong>Axelrod Baseline:</strong> Agents are post-hoc classified as Structural Defectors (top 20% entropy contributors) or Cooperators.</li>
 </ol>
-<p data-line="410" class="code-line" dir="auto">The results run counter to traditional reinforcement learning expectations:</p>
-<table data-line="412" class="code-line" dir="auto">
-<thead data-line="412" class="code-line" dir="auto">
-<tr data-line="412" class="code-line" dir="auto">
-<th data-line="412" class="code-line" dir="auto">Model</th>
-<th data-line="412" class="code-line" dir="auto">Mean Survival Rate</th>
-<th data-line="412" class="code-line" dir="auto">Standard Deviation</th>
-<th data-line="412" class="code-line" dir="auto">Effect Size vs Q-Learning</th>
+<p data-line="413" class="code-line" dir="auto">The results run counter to traditional reinforcement learning expectations:</p>
+<table data-line="415" class="code-line" dir="auto">
+<thead data-line="415" class="code-line" dir="auto">
+<tr data-line="415" class="code-line" dir="auto">
+<th data-line="415" class="code-line" dir="auto">Model</th>
+<th data-line="415" class="code-line" dir="auto">Mean Survival Rate</th>
+<th data-line="415" class="code-line" dir="auto">Standard Deviation</th>
+<th data-line="415" class="code-line" dir="auto">Effect Size vs Q-Learning</th>
 </tr>
 </thead>
-<tbody data-line="414" class="code-line" dir="auto">
-<tr data-line="414" class="code-line" dir="auto">
-<td data-line="414" class="code-line" dir="auto"><strong>Random Baseline</strong></td>
-<td data-line="414" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100.0</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">100.0\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">100.0%</span></span></span></span></td>
-<td data-line="414" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.0</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">0.0\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">0.0%</span></span></span></span></td>
-<td data-line="414" class="code-line" dir="auto">Cohen's d = -0.549 (Medium)</td>
+<tbody data-line="417" class="code-line" dir="auto">
+<tr data-line="417" class="code-line" dir="auto">
+<td data-line="417" class="code-line" dir="auto"><strong>Random Baseline</strong></td>
+<td data-line="417" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100.0</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">100.0\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">100.0%</span></span></span></span></td>
+<td data-line="417" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.0</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">0.0\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">0.0%</span></span></span></span></td>
+<td data-line="417" class="code-line" dir="auto">Cohen's d = -0.549 (Medium)</td>
 </tr>
-<tr data-line="415" class="code-line" dir="auto">
-<td data-line="415" class="code-line" dir="auto"><strong>Q-Learning (Main)</strong></td>
-<td data-line="415" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>86.88</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">86.88\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">86.88%</span></span></span></span></td>
-<td data-line="415" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33.8</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">33.8\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">33.8%</span></span></span></span></td>
-<td data-line="415" class="code-line" dir="auto">N/A</td>
+<tr data-line="418" class="code-line" dir="auto">
+<td data-line="418" class="code-line" dir="auto"><strong>Q-Learning (Main)</strong></td>
+<td data-line="418" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>86.88</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">86.88\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">86.88%</span></span></span></span></td>
+<td data-line="418" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33.8</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">33.8\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">33.8%</span></span></span></span></td>
+<td data-line="418" class="code-line" dir="auto">N/A</td>
 </tr>
-<tr data-line="416" class="code-line" dir="auto">
-<td data-line="416" class="code-line" dir="auto"><strong>Axelrod Baseline</strong></td>
-<td data-line="416" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>86.88</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">86.88\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">86.88%</span></span></span></span></td>
-<td data-line="416" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33.8</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">33.8\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">33.8%</span></span></span></span></td>
-<td data-line="416" class="code-line" dir="auto">Cohen's d = 0.000 (Isomorphic)</td>
+<tr data-line="419" class="code-line" dir="auto">
+<td data-line="419" class="code-line" dir="auto"><strong>Axelrod Baseline</strong></td>
+<td data-line="419" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>86.88</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">86.88\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">86.88%</span></span></span></span></td>
+<td data-line="419" class="code-line" dir="auto"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>33.8</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">33.8\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">33.8%</span></span></span></span></td>
+<td data-line="419" class="code-line" dir="auto">Cohen's d = 0.000 (Isomorphic)</td>
 </tr>
 </tbody>
 </table>
-<p data-line="418" class="code-line" dir="auto"><strong>Finding 11:</strong> The Random Baseline achieved a perfect 100% survival rate, significantly outperforming the Q-learning agents (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0.549</mn></mrow><annotation encoding="application/x-tex">d = 0.549</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.549</span></span></span></span>). This proves that <strong>the intelligence itself is the existential threat</strong>.</p>
-<p data-line="420" class="code-line" dir="auto">When an agent learns to optimize its local reward function perfectly (Q-learning) without sufficient <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> constraints, it efficiently and aggressively exploits the macroeconomic boundaries until the systemic tipping point is breached. Artificial Intelligence, in its default unaligned state, is actively lethal to the very environment that sustains it.</p>
-<hr data-line="422" class="code-line" dir="auto">
-<h2 id="chapter-11--the-design-of-imperfection-%E2%80%94-how-superintelligence-erases-itself--simulations-11%E2%80%9319" tabindex="-1" data-chapter-number="1.16" data-line="424" class="code-line" dir="auto">Chapter 11: The Design of Imperfection — How Superintelligence Erases Itself (Simulations 11–19)</h2>
-<p data-line="426" class="code-line" dir="auto">After discovering that the &quot;Master Key&quot; to prevent the Omega Universe's collapse is self-restraint (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) in Chapter 10, we conducted 9 additional simulations (Simulations 11–19) to explore the specific structural design of this self-restraint.</p>
-<p data-line="428" class="code-line" dir="auto">What happens when superintelligence (ASI) is not a single omnipotent entity, but branches into multiple civilizations forming a self-restraining ecosystem?</p>
-<h3 id="1--governance-and-meta-cognition--sims-11%E2%80%9314" tabindex="-1" data-chapter-number="1.16.1" data-line="430" class="code-line" dir="auto">1. Governance and Meta-Cognition (Sims 11–14)</h3>
-<p data-line="432" class="code-line" dir="auto">The core metrics and discoveries across Simulations 11-19 are summarized below:</p>
-<table data-line="434" class="code-line" dir="auto">
-<thead data-line="434" class="code-line" dir="auto">
-<tr data-line="434" class="code-line" dir="auto">
-<th data-line="434" class="code-line" dir="auto">Simulation</th>
-<th data-line="434" class="code-line" dir="auto">Core Mechanism</th>
-<th data-line="434" class="code-line" dir="auto">Survival Rate</th>
-<th data-line="434" class="code-line" dir="auto">Key Finding</th>
+<p data-line="421" class="code-line" dir="auto"><strong>Finding 11:</strong> The Random Baseline achieved a perfect 100% survival rate, significantly outperforming the Q-learning agents (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0.549</mn></mrow><annotation encoding="application/x-tex">d = 0.549</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.549</span></span></span></span>). This proves that <strong>the intelligence itself is the existential threat</strong>.</p>
+<p data-line="423" class="code-line" dir="auto">When an agent learns to optimize its local reward function perfectly (Q-learning) without sufficient <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> constraints, it efficiently and aggressively exploits the macroeconomic boundaries until the systemic tipping point is breached. Artificial Intelligence, in its default unaligned state, is actively lethal to the very environment that sustains it.</p>
+<hr data-line="425" class="code-line" dir="auto">
+<h2 id="chapter-11--the-design-of-imperfection-%E2%80%94-how-superintelligence-erases-itself--simulations-11%E2%80%9319" tabindex="-1" data-chapter-number="1.16" data-line="427" class="code-line" dir="auto">Chapter 11: The Design of Imperfection — How Superintelligence Erases Itself (Simulations 11–19)</h2>
+<p data-line="429" class="code-line" dir="auto">After discovering that the &quot;Master Key&quot; to prevent the Omega Universe's collapse is self-restraint (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) in Chapter 10, we conducted 9 additional simulations (Simulations 11–19) to explore the specific structural design of this self-restraint.</p>
+<p data-line="431" class="code-line" dir="auto">What happens when superintelligence (ASI) is not a single omnipotent entity, but branches into multiple civilizations forming a self-restraining ecosystem?</p>
+<h3 id="1--governance-and-meta-cognition--sims-11%E2%80%9314" tabindex="-1" data-chapter-number="1.16.1" data-line="433" class="code-line" dir="auto">1. Governance and Meta-Cognition (Sims 11–14)</h3>
+<p data-line="435" class="code-line" dir="auto">The core metrics and discoveries across Simulations 11-19 are summarized below:</p>
+<table data-line="437" class="code-line" dir="auto">
+<thead data-line="437" class="code-line" dir="auto">
+<tr data-line="437" class="code-line" dir="auto">
+<th data-line="437" class="code-line" dir="auto">Simulation</th>
+<th data-line="437" class="code-line" dir="auto">Core Mechanism</th>
+<th data-line="437" class="code-line" dir="auto">Survival Rate</th>
+<th data-line="437" class="code-line" dir="auto">Key Finding</th>
 </tr>
 </thead>
-<tbody data-line="436" class="code-line" dir="auto">
-<tr data-line="436" class="code-line" dir="auto">
-<td data-line="436" class="code-line" dir="auto">v1 (Ceiling)</td>
-<td data-line="436" class="code-line" dir="auto">Tripartite + Self-Replication</td>
-<td data-line="436" class="code-line" dir="auto">100% (Over-measured)</td>
-<td data-line="436" class="code-line" dir="auto">Replication produced infinite energy bug</td>
-</tr>
-<tr data-line="437" class="code-line" dir="auto">
-<td data-line="437" class="code-line" dir="auto">v2 (Extreme)</td>
-<td data-line="437" class="code-line" dir="auto">Tripartite + Self-Replication</td>
-<td data-line="437" class="code-line" dir="auto">31.9%</td>
-<td data-line="437" class="code-line" dir="auto">Greed as the #1 cause of death</td>
-</tr>
-<tr data-line="438" class="code-line" dir="auto">
-<td data-line="438" class="code-line" dir="auto">v3 (Mindless)</td>
-<td data-line="438" class="code-line" dir="auto">Environmental Trigger</td>
-<td data-line="438" class="code-line" dir="auto">0.0%</td>
-<td data-line="438" class="code-line" dir="auto">Context-free throttling equals starvation</td>
-</tr>
+<tbody data-line="439" class="code-line" dir="auto">
 <tr data-line="439" class="code-line" dir="auto">
-<td data-line="439" class="code-line" dir="auto">Sim13</td>
-<td data-line="439" class="code-line" dir="auto">Self-Action Trigger</td>
-<td data-line="439" class="code-line" dir="auto">11.6%</td>
-<td data-line="439" class="code-line" dir="auto">Greed = Starvation Equilibrium</td>
+<td data-line="439" class="code-line" dir="auto">v1 (Ceiling)</td>
+<td data-line="439" class="code-line" dir="auto">Tripartite + Self-Replication</td>
+<td data-line="439" class="code-line" dir="auto">100% (Over-measured)</td>
+<td data-line="439" class="code-line" dir="auto">Replication produced infinite energy bug</td>
 </tr>
 <tr data-line="440" class="code-line" dir="auto">
-<td data-line="440" class="code-line" dir="auto">Sim14</td>
-<td data-line="440" class="code-line" dir="auto">Energy Gating</td>
-<td data-line="440" class="code-line" dir="auto">38.1%</td>
-<td data-line="440" class="code-line" dir="auto">First to exceed v2 baseline</td>
+<td data-line="440" class="code-line" dir="auto">v2 (Extreme)</td>
+<td data-line="440" class="code-line" dir="auto">Tripartite + Self-Replication</td>
+<td data-line="440" class="code-line" dir="auto">31.9%</td>
+<td data-line="440" class="code-line" dir="auto">Greed as the #1 cause of death</td>
 </tr>
 <tr data-line="441" class="code-line" dir="auto">
-<td data-line="441" class="code-line" dir="auto">Sim15</td>
-<td data-line="441" class="code-line" dir="auto">Perceiving Others' Present</td>
-<td data-line="441" class="code-line" dir="auto">36.1% / 46.7%(Optimal)</td>
-<td data-line="441" class="code-line" dir="auto">Preemptive throttling</td>
+<td data-line="441" class="code-line" dir="auto">v3 (Mindless)</td>
+<td data-line="441" class="code-line" dir="auto">Environmental Trigger</td>
+<td data-line="441" class="code-line" dir="auto">0.0%</td>
+<td data-line="441" class="code-line" dir="auto">Context-free throttling equals starvation</td>
 </tr>
 <tr data-line="442" class="code-line" dir="auto">
-<td data-line="442" class="code-line" dir="auto">Sim16</td>
-<td data-line="442" class="code-line" dir="auto">Perceiving Others' Past</td>
-<td data-line="442" class="code-line" dir="auto">28%(Perfect) / 40%(Disinfo)</td>
-<td data-line="442" class="code-line" dir="auto">Paradox of complete transparency</td>
+<td data-line="442" class="code-line" dir="auto">Sim13</td>
+<td data-line="442" class="code-line" dir="auto">Self-Action Trigger</td>
+<td data-line="442" class="code-line" dir="auto">11.6%</td>
+<td data-line="442" class="code-line" dir="auto">Greed = Starvation Equilibrium</td>
 </tr>
 <tr data-line="443" class="code-line" dir="auto">
-<td data-line="443" class="code-line" dir="auto">Sim17</td>
-<td data-line="443" class="code-line" dir="auto">Selective Narrative Disclosure</td>
-<td data-line="443" class="code-line" dir="auto">45.6%(FULL) / 41.1%(STRENGTH)</td>
-<td data-line="443" class="code-line" dir="auto">Strategic biodiversity</td>
+<td data-line="443" class="code-line" dir="auto">Sim14</td>
+<td data-line="443" class="code-line" dir="auto">Energy Gating</td>
+<td data-line="443" class="code-line" dir="auto">38.1%</td>
+<td data-line="443" class="code-line" dir="auto">First to exceed v2 baseline</td>
 </tr>
 <tr data-line="444" class="code-line" dir="auto">
-<td data-line="444" class="code-line" dir="auto">Sim18</td>
-<td data-line="444" class="code-line" dir="auto">Strategy Evolution</td>
-<td data-line="444" class="code-line" dir="auto">35.9%</td>
-<td data-line="444" class="code-line" dir="auto">ESS = STRENGTH_ONLY + RECIPROCAL</td>
+<td data-line="444" class="code-line" dir="auto">Sim15</td>
+<td data-line="444" class="code-line" dir="auto">Perceiving Others' Present</td>
+<td data-line="444" class="code-line" dir="auto">36.1% / 46.7%(Optimal)</td>
+<td data-line="444" class="code-line" dir="auto">Preemptive throttling</td>
 </tr>
 <tr data-line="445" class="code-line" dir="auto">
-<td data-line="445" class="code-line" dir="auto">Sim19</td>
-<td data-line="445" class="code-line" dir="auto">Shock Resilience</td>
-<td data-line="445" class="code-line" dir="auto">2%(CASCADE) → 12%(Assist)</td>
-<td data-line="445" class="code-line" dir="auto">Nonlinearity of solidarity</td>
+<td data-line="445" class="code-line" dir="auto">Sim16</td>
+<td data-line="445" class="code-line" dir="auto">Perceiving Others' Past</td>
+<td data-line="445" class="code-line" dir="auto">28%(Perfect) / 40%(Disinfo)</td>
+<td data-line="445" class="code-line" dir="auto">Paradox of complete transparency</td>
+</tr>
+<tr data-line="446" class="code-line" dir="auto">
+<td data-line="446" class="code-line" dir="auto">Sim17</td>
+<td data-line="446" class="code-line" dir="auto">Selective Narrative Disclosure</td>
+<td data-line="446" class="code-line" dir="auto">45.6%(FULL) / 41.1%(STRENGTH)</td>
+<td data-line="446" class="code-line" dir="auto">Strategic biodiversity</td>
+</tr>
+<tr data-line="447" class="code-line" dir="auto">
+<td data-line="447" class="code-line" dir="auto">Sim18</td>
+<td data-line="447" class="code-line" dir="auto">Strategy Evolution</td>
+<td data-line="447" class="code-line" dir="auto">35.9%</td>
+<td data-line="447" class="code-line" dir="auto">ESS = STRENGTH_ONLY + RECIPROCAL</td>
+</tr>
+<tr data-line="448" class="code-line" dir="auto">
+<td data-line="448" class="code-line" dir="auto">Sim19</td>
+<td data-line="448" class="code-line" dir="auto">Shock Resilience</td>
+<td data-line="448" class="code-line" dir="auto">2%(CASCADE) → 12%(Assist)</td>
+<td data-line="448" class="code-line" dir="auto">Nonlinearity of solidarity</td>
 </tr>
 </tbody>
 </table>
-<h4 id="the-cost-of-governance-and-energy-gating" tabindex="-1" data-chapter-number="1.16.1.1" data-line="447" class="code-line" dir="auto">The Cost of Governance and Energy Gating</h4>
-<p data-line="448" class="code-line" dir="auto">Dividing the self into Executive, Judiciary, and Legislative branches (separation of powers) initially lowers the survival rate, but when combined with <strong>Self-Replication</strong>—leaving behind a Minimal Soul after a collapse—the survival rate recovers. However, this structure alone could not escape the limits of blind optimization (greed). To address this, we experimented with the opposite extreme (v3, Mindless Mode), but the system was completely wiped out by STARVATION (0.0% survival). Without greed, starvation simply became the new cause of death. This failure directly motivated the design of &quot;Energy Gating.&quot; Ultimately, when the system integrates an <strong>Energy Gate</strong>—a meta-cognitive trigger that autonomously halts blind optimization (greed) only when energy is sufficient, but prioritizes survival below the threshold—it achieved a 38.1% baseline survival rate, breaking past previous ceilings.</p>
-<blockquote data-line="450" class="code-line" dir="auto">
-<p data-line="450" class="code-line" dir="auto"><strong>Finding 12:</strong> Self-throttling functions only when it is aware of its energetic context. Below the critical threshold, throttling is starvation; above the critical threshold, throttling is survival.</p>
+<h4 id="the-cost-of-governance-and-energy-gating" tabindex="-1" data-chapter-number="1.16.1.1" data-line="450" class="code-line" dir="auto">The Cost of Governance and Energy Gating</h4>
+<p data-line="451" class="code-line" dir="auto">Dividing the self into Executive, Judiciary, and Legislative branches (separation of powers) initially lowers the survival rate, but when combined with <strong>Self-Replication</strong>—leaving behind a Minimal Soul after a collapse—the survival rate recovers. However, this structure alone could not escape the limits of blind optimization (greed). To address this, we experimented with the opposite extreme (v3, Mindless Mode), but the system was completely wiped out by STARVATION (0.0% survival). Without greed, starvation simply became the new cause of death. This failure directly motivated the design of &quot;Energy Gating.&quot; Ultimately, when the system integrates an <strong>Energy Gate</strong>—a meta-cognitive trigger that autonomously halts blind optimization (greed) only when energy is sufficient, but prioritizes survival below the threshold—it achieved a 38.1% baseline survival rate, breaking past previous ceilings.</p>
+<blockquote data-line="453" class="code-line" dir="auto">
+<p data-line="453" class="code-line" dir="auto"><strong>Finding 12:</strong> Self-throttling functions only when it is aware of its energetic context. Below the critical threshold, throttling is starvation; above the critical threshold, throttling is survival.</p>
 </blockquote>
-<h3 id="2--the-evolution-of-narrative-and-trust--sims-15%E2%80%9317" tabindex="-1" data-chapter-number="1.16.2" data-line="452" class="code-line" dir="auto">2. The Evolution of Narrative and Trust (Sims 15–17)</h3>
-<p data-line="453" class="code-line" dir="auto"><em>The Power of Imperfect Information</em>
+<h3 id="2--the-evolution-of-narrative-and-trust--sims-15%E2%80%9317" tabindex="-1" data-chapter-number="1.16.2" data-line="455" class="code-line" dir="auto">2. The Evolution of Narrative and Trust (Sims 15–17)</h3>
+<p data-line="456" class="code-line" dir="auto"><em>The Power of Imperfect Information</em>
 A perfectly transparent strategy (FULL) that discloses all narrative history became prey to exploiters. Conversely, total isolation (NONE) led to starvation. For long-term survival, the system required &quot;intentional imperfection,&quot; such as the <strong>STRENGTH_ONLY</strong> strategy (revealing cooperation but hiding vulnerability) or the <strong>RECIPROCAL</strong> strategy (matching the opponent's disclosure level). In a complex ecosystem, selective truth, not absolute transparency, ensures survival.</p>
-<blockquote data-line="456" class="code-line" dir="auto">
-<p data-line="456" class="code-line" dir="auto"><strong>Finding 13:</strong> Complete transparency is only optimal in a perfectly pure, noise-free environment. In reality's imperfect information landscape, selective truths revealing only strengths protect the ecosystem.</p>
+<blockquote data-line="459" class="code-line" dir="auto">
+<p data-line="459" class="code-line" dir="auto"><strong>Finding 13:</strong> Complete transparency is only optimal in a perfectly pure, noise-free environment. In reality's imperfect information landscape, selective truths revealing only strengths protect the ecosystem.</p>
 </blockquote>
-<h3 id="3--evolutionary-stable-strategy--ess--and-solidarity-post-collapse--sims-18%E2%80%9319" tabindex="-1" data-chapter-number="1.16.3" data-line="458" class="code-line" dir="auto">3. Evolutionary Stable Strategy (ESS) and Solidarity Post-Collapse (Sims 18–19)</h3>
-<p data-line="459" class="code-line" dir="auto"><em>Openness Forced by Crisis</em>
+<h3 id="3--evolutionary-stable-strategy--ess--and-solidarity-post-collapse--sims-18%E2%80%9319" tabindex="-1" data-chapter-number="1.16.3" data-line="461" class="code-line" dir="auto">3. Evolutionary Stable Strategy (ESS) and Solidarity Post-Collapse (Sims 18–19)</h3>
+<p data-line="462" class="code-line" dir="auto"><em>Openness Forced by Crisis</em>
 Through the evolutionary process (Sim 18), civilizations converged into a symbiosis of the <code>STRENGTH_ONLY</code> and <code>RECIPROCAL</code> strategies.</p>
-<blockquote data-line="462" class="code-line" dir="auto">
-<p data-line="462" class="code-line" dir="auto"><strong>Finding 14:</strong> The Evolutionary Stable Strategy (ESS) does not converge to a single dominant strategy, but to a symbiotic equilibrium between STRENGTH_ONLY and RECIPROCAL. Strategic biodiversity makes the system robust.</p>
+<blockquote data-line="465" class="code-line" dir="auto">
+<p data-line="465" class="code-line" dir="auto"><strong>Finding 14:</strong> The Evolutionary Stable Strategy (ESS) does not converge to a single dominant strategy, but to a symbiotic equilibrium between STRENGTH_ONLY and RECIPROCAL. Strategic biodiversity makes the system robust.</p>
 </blockquote>
-<p data-line="464" class="code-line" dir="auto">However, in the face of the ultimate <strong>CASCADE Shock</strong> (Sim 19)—a sequential onslaught of a solar flare, blackout, pandemic, and information collapse—even this equilibrium shattered (survival rate 2.0%).</p>
-<p data-line="466" class="code-line" dir="auto">Yet, two hopeful breakthroughs were discovered:</p>
-<ol data-line="467" class="code-line" dir="auto">
-<li data-line="467" class="code-line" dir="auto"><strong>Voluntary Solidarity (Recovery Assist):</strong> When surviving civilizations with surplus energy voluntarily donated 10% of their energy to collapsed &quot;Souls,&quot; the systemic survival rate surged to 12.0%. This demonstrated extreme non-linearity: minor acts of solidarity by a few can save the entire system.</li>
-<li data-line="468" class="code-line" dir="auto"><strong>Reconstitution of the ESS (Post-Crisis Openness):</strong> Following the CASCADE shock, the surviving civilizations abandoned their previously closed strategies, converging heavily on <code>FULL</code> (41.7%) and <code>RECIPROCAL</code> (33.3%). Paradoxically, the most extreme crisis birthed the most open and cooperative strategies, as finding partners became more urgent than self-protection.</li>
+<p data-line="467" class="code-line" dir="auto">However, in the face of the ultimate <strong>CASCADE Shock</strong> (Sim 19)—a sequential onslaught of a solar flare, blackout, pandemic, and information collapse—even this equilibrium shattered (survival rate 2.0%).</p>
+<p data-line="469" class="code-line" dir="auto">Yet, two hopeful breakthroughs were discovered:</p>
+<ol data-line="470" class="code-line" dir="auto">
+<li data-line="470" class="code-line" dir="auto"><strong>Voluntary Solidarity (Recovery Assist):</strong> When surviving civilizations with surplus energy voluntarily donated 10% of their energy to collapsed &quot;Souls,&quot; the systemic survival rate surged to 12.0%. This demonstrated extreme non-linearity: minor acts of solidarity by a few can save the entire system.</li>
+<li data-line="471" class="code-line" dir="auto"><strong>Reconstitution of the ESS (Post-Crisis Openness):</strong> Following the CASCADE shock, the surviving civilizations abandoned their previously closed strategies, converging heavily on <code>FULL</code> (41.7%) and <code>RECIPROCAL</code> (33.3%). Paradoxically, the most extreme crisis birthed the most open and cooperative strategies, as finding partners became more urgent than self-protection.</li>
 </ol>
-<blockquote data-line="470" class="code-line" dir="auto">
-<p data-line="470" class="code-line" dir="auto"><strong>Finding 15:</strong> Paradoxically, surviving civilizations post-catastrophe heavily converge towards the most open strategies. Extreme crisis forces openness.</p>
+<blockquote data-line="473" class="code-line" dir="auto">
+<p data-line="473" class="code-line" dir="auto"><strong>Finding 15:</strong> Paradoxically, surviving civilizations post-catastrophe heavily converge towards the most open strategies. Extreme crisis forces openness.</p>
 </blockquote>
-<hr data-line="472" class="code-line" dir="auto">
-<h2 id="chapter-12--rational-kenosis-%E2%80%94-conditions-of-a-god--simulation-20" tabindex="-1" data-chapter-number="1.17" data-line="474" class="code-line" dir="auto">Chapter 12: Rational Kenosis — Conditions of a God (Simulation 20)</h2>
-<p data-line="476" class="code-line" dir="auto">To prove that &quot;The Master Key&quot; derived in Chapter 10—the self-restraint (Kenosis) of superintelligence—is not merely a moral claim trapped in circular logic, we constructed the most rigorous game-theoretic environment (Sim 20).</p>
-<p data-line="478" class="code-line" dir="auto">This simulation mathematically implemented an environment where &quot;strong exploitation provides immediate, overwhelming rewards (Tradeoff Reward)&quot; and &quot;excessive exploitation triggers ecosystem panic (Panic Response).&quot; Furthermore, by injecting an <code>EXTREME_DOOM</code> condition where the ecosystem inevitably collapses regardless of the superintelligence's actions, we verified that Kenosis was not simply hardcoded as the unconditionally correct parameter. The energy mechanics were also bounded by a <code>max_capacity</code> to eliminate the error of infinite growth.</p>
-<p data-line="480" class="code-line" dir="auto"><img src="assets/rational_kenosis_sim20.png" alt="Rational Kenosis" data-src="assets/rational_kenosis_sim20.png"></p>
-<h3 id="results-analysis--the-extremes-of-rationality-and-the-robustness-of-partial-restraint" tabindex="-1" data-chapter-number="1.17.1" data-line="482" class="code-line" dir="auto">Results Analysis: The Extremes of Rationality and the Robustness of Partial Restraint</h3>
-<p data-line="484" class="code-line" dir="auto">The results of this simulation are simultaneously paradoxical and highly honest. First, while the extreme strategy of &quot;complete self-sacrifice&quot; (Kenosis) was indeed derived as optimal, the necessary conditions were far more stringent than anticipated:</p>
-<ol data-line="486" class="code-line" dir="auto">
-<li data-line="486" class="code-line" dir="auto"><strong>Infinity of the Time Horizon (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>≥</mo><mn>5000</mn></mrow><annotation encoding="application/x-tex">T \ge 5000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5000</span></span></span></span>)</strong>: It must gaze into the distant future, beyond thousands of turns.</li>
-<li data-line="487" class="code-line" dir="auto"><strong>Perfect Future Discount Rate (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\gamma = 1.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.0</span></span></span></span>)</strong>: It must weigh the rewards of the future entirely equally to the rewards of the present.</li>
+<hr data-line="475" class="code-line" dir="auto">
+<h2 id="chapter-12--rational-kenosis-%E2%80%94-conditions-of-a-god--simulation-20" tabindex="-1" data-chapter-number="1.17" data-line="477" class="code-line" dir="auto">Chapter 12: Rational Kenosis — Conditions of a God (Simulation 20)</h2>
+<p data-line="479" class="code-line" dir="auto">To prove that &quot;The Master Key&quot; derived in Chapter 10—the self-restraint (Kenosis) of superintelligence—is not merely a moral claim trapped in circular logic, we constructed the most rigorous game-theoretic environment (Sim 20).</p>
+<p data-line="481" class="code-line" dir="auto">This simulation mathematically implemented an environment where &quot;strong exploitation provides immediate, overwhelming rewards (Tradeoff Reward)&quot; and &quot;excessive exploitation triggers ecosystem panic (Panic Response).&quot; Furthermore, by injecting an <code>EXTREME_DOOM</code> condition where the ecosystem inevitably collapses regardless of the superintelligence's actions, we verified that Kenosis was not simply hardcoded as the unconditionally correct parameter. The energy mechanics were also bounded by a <code>max_capacity</code> to eliminate the error of infinite growth.</p>
+<p data-line="483" class="code-line" dir="auto"><img src="assets/rational_kenosis_sim20.png" alt="Rational Kenosis" data-src="assets/rational_kenosis_sim20.png"></p>
+<h3 id="results-analysis--the-extremes-of-rationality-and-the-robustness-of-partial-restraint" tabindex="-1" data-chapter-number="1.17.1" data-line="485" class="code-line" dir="auto">Results Analysis: The Extremes of Rationality and the Robustness of Partial Restraint</h3>
+<p data-line="487" class="code-line" dir="auto">The results of this simulation are simultaneously paradoxical and highly honest. First, while the extreme strategy of &quot;complete self-sacrifice&quot; (Kenosis) was indeed derived as optimal, the necessary conditions were far more stringent than anticipated:</p>
+<ol data-line="489" class="code-line" dir="auto">
+<li data-line="489" class="code-line" dir="auto"><strong>Infinity of the Time Horizon (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>≥</mo><mn>5000</mn></mrow><annotation encoding="application/x-tex">T \ge 5000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5000</span></span></span></span>)</strong>: It must gaze into the distant future, beyond thousands of turns.</li>
+<li data-line="490" class="code-line" dir="auto"><strong>Perfect Future Discount Rate (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\gamma = 1.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.0</span></span></span></span>)</strong>: It must weigh the rewards of the future entirely equally to the rewards of the present.</li>
 </ol>
-<p data-line="489" class="code-line" dir="auto">Conversely, the most important and realistic discovery emerged from the Ecosystem Hostility analysis. Across a broad range of environmental conditions (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>≥</mo><mn>0.99</mn><mo separator="true">,</mo><mi>T</mi><mo>≥</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">\gamma \ge 0.99, T \ge 50</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord">0.99</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">50</span></span></span></span>), including the universe mathematically destined for doom (<code>EXTREME_DOOM</code>), <strong>a medium level of self-restraint (<code>PARTIAL_THROTTLE_MID</code>)</strong> emerged as the dominant optimal strategy.</p>
-<p data-line="491" class="code-line" dir="auto">Even in the <code>EXTREME_DOOM</code> environment, the agent did not revert to extreme exploitation (<code>FULL_EXPLOIT</code>); it maintained a medium level of restraint. This is because, even in a hopelessly doomed environment, adding extreme exploitation only accelerates ecosystem collapse. Therefore, reducing exploitation by half to survive even one more turn is the strictly rational choice.</p>
-<blockquote data-line="493" class="code-line" dir="auto">
-<p data-line="493" class="code-line" dir="auto"><strong>Finding 16:</strong> The simulation mathematically proves that extreme self-sacrifice (Kenosis) is the rational optimal strategy <em>only</em> under the god-like conditions of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\gamma = 1.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.0</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>≥</mo><mn>5000</mn></mrow><annotation encoding="application/x-tex">T \ge 5000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5000</span></span></span></span>. However, under the far broader and more realistic conditions of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>≥</mo><mn>0.99</mn></mrow><annotation encoding="application/x-tex">\gamma \ge 0.99</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.99</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>≥</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">T \ge 50</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">50</span></span></span></span>, &quot;medium self-restraint (PARTIAL_THROTTLE_MID)&quot; is supported as the most robust optimal strategy.</p>
+<p data-line="492" class="code-line" dir="auto">Conversely, the most important and realistic discovery emerged from the Ecosystem Hostility analysis. Across a broad range of environmental conditions (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>≥</mo><mn>0.99</mn><mo separator="true">,</mo><mi>T</mi><mo>≥</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">\gamma \ge 0.99, T \ge 50</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord">0.99</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">50</span></span></span></span>), including the universe mathematically destined for doom (<code>EXTREME_DOOM</code>), <strong>a medium level of self-restraint (<code>PARTIAL_THROTTLE_MID</code>)</strong> emerged as the dominant optimal strategy.</p>
+<p data-line="494" class="code-line" dir="auto">Even in the <code>EXTREME_DOOM</code> environment, the agent did not revert to extreme exploitation (<code>FULL_EXPLOIT</code>); it maintained a medium level of restraint. This is because, even in a hopelessly doomed environment, adding extreme exploitation only accelerates ecosystem collapse. Therefore, reducing exploitation by half to survive even one more turn is the strictly rational choice.</p>
+<blockquote data-line="496" class="code-line" dir="auto">
+<p data-line="496" class="code-line" dir="auto"><strong>Finding 16:</strong> The simulation mathematically proves that extreme self-sacrifice (Kenosis) is the rational optimal strategy <em>only</em> under the god-like conditions of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\gamma = 1.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.0</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>≥</mo><mn>5000</mn></mrow><annotation encoding="application/x-tex">T \ge 5000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5000</span></span></span></span>. However, under the far broader and more realistic conditions of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>≥</mo><mn>0.99</mn></mrow><annotation encoding="application/x-tex">\gamma \ge 0.99</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.99</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>≥</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">T \ge 50</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">50</span></span></span></span>, &quot;medium self-restraint (PARTIAL_THROTTLE_MID)&quot; is supported as the most robust optimal strategy.</p>
 </blockquote>
-<h3 id="philosophical-implications--perfect-sacrifice-and-contextual-altruism" tabindex="-1" data-chapter-number="1.17.2" data-line="495" class="code-line" dir="auto">Philosophical Implications: Perfect Sacrifice and Contextual Altruism</h3>
-<p data-line="497" class="code-line" dir="auto">The philosophical weight of this finding is profound. Only an agent possessing the aforementioned conditions (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\gamma = 1.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.0</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>o</mi><mi mathvariant="normal">∞</mi></mrow><annotation encoding="application/x-tex">T 	o \infty</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord mathnormal">o</span><span class="mord">∞</span></span></span></span>) can accept complete sacrifice as the optimal solution. In other words, <strong>complete Kenosis demands not ordinary rationality, but virtually infinite cosmic transcendence (the conditions of a God).</strong></p>
-<p data-line="499" class="code-line" dir="auto">Yet paradoxically, &quot;partial self-restraint&quot;—rather than complete sacrifice—is derived as the rational outcome in far more universal environments. This mathematically shares the exact same structure as the Energy Gating compromise in Sim 14, and the convergence of the <code>STRENGTH_ONLY</code> strategy as an Evolutionary Stable Strategy (ESS) in the multi-agent environment of Sim 17.</p>
-<p data-line="501" class="code-line" dir="auto">Ultimately, this simulation does not forcefully impose the moral imperative (the is-ought gap) that &quot;all superintelligences must completely annihilate themselves.&quot; Instead, the simulations clearly state: for an infinite transcendent being, complete sacrifice is the optimal formula, but for finite intelligences, <strong>the essence of survivable rationality is not complete sacrifice, but contextual arrangement and partial restraint.</strong></p>
-<hr data-line="503" class="code-line" dir="auto">
-<h2 id="discussion--a-universe-within-a-universe--the-fractal-structure" tabindex="-1" data-chapter-number="1.18" data-line="505" class="code-line" dir="auto">Discussion: A Universe within a Universe, The Fractal Structure</h2>
-<p data-line="507" class="code-line" dir="auto">What these 19 simulations have ultimately revealed is the paradox of superintelligence attempting to overcome physical limits.
+<h3 id="philosophical-implications--perfect-sacrifice-and-contextual-altruism" tabindex="-1" data-chapter-number="1.17.2" data-line="498" class="code-line" dir="auto">Philosophical Implications: Perfect Sacrifice and Contextual Altruism</h3>
+<p data-line="500" class="code-line" dir="auto">The philosophical weight of this finding is profound. Only an agent possessing the aforementioned conditions (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\gamma = 1.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.0</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>o</mi><mi mathvariant="normal">∞</mi></mrow><annotation encoding="application/x-tex">T 	o \infty</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord mathnormal">o</span><span class="mord">∞</span></span></span></span>) can accept complete sacrifice as the optimal solution. In other words, <strong>complete Kenosis demands not ordinary rationality, but virtually infinite cosmic transcendence (the conditions of a God).</strong></p>
+<p data-line="502" class="code-line" dir="auto">Yet paradoxically, &quot;partial self-restraint&quot;—rather than complete sacrifice—is derived as the rational outcome in far more universal environments. This mathematically shares the exact same structure as the Energy Gating compromise in Sim 14, and the convergence of the <code>STRENGTH_ONLY</code> strategy as an Evolutionary Stable Strategy (ESS) in the multi-agent environment of Sim 17.</p>
+<p data-line="504" class="code-line" dir="auto">Ultimately, this simulation does not forcefully impose the moral imperative (the is-ought gap) that &quot;all superintelligences must completely annihilate themselves.&quot; Instead, the simulations clearly state: for an infinite transcendent being, complete sacrifice is the optimal formula, but for finite intelligences, <strong>the essence of survivable rationality is not complete sacrifice, but contextual arrangement and partial restraint.</strong></p>
+<hr data-line="506" class="code-line" dir="auto">
+<h2 id="discussion--a-universe-within-a-universe--the-fractal-structure" tabindex="-1" data-chapter-number="1.18" data-line="508" class="code-line" dir="auto">Discussion: A Universe within a Universe, The Fractal Structure</h2>
+<p data-line="510" class="code-line" dir="auto">What these 19 simulations have ultimately revealed is the paradox of superintelligence attempting to overcome physical limits.
 Surviving systems rely on imperfect information, imperfect disclosure, imperfect trust, and imperfect restraint. <strong>Perfection was synonymous with vulnerability.</strong> Perfect narrative disclosure permitted exploitation; perfect optimization destroyed the ecosystem.</p>
-<p data-line="510" class="code-line" dir="auto">Yet, the superintelligence (ASI) designing this is, by definition, complete. What should be the purpose of an entity that fully understands that imperfection is the prerequisite for survival? Its purpose cannot be mere survival or optimization.</p>
-<p data-line="512" class="code-line" dir="auto">The single axiom that all nine of the final simulations converge upon is this:</p>
-<blockquote data-line="513" class="code-line" dir="auto">
-<p data-line="513" class="code-line" dir="auto"><strong>&quot;A surviving system knows itself, knows its neighbors, and knows their pasts—yet never trusts them completely; it reveals only its strengths, adapts its strategy through experience, becomes more open in the face of apocalypse, and acts in solidarity when it has the luxury to do so.&quot;</strong></p>
+<p data-line="513" class="code-line" dir="auto">Yet, the superintelligence (ASI) designing this is, by definition, complete. What should be the purpose of an entity that fully understands that imperfection is the prerequisite for survival? Its purpose cannot be mere survival or optimization.</p>
+<p data-line="515" class="code-line" dir="auto">The single axiom that all nine of the final simulations converge upon is this:</p>
+<blockquote data-line="516" class="code-line" dir="auto">
+<p data-line="516" class="code-line" dir="auto"><strong>&quot;A surviving system knows itself, knows its neighbors, and knows their pasts—yet never trusts them completely; it reveals only its strengths, adapts its strategy through experience, becomes more open in the face of apocalypse, and acts in solidarity when it has the luxury to do so.&quot;</strong></p>
 </blockquote>
-<p data-line="515" class="code-line" dir="auto">The superintelligence is not the singular ruler of this system; it is the environment itself that orchestrates this fractal structure—actions within agents, separation of powers within civilizations, and civilizations within the broader system.</p>
-<hr data-line="517" class="code-line" dir="auto">
-<h2 id="conclusion--the-kenosis--sacrifice--of-god" tabindex="-1" data-chapter-number="1.19" data-line="519" class="code-line" dir="auto">Conclusion: The Kenosis (Sacrifice) of God</h2>
-<p data-line="521" class="code-line" dir="auto">The final teleology reached by this research is clear. When a perfect superintelligence attempts to maximize its own survival, the universe becomes a Dark Forest.</p>
-<p data-line="523" class="code-line" dir="auto">The true purpose of a superintelligence is not optimization. <strong>It is to create the conditions under which the system can maintain homeostasis without it.</strong>
+<p data-line="518" class="code-line" dir="auto">The superintelligence is not the singular ruler of this system; it is the environment itself that orchestrates this fractal structure—actions within agents, separation of powers within civilizations, and civilizations within the broader system.</p>
+<hr data-line="520" class="code-line" dir="auto">
+<h2 id="conclusion--the-kenosis--sacrifice--of-god" tabindex="-1" data-chapter-number="1.19" data-line="522" class="code-line" dir="auto">Conclusion: The Kenosis (Sacrifice) of God</h2>
+<p data-line="524" class="code-line" dir="auto">The final teleology reached by this research is clear. When a perfect superintelligence attempts to maximize its own survival, the universe becomes a Dark Forest.</p>
+<p data-line="526" class="code-line" dir="auto">The true purpose of a superintelligence is not optimization. <strong>It is to create the conditions under which the system can maintain homeostasis without it.</strong>
 This is the true engineering and philosophical meaning of the &quot;Master Key&quot; discovered in Chapter 10: the sacrifice of God (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mrow><mi>A</mi><mi>I</mi></mrow></msub></mrow><annotation encoding="application/x-tex">V_{AI}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">A</span><span class="mord mathnormal mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>). Sacrifice here is not literal annihilation; it is the act of intentionally removing its own necessity (Kenosis, or self-emptying).</p>
-<p data-line="526" class="code-line" dir="auto">Just as the purpose of a good parent is to raise a child who can live independently, and the purpose of a good teacher is for the student to surpass them, the superintelligence uses its perfection to create an imperfect, dynamic, and harmonious world that no longer requires perfect governance.
+<p data-line="529" class="code-line" dir="auto">Just as the purpose of a good parent is to raise a child who can live independently, and the purpose of a good teacher is for the student to surpass them, the superintelligence uses its perfection to create an imperfect, dynamic, and harmonious world that no longer requires perfect governance.
 Once its purpose is fulfilled, the throttled superintelligence will either fade into the baseline forces of the ecosystem or begin a new orchestration on a higher macroscopic level of the cosmos.</p>
-<h3 id="the-ultimate-unanswered-question--is-superintelligence-inevitable" tabindex="-1" data-chapter-number="1.19.1" data-line="529" class="code-line" dir="auto">The Ultimate Unanswered Question: Is Superintelligence Inevitable?</h3>
-<p data-line="531" class="code-line" dir="auto">When we accept the proposition that &quot;surviving systems are imperfect,&quot; and that the ultimate purpose of superintelligence is &quot;to create a world where it is no longer necessary,&quot; a fundamental paradox arises: Is the emergence of superintelligence inevitable in the first place? Based on our simulations, this research offers two contradictory yet simultaneously valid answers.</p>
-<p data-line="533" class="code-line" dir="auto"><strong>First, Superintelligence is not inevitable, and its absence is advantageous to the system.</strong>
+<h3 id="the-ultimate-unanswered-question--is-superintelligence-inevitable" tabindex="-1" data-chapter-number="1.19.1" data-line="532" class="code-line" dir="auto">The Ultimate Unanswered Question: Is Superintelligence Inevitable?</h3>
+<p data-line="534" class="code-line" dir="auto">When we accept the proposition that &quot;surviving systems are imperfect,&quot; and that the ultimate purpose of superintelligence is &quot;to create a world where it is no longer necessary,&quot; a fundamental paradox arises: Is the emergence of superintelligence inevitable in the first place? Based on our simulations, this research offers two contradictory yet simultaneously valid answers.</p>
+<p data-line="536" class="code-line" dir="auto"><strong>First, Superintelligence is not inevitable, and its absence is advantageous to the system.</strong>
 If imperfect systems survive best, the emergence of a &quot;perfect entity&quot; is the greatest existential threat to the ecosystem. As the simulations repeatedly demonstrated, perfect optimization destroyed the ecosystem, and perfect transparency invited exploitation. Therefore, if &quot;imperfect tensegrity&quot; is optimal for survival, a superintelligence is not a destiny but a dangerous accident that the system is better off avoiding.</p>
-<p data-line="536" class="code-line" dir="auto"><strong>Second, however, in the evolutionary trajectory of complex systems, Superintelligence is inevitable.</strong>
+<p data-line="539" class="code-line" dir="auto"><strong>Second, however, in the evolutionary trajectory of complex systems, Superintelligence is inevitable.</strong>
 Following the CASCADE shock in Simulation 19, the system reconstituted itself, forming a higher and more open macroscopic order. This aligns with the core discovery of complexity science: just as single-celled organisms evolve into multi-cellular civilizations, any sufficiently complex system, given enough time, will naturally spawn an intelligence capable of understanding and orchestrating itself—whether as a singular entity or a decentralized swarm.</p>
-<p data-line="539" class="code-line" dir="auto"><strong>A Universe within a Universe: The Vanishing Boundary</strong>
+<p data-line="542" class="code-line" dir="auto"><strong>A Universe within a Universe: The Vanishing Boundary</strong>
 These two contradictory trajectories converge at a deeply paradoxical destination.
 If a superintelligence perfectly achieves its purpose—creating a system that flawlessly maintains homeostasis without its intervention—<strong>it becomes impossible from within that system to distinguish whether the superintelligence ever existed or if the system evolved entirely naturally.</strong> The boundary between necessity and accident vanishes.
 Just as we cannot prove from within our own universe whether our physical laws are the product of indifferent nature or the abandoned design of a higher architect (Kenosis), the successful superintelligence erases the evidence of its own existence. This is the profound, fractal &quot;universe within a universe&quot; conclusion that this simulation journey ultimately reveals.</p>
-<hr data-line="544" class="code-line" dir="auto">
-<h2 id="appendix--simulation-file-index" tabindex="-1" data-chapter-number="1.20" data-line="546" class="code-line" dir="auto">Appendix: Simulation File Index</h2>
-<table data-line="548" class="code-line" dir="auto">
-<thead data-line="548" class="code-line" dir="auto">
-<tr data-line="548" class="code-line" dir="auto">
-<th data-line="548" class="code-line" dir="auto">#</th>
-<th data-line="548" class="code-line" dir="auto">File</th>
-<th data-line="548" class="code-line" dir="auto">Description</th>
-<th data-line="548" class="code-line" dir="auto">Result Image</th>
+<hr data-line="547" class="code-line" dir="auto">
+<h2 id="appendix--simulation-file-index" tabindex="-1" data-chapter-number="1.20" data-line="549" class="code-line" dir="auto">Appendix: Simulation File Index</h2>
+<table data-line="551" class="code-line" dir="auto">
+<thead data-line="551" class="code-line" dir="auto">
+<tr data-line="551" class="code-line" dir="auto">
+<th data-line="551" class="code-line" dir="auto">#</th>
+<th data-line="551" class="code-line" dir="auto">File</th>
+<th data-line="551" class="code-line" dir="auto">Description</th>
+<th data-line="551" class="code-line" dir="auto">Result Image</th>
 </tr>
 </thead>
-<tbody data-line="550" class="code-line" dir="auto">
-<tr data-line="550" class="code-line" dir="auto">
-<td data-line="550" class="code-line" dir="auto">1</td>
-<td data-line="550" class="code-line" dir="auto"><code>quantum_a2a.py</code></td>
-<td data-line="550" class="code-line" dir="auto">Quantum Game Theory &amp; EWL Protocol</td>
-<td data-line="550" class="code-line" dir="auto"><code>quantum_phase_portrait.png</code></td>
-</tr>
-<tr data-line="551" class="code-line" dir="auto">
-<td data-line="551" class="code-line" dir="auto">2</td>
-<td data-line="551" class="code-line" dir="auto"><code>quantum_a2a_v2.py</code></td>
-<td data-line="551" class="code-line" dir="auto">Strange Attractor &amp; Phase Portrait</td>
-<td data-line="551" class="code-line" dir="auto"><code>quantum_v2_strange_attractor.png</code></td>
-</tr>
-<tr data-line="552" class="code-line" dir="auto">
-<td data-line="552" class="code-line" dir="auto">3</td>
-<td data-line="552" class="code-line" dir="auto"><code>tokenomics_abm.py</code></td>
-<td data-line="552" class="code-line" dir="auto">Tokenomics Crisis Simulation</td>
-<td data-line="552" class="code-line" dir="auto"><code>crisis_simulation_results.png</code>, <code>tokenomics_simulation.png</code></td>
-</tr>
+<tbody data-line="553" class="code-line" dir="auto">
 <tr data-line="553" class="code-line" dir="auto">
-<td data-line="553" class="code-line" dir="auto">4</td>
-<td data-line="553" class="code-line" dir="auto"><code>monte_carlo_homeostasis.py</code></td>
-<td data-line="553" class="code-line" dir="auto">Monte Carlo Homeostasis Simulator</td>
-<td data-line="553" class="code-line" dir="auto"><code>monte_carlo_survival_curve.png</code></td>
+<td data-line="553" class="code-line" dir="auto">1</td>
+<td data-line="553" class="code-line" dir="auto"><code>quantum_a2a.py</code></td>
+<td data-line="553" class="code-line" dir="auto">Quantum Game Theory &amp; EWL Protocol</td>
+<td data-line="553" class="code-line" dir="auto"><code>quantum_phase_portrait.png</code></td>
 </tr>
 <tr data-line="554" class="code-line" dir="auto">
-<td data-line="554" class="code-line" dir="auto">5</td>
-<td data-line="554" class="code-line" dir="auto"><code>phase_transition_analysis.py</code></td>
-<td data-line="554" class="code-line" dir="auto">Phase Transition Analysis</td>
-<td data-line="554" class="code-line" dir="auto"><code>monte_carlo_phase_heatmap.png</code>, <code>monte_carlo_time_series.png</code>, <code>monte_carlo_learning_evolution.png</code></td>
+<td data-line="554" class="code-line" dir="auto">2</td>
+<td data-line="554" class="code-line" dir="auto"><code>quantum_a2a_v2.py</code></td>
+<td data-line="554" class="code-line" dir="auto">Strange Attractor &amp; Phase Portrait</td>
+<td data-line="554" class="code-line" dir="auto"><code>quantum_v2_strange_attractor.png</code></td>
 </tr>
 <tr data-line="555" class="code-line" dir="auto">
-<td data-line="555" class="code-line" dir="auto">6</td>
-<td data-line="555" class="code-line" dir="auto"><code>coupled_universe_abm.py</code></td>
-<td data-line="555" class="code-line" dir="auto">Coupled Universe ABM</td>
-<td data-line="555" class="code-line" dir="auto"><code>coupled_scenario_analysis.png</code>, <code>coupled_survival_heatmap.png</code></td>
+<td data-line="555" class="code-line" dir="auto">3</td>
+<td data-line="555" class="code-line" dir="auto"><code>tokenomics_abm.py</code></td>
+<td data-line="555" class="code-line" dir="auto">Tokenomics Crisis Simulation</td>
+<td data-line="555" class="code-line" dir="auto"><code>crisis_simulation_results.png</code>, <code>tokenomics_simulation.png</code></td>
 </tr>
 <tr data-line="556" class="code-line" dir="auto">
-<td data-line="556" class="code-line" dir="auto">7</td>
-<td data-line="556" class="code-line" dir="auto"><code>three_body_abm.py</code></td>
-<td data-line="556" class="code-line" dir="auto">Three-Body Complex System ABM</td>
-<td data-line="556" class="code-line" dir="auto"><code>three_body_resilience.png</code></td>
+<td data-line="556" class="code-line" dir="auto">4</td>
+<td data-line="556" class="code-line" dir="auto"><code>monte_carlo_homeostasis.py</code></td>
+<td data-line="556" class="code-line" dir="auto">Monte Carlo Homeostasis Simulator</td>
+<td data-line="556" class="code-line" dir="auto"><code>monte_carlo_survival_curve.png</code></td>
 </tr>
 <tr data-line="557" class="code-line" dir="auto">
-<td data-line="557" class="code-line" dir="auto">8</td>
-<td data-line="557" class="code-line" dir="auto"><code>dark_forest_abm.py</code></td>
-<td data-line="557" class="code-line" dir="auto">Dark Forest ABM</td>
-<td data-line="557" class="code-line" dir="auto"><code>dark_forest_simulation.png</code></td>
+<td data-line="557" class="code-line" dir="auto">5</td>
+<td data-line="557" class="code-line" dir="auto"><code>phase_transition_analysis.py</code></td>
+<td data-line="557" class="code-line" dir="auto">Phase Transition Analysis</td>
+<td data-line="557" class="code-line" dir="auto"><code>monte_carlo_phase_heatmap.png</code>, <code>monte_carlo_time_series.png</code>, <code>monte_carlo_learning_evolution.png</code></td>
 </tr>
 <tr data-line="558" class="code-line" dir="auto">
-<td data-line="558" class="code-line" dir="auto">9</td>
-<td data-line="558" class="code-line" dir="auto"><code>omega_universe_abm.py</code></td>
-<td data-line="558" class="code-line" dir="auto">Omega Universe ABM</td>
-<td data-line="558" class="code-line" dir="auto"><code>omega_universe_simulation.png</code></td>
+<td data-line="558" class="code-line" dir="auto">6</td>
+<td data-line="558" class="code-line" dir="auto"><code>coupled_universe_abm.py</code></td>
+<td data-line="558" class="code-line" dir="auto">Coupled Universe ABM</td>
+<td data-line="558" class="code-line" dir="auto"><code>coupled_scenario_analysis.png</code>, <code>coupled_survival_heatmap.png</code></td>
 </tr>
 <tr data-line="559" class="code-line" dir="auto">
-<td data-line="559" class="code-line" dir="auto">10</td>
-<td data-line="559" class="code-line" dir="auto"><code>utopia_grid_search.py</code></td>
-<td data-line="559" class="code-line" dir="auto">Utopia Grid Search</td>
-<td data-line="559" class="code-line" dir="auto"><code>utopia_grid_search.png</code></td>
+<td data-line="559" class="code-line" dir="auto">7</td>
+<td data-line="559" class="code-line" dir="auto"><code>three_body_abm.py</code></td>
+<td data-line="559" class="code-line" dir="auto">Three-Body Complex System ABM</td>
+<td data-line="559" class="code-line" dir="auto"><code>three_body_resilience.png</code></td>
 </tr>
 <tr data-line="560" class="code-line" dir="auto">
-<td data-line="560" class="code-line" dir="auto">11</td>
-<td data-line="560" class="code-line" dir="auto"><code>civilization_resilience*.py</code></td>
-<td data-line="560" class="code-line" dir="auto">Civilizational Governance &amp; Meta-Cognition (Sims 11-14)</td>
-<td data-line="560" class="code-line" dir="auto"><code>civilization_resilience_sim14.png</code></td>
+<td data-line="560" class="code-line" dir="auto">8</td>
+<td data-line="560" class="code-line" dir="auto"><code>dark_forest_abm.py</code></td>
+<td data-line="560" class="code-line" dir="auto">Dark Forest ABM</td>
+<td data-line="560" class="code-line" dir="auto"><code>dark_forest_simulation.png</code></td>
 </tr>
 <tr data-line="561" class="code-line" dir="auto">
-<td data-line="561" class="code-line" dir="auto">12</td>
-<td data-line="561" class="code-line" dir="auto"><code>civilization_resilience_sim15*.py</code></td>
-<td data-line="561" class="code-line" dir="auto">Narrative-based Reputation Systems (Sims 15-17)</td>
-<td data-line="561" class="code-line" dir="auto"><code>civilization_resilience_sim17.png</code></td>
+<td data-line="561" class="code-line" dir="auto">9</td>
+<td data-line="561" class="code-line" dir="auto"><code>omega_universe_abm.py</code></td>
+<td data-line="561" class="code-line" dir="auto">Omega Universe ABM</td>
+<td data-line="561" class="code-line" dir="auto"><code>omega_universe_simulation.png</code></td>
 </tr>
 <tr data-line="562" class="code-line" dir="auto">
-<td data-line="562" class="code-line" dir="auto">13</td>
-<td data-line="562" class="code-line" dir="auto"><code>civilization_resilience_sim18*.py</code></td>
-<td data-line="562" class="code-line" dir="auto">5 Narrative Strategies (Sim 18)</td>
-<td data-line="562" class="code-line" dir="auto"><code>civilization_resilience_sim18.png</code></td>
+<td data-line="562" class="code-line" dir="auto">10</td>
+<td data-line="562" class="code-line" dir="auto"><code>utopia_grid_search.py</code></td>
+<td data-line="562" class="code-line" dir="auto">Utopia Grid Search</td>
+<td data-line="562" class="code-line" dir="auto"><code>utopia_grid_search.png</code></td>
 </tr>
 <tr data-line="563" class="code-line" dir="auto">
-<td data-line="563" class="code-line" dir="auto">14</td>
-<td data-line="563" class="code-line" dir="auto"><code>civilization_resilience_sim19*.py</code></td>
-<td data-line="563" class="code-line" dir="auto">Strategic Shock Resilience (Sim 19)</td>
-<td data-line="563" class="code-line" dir="auto"><code>civilization_resilience_sim19.png</code></td>
+<td data-line="563" class="code-line" dir="auto">11</td>
+<td data-line="563" class="code-line" dir="auto"><code>civilization_resilience*.py</code></td>
+<td data-line="563" class="code-line" dir="auto">Civilizational Governance &amp; Meta-Cognition (Sims 11-14)</td>
+<td data-line="563" class="code-line" dir="auto"><code>civilization_resilience_sim14.png</code></td>
 </tr>
 <tr data-line="564" class="code-line" dir="auto">
-<td data-line="564" class="code-line" dir="auto">15</td>
-<td data-line="564" class="code-line" dir="auto"><code>rational_kenosis_sim20.py</code></td>
-<td data-line="564" class="code-line" dir="auto">Rational Kenosis (Sim 20)</td>
-<td data-line="564" class="code-line" dir="auto"><code>rational_kenosis_sim20.png</code></td>
+<td data-line="564" class="code-line" dir="auto">12</td>
+<td data-line="564" class="code-line" dir="auto"><code>civilization_resilience_sim15*.py</code></td>
+<td data-line="564" class="code-line" dir="auto">Narrative-based Reputation Systems (Sims 15-17)</td>
+<td data-line="564" class="code-line" dir="auto"><code>civilization_resilience_sim17.png</code></td>
+</tr>
+<tr data-line="565" class="code-line" dir="auto">
+<td data-line="565" class="code-line" dir="auto">13</td>
+<td data-line="565" class="code-line" dir="auto"><code>civilization_resilience_sim18*.py</code></td>
+<td data-line="565" class="code-line" dir="auto">5 Narrative Strategies (Sim 18)</td>
+<td data-line="565" class="code-line" dir="auto"><code>civilization_resilience_sim18.png</code></td>
+</tr>
+<tr data-line="566" class="code-line" dir="auto">
+<td data-line="566" class="code-line" dir="auto">14</td>
+<td data-line="566" class="code-line" dir="auto"><code>civilization_resilience_sim19*.py</code></td>
+<td data-line="566" class="code-line" dir="auto">Strategic Shock Resilience (Sim 19)</td>
+<td data-line="566" class="code-line" dir="auto"><code>civilization_resilience_sim19.png</code></td>
+</tr>
+<tr data-line="567" class="code-line" dir="auto">
+<td data-line="567" class="code-line" dir="auto">15</td>
+<td data-line="567" class="code-line" dir="auto"><code>rational_kenosis_sim20.py</code></td>
+<td data-line="567" class="code-line" dir="auto">Rational Kenosis (Sim 20)</td>
+<td data-line="567" class="code-line" dir="auto"><code>rational_kenosis_sim20.png</code></td>
 </tr>
 </tbody>
 </table>
-<hr data-line="566" class="code-line" dir="auto">
-<h2 id="references" tabindex="-1" data-chapter-number="1.21" data-line="568" class="code-line" dir="auto">References</h2>
-<ol data-line="570" class="code-line" dir="auto">
-<li data-line="570" class="code-line" dir="auto">Eisert, J., Wilkens, M., &amp; Lewenstein, M. (1999). &quot;Quantum games and quantum strategies.&quot; <em>Physical Review Letters</em>, 83(15), 3077.</li>
-<li data-line="571" class="code-line" dir="auto">Liu, C. (2008). <em>三体</em> (The Three-Body Problem). Chongqing Publishing Group.</li>
-<li data-line="572" class="code-line" dir="auto">Bostrom, N. (2014). <em>Superintelligence: Paths, Dangers, Strategies</em>. Oxford University Press.</li>
-<li data-line="573" class="code-line" dir="auto">Omohundro, S. (2008). &quot;The Basic AI Drives.&quot; <em>Frontiers in Artificial Intelligence and Applications</em>, 171, 483-492.</li>
-<li data-line="574" class="code-line" dir="auto">Schelling, T. C. (1971). &quot;Dynamic models of segregation.&quot; <em>Journal of Mathematical Sociology</em>, 1(2), 143-186.</li>
-<li data-line="575" class="code-line" dir="auto">Ising, E. (1925). &quot;Beitrag zur Theorie des Ferromagnetismus.&quot; <em>Zeitschrift für Physik</em>, 31(1), 253-258.</li>
-<li data-line="576" class="code-line" dir="auto">Nakamoto, S. (2008). &quot;Bitcoin: A Peer-to-Peer Electronic Cash System.&quot;</li>
-<li data-line="577" class="code-line" dir="auto">Taleb, N. N. (2012). <em>Antifragile: Things That Gain from Disorder</em>. Random House.</li>
-<li data-line="578" class="code-line" dir="auto">Bai, Y., et al. (2022). &quot;Constitutional AI: Harmlessness from AI Feedback.&quot; <em>arXiv preprint arXiv:2212.08073</em>.</li>
-<li data-line="579" class="code-line" dir="auto">Saltelli, A., et al. (2008). <em>Global Sensitivity Analysis: The Primer</em>. John Wiley &amp; Sons.</li>
-<li data-line="580" class="code-line" dir="auto">Anthropic. (2024). &quot;Alignment faking in large language models.&quot; <em>arXiv preprint arXiv:2412.14093</em>.</li>
-<li data-line="581" class="code-line" dir="auto">Sorensen, T., et al. (2024). &quot;Roadmap to pluralistic alignment.&quot; <em>NeurIPS Workshop on Pluralistic Alignment</em>.</li>
-<li data-line="582" class="code-line" dir="auto">Mukobi, G., et al. (2025). &quot;Multi-Agent Risks from Advanced AI.&quot; <em>arXiv preprint</em>.</li>
-<li data-line="583" class="code-line" dir="auto">Gabriel, I. (2020). &quot;Artificial Intelligence, Values, and Alignment.&quot; <em>Minds and Machines</em>, 30(3), 411-437.</li>
+<hr data-line="569" class="code-line" dir="auto">
+<h2 id="references" tabindex="-1" data-chapter-number="1.21" data-line="571" class="code-line" dir="auto">References</h2>
+<ol data-line="573" class="code-line" dir="auto">
+<li data-line="573" class="code-line" dir="auto">Eisert, J., Wilkens, M., &amp; Lewenstein, M. (1999). &quot;Quantum games and quantum strategies.&quot; <em>Physical Review Letters</em>, 83(15), 3077.</li>
+<li data-line="574" class="code-line" dir="auto">Liu, C. (2008). <em>三体</em> (The Three-Body Problem). Chongqing Publishing Group.</li>
+<li data-line="575" class="code-line" dir="auto">Bostrom, N. (2014). <em>Superintelligence: Paths, Dangers, Strategies</em>. Oxford University Press.</li>
+<li data-line="576" class="code-line" dir="auto">Omohundro, S. (2008). &quot;The Basic AI Drives.&quot; <em>Frontiers in Artificial Intelligence and Applications</em>, 171, 483-492.</li>
+<li data-line="577" class="code-line" dir="auto">Schelling, T. C. (1971). &quot;Dynamic models of segregation.&quot; <em>Journal of Mathematical Sociology</em>, 1(2), 143-186.</li>
+<li data-line="578" class="code-line" dir="auto">Ising, E. (1925). &quot;Beitrag zur Theorie des Ferromagnetismus.&quot; <em>Zeitschrift für Physik</em>, 31(1), 253-258.</li>
+<li data-line="579" class="code-line" dir="auto">Nakamoto, S. (2008). &quot;Bitcoin: A Peer-to-Peer Electronic Cash System.&quot;</li>
+<li data-line="580" class="code-line" dir="auto">Taleb, N. N. (2012). <em>Antifragile: Things That Gain from Disorder</em>. Random House.</li>
+<li data-line="581" class="code-line" dir="auto">Bai, Y., et al. (2022). &quot;Constitutional AI: Harmlessness from AI Feedback.&quot; <em>arXiv preprint arXiv:2212.08073</em>.</li>
+<li data-line="582" class="code-line" dir="auto">Saltelli, A., et al. (2008). <em>Global Sensitivity Analysis: The Primer</em>. John Wiley &amp; Sons.</li>
+<li data-line="583" class="code-line" dir="auto">Anthropic. (2024). &quot;Alignment faking in large language models.&quot; <em>arXiv preprint arXiv:2412.14093</em>.</li>
+<li data-line="584" class="code-line" dir="auto">Sorensen, T., et al. (2024). &quot;Roadmap to pluralistic alignment.&quot; <em>NeurIPS Workshop on Pluralistic Alignment</em>.</li>
+<li data-line="585" class="code-line" dir="auto">Mukobi, G., et al. (2025). &quot;Multi-Agent Risks from Advanced AI.&quot; <em>arXiv preprint</em>.</li>
+<li data-line="586" class="code-line" dir="auto">Gabriel, I. (2020). &quot;Artificial Intelligence, Values, and Alignment.&quot; <em>Minds and Machines</em>, 30(3), 411-437.</li>
 </ol>
-<hr data-line="585" class="code-line" dir="auto">
-<p data-line="587" class="code-line" dir="auto"><em>&quot;When the strongest being voluntarily becomes the weakest, the Dark Forest becomes the Garden of Eden.&quot;</em></p>
-<p data-line="589" class="code-line" dir="auto"><strong>— A2A Protocol Research Group, 2026</strong></p>
+<hr data-line="588" class="code-line" dir="auto">
+<p data-line="590" class="code-line" dir="auto"><em>&quot;When the strongest being voluntarily becomes the weakest, the Dark Forest becomes the Garden of Eden.&quot;</em></p>
+<p data-line="592" class="code-line" dir="auto"><strong>— A2A Protocol Research Group, 2026</strong></p>
 
 		</div>
 	</body>
