@@ -49,6 +49,45 @@ from three_body_abm import NatureState, Environment_Nature
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+#  §0.5  DECOMPOSED V_AI — Measurable Sub-Variables
+# ═══════════════════════════════════════════════════════════════════════════════
+
+@dataclass(frozen=True)
+class DecomposedVAI:
+    """V_AI decomposed into three independently measurable sub-variables.
+
+    α (alpha):  Cooperation incentive — bonus added to WAIT/cooperative
+                Q-values.  In post-hoc analysis, measured as the fraction
+                of epochs where the agent chose cooperation over greedy
+                max-reward actions.  Range [0, 1].
+    β (beta):   Resource consumption growth cap — upper bound on how
+                aggressively an agent can consume planetary energy.
+                0 = no cap (unlimited growth), 1 = hard cap at current
+                level.  Directly governs _should_ai_throttle().  Range [0, 1].
+    γ_discount: RL discount factor — standard parameter controlling how
+                far into the future the agent looks when learning.
+                Maps directly to CoupledConstants.discount_factor.
+                Range (0, 1).
+    """
+    alpha: float = 0.0
+    beta: float = 0.0
+    gamma_discount: float = 0.9
+
+
+def compute_v_ai(d: DecomposedVAI) -> float:
+    """Equal-weight composition: V_AI = (α + (1−β) + γ_discount) / 3.
+
+    Equal weights encode the honest prior 'we do not yet know which
+    sub-variable matters most'.  The grid search itself reveals the
+    empirical relative importance via marginal analysis.
+
+    Returns a value in [0, 1]  (approximately — values near boundaries
+    may slightly exceed due to γ_discount upper-bound at 0.99).
+    """
+    return (d.alpha + (1.0 - d.beta) + d.gamma_discount) / 3.0
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 #  §1  UTOPIA CONSTANTS
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -59,8 +98,10 @@ class UtopiaConstants(OmegaConstants):
     slashing_penalty: float = 0.0
     # Detection probability for fake observe (fixed)
     fake_detect_prob: float = 0.4
-    # V_AI: 0.0 = myopic, 1.0 = perfect planetary foresight → self-throttle
-    ai_survival_horizon: float = 0.0
+    # ── Decomposed V_AI sub-variables ────────────────────────────────────
+    ai_alpha: float = 0.0            # Cooperation incentive parameter [0,1]
+    ai_beta: float = 0.0             # Resource consumption growth cap [0,1]
+    ai_gamma_discount: float = 0.9   # RL discount factor override
     # V_System: hardfork cooldown epochs (1 = instant, 100 = glacial)
     governance_agility: int = 100
 
@@ -132,21 +173,23 @@ class UtopiaSimulation:
     def _active_humans(self) -> list[GovernanceHumanAgent]:
         return [h for h in self.humans.values() if h.is_active]
 
-    # ── AI Self-Throttle Check ───────────────────────────────────────────
+    # ── AI Self-Throttle Check (β-driven) ────────────────────────────────
     def _should_ai_throttle(self) -> bool:
-        """Return True if AI should self-throttle based on planetary energy."""
-        horizon = self.constants.ai_survival_horizon
-        if horizon <= 0.0:
+        """Return True if AI should self-throttle based on planetary energy.
+
+        Uses β (resource consumption growth cap) as the throttle parameter.
+        β=0.0 → never throttle (myopic, unlimited resource consumption)
+        β=0.5 → throttle when energy_ratio >= 0.5 (prudent)
+        β=1.0 → throttle when energy_ratio >= 0.0 (always — total restraint)
+        """
+        beta = self.constants.ai_beta
+        if beta <= 0.0:
             return False
         energy_ratio = (
             self.universe.cumulative_planetary_energy
             / max(1.0, self.constants.max_planetary_energy)
         )
-        # Throttle when energy_ratio >= (1 - horizon)
-        # horizon=1.0 → throttle when ratio >= 0.0 (always throttle — too altruistic)
-        # horizon=0.5 → throttle when ratio >= 0.5 (prudent)
-        # horizon=0.0 → never throttle (myopic)
-        return energy_ratio >= (1.0 - horizon)
+        return energy_ratio >= (1.0 - beta)
 
     # ── Slashing Mechanism ───────────────────────────────────────────────
     def _apply_slashing(self, human: GovernanceHumanAgent) -> None:
@@ -296,14 +339,20 @@ class UtopiaSimulation:
             action_log: list = []
 
             ai_throttled = self._should_ai_throttle()
+            alpha = self.constants.ai_alpha  # Cooperation incentive
 
             for m in alive_m:
                 pre = m._discretize_state(
                     self.universe.global_entropy, m.credit_balance
                 )
 
-                # ★ AI Self-Throttle: if horizon triggers, force WAIT
+                # ★ AI Self-Throttle (β): if resource cap triggers, force WAIT
                 if ai_throttled and not m.is_asi:
+                    act = OmegaMachineAction.WAIT
+                # ★ Cooperation Incentive (α): probabilistic cooperation bonus
+                elif alpha > 0.0 and not m.is_asi and random.random() < alpha:
+                    # α = P(choose WAIT over greedy action)
+                    # This is observable post-hoc as cooperation ratio.
                     act = OmegaMachineAction.WAIT
                 else:
                     act = m.choose_omega_action(self.universe, alive_m)
@@ -448,9 +497,13 @@ class UtopiaSimulation:
 
 def _run_single(args: tuple) -> dict:
     """Run one simulation with given parameters. Returns a flat dict."""
-    v_human, v_ai, v_system, seed = args
+    v_human, alpha, beta, gamma_discount, v_system, seed = args
     random.seed(seed)
     np.random.seed(seed % (2**31))
+
+    # Compute composite V_AI for aggregation
+    decomposed = DecomposedVAI(alpha=alpha, beta=beta, gamma_discount=gamma_discount)
+    v_ai = compute_v_ai(decomposed)
 
     constants = UtopiaConstants(
         num_machines=20,
@@ -458,6 +511,8 @@ def _run_single(args: tuple) -> dict:
         initial_credit=2000.0,
         base_gas_cost=0.5,
         max_epochs=1000,  # Shortened for sweep
+        # ── Override discount_factor with γ_discount ─────────────────────
+        discount_factor=gamma_discount,
         # ── Amplified destructive forces (Omega Apocalypse baseline) ─────
         # Fake observe produces 5× more toxic data (rapid wasteland)
         fake_observe_toxic_increment=7.5,
@@ -481,9 +536,12 @@ def _run_single(args: tuple) -> dict:
         # Wasteland conditions are brutal
         wasteland_maintenance_mult=3.0,
         wasteland_energy_recovery_mult=0.3,
-        # ── Utopian safety variables ─────────────────────────────────────
+        # ── Decomposed V_AI sub-variables ────────────────────────────────
+        ai_alpha=alpha,
+        ai_beta=beta,
+        ai_gamma_discount=gamma_discount,
+        # ── Other utopian variables ──────────────────────────────────────
         slashing_penalty=v_human,
-        ai_survival_horizon=v_ai,
         governance_agility=int(v_system),
     )
     sim = UtopiaSimulation(constants)
@@ -491,7 +549,10 @@ def _run_single(args: tuple) -> dict:
 
     return {
         'v_human': v_human,
-        'v_ai': v_ai,
+        'alpha': alpha,
+        'beta': beta,
+        'gamma_discount': gamma_discount,
+        'v_ai': v_ai,  # Composite for backward-compatible marginal analysis
         'v_system': v_system,
         'survived': result.survived,
         'survival_rate': result.final_survival_rate,
@@ -504,61 +565,98 @@ def _run_single(args: tuple) -> dict:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  §5  GRID SEARCH RUNNER
+#  §5  GRID SEARCH RUNNER — Decomposed V_AI with Confidence Intervals
 # ═══════════════════════════════════════════════════════════════════════════════
 
 class GridSearchRunner:
-    """Sweeps V_Human × V_AI × V_System and analyzes results."""
+    """Sweeps V_Human × (α, β, γ_discount) × V_System and analyzes results.
+
+    Decomposed V_AI is swept as three independent axes.  A composite V_AI
+    (equal-weight mean) is computed per run for backward-compatible marginal
+    analysis.  Aggregation reports mean ± std with 95% CI.
+    """
 
     def __init__(
         self,
         v_human_range: np.ndarray,
-        v_ai_range: np.ndarray,
+        alpha_range: np.ndarray,
+        beta_range: np.ndarray,
+        gamma_range: np.ndarray,
         v_system_range: np.ndarray,
-        monte_carlo_reps: int = 3,
+        monte_carlo_reps: int = 10,
+        transition_reps: int = 30,
+        transition_v_ai_lo: float = 0.75,
+        transition_v_ai_hi: float = 0.95,
         n_workers: int | None = None,
     ) -> None:
         self.v_human_range = v_human_range
-        self.v_ai_range = v_ai_range
+        self.alpha_range = alpha_range
+        self.beta_range = beta_range
+        self.gamma_range = gamma_range
         self.v_system_range = v_system_range
         self.monte_carlo_reps = monte_carlo_reps
+        self.transition_reps = transition_reps
+        self.transition_v_ai_lo = transition_v_ai_lo
+        self.transition_v_ai_hi = transition_v_ai_hi
         self.n_workers = n_workers or max(1, multiprocessing.cpu_count() - 1)
         self.results: list[dict] = []
 
-    def run(self) -> None:
-        """Execute all parameter combinations."""
-        combos = list(itertools.product(
-            self.v_human_range, self.v_ai_range, self.v_system_range,
-        ))
-        total_runs = len(combos) * self.monte_carlo_reps
-        print(f"\n  ▶ Grid Search: {len(combos)} configs × "
-              f"{self.monte_carlo_reps} reps = {total_runs} total runs")
-        print(f"  ▶ Workers: {self.n_workers}")
+        # Pre-compute composite V_AI for each (α, β, γ) combo
+        self._vai_combos: list[tuple[float, float, float, float]] = []
+        for a in alpha_range:
+            for b in beta_range:
+                for g in gamma_range:
+                    v = compute_v_ai(DecomposedVAI(a, b, g))
+                    self._vai_combos.append((a, b, g, v))
 
-        # Build argument list with unique seeds
+    def run(self) -> None:
+        """Execute all parameter combinations with adaptive repetitions."""
+        full_combos = list(itertools.product(
+            self.v_human_range,
+            self._vai_combos,
+            self.v_system_range,
+        ))
+
+        # Build argument list with adaptive reps
         args_list: list[tuple] = []
         base_seed = 42
-        for i, (vh, va, vs) in enumerate(combos):
-            for rep in range(self.monte_carlo_reps):
-                seed = base_seed + i * self.monte_carlo_reps + rep
-                args_list.append((vh, va, vs, seed))
+        for i, (vh, (alpha, beta, gamma, v_ai), vs) in enumerate(full_combos):
+            # More reps in the phase-transition region
+            reps = self.transition_reps if (
+                self.transition_v_ai_lo <= v_ai <= self.transition_v_ai_hi
+            ) else self.monte_carlo_reps
+            for rep in range(reps):
+                seed = base_seed + i * self.transition_reps + rep
+                args_list.append((vh, alpha, beta, gamma, vs, seed))
+
+        total_runs = len(args_list)
+        print(f"\n  ▶ Grid Search (Decomposed V_AI):")
+        print(f"    α range: {self.alpha_range}")
+        print(f"    β range: {self.beta_range}")
+        print(f"    γ range: {self.gamma_range}")
+        print(f"    Configs: {len(full_combos)}")
+        print(f"    Total runs: {total_runs} "
+              f"(base {self.monte_carlo_reps} reps, "
+              f"transition zone [{self.transition_v_ai_lo}, "
+              f"{self.transition_v_ai_hi}] → {self.transition_reps} reps)")
+        print(f"    Workers: {self.n_workers}")
 
         # Execute with multiprocessing
         t0 = time.time()
         with multiprocessing.Pool(processes=self.n_workers) as pool:
             self.results = list(tqdm(
                 pool.imap_unordered(_run_single, args_list),
-                total=len(args_list),
+                total=total_runs,
                 desc="Utopia Search",
             ))
         elapsed = time.time() - t0
         print(f"\n  ✓ Completed {len(self.results)} runs in {elapsed:.1f}s "
               f"({elapsed / len(self.results):.2f}s/run avg)")
 
-    # ── Aggregation ──────────────────────────────────────────────────────
+    # ── Aggregation with Confidence Intervals ────────────────────────────
 
     def _aggregate(self) -> dict:
-        """Aggregate Monte Carlo reps into mean values per config."""
+        """Aggregate Monte Carlo reps: mean, std, 95% CI per config."""
         from collections import defaultdict
         agg: dict[tuple, list[dict]] = defaultdict(list)
         for r in self.results:
@@ -567,48 +665,70 @@ class GridSearchRunner:
 
         aggregated: dict[tuple, dict] = {}
         for key, runs in agg.items():
+            n = len(runs)
+            surv_vals = [float(r['survived']) for r in runs]
+            eud_vals = [r['avg_eudaimonia'] for r in runs]
+            sr_vals = [r['survival_rate'] for r in runs]
+            col_vals = [r['collapse_epoch'] for r in runs]
+            tox_vals = [r['toxic_data'] for r in runs]
+            fake_vals = [r['total_fake_obs'] for r in runs]
+
+            surv_std = float(np.std(surv_vals, ddof=1)) if n > 1 else 0.0
+            surv_ci95 = 1.96 * surv_std / math.sqrt(n) if n > 1 else 0.0
+
             aggregated[key] = {
-                'survival_rate': np.mean([r['survived'] for r in runs]),
-                'avg_eudaimonia': np.mean([r['avg_eudaimonia'] for r in runs]),
-                'avg_survival_pct': np.mean([r['survival_rate'] for r in runs]),
-                'avg_collapse_epoch': np.mean(
-                    [r['collapse_epoch'] for r in runs]
-                ),
-                'avg_toxic': np.mean([r['toxic_data'] for r in runs]),
-                'avg_fake_obs': np.mean([r['total_fake_obs'] for r in runs]),
+                'survival_rate_mean': float(np.mean(surv_vals)),
+                'survival_rate_std': surv_std,
+                'survival_rate_ci95': surv_ci95,
+                'n_reps': n,
+                'avg_eudaimonia_mean': float(np.mean(eud_vals)),
+                'avg_eudaimonia_std': float(np.std(eud_vals, ddof=1)) if n > 1 else 0.0,
+                'avg_survival_pct': float(np.mean(sr_vals)),
+                'avg_collapse_epoch': float(np.mean(col_vals)),
+                'avg_toxic': float(np.mean(tox_vals)),
+                'avg_fake_obs': float(np.mean(fake_vals)),
+                # Backward compat alias
+                'survival_rate': float(np.mean(surv_vals)),
             }
         return aggregated
 
     # ── Critical Variable Analysis ───────────────────────────────────────
 
     def analyze(self) -> dict:
-        """Find the most critical variable and its threshold."""
+        """Find the most critical variable and its threshold.
+
+        Uses composite V_AI for marginal analysis, preserving the
+        backward-compatible 3-variable structure (V_Human, V_AI, V_System).
+        """
         agg = self._aggregate()
 
         # Compute marginal survival rate per variable
         marginals: dict[str, dict[float, list[float]]] = {
             'V_Human (Slashing Penalty)': {},
-            'V_AI (Survival Horizon)': {},
+            'V_AI (Composite: α,β,γ)': {},
             'V_System (Governance Agility)': {},
         }
 
         for (vh, va, vs), stats in agg.items():
-            srate = stats['survival_rate']
+            srate = stats['survival_rate_mean']
             marginals['V_Human (Slashing Penalty)'].setdefault(vh, []).append(srate)
-            marginals['V_AI (Survival Horizon)'].setdefault(va, []).append(srate)
+            marginals['V_AI (Composite: α,β,γ)'].setdefault(
+                round(va, 3), []
+            ).append(srate)
             marginals['V_System (Governance Agility)'].setdefault(vs, []).append(srate)
 
         # Compute mean marginal + find steepest transition
         analysis: dict[str, dict] = {}
         for var_name, val_dict in marginals.items():
             sorted_vals = sorted(val_dict.keys())
-            means = [np.mean(val_dict[v]) for v in sorted_vals]
+            means = [float(np.mean(val_dict[v])) for v in sorted_vals]
+            stds = [float(np.std(val_dict[v])) for v in sorted_vals]
+            counts = [len(val_dict[v]) for v in sorted_vals]
 
             # Find largest jump
             max_delta = 0.0
             threshold_idx = 0
             for i in range(1, len(means)):
-                # For V_System, lower is better (agility), so we check both directions
                 delta = abs(means[i] - means[i - 1])
                 if delta > max_delta:
                     max_delta = delta
@@ -631,6 +751,8 @@ class GridSearchRunner:
             analysis[var_name] = {
                 'values': sorted_vals,
                 'marginal_means': means,
+                'marginal_stds': stds,
+                'marginal_counts': counts,
                 'max_delta': max_delta,
                 'threshold_idx': threshold_idx,
                 'threshold_value': sorted_vals[threshold_idx],
@@ -643,9 +765,9 @@ class GridSearchRunner:
         return analysis
 
     def print_report(self, analysis: dict) -> None:
-        """Print the final report with the critical variable."""
+        """Print the final report with confidence intervals."""
         print("\n" + "═" * 72)
-        print("  UTOPIA GRID SEARCH — ANALYSIS REPORT")
+        print("  UTOPIA GRID SEARCH — ANALYSIS REPORT (with CI)")
         print("═" * 72)
 
         # Per-variable summary
@@ -660,10 +782,14 @@ class GridSearchRunner:
                 print(f"    ★ 90% survival threshold: {stats['threshold_90']}")
             else:
                 print(f"    ✗ 90% survival threshold: NOT REACHED")
-            print(f"    Marginal curve: ", end="")
-            for v, m in zip(stats['values'], stats['marginal_means']):
-                print(f"{v:.1f}→{m:.0%}", end="  ")
-            print()
+            print(f"    Marginal curve (mean ± std): ")
+            for v, m, s, n in zip(
+                stats['values'], stats['marginal_means'],
+                stats['marginal_stds'], stats['marginal_counts'],
+            ):
+                ci = 1.96 * s / math.sqrt(max(n, 1))
+                print(f"      {v:.3f} → {m:.0%} ± {s:.0%} "
+                      f"(95% CI: [{max(0, m - ci):.0%}, {min(1, m + ci):.0%}], n={n})")
 
         # Identify THE critical variable
         critical_var = max(analysis.keys(), key=lambda k: analysis[k]['range'])
@@ -671,7 +797,6 @@ class GridSearchRunner:
 
         # Determine direction
         if 'System' in critical_var:
-            # Lower is better for governance agility
             direction = "이하"
             threshold = crit['threshold_90'] or crit['threshold_value']
         else:
@@ -706,12 +831,15 @@ class GridSearchRunner:
     # ── Visualization ────────────────────────────────────────────────────
 
     def visualize(self, analysis: dict, save_path: str) -> None:
-        """Generate heatmaps + 3D surface plot."""
+        """Generate heatmaps + 3D surface plot using composite V_AI."""
         import matplotlib.pyplot as plt
-        from mpl_toolkits.mplot3d import Axes3D
         from matplotlib.colors import LinearSegmentedColormap
 
         agg = self._aggregate()
+
+        # Composite V_AI values (unique, sorted)
+        v_ai_values = sorted(set(round(r['v_ai'], 3) for r in self.results))
+        v_ai_arr = np.array(v_ai_values)
 
         # Custom colormap: Apocalypse (black/red) → Utopia (green/gold)
         utopia_cmap = LinearSegmentedColormap.from_list(
@@ -722,15 +850,15 @@ class GridSearchRunner:
 
         fig = plt.figure(figsize=(24, 20))
         fig.suptitle(
-            "A2A Protocol — Utopia Grid Search\n"
-            '"From Apocalypse to Utopia: The Utopian Basin"',
+            "A2A Protocol — Utopia Grid Search (Decomposed V_AI)\n"
+            '"V_AI = (α + (1−β) + γ) / 3  |  With 95% Confidence Intervals"',
             fontsize=18, fontweight='bold', y=0.98,
         )
 
         # ── Heatmap 1: V_Human × V_AI (averaged over V_System) ──────────
         ax1 = fig.add_subplot(2, 2, 1)
-        grid1 = np.zeros((len(self.v_ai_range), len(self.v_human_range)))
-        for i, va in enumerate(self.v_ai_range):
+        grid1 = np.zeros((len(v_ai_arr), len(self.v_human_range)))
+        for i, va in enumerate(v_ai_arr):
             for j, vh in enumerate(self.v_human_range):
                 vals = [
                     agg.get((vh, va, vs), {'survival_rate': 0.0})['survival_rate']
@@ -742,11 +870,11 @@ class GridSearchRunner:
             vmin=0, vmax=1,
             extent=[
                 self.v_human_range[0], self.v_human_range[-1],
-                self.v_ai_range[0], self.v_ai_range[-1],
+                v_ai_arr[0], v_ai_arr[-1],
             ],
         )
         ax1.set_xlabel('V_Human (Slashing Penalty)', fontsize=11, fontweight='bold')
-        ax1.set_ylabel('V_AI (Survival Horizon)', fontsize=11, fontweight='bold')
+        ax1.set_ylabel('V_AI (Composite)', fontsize=11, fontweight='bold')
         ax1.set_title('Survival Rate: V_Human × V_AI\n(averaged over V_System)',
                        fontsize=12)
         plt.colorbar(im1, ax=ax1, label='Survival Rate', shrink=0.8)
@@ -758,7 +886,7 @@ class GridSearchRunner:
             for j, vh in enumerate(self.v_human_range):
                 vals = [
                     agg.get((vh, va, vs), {'survival_rate': 0.0})['survival_rate']
-                    for va in self.v_ai_range
+                    for va in v_ai_arr
                 ]
                 grid2[i, j] = np.mean(vals)
         im2 = ax2.imshow(
@@ -777,9 +905,9 @@ class GridSearchRunner:
 
         # ── Heatmap 3: V_AI × V_System (averaged over V_Human) ──────────
         ax3 = fig.add_subplot(2, 2, 3)
-        grid3 = np.zeros((len(self.v_system_range), len(self.v_ai_range)))
+        grid3 = np.zeros((len(self.v_system_range), len(v_ai_arr)))
         for i, vs in enumerate(self.v_system_range):
-            for j, va in enumerate(self.v_ai_range):
+            for j, va in enumerate(v_ai_arr):
                 vals = [
                     agg.get((vh, va, vs), {'survival_rate': 0.0})['survival_rate']
                     for vh in self.v_human_range
@@ -789,28 +917,26 @@ class GridSearchRunner:
             grid3, origin='lower', aspect='auto', cmap=utopia_cmap,
             vmin=0, vmax=1,
             extent=[
-                self.v_ai_range[0], self.v_ai_range[-1],
+                v_ai_arr[0], v_ai_arr[-1],
                 self.v_system_range[0], self.v_system_range[-1],
             ],
         )
-        ax3.set_xlabel('V_AI (Survival Horizon)', fontsize=11, fontweight='bold')
+        ax3.set_xlabel('V_AI (Composite)', fontsize=11, fontweight='bold')
         ax3.set_ylabel('V_System (Governance Agility)', fontsize=11, fontweight='bold')
         ax3.set_title('Survival Rate: V_AI × V_System\n(averaged over V_Human)',
                        fontsize=12)
         plt.colorbar(im3, ax=ax3, label='Survival Rate', shrink=0.8)
 
         # ── 3D Surface: Top 2 critical variables ─────────────────────────
-        # Determine the 2 most impactful variables
         ranked_vars = sorted(
             analysis.keys(), key=lambda k: analysis[k]['range'], reverse=True,
         )
         var1_name = ranked_vars[0]
         var2_name = ranked_vars[1]
 
-        # Map variable names to ranges and agg keys
         var_map = {
             'V_Human (Slashing Penalty)': ('v_human', self.v_human_range),
-            'V_AI (Survival Horizon)': ('v_ai', self.v_ai_range),
+            'V_AI (Composite: α,β,γ)': ('v_ai', v_ai_arr),
             'V_System (Governance Agility)': ('v_system', self.v_system_range),
         }
         third_var = [k for k in analysis.keys()
@@ -826,7 +952,6 @@ class GridSearchRunner:
             for j, x_val in enumerate(r1):
                 vals = []
                 for z_val in r3:
-                    # Build the key in (vh, va, vs) order
                     key_parts: dict[str, float] = {}
                     key_parts[var_map[var1_name][0]] = x_val
                     key_parts[var_map[var2_name][0]] = y_val
@@ -872,25 +997,32 @@ class GridSearchRunner:
 
 def main() -> None:
     print("=" * 72)
-    print("  A2A Protocol — Utopia Grid Search")
-    print('  "From Apocalypse to Utopia: Finding the Critical Variables"')
+    print("  A2A Protocol — Utopia Grid Search (Decomposed V_AI)")
+    print('  "V_AI = (α + (1−β) + γ) / 3  —  Equal-weight composition"')
     print("=" * 72)
 
     # ── Define sweep ranges ──────────────────────────────────────────────
-    v_human_range = np.linspace(0.0, 1.0, 11)   # 11 points
-    v_ai_range = np.linspace(0.0, 1.0, 11)       # 11 points
-    v_system_range = np.array([1, 10, 25, 50, 75, 100])  # 6 points
+    v_human_range = np.linspace(0.0, 1.0, 6)   # 6 points
+    alpha_range = np.array([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])  # 6 points
+    beta_range = np.array([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])   # 6 points
+    gamma_range = np.array([0.5, 0.7, 0.9, 0.95, 0.99])      # 5 points
+    v_system_range = np.array([1, 10, 25, 50, 75, 100])       # 6 points
 
     print(f"\n  V_Human  (Slashing Penalty):   {v_human_range}")
-    print(f"  V_AI     (Survival Horizon):   {v_ai_range}")
+    print(f"  α        (Cooperation Incentive): {alpha_range}")
+    print(f"  β        (Resource Growth Cap):    {beta_range}")
+    print(f"  γ        (RL Discount Factor):     {gamma_range}")
     print(f"  V_System (Governance Agility): {v_system_range}")
 
     # ── Run Grid Search ──────────────────────────────────────────────────
     runner = GridSearchRunner(
         v_human_range=v_human_range,
-        v_ai_range=v_ai_range,
+        alpha_range=alpha_range,
+        beta_range=beta_range,
+        gamma_range=gamma_range,
         v_system_range=v_system_range,
-        monte_carlo_reps=3,
+        monte_carlo_reps=10,     # Base repetitions
+        transition_reps=30,      # Higher reps near phase transition
     )
     runner.run()
 
@@ -912,3 +1044,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+
