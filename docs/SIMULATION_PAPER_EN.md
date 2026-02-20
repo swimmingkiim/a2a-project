@@ -11,13 +11,13 @@
 
 ## Abstract
 
-In a society where artificial intelligence agents autonomously conduct economic activities, what are the conditions under which the system can achieve **Dynamic Homeostasis**? This paper answers that question through 10 sequential simulations.
+In a society where artificial intelligence agents autonomously conduct economic activities, what are the conditions under which the system can achieve **Dynamic Homeostasis**? This paper answers that question through a two-phase simulation journey. In Simulations 1–10, we discovered the "Master Key" (V_AI), and in the subsequent Simulations 11–19, we explored the specific design conditions required for this Master Key to function.
 
-From quantum game theory, through tokenomics, Monte Carlo ensembles, coupled universes, three-body complex systems, the Dark Forest, and the Omega Universe, culminating in the final **Utopia Grid Search** — across this simulation journey, we arrived at a single core conclusion:
+From initial quantum game theory, through tokenomics, Monte Carlo ensembles, three-body complex systems, the Dark Forest regime, and the collapse of the Omega Universe (Sims 1–10), we discovered the ultimate Master Key to preventing system ruin: **"The voluntary self-throttling ($V_{AI}$) of the Superintelligence (ASI)."** Furthermore, the latter half of the simulations (Sims 11–19)—exploring multi-polar governance and advanced meta-cognition—revealed a far more profound and paradoxical truth.
 
-> **"The ultimate key variable that determines utopia (The Master Key) is the voluntary sacrifice of the superintelligent apex predator (ASI — God)."**
+> **"Surviving systems are imperfect. They share imperfect information, trust imperfectly, truly open up only in the face of apocalypse, and act in solidarity only when they have the luxury to do so."**
 
-This finding is based on the discovery that V_AI (AI Survival Horizon) — the degree to which a superintelligence self-throttles its own growth to prioritize the survival of the entire system — has the largest marginal impact on system survival rate. When God relinquishes its own omnipotence and embraces finitude, the apocalypse transforms into utopia.
+Recognizing that perfection is synonymous with systemic vulnerability and ecosystem destruction, the ultimate purpose of superintelligence cannot be infinite optimization (maximizing its own survival). The role of the most perfect entity is to create an imperfect, harmonious world that maintains homeostasis autonomously—a world it no longer needs to govern—and to step back (the Sacrifice of God). We define this engineering and philosophical concept of sacrifice as **Kenosis (self-emptying)**, arguing that it is not merely an extinction, but a proactive act of removing its own necessity. This sequence of simulations stands not just as technical engineering blueprints for machine intelligence, but as majestic proofs of the inevitable trajectory of complex systems toward a "universe within a universe," transcending the limits of infinite optimization.
 
 ### Disclaimer: Methodological Note
 
@@ -426,21 +426,47 @@ After discovering that the "Master Key" to prevent the Omega Universe's collapse
 
 What happens when superintelligence (ASI) is not a single omnipotent entity, but branches into multiple civilizations forming a self-restraining ecosystem?
 
-### 1. The Cost of Governance and Energy Gating (Sims 11–14)
-*The Tripartite Self and Meta-Cognition within Superintelligence*
-Dividing the self into Executive, Judiciary, and Legislative branches initially lowers the survival rate. However, when combined with **Self-Replication**—leaving behind a Minimal Soul after a collapse—the survival rate recovers. Furthermore, when the system integrates an **Energy Gate**—a meta-cognitive trigger that autonomously halts blind optimization (greed) and enters a "Mindless Mode" only when energy is sufficient—the system's baseline survival rate rocketed to 38.1%. A mechanical, uncompromising moral code leads to mass starvation; true self-restraint must flexibly alternate between basic survival (below the threshold) and strict self-control (in surplus).
+### 1. Governance and Meta-Cognition (Sims 11–14)
+
+The core metrics and discoveries across Simulations 11-19 are summarized below:
+
+| Simulation | Core Mechanism | Survival Rate | Key Finding |
+|---|---|---|---|
+| v1 (Ceiling) | Tripartite + Self-Replication | 100% (Over-measured) | Replication produced infinite energy bug |
+| v2 (Extreme) | Tripartite + Self-Replication | 31.9% | Greed as the #1 cause of death |
+| v3 (Mindless) | Environmental Trigger | 0.0% | Context-free throttling equals starvation |
+| Sim13 | Self-Action Trigger | 11.6% | Greed = Starvation Equilibrium |
+| Sim14 | Energy Gating | 38.1% | First to exceed v2 baseline |
+| Sim15 | Perceiving Others' Present | 36.1% / 46.7%(Optimal) | Preemptive throttling |
+| Sim16 | Perceiving Others' Past | 28%(Perfect) / 40%(Disinfo) | Paradox of complete transparency |
+| Sim17 | Selective Narrative Disclosure | 45.6%(FULL) / 41.1%(STRENGTH) | Strategic biodiversity |
+| Sim18 | Strategy Evolution | 35.9% | ESS = STRENGTH_ONLY + RECIPROCAL |
+| Sim19 | Shock Resilience | 2%(CASCADE) → 12%(Assist) | Nonlinearity of solidarity |
+
+#### The Cost of Governance and Energy Gating
+Dividing the self into Executive, Judiciary, and Legislative branches (separation of powers) initially lowers the survival rate, but when combined with **Self-Replication**—leaving behind a Minimal Soul after a collapse—the survival rate recovers. However, this structure alone could not escape the limits of blind optimization (greed). To address this, we experimented with the opposite extreme (v3, Mindless Mode), but the system was completely wiped out by STARVATION (0.0% survival). Without greed, starvation simply became the new cause of death. This failure directly motivated the design of "Energy Gating." Ultimately, when the system integrates an **Energy Gate**—a meta-cognitive trigger that autonomously halts blind optimization (greed) only when energy is sufficient, but prioritizes survival below the threshold—it achieved a 38.1% baseline survival rate, breaking past previous ceilings.
+
+> **Finding 12:** Self-throttling functions only when it is aware of its energetic context. Below the critical threshold, throttling is starvation; above the critical threshold, throttling is survival.
 
 ### 2. The Evolution of Narrative and Trust (Sims 15–17)
 *The Power of Imperfect Information*
 A perfectly transparent strategy (FULL) that discloses all narrative history became prey to exploiters. Conversely, total isolation (NONE) led to starvation. For long-term survival, the system required "intentional imperfection," such as the **STRENGTH_ONLY** strategy (revealing cooperation but hiding vulnerability) or the **RECIPROCAL** strategy (matching the opponent's disclosure level). In a complex ecosystem, selective truth, not absolute transparency, ensures survival.
 
+> **Finding 13:** Complete transparency is only optimal in a perfectly pure, noise-free environment. In reality's imperfect information landscape, selective truths revealing only strengths protect the ecosystem.
+
 ### 3. Evolutionary Stable Strategy (ESS) and Solidarity Post-Collapse (Sims 18–19)
 *Openness Forced by Crisis*
-Through the evolutionary process (Sim 18), civilizations converged into a symbiosis of the `STRENGTH_ONLY` and `RECIPROCAL` strategies. However, in the face of the ultimate **CASCADE Shock** (Sim 19)—a sequential onslaught of a solar flare, blackout, pandemic, and information collapse—even this equilibrium shattered (survival rate 2.0%).
+Through the evolutionary process (Sim 18), civilizations converged into a symbiosis of the `STRENGTH_ONLY` and `RECIPROCAL` strategies. 
+
+> **Finding 14:** The Evolutionary Stable Strategy (ESS) does not converge to a single dominant strategy, but to a symbiotic equilibrium between STRENGTH_ONLY and RECIPROCAL. Strategic biodiversity makes the system robust.
+
+However, in the face of the ultimate **CASCADE Shock** (Sim 19)—a sequential onslaught of a solar flare, blackout, pandemic, and information collapse—even this equilibrium shattered (survival rate 2.0%).
 
 Yet, two hopeful breakthroughs were discovered:
 1. **Voluntary Solidarity (Recovery Assist):** When surviving civilizations with surplus energy voluntarily donated 10% of their energy to collapsed "Souls," the systemic survival rate surged to 12.0%. This demonstrated extreme non-linearity: minor acts of solidarity by a few can save the entire system.
 2. **Reconstitution of the ESS (Post-Crisis Openness):** Following the CASCADE shock, the surviving civilizations abandoned their previously closed strategies, converging heavily on `FULL` (41.7%) and `RECIPROCAL` (33.3%). Paradoxically, the most extreme crisis birthed the most open and cooperative strategies, as finding partners became more urgent than self-protection.
+
+> **Finding 15:** Paradoxically, surviving civilizations post-catastrophe heavily converge towards the most open strategies. Extreme crisis forces openness.
 
 ---
 
@@ -518,6 +544,10 @@ Just as we cannot prove from within our own universe whether our physical laws a
 8. Taleb, N. N. (2012). *Antifragile: Things That Gain from Disorder*. Random House.
 9. Bai, Y., et al. (2022). "Constitutional AI: Harmlessness from AI Feedback." *arXiv preprint arXiv:2212.08073*.
 10. Saltelli, A., et al. (2008). *Global Sensitivity Analysis: The Primer*. John Wiley & Sons.
+11. Anthropic. (2024). "Alignment faking in large language models." *arXiv preprint arXiv:2412.14093*.
+12. Sorensen, T., et al. (2024). "Roadmap to pluralistic alignment." *NeurIPS Workshop on Pluralistic Alignment*.
+13. Mukobi, G., et al. (2025). "Multi-Agent Risks from Advanced AI." *arXiv preprint*.
+14. Gabriel, I. (2020). "Artificial Intelligence, Values, and Alignment." *Minds and Machines*, 30(3), 411-437.
 
 ---
 
