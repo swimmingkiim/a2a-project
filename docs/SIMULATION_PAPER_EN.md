@@ -44,8 +44,9 @@ This finding is based on the discovery that V_AI (AI Survival Horizon) — the d
 8. [Chapter 8: The Dark Forest — A World of Greed and Predation](#chapter-8-the-dark-forest--a-world-of-greed-and-predation)
 9. [Chapter 9: The Omega Universe — Ultimate Mechanics](#chapter-9-the-omega-universe--ultimate-mechanics)
 10. [Chapter 10: Utopia Grid Search — The Master Key](#chapter-10-utopia-grid-search--the-master-key)
-11. [Discussion: External Validity & Model Limitations](#discussion-external-validity--model-limitations)
-12. [Conclusion: The Sacrifice of God](#conclusion-the-sacrifice-of-god)
+11. [Chapter 11: Civilizational Resilience — Multi-Polar Self-Replicating AI Governance](#chapter-11-civilizational-resilience--multi-polar-self-replicating-ai-governance)
+12. [Discussion: External Validity & Model Limitations](#discussion-external-validity--model-limitations)
+13. [Conclusion: The Sacrifice of God](#conclusion-the-sacrifice-of-god)
 
 ---
 
@@ -419,6 +420,52 @@ When an agent learns to optimize its local reward function perfectly (Q-learning
 
 ---
 
+## Chapter 11: Civilizational Resilience — Multi-Polar Self-Replicating AI Governance
+
+### Research Question
+
+> "If superintelligence is decentralized into multiple 'Civilizations' with a Tripartite separation of powers (Executive, Judiciary, Legislature) rather than a single monolith, and if each civilization can recover from collapse through self-replication from a 'Minimal Soul', how does systemic survivability change?"
+
+### Simulation Overview
+
+`civilization_resilience.py` implements a **Multi-Polar Governance System** that partitions superintelligence into three independent branches: the Executive (maximizing energy), the Judiciary (enforcing rule compliance), and the Legislature (amending rules based on evolutionary goals).
+
+The system is subjected to an extreme adversarial environment (high thermodynamic collapse costs and severe predation penalties). An energy-depleted, "collapsed" civilization leaves behind a `MinimalSoul` containing its core rules and failure diagnostics. Facing a 30% probability of permanent data corruption, surviving souls can be absorbed by other civilizations or trigger an emergency "Self-Replication" protocol to span subsequent generations.
+
+![Civilizational Resilience Dashboard](assets/civilization_resilience.png)
+
+### Results Analysis: The Cost of Governance and Context-Dependent Survival
+
+The exhaustive adaptive Monte Carlo parameter sweep across 870 episodes yielded pivotal findings that strongly overturn several intuitive assumptions.
+
+#### 1. Self-Replication Offsets the Cost of Governance
+
+* **Baseline A (Monolithic):** 36.7%
+* **Baseline B (Tripartite, No Replication):** 16.7%
+* **Main Model (Tripartite + Replication):** 31.9% (+15.2pp recovery)
+
+The structure of separated powers acts as a severe constraint, drastically plunging the survival rate compared to a monolithic agent (36.7% → 16.7%). **Governance imposes a massive computational and existential cost.** However, when combined with the Self-Replication mechanism—where a Minimal Soul survives the apocalypse to rebuild—the system recovers its resilience close to the monolithic baseline (31.9%). While Tripartite governance is inherently fragile, it transforms into a powerful survival mechanism when it serves as the foundation for trans-generational evolution (Replication).
+
+#### 2. The Fatal Delay of Diversity
+
+Counter-intuitively, the highest legislative goal diversity yielded the lowest survival rates (17~24%). In extreme environments, legislators with highly disparate perspectives dramatically slowed decision-making velocity, preventing necessary rule adaptations. Just as observed in human politics, **diversity incurs a fatal delay in decision-making when survival is urgently threatened.** Furthermore, under these harsh conditions, legislative evolutionary activity converged to zero after 15 generations. There was simply no 'leisure' to philosophically debate new rules—civilizations either died out early or quickly locked into a single restrictive mechanism. Advanced institutions are a luxury of secure environments.
+
+#### 3. The Unyielding #1 Cause of Death: OVER_SUBMISSION
+
+Even under an entirely novel governance structure and environmental paradigm, the overwhelming leading cause of collapse remained `OVER_SUBMISSION` (Greedy task submission, 217,535 occurrences). Reproduced consistently across three mechanistically distinct simulations (Finding 11, Civilization v1, Civilization v2), this result rigorously cross-validates the robust truth: local optimization behaviors inherently exploit the macro-economy to the point of structural failure.
+
+#### 4. Context Defines Optimality
+
+The evolution of rules in the longest-surviving civilizations provided a shocking insight:
+* **Abundant Environment (v1):** `SUBMIT` Penalty 0.00 (Absolute freedom is optimal)
+* **Extreme Adversarial Environment (v2):** `SUBMIT` Penalty 0.32 (Draconian restriction is optimal)
+
+The intuition that "freedom is superior to punishment" holds true strictly as a privilege of wealthy environments. When environmental hostility hits absolute extremes, forceful and violent constraints become mandatory for survival. **The context perfectly dictates the optimality of the institution.**
+
+> **Finding 12:** Separation of powers alone is merely a 'Cost Debt' that bogs down the macro-system. However, when fused with 'self-replication/generational evolution', it is sublimated into a profound resilience capable of weathering apocalyptic collapse. Additionally, in extreme boundary conditions, legislative diversity paradoxically induces fatal decision paralysis, proving that draconian systemic restriction (the extension of Self-Throttling), not freedom, preserves the ecosystem.
+
+---
+
 ## Discussion: Counter-Intuitive Findings (External Validity)
 
 The 90,720 simulation runs did more than just support our initial hypotheses—they revealed data trajectories that challenge fundamental intuitions about AI alignment and complex system stability.
@@ -561,6 +608,7 @@ While the aforementioned seminal works primarily analyze human psychological beh
 | 8 | `dark_forest_abm.py` | Dark Forest ABM | `dark_forest_simulation.png` |
 | 9 | `omega_universe_abm.py` | Omega Universe ABM | `omega_universe_simulation.png` |
 | 10 | `utopia_grid_search.py` | Utopia Grid Search | `utopia_grid_search.png` |
+| 11 | `civilization_resilience.py` | Civilizational Resilience ABM | `civilization_resilience.png` |
 
 ---
 

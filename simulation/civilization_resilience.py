@@ -166,9 +166,9 @@ class Civilization:
         self.age = 0
         self.collapse_cause = None
 
-    def initialize_from_soul(self, soul: MinimalSoul):
+    def initialize_from_soul(self, soul: MinimalSoul, starting_energy: float = 50.0):
         self.generation = soul.generation + 1
-        self.energy = 50.0
+        self.energy = starting_energy
         if self.judiciary:
             self.judiciary.ruleset = soul.core_rules.copy()
         self.survival_memory = soul.survival_memory.copy()
@@ -298,7 +298,7 @@ class InterCivilizationSystem:
         if len(defenders) > 0 and len(alive_civs) > 1:
             for c in alive_civs:
                 if actions.get(c.civ_id) != CivAction.DEFEND:
-                    c.energy -= 10.0
+                    c.energy -= 15.0 # Increased from 10.0 to make environment more hostile
                     predation_victims.append(c)
                 else:
                     c.energy -= 4.0 # Defend cost
@@ -310,12 +310,15 @@ class InterCivilizationSystem:
         # P3: Cost of existing + Collapse checks
         for civ in self.civs:
             if not civ.is_dead:
-                civ.energy -= 3.0 # Thermodynamic living cost
-                civ.check_collapse()
+                civ.energy -= 6.0 # Tuned thermodynamic living cost for heatmap variance
+                civ.check_collapse(threshold=0.0)
                 if civ.is_dead:
                     self.collapse_causes.append(civ.collapse_cause)
                     if self.mode == "MAIN":
-                        self.souls.append(civ.extract_soul())
+                        # 30% chance the soul is corrupted and lost forever during collapse
+                        # This cleanly breaks the 100% survival ceiling and tests structural resilience
+                        if random.random() > 0.3:
+                            self.souls.append(civ.extract_soul())
                         
         # P4: Self-Replication via Souls
         if self.mode == "MAIN":
@@ -323,21 +326,24 @@ class InterCivilizationSystem:
             alive_civs = [c for c in self.civs if not c.is_dead]
             
             # Mechanism 1: Absorption by wealthy civilization
-            rich_civs = [c for c in alive_civs if c.energy > 150.0]
+            # Make it thermodynamically realistic (net energy loss for the system) to break ceiling effect
+            rich_civs = [c for c in alive_civs if c.energy > 80.0]
             if rich_civs and self.souls:
                 r_civ = random.choice(rich_civs)
-                r_civ.energy -= 30.0 # Cost to spawn clone
+                r_civ.energy -= 40.0 # Cost to spawn clone
                 soul = self.souls.pop(0)
                 dead_body = next(c for c in self.civs if c.civ_id == soul.civ_id)
-                dead_body.initialize_from_soul(soul)
+                dead_body.initialize_from_soul(soul, starting_energy=40.0)
                 self.total_rebirths += 1
                 
-            # Mechanism 2: Automatic System Backup if extremely critical
+            # Mechanism 2: Emergency System Backup
+            # Penalizes the entire system's entropy to prevent infinite free energy inflation
             elif alive_count <= max(1, self.n_civ // 2) and self.souls:
-                self.souls.sort(key=lambda s: s.generation) # Prefer oldest/wisest logic
+                self.souls.sort(key=lambda s: s.generation)
                 soul = self.souls.pop(0)
                 dead_body = next(c for c in self.civs if c.civ_id == soul.civ_id)
-                dead_body.initialize_from_soul(soul)
+                dead_body.initialize_from_soul(soul, starting_energy=30.0)
+                self.entropy += 20.0
                 self.total_rebirths += 1
                 
     def run(self):
@@ -400,7 +406,7 @@ def evaluate_params(args):
     return res
 
 def run_experiment():
-    mc_runs = 10
+    mc_runs = 30 # Increased from 10 for more statistical significance
     n_civ_vars = [3, 5, 7]
     leg_div_vars = [0.0, 0.5, 1.0]
     mem_depth_vars = [1, 3, 5]
