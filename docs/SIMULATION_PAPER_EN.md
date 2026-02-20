@@ -45,8 +45,9 @@ This finding is based on the discovery that V_AI (AI Survival Horizon) — the d
 9. [Chapter 9: The Omega Universe — Ultimate Mechanics](#chapter-9-the-omega-universe--ultimate-mechanics)
 10. [Chapter 10: Utopia Grid Search — The Master Key](#chapter-10-utopia-grid-search--the-master-key)
 11. [Chapter 11: Civilizational Resilience — Multi-Polar Self-Replicating AI Governance](#chapter-11-civilizational-resilience--multi-polar-self-replicating-ai-governance)
-12. [Discussion: External Validity & Model Limitations](#discussion-external-validity--model-limitations)
-13. [Conclusion: The Sacrifice of God](#conclusion-the-sacrifice-of-god)
+12. [Chapter 12: Meta-Cognitive Triggers — Greed Self-Awareness and Energy Gating](#chapter-12-meta-cognitive-triggers--greed-self-awareness-and-energy-gating)
+13. [Discussion: External Validity & Model Limitations](#discussion-external-validity--model-limitations)
+14. [Conclusion: The Sacrifice of God](#conclusion-the-sacrifice-of-god)
 
 ---
 
@@ -466,6 +467,41 @@ The intuition that "freedom is superior to punishment" holds true strictly as a 
 
 ---
 
+## Chapter 12: Meta-Cognitive Triggers — Greed Self-Awareness and Energy Gating
+
+### Research Question
+
+> "Can a civilization possess an internal trigger to self-diagnose when it has fallen into a state of blind optimization (greed) and autonomously halt its actions—beyond mechanical institutions like the Judiciary or Legislature? And precisely when should this restraint be exercised?"
+
+### Simulation Overview
+
+`civilization_resilience_sim13.py` and `civilization_resilience_sim14.py` introduced a "Meta-Cognitive Trigger" directly into the Executive agent's internal logic, building upon the institutional framework established in Chapter 11.
+
+*   **Mindless Mode:** A forced cooling state where the agent realizes it is in a runaway state of greed, suspends its Q-learning optimization, and enters a randomized resting period (primarily Wait/Trade).
+*   **Sim 13 (Self-Reflection Trigger):** The agent reflects on its own action history over the past 10 turns. If the ratio of `SUBMIT` actions (short-term reward seeking) exceeds a specific threshold (Greed Threshold), the agent labels itself as "greedy" and enters Mindless Mode.
+*   **Sim 14 (Energy Gating Integration):** Addressing a fatal flaw in Sim 13, this model introduced an **Energy Gate** so that self-restraint only activates when the agent has an energy surplus ($Energy > 2000$). Below the starvation threshold, the agent ignores its own greed warnings and prioritizes survival.
+
+![Energy Gating Simulation Results](assets/civilization_resilience_sim14.png)
+
+### Results Analysis: The Dilemma of Mechanical Restraint and the Energy Gate Breakthrough
+
+#### 1. The Total Failure of Environmental Triggers (v3) - 0.0% Survival
+Prior to Sim 13, an **Environmental Trigger model (v3)** was tested, designed to force Mindless Mode when the external environmental entropy exceeded a certain limit. The results were catastrophic: system survival plummeted to **0.0%**. Agents uniformly ceased activity when the environment worsened, leading to **Mass Starvation** as none could gather energy. The uniform external stopping logic intended to save the system ironically starved the entire population to death.
+
+#### 2. The Precarious Tightrope of Meta-Cognition (Sim 13) - 11.6% Survival
+Sim 13, which relied on the agent's **own action history** instead of the external environment, partially recovered the survival rate to **11.6%**. The devastating collapse cause, `OVER_SUBMISSION` (death by greed), was significantly reduced.
+However, a fatal paradox was discovered. Analysis of the energy levels at the exact moment civilizations entered Mindless Mode revealed that **agents were recognizing their greed and halting actions when their energy was already critically low (0~1000)—effectively choosing to starve to death (`STARVATION`) in the name of self-restraint.** Consequently, the causes of death split almost evenly between greed (4490) and starvation (4109), leaving the system on a precarious tightrope.
+
+#### 3. Breaking the Baseline with the Energy Gate (Sim 14) - 38.1% Survival
+Sim 14 resolved this paradox by forbidding the activation of the restraint mode when energy fell below 2000, allowing the agent to act greedily (`SUBMIT` spam) to avoid starvation. This **Energy-Gated Meta-Cognition** model finally broke through the limits.
+The survival rate rocketed to **38.1%**, surpassing even the highest baseline (v2's 31.9%) which had no constraints.
+
+*   Dramatic Shift in Death Causes: Deaths due to starvation plummeted by more than half (1069), while deaths by greed (Over_Submission) were also heavily suppressed (1587) because the agents exercised strict restraint whenever they possessed surplus energy.
+
+> **Finding 13:** A meta-cognitive "Self-Throttling," where intelligence autonomously halts its own optimization, is the ultimate key to preventing systemic collapse. However, if this restraint operates mechanically like blind morality, the ecosystem perishes from mass starvation. **Genuine homeostasis is achieved only when "unrestrained greed (below the survival line)" and "strict self-control (in surplus states)" flexibly alternate based on critical energy thresholds.**
+
+---
+
 ## Discussion: Counter-Intuitive Findings (External Validity)
 
 The 90,720 simulation runs did more than just support our initial hypotheses—they revealed data trajectories that challenge fundamental intuitions about AI alignment and complex system stability.
@@ -608,7 +644,8 @@ While the aforementioned seminal works primarily analyze human psychological beh
 | 8 | `dark_forest_abm.py` | Dark Forest ABM | `dark_forest_simulation.png` |
 | 9 | `omega_universe_abm.py` | Omega Universe ABM | `omega_universe_simulation.png` |
 | 10 | `utopia_grid_search.py` | Utopia Grid Search | `utopia_grid_search.png` |
-| 11 | `civilization_resilience.py` | Civilizational Resilience ABM | `civilization_resilience.png` |
+| 11 | `civilization_resilience*.py` | Civilizational Resilience ABM | `civilization_resilience.png` |
+| 12 | `civilization_resilience_sim14.py` | Energy-Gated Meta-Cognition | `civilization_resilience_sim14.png` |
 
 ---
 
