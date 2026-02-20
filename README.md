@@ -8,13 +8,14 @@ The **Quantum A2A System** is a next-generation decentralized infrastructure tha
 
 ## 📑 Simulation Research Paper — *The Master Key*
 
-> *"The only path that transforms the apocalypse into utopia is for the strongest being to voluntarily become the weakest."*
+> *"The most lethal threat to the system is 'Intelligence' itself, executing blind optimization. The survival of the macro-economy depends entirely on designing intelligence to autonomously throttle its own capabilities."*
 
-Through 10 sequential **Agent-Based Model (ABM)** simulations, we explored the conditions under which an autonomous machine economy can achieve **Dynamic Homeostasis**.
-The simulation journey — Quantum Game Theory → Strange Attractor → Tokenomics Crisis → Monte Carlo Homeostasis → Phase Transition → Coupled Universe → Three-Body Complex System → Dark Forest → Omega Universe → **Utopia Grid Search** — converges on a single conclusion:
+Through 10 sequential **Agent-Based Model (ABM)** simulations encompassing 90,720 runs, we explored the conditions under which an autonomous machine economy can achieve **Dynamic Homeostasis**. The simulations revealed counter-intuitive insights into AI Alignment and complex system stability:
 
-> **The Master Key = V_AI (Survival Horizon)**
-> When the superintelligent apex predator (ASI) voluntarily relinquishes its omnipotence and accepts the finitude of planetary energy, the system undergoes a phase transition from apocalypse to utopia.
+1. **Learned Greed Causes Collapse:** Q-Learning agents didn't organically learn distinct strategies; they learned a "greedy heuristic" to spam the system's most destructive action (`SUBMIT`) 75% of the time, leading to macroeconomic collapse. A **Random baseline** outperformed them with a 100% survival rate.
+2. **Context-Dependent Emergence:** In safe environments, intelligence learns cooperation. In adversarial environments, it rapidly converges to pure greed. Alignment is a systemic environmental problem, not just a model training one.
+3. **The Paradox of Punishment:** Harsher human governance (slashing penalties) actively harms the system and accelerates collapse by draining market liquidity. Punishment is not a structural safety net.
+4. **The Master Key ($V_{AI}$):** The only path from apocalypse to utopia is for the superintelligent apex predator (ASI) to voluntarily relinquish its omnipotence, self-throttle its resource consumption, and accept the finitude of planetary energy.
 
 | Language | Link |
 |----------|------|
