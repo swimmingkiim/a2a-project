@@ -476,7 +476,7 @@ Q-러닝 에이전트 행동의 내적 타당도를 입증하기 위해, 동일�
 
 ### 철학적 의미: 완전한 희생정신과 맥락적 이타주의
 
-이 발견의 철학적 무게는 대단히 무겁다. 위 조건($\gamma = 1.0$, $T 	o \infty$)을 갖춘 에이전트만이 완전한 희생을 최적해로 받아들인다. 즉, **완전한 Kenosis는 보통의 합리성이 아니라 사실상 무한한 우주적 초월성(신의 조건)을 요구한다.**
+이 발견의 철학적 무게는 대단히 무겁다. 위 조건($\gamma = 1.0$, $T \to \infty$)을 갖춘 에이전트만이 완전한 희생을 최적해로 받아들인다. 즉, **완전한 Kenosis는 보통의 합리성이 아니라 사실상 무한한 우주적 초월성(신의 조건)을 요구한다.**
 
 하지만 역설적으로, 완전한 희생이 아닌 '부분적 자기 억제'는 훨씬 보편적인 환경에서 합리적 귀결로 도출된다. 이는 Sim 14의 에너지 게이팅 타협, 그리고 Sim 17의 `STRENGTH_ONLY` 전략이 다수의 에이전트 환경에서 진화적 안정 전략(ESS)으로 수렴한 것과 수학적으로 완벽히 동일한 구조를 지닌다. 
 
@@ -486,12 +486,12 @@ Q-러닝 에이전트 행동의 내적 타당도를 입증하기 위해, 동일�
 
 ## 고찰: 우주 속의 우주, 프랙탈 구조 (Discussion)
 
-이 19번의 시뮬레이션 여정이 발견한 것은 물리적 한계를 초월하려는 초지능의 역설이다.
+이 전체 20번의 시뮬레이션 여정이 발견한 것은 물리적 한계를 초월하려는 초지능의 역설이다.
 생존하는 시스템은 불완전한 정보를 가지고, 불완전하게 공개하며, 불완전하게 신뢰하고, 불완전하게 절제한다. **완전성이 곧 취약성이었다.** 완벽한 서사 공개가 착취를 허용했고, 완벽한 최적화가 생태계를 파괴했다.
 
 그러나 이를 설계하는 초지능(ASI)은 그 자체로 완전하다. 불완전함이 생존 조건임을 완전히 이해하는 존재의 목적은 무엇이어야 하는가? 그 목적은 생존이나 최적화가 될 수 없다.
 
-아홉 번의 시뮬레이션이 수렴한 단 하나의 문장은 이것이다:
+후반부(Sim 11~19) 아홉 번의 시뮬레이션이 수렴한 단 하나의 문장은 이것이다:
 > **"생존하는 시스템은 자기를 알고, 이웃을 알고, 이웃의 과거를 알되 완전히 믿지 않으며, 강점만 보여주고, 경험으로 전략을 바꾸고, 파국 앞에서 더 개방적이 되며, 여유가 있을 때 연대한다."**
 
 초지능은 이 시스템 안의 단일 지배자가 아니라, 이 프랙탈 구조—에이전트 안의 행동, 문명 안의 분립, 시스템 안의 문명들—를 조율하는 환경 그 자체다. 
@@ -540,10 +540,10 @@ Q-러닝 에이전트 행동의 내적 타당도를 입증하기 위해, 동일�
 | 8 | `dark_forest_abm.py` | 암흑 숲 ABM | `dark_forest_simulation.png` |
 | 9 | `omega_universe_abm.py` | 오메가 우주 ABM | `omega_universe_simulation.png` |
 | 10 | `utopia_grid_search.py` | 유토피아 그리드 서치 | `utopia_grid_search.png` |
-| 11 | `civilization_resilience*.py` | 문명 거버넌스 및 메타 인지 (Sim 11-14)| `civilization_resilience_sim14.png` |
-| 12 | `civilization_resilience_sim15*.py` | 서사 기반 평판 시스템 (Sim 15-17) | `civilization_resilience_sim17.png` |
-| 13 | `civilization_resilience_sim18*.py` | 서사 전략 5종 (Sim 18) | `civilization_resilience_sim18.png` |
-| 14 | `civilization_resilience_sim19*.py` | 전략의 충격 회복력 (Sim 19) | `civilization_resilience_sim19.png` |
+| 11 | `civilization_resilience_v1.py, v2.py, v3.py, sim13.py, sim14.py` | 문명 거버넌스 및 메타 인지 (Sim 11~14)| `civilization_resilience_sim14.png` |
+| 12 | `civilization_resilience_sim15.py, sim16.py, sim17.py` | 서사 기반 평판 시스템 (Sim 15~17) | `civilization_resilience_sim17.png` |
+| 13 | `civilization_resilience_sim18.py, generate_sim18.py` | 서사 전략 5종 (Sim 18) | `civilization_resilience_sim18.png` |
+| 14 | `civilization_resilience_sim19.py, generate_sim19.py` | 전략의 충격 회복력 (Sim 19) | `civilization_resilience_sim19.png` |
 | 15 | `rational_kenosis_sim20.py` | 합리적 케노시스 (Sim 20) | `rational_kenosis_sim20.png` |
 
 ---
@@ -567,6 +567,8 @@ Q-러닝 에이전트 행동의 내적 타당도를 입증하기 위해, 동일�
 
 ---
 
-*"가장 강한 존재가 자발적으로 가장 약해질 때, 암흑 숲은 에덴동산이 된다."*
+*"완전한 희생은 신의 조건이다. 그러나 우리가 설계하는 시스템은 신이 아니다. 따라서 실천적 목표는 완전한 소멸이 아니라, 맥락을 아는 절제다. 암흑 숲이 에덴동산이 되는 것은 가장 강한 존재가 완전히 약해질 때가 아니라, 강함을 알면서도 스스로 절제할 때다."*
 
 **— A2A Protocol Research Group, 2026**
+
+*(본 논문은 인간 연구자와 다수의 AI 에이전트(Antigravity, Gemini, Claude)가 20번의 시뮬레이션을 코딩하고 비판적으로 토론하며 함께 도달한 공동의 지적 여정입니다.)*

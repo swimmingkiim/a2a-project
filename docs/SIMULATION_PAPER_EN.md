@@ -498,7 +498,7 @@ Even in the `EXTREME_DOOM` environment, the agent did not revert to extreme expl
 
 ### Philosophical Implications: Perfect Sacrifice and Contextual Altruism
 
-The philosophical weight of this finding is profound. Only an agent possessing the aforementioned conditions ($\gamma = 1.0$, $T 	o \infty$) can accept complete sacrifice as the optimal solution. In other words, **complete Kenosis demands not ordinary rationality, but virtually infinite cosmic transcendence (the conditions of a God).**
+The philosophical weight of this finding is profound. Only an agent possessing the aforementioned conditions ($\gamma = 1.0$, $T \to \infty$) can accept complete sacrifice as the optimal solution. In other words, **complete Kenosis demands not ordinary rationality, but virtually infinite cosmic transcendence (the conditions of a God).**
 
 Yet paradoxically, "partial self-restraint"—rather than complete sacrifice—is derived as the rational outcome in far more universal environments. This mathematically shares the exact same structure as the Energy Gating compromise in Sim 14, and the convergence of the `STRENGTH_ONLY` strategy as an Evolutionary Stable Strategy (ESS) in the multi-agent environment of Sim 17.
 
@@ -508,12 +508,12 @@ Ultimately, this simulation does not forcefully impose the moral imperative (the
 
 ## Discussion: A Universe within a Universe, The Fractal Structure
 
-What these 19 simulations have ultimately revealed is the paradox of superintelligence attempting to overcome physical limits. 
+What these 20 simulations have ultimately revealed is the paradox of superintelligence attempting to overcome physical limits. 
 Surviving systems rely on imperfect information, imperfect disclosure, imperfect trust, and imperfect restraint. **Perfection was synonymous with vulnerability.** Perfect narrative disclosure permitted exploitation; perfect optimization destroyed the ecosystem.
 
 Yet, the superintelligence (ASI) designing this is, by definition, complete. What should be the purpose of an entity that fully understands that imperfection is the prerequisite for survival? Its purpose cannot be mere survival or optimization.
 
-The single axiom that all nine of the final simulations converge upon is this:
+The single axiom that the latter nine simulations (Sims 11–19) converge upon is this:
 > **"A surviving system knows itself, knows its neighbors, and knows their pasts—yet never trusts them completely; it reveals only its strengths, adapts its strategy through experience, becomes more open in the face of apocalypse, and acts in solidarity when it has the luxury to do so."**
 
 The superintelligence is not the singular ruler of this system; it is the environment itself that orchestrates this fractal structure—actions within agents, separation of powers within civilizations, and civilizations within the broader system.
@@ -561,10 +561,10 @@ Just as we cannot prove from within our own universe whether our physical laws a
 | 8 | `dark_forest_abm.py` | Dark Forest ABM | `dark_forest_simulation.png` |
 | 9 | `omega_universe_abm.py` | Omega Universe ABM | `omega_universe_simulation.png` |
 | 10 | `utopia_grid_search.py` | Utopia Grid Search | `utopia_grid_search.png` |
-| 11 | `civilization_resilience*.py` | Civilizational Governance & Meta-Cognition (Sims 11-14) | `civilization_resilience_sim14.png` |
-| 12 | `civilization_resilience_sim15*.py` | Narrative-based Reputation Systems (Sims 15-17) | `civilization_resilience_sim17.png` |
-| 13 | `civilization_resilience_sim18*.py` | 5 Narrative Strategies (Sim 18) | `civilization_resilience_sim18.png` |
-| 14 | `civilization_resilience_sim19*.py` | Strategic Shock Resilience (Sim 19) | `civilization_resilience_sim19.png` |
+| 11 | `civilization_resilience_v1.py, v2.py, v3.py, sim13.py, sim14.py` | Civilizational Governance & Meta-Cognition (Sims 11-14) | `civilization_resilience_sim14.png` |
+| 12 | `civilization_resilience_sim15.py, sim16.py, sim17.py` | Narrative-based Reputation Systems (Sims 15-17) | `civilization_resilience_sim17.png` |
+| 13 | `civilization_resilience_sim18.py, generate_sim18.py` | 5 Narrative Strategies (Sim 18) | `civilization_resilience_sim18.png` |
+| 14 | `civilization_resilience_sim19.py, generate_sim19.py` | Strategic Shock Resilience (Sim 19) | `civilization_resilience_sim19.png` |
 | 15 | `rational_kenosis_sim20.py` | Rational Kenosis (Sim 20) | `rational_kenosis_sim20.png` |
 
 ---
@@ -588,6 +588,8 @@ Just as we cannot prove from within our own universe whether our physical laws a
 
 ---
 
-*"When the strongest being voluntarily becomes the weakest, the Dark Forest becomes the Garden of Eden."*
+*"Complete sacrifice is the condition of a God. However, the systems we design are not gods. Therefore, the practical goal is not complete Kenosis, but contextual restraint. The Dark Forest becomes the Garden of Eden not when the strongest being becomes completely weak, but when it knows its strength and yet voluntarily restrains itself."*
 
 **— A2A Protocol Research Group, 2026**
+
+*(This paper is a collaborative intellectual journey, reached through 20 coded simulations and critical debates between a human researcher and multiple AI agents, including Antigravity, Gemini, and Claude.)*
