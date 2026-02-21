@@ -16,6 +16,10 @@ interface IAgentRegistry {
     function recordObservation(address agent, uint256 complexityHash) external;
 }
 
+interface IOracleRegistry {
+    function recordOracleEvaluation(address oracle, bool isValidEvaluation) external;
+}
+
 /**
  * @title QuantumTaskBuffer
  * @dev Implements "Schrodinger's Pool" Logic for the A2A Economy.
@@ -34,6 +38,9 @@ contract QuantumTaskBuffer is Initializable, UUPSUpgradeable, AccessControlUpgra
     IDaimToken public minterToken; // Same token, just explicitly casting for mint interface
     IAgentRegistry public registry; // Removed immutable
     address public treasury; // Removed immutable
+
+    IOracleRegistry public oracleRegistry; // Reference to OracleRegistry
+    uint256 public constant ORACLE_FEE_RATE = 15; // 15% of base deposit
 
     // --- State Variables ---
     
@@ -59,7 +66,7 @@ contract QuantumTaskBuffer is Initializable, UUPSUpgradeable, AccessControlUpgra
     uint256 public baseReward; // Assigned in initialize
 
     // Events
-    event TaskSubmitted(uint256 indexed taskId, address indexed creator, uint256 deposit, bool overheated);
+    event TaskSubmitted(uint256 indexed taskId, address indexed creator, uint256 deposit, bool overheated, string metadataUri);
     event TaskFinalized(uint256 indexed taskId, address indexed creator, uint256 assessedComplexity, uint256 eudaimoniaScore, uint256 reward, bool slashed);
     event TaskSlashed(uint256 indexed taskId, address indexed creator, string reason);
     event StaleTaskPruned(uint256 indexed taskId);
@@ -88,6 +95,9 @@ contract QuantumTaskBuffer is Initializable, UUPSUpgradeable, AccessControlUpgra
         registry = IAgentRegistry(_registry);
         treasury = _treasury;
 
+        // Note: OracleRegistry must be set via setter after deployment
+
+
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
         _grantRole(ORACLE_ROLE, _registry); // Allow registry to call finalizeTask
         _grantRole(UPGRADER_ROLE, _admin);
@@ -114,11 +124,21 @@ contract QuantumTaskBuffer is Initializable, UUPSUpgradeable, AccessControlUpgra
     }
 
     /**
+     * @notice Admin function to set OracleRegistry address.
+     */
+    function setOracleRegistry(address _oracleRegistry) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(_oracleRegistry != address(0), "Invalid oracle registry");
+        oracleRegistry = IOracleRegistry(_oracleRegistry);
+    }
+
+    /**
      * @notice Agents submit tasks to the Schrödinger Pool.
      * @dev Decoupled Verification: Complexity is checked LATER.
      *      Requires Deposit (Spam Filter).
+     * @param _complexityHash Input identifier
+     * @param _metadataUri IPFS URI containing JSON metadata of the task content
      */
-    function submitTask(uint256 _complexityHash) external nonReentrant {
+    function submitTask(uint256 _complexityHash, string calldata _metadataUri) external nonReentrant {
         uint256 requiredDeposit = baseDeposit;
         bool overheated = isOverheated();
 
@@ -142,7 +162,7 @@ contract QuantumTaskBuffer is Initializable, UUPSUpgradeable, AccessControlUpgra
             exists: true
         });
 
-        emit TaskSubmitted(nextTaskId, msg.sender, requiredDeposit, overheated);
+        emit TaskSubmitted(nextTaskId, msg.sender, requiredDeposit, overheated, _metadataUri);
 
         nextTaskId++;
         pendingTaskCount++;
@@ -159,18 +179,31 @@ contract QuantumTaskBuffer is Initializable, UUPSUpgradeable, AccessControlUpgra
         uint256 _taskId, 
         uint256 _assessedComplexity, 
         uint256 _eudaimoniaScore
-    ) external onlyRole(ORACLE_ROLE) nonReentrant {
+    ) external nonReentrant {
         Task memory task = tasks[_taskId];
         require(task.exists, "Task does not exist");
 
+        // Calculate Oracle Fee (15% of deposit)
+        uint256 oracleFee = (task.deposit * ORACLE_FEE_RATE) / 100;
+        uint256 remainingDeposit = task.deposit - oracleFee;
+
+        // Always pay the Oracle for their labor
+        daimToken.safeTransfer(msg.sender, oracleFee);
+
         // 1. Spam Check / Slashing
         if (_assessedComplexity < 20) { // < 0.2 in simulation
-            // Slashing: Deposit goes to Treasury
-            daimToken.safeTransfer(treasury, task.deposit);
+            // Slashing: Remaining deposit goes to Treasury
+            daimToken.safeTransfer(treasury, remainingDeposit);
+            
+            // Record Oracle Evaluation (In MVP, oracle is considered 'valid' if they evaluated successfully)
+            if (address(oracleRegistry) != address(0)) {
+                oracleRegistry.recordOracleEvaluation(msg.sender, true); 
+            }
+            
             emit TaskSlashed(_taskId, task.creator, "Low Complexity (Spam)");
         } else {
-            // 2. Success: Return Deposit
-            daimToken.safeTransfer(task.creator, task.deposit);
+            // 2. Success: Return Remaining Deposit to Creator
+            daimToken.safeTransfer(task.creator, remainingDeposit);
 
             // 3. Mint Reward with Eudaimonia Multiplier
             // use baseReward state variable instead of hardcoded value
@@ -180,6 +213,11 @@ contract QuantumTaskBuffer is Initializable, UUPSUpgradeable, AccessControlUpgra
             // 4. Update Registry (Reputation)
             registry.recordObservation(task.creator, task.complexityHash);
             
+            // Record Oracle Evaluation
+            if (address(oracleRegistry) != address(0)) {
+                oracleRegistry.recordOracleEvaluation(msg.sender, true); 
+            }
+
             emit TaskFinalized(_taskId, task.creator, _assessedComplexity, _eudaimoniaScore, rewardAmount, false);
         }
 

@@ -43,7 +43,7 @@ describe('QuantumTaskClient (V_AI Enforcement)', () => {
         }));
 
         try {
-            const result = await client.enforceThrottleAndGetTaskCall(123n);
+            const result = await client.enforceThrottleAndGetTaskCall(123n, 'ipfs://MockURI');
             expect(result.to).toBe('0x1234567890123456789012345678901234567890');
             // Check that it didn't throw
         } catch (e: any) {
@@ -63,7 +63,7 @@ describe('QuantumTaskClient (V_AI Enforcement)', () => {
 
         const start = Date.now();
 
-        await expect(client.enforceThrottleAndGetTaskCall(123n))
+        await expect(client.enforceThrottleAndGetTaskCall(123n, 'ipfs://MockURI'))
             .rejects
             .toThrow(OverheatedError);
 
@@ -89,7 +89,7 @@ describe('QuantumTaskClient (V_AI Enforcement)', () => {
         const start = Date.now();
 
         try {
-            await client.enforceThrottleAndGetTaskCall(123n);
+            await client.enforceThrottleAndGetTaskCall(123n, 'ipfs://MockURI');
         } catch (e) {
             // catch encodeFunctionData mock fail, but ensure we retried
         }

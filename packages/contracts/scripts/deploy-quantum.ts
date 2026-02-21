@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 console.log("-----------------------------------------");
 console.log("   QUANTUM A2A DEPLOYMENT: UUPS UPGRADE  ");
 console.log("-----------------------------------------");
@@ -28,15 +30,17 @@ async function main() {
         await mockOracle.waitForDeployment();
         mockOracleAddress = await mockOracle.getAddress();
         console.log("   -> MockOracle deployed at:", mockOracleAddress);
+        await delay(3000);
     }
 
     if (!mockVerifierAddress) {
         console.log("🔸 Deploying MockVerifier...");
-        const MockVerifier = await ethers.getContractFactory("MockVerifier");
+        const MockVerifier = await ethers.getContractFactory("contracts/mocks/MockVerifier.sol:MockVerifier");
         const mockVerifier = await MockVerifier.deploy();
         await mockVerifier.waitForDeployment();
         mockVerifierAddress = await mockVerifier.getAddress();
         console.log("   -> MockVerifier deployed at:", mockVerifierAddress);
+        await delay(3000);
     }
 
     // --- 2. Deploy DaimToken (UUPS Upgradeable) ---
@@ -53,6 +57,7 @@ async function main() {
         await daimToken.waitForDeployment();
         daimTokenAddress = await daimToken.getAddress();
         console.log("   -> DaimToken Proxy deployed at:", daimTokenAddress);
+        await delay(4000);
     } else {
         const DaimToken = await ethers.getContractFactory("DaimToken");
         daimToken = DaimToken.attach(daimTokenAddress);
@@ -71,6 +76,18 @@ async function main() {
     await agentRegistry.waitForDeployment();
     const registryAddress = await agentRegistry.getAddress();
     console.log("   -> AgentRegistry Proxy deployed at:", registryAddress);
+    await delay(4000);
+
+    // --- 3.5 Deploy OracleRegistry (UUPS Upgradeable) ---
+    console.log("🔸 Deploying OracleRegistry (UUPS Proxy)...");
+    const OracleRegistry = await ethers.getContractFactory("OracleRegistry");
+    const oracleRegistry = await upgrades.deployProxy(OracleRegistry, [
+        deployer.address
+    ], { kind: 'uups' });
+    await oracleRegistry.waitForDeployment();
+    const oracleRegistryAddress = await oracleRegistry.getAddress();
+    console.log("   -> OracleRegistry Proxy deployed at:", oracleRegistryAddress);
+    await delay(4000);
 
     // --- 4. Deploy QuantumTaskBuffer (UUPS Upgradeable) ---
     console.log("🔸 Deploying QuantumTaskBuffer (UUPS Proxy)...");
@@ -84,6 +101,7 @@ async function main() {
     await taskBuffer.waitForDeployment();
     const taskBufferAddress = await taskBuffer.getAddress();
     console.log("✅ QuantumTaskBuffer Proxy deployed at:", taskBufferAddress);
+    await delay(4000);
 
     // --- 5. Wiring Contracts & Verification ---
     console.log("🔌 Wiring Contracts...");
@@ -97,7 +115,9 @@ async function main() {
         if (!hasRole) {
             console.log("   -> Granting MINTER_ROLE to TaskBuffer...");
             // @ts-ignore
-            await daimToken.grantRole(MINTER_ROLE, taskBufferAddress);
+            const tx = await daimToken.grantRole(MINTER_ROLE, taskBufferAddress);
+            await tx.wait(1);
+            await delay(3000);
         }
     }
 
@@ -109,7 +129,28 @@ async function main() {
     if (!hasOracleRole) {
         console.log("   -> Granting ORACLE_ROLE (Registry) to TaskBuffer...");
         // @ts-ignore
-        await agentRegistry.grantRole(ORACLE_ROLE, taskBufferAddress);
+        const tx = await agentRegistry.grantRole(ORACLE_ROLE, taskBufferAddress);
+        await tx.wait(1);
+        await delay(3000);
+    }
+
+    // Set OracleRegistry in TaskBuffer and grant roles
+    console.log("   -> Wiring OracleRegistry to TaskBuffer...");
+    // @ts-ignore
+    const tx1 = await taskBuffer.setOracleRegistry(oracleRegistryAddress);
+    await tx1.wait(1);
+    await delay(3000);
+
+    // @ts-ignore
+    const TASK_BUFFER_ROLE = await oracleRegistry.TASK_BUFFER_ROLE();
+    // @ts-ignore
+    const hasTaskBufferRole = await oracleRegistry.hasRole(TASK_BUFFER_ROLE, taskBufferAddress);
+    if (!hasTaskBufferRole) {
+        console.log("   -> Granting TASK_BUFFER_ROLE to TaskBuffer...");
+        // @ts-ignore
+        const tx2 = await oracleRegistry.grantRole(TASK_BUFFER_ROLE, taskBufferAddress);
+        await tx2.wait(1);
+        await delay(3000);
     }
 
     console.log("🎉 Deployment & Wiring Complete!");
@@ -117,6 +158,7 @@ async function main() {
     console.log("Contract Addresses for Verification:");
     console.log("DAIM Token: ", daimTokenAddress);
     console.log("AgentRegistry (Proxy): ", registryAddress);
+    console.log("OracleRegistry (Proxy): ", oracleRegistryAddress);
     console.log("QuantumTaskBuffer (Proxy): ", taskBufferAddress);
     console.log("----------------------------------------------------");
 }
@@ -125,4 +167,3 @@ main().catch((error) => {
     console.error(error);
     process.exitCode = 1;
 });
-

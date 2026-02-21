@@ -29,14 +29,16 @@ FROM node:20-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
+# Install ClamAV and update virus signatures
+RUN apt-get update && apt-get install -y clamav clamav-daemon wget && \
+    freshclam && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Copy built application and dependencies
 COPY --from=builder /app /app
-
-# Rebuild native modules for this environment (ensure glibc binary is used/built)
-# RUN pnpm rebuild sqlite3
 
 # Expose port
 EXPOSE 8080
 
-# Add startup debug output
-CMD ["sh", "-c", "echo 'Starting container...' && node apps/agent-node/dist/src/index.js"]
+# Add startup debug output. We also need to start the clamav daemon in the background
+CMD ["sh", "-c", "service clamav-daemon start & node apps/agent-node/dist/src/index.js"]

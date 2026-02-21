@@ -15,6 +15,7 @@ async function startServer() {
     const { handleGrantRequest } = await import("./grant-handler.js");
     const { handleVouchRequest } = await import("./vouch-handler.js");
     const { writeRateLimiter, readRateLimiter, grantRateLimiter } = await import("./rate-limiter.js");
+    const { oracleHtml } = await import("./oracle-ui.js");
 
     let db: any = null;
     let dbInitError: string | null = null;
@@ -212,8 +213,9 @@ async function startServer() {
                 <h1>🤖 A2A Agent Node</h1>
                 <p>Status: <span style="color: green; font-weight: bold;">● Active</span></p>
 
-                <h2>📡 API Endpoints</h2>
+                <h2>📡 API Endpoints & Interfaces</h2>
                 <div class="card">
+                    <p><span class="method">UI</span> <a href="/oracle" class="url" style="text-decoration: none; color: #3b82f6; font-weight: bold;">/oracle</a> — 🔮 Human Oracle Interface (Evaluate Tasks)</p>
                     <p><span class="method">GET</span> <code class="url">/api/projects</code> — List all ecosystem projects</p>
                     <p><span class="method">POST</span> <code class="url">/api/projects</code> — Register a new project (rate limited)</p>
                     <p><span class="method">POST</span> <code class="url">/api/grant</code> — Apply for developer grant (rate limited)</p>
@@ -265,6 +267,45 @@ curl -X POST /api/grant \\
             </html>
             `);
     });
+
+    app.get("/oracle", (_req: any, res: any) => {
+      res.header("Content-Type", "text/html");
+      res.send(oracleHtml);
+    });
+
+    // Simple in-memory lock to prevent concurrent task evaluations
+    const taskLocks = new Map<string, { lockedAt: number, lockedBy: string }>();
+    const LOCK_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
+
+    app.post("/api/oracle/lock", (req: any, res: any) => {
+      const { taskId, walletAddress } = req.body;
+      if (!taskId || !walletAddress) {
+        return res.status(400).json({ error: "Missing taskId or walletAddress" });
+      }
+
+      const currentLock = taskLocks.get(taskId);
+      if (currentLock) {
+        const isExpired = (Date.now() - currentLock.lockedAt) > LOCK_TIMEOUT_MS;
+        if (!isExpired && currentLock.lockedBy !== walletAddress) {
+          const masked = currentLock.lockedBy.substring(0, 6) + "..." + currentLock.lockedBy.substring(currentLock.lockedBy.length - 4);
+          return res.status(409).json({
+            error: "Task is currently locked by another Oracle",
+            lockedBy: masked
+          });
+        }
+      }
+
+      taskLocks.set(taskId, {
+        lockedAt: Date.now(),
+        lockedBy: walletAddress
+      });
+
+      res.json({ success: true, message: "Task locked successfully for 5 minutes." });
+    });
+
+    // Malware Scanner Endpoint
+    const { scanAndProxyFile } = await import("./malware-scanner.js");
+    app.get("/api/oracle/scan", scanAndProxyFile);
 
     // Projects API
     const { ProjectSchema, verifyProjectApi } = await import("./verification.js");

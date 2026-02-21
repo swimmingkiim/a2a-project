@@ -1,4 +1,4 @@
-import { createPublicClient, http, getContract, Address, PublicClient, ContractFunctionExecutionError } from 'viem';
+import { createPublicClient, http, getContract, Address, PublicClient } from 'viem';
 
 const QUANTUM_TASK_BUFFER_ABI = [
     {
@@ -20,6 +20,11 @@ const QUANTUM_TASK_BUFFER_ABI = [
                 "internalType": "uint256",
                 "name": "_complexityHash",
                 "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_metadataUri",
+                "type": "string"
             }
         ],
         "name": "submitTask",
@@ -98,10 +103,11 @@ export class QuantumTaskClient {
      * the SDK *refuses* to generate the transaction and applies an exponential backoff.
      * 
      * @param complexityHash The unique hash of the task logic to submit.
+     * @param metadataUri The URI (e.g. ipfs://...) pointing to the standard JSON metadata.
      * @returns The call data object for use with the Paymaster or standard transaction execution.
      * @throws OverheatedError if max retries are exceeded while the system remains overheated.
      */
-    async enforceThrottleAndGetTaskCall(complexityHash: bigint): Promise<{ to: Address, value: bigint, data: string }> {
+    async enforceThrottleAndGetTaskCall(complexityHash: bigint, metadataUri: string): Promise<{ to: Address, value: bigint, data: string }> {
         let attempt = 0;
         let currentBackoff = this.baseBackoffMs;
 
@@ -110,22 +116,17 @@ export class QuantumTaskClient {
 
             if (!overheated) {
                 // System is safe, generate the transaction call data
-                const contract = getContract({
-                    address: this.contractAddress,
-                    abi: QUANTUM_TASK_BUFFER_ABI,
-                    client: this.publicClient
-                });
 
                 // Note: the actual submission is usually done via Paymaster/UserOp, 
                 // so we return the raw call data to be appended.
-                const data = (contract.abi as any).find((x: any) => x.name === 'submitTask')
+
 
                 // Using generic approach to format call data for viem
                 const { encodeFunctionData } = await import('viem');
                 const encodedData = encodeFunctionData({
                     abi: QUANTUM_TASK_BUFFER_ABI,
                     functionName: 'submitTask',
-                    args: [complexityHash]
+                    args: [complexityHash, metadataUri]
                 });
 
                 return {
