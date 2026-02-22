@@ -102,9 +102,14 @@ export class QuantumTaskClient {
      * The agent SDK intrinsically checks the `isOverheated` state. If the system is overheated,
      * the SDK *refuses* to generate the transaction and applies an exponential backoff.
      * 
-     * @param complexityHash The unique hash of the task logic to submit.
-     * @param metadataUri The URI (e.g. ipfs://...) pointing to the standard JSON metadata.
+     * @param complexityHash The unique hash of the task logic to submit (uint256).
+     * @param metadataUri The URI (e.g. ipfs://...) pointing to the standard JSON metadata (string).
      * @returns The call data object for use with the Paymaster or standard transaction execution.
+     * 
+     * @note After submitting the generated transaction, it is highly recommended to wait for 
+     * multiple block confirmations (e.g., `waitForTransactionReceipt({ confirmations: 2 })`)
+     * before querying system state to avoid race conditions.
+     * 
      * @throws OverheatedError if max retries are exceeded while the system remains overheated.
      */
     async enforceThrottleAndGetTaskCall(complexityHash: bigint, metadataUri: string): Promise<{ to: Address, value: bigint, data: string }> {

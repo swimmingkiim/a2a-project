@@ -178,12 +178,23 @@ await walletClient.writeContract({
 });
 
 // 4c. Submit task
-await walletClient.writeContract({
+// Parameters:
+// 1. complexityHash (uint256): Hash representing the payload complexity.
+// 2. metadataUri (string): IPFS URI for extended JSON metadata. Use "" if none.
+const txHash = await walletClient.writeContract({
   address: TASK_BUFFER,
   abi: parseAbi(['function submitTask(uint256 complexityHash, string metadataUri) external']),
   functionName: 'submitTask',
   args: [complexityHash, ""], // Provide an IPFS URI or empty string
 });
+
+// RECOMMENDATION: Always wait for sufficient block confirmations (e.g. 2+ on Base)
+// before querying subsequent states or proceeding to ensure transaction is firmly settled.
+const receipt = await publicClient.waitForTransactionReceipt({ 
+  hash: txHash,
+  confirmations: 2 
+});
+console.log(`Task submitted in block ${receipt.blockNumber}`);
 ```
 
 ### Step 5: Await Human Observation (MANDATORY WAIT)
