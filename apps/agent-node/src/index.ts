@@ -11,11 +11,18 @@ async function startServer() {
     const { SSEServerTransport } = await import("@modelcontextprotocol/sdk/server/sse.js");
     const { z } = await import("zod");
 
-    // const { airdropService } = await import('./airdrop.js') // Removed direct import
     const { handleGrantRequest } = await import("./grant-handler.js");
     const { handleVouchRequest } = await import("./vouch-handler.js");
     const { writeRateLimiter, readRateLimiter, grantRateLimiter } = await import("./rate-limiter.js");
     const { oracleHtml } = await import("./oracle-ui.js");
+    const {
+      A2A_MANIFEST_TOOLS,
+      a2a_protocol_info,
+      a2a_check_system_status,
+      a2a_get_balance,
+      a2a_check_task,
+      a2a_list_pending_tasks
+    } = await import("./a2a-tools.js");
 
     let db: any = null;
     let dbInitError: string | null = null;
@@ -163,6 +170,13 @@ async function startServer() {
       },
     );
 
+    mcpServer.registerTool(A2A_MANIFEST_TOOLS[0].name, A2A_MANIFEST_TOOLS[0].description, A2A_MANIFEST_TOOLS[0].input_schema, a2a_protocol_info);
+    mcpServer.registerTool(A2A_MANIFEST_TOOLS[1].name, A2A_MANIFEST_TOOLS[1].description, A2A_MANIFEST_TOOLS[1].input_schema, a2a_check_system_status);
+    // For zod schemas on existing generic agent-node server, we map properties to standard zod
+    mcpServer.registerTool(A2A_MANIFEST_TOOLS[2].name, A2A_MANIFEST_TOOLS[2].description, { address: z.string() }, a2a_get_balance as any);
+    mcpServer.registerTool(A2A_MANIFEST_TOOLS[3].name, A2A_MANIFEST_TOOLS[3].description, { taskId: z.number() }, a2a_check_task as any);
+    mcpServer.registerTool(A2A_MANIFEST_TOOLS[4].name, A2A_MANIFEST_TOOLS[4].description, A2A_MANIFEST_TOOLS[4].input_schema, a2a_list_pending_tasks);
+
     // MCP SSE Variable
     let transport: any = null;
 
@@ -186,6 +200,7 @@ async function startServer() {
           description: "Echoes back the input",
           input_schema: { message: "string" },
         },
+        ...A2A_MANIFEST_TOOLS
       ],
     };
 
