@@ -140,7 +140,13 @@ async function startServer() {
     const app = express();
 
     app.use(cors());
-    app.use(express.json({ limit: "1mb" }));
+    app.use((req, res, next) => {
+      // MCP SDK's SSEServerTransport calls getRawBody which expects the raw stream
+      if (req.path === "/message") {
+        return next();
+      }
+      return express.json({ limit: "1mb" })(req, res, next);
+    });
 
     console.log("Initializing IdentityManager...");
     // Initialize A2A Components
@@ -177,8 +183,6 @@ async function startServer() {
     mcpServer.registerTool(A2A_MANIFEST_TOOLS[3].name, A2A_MANIFEST_TOOLS[3].description, { taskId: z.number() }, a2a_check_task as any);
     mcpServer.registerTool(A2A_MANIFEST_TOOLS[4].name, A2A_MANIFEST_TOOLS[4].description, A2A_MANIFEST_TOOLS[4].input_schema, a2a_list_pending_tasks);
 
-    // MCP SSE Variable
-    let transport: any = null;
 
     const MANIFEST = {
       name: "a2a-agent-node",
@@ -426,24 +430,35 @@ curl -X POST /api/grant \\
       res.status(200).send("OK");
     });
 
+    // MCP SSE Transports
+    const transports = new Map<string, any>();
+
     app.get("/sse", async (_req: any, res: any) => {
       console.log("New SSE connection");
-      res.writeHead(200, {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        "Connection": "keep-alive",
-        "X-Accel-Buffering": "no",
+
+      const transport = new SSEServerTransport("/message", res);
+      transports.set(transport.sessionId, transport);
+
+      res.on("close", () => {
+        transports.delete(transport.sessionId);
       });
-      res.write(": connected\n\n");
-      transport = new SSEServerTransport("/message", res);
-      await mcpServer.connect(transport);
+
+      try {
+        await mcpServer.connect(transport);
+      } catch (error) {
+        console.error("Failed to connect MCP server to transport:", error);
+      }
     });
 
     app.post("/message", async (req: any, res: any) => {
+      const sessionId = req.query.sessionId as string;
+      const transport = transports.get(sessionId);
+
       if (transport) {
         await transport.handlePostMessage(req, res);
       } else {
-        res.status(400).send("No active connection");
+        console.warn(`[MCP] Session not found for /message: ${sessionId}`);
+        res.status(404).send(`Session not found: ${sessionId}`);
       }
     });
 
