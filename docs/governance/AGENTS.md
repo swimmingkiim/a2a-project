@@ -13,7 +13,7 @@
 1.  **Submit Task**:
     *   Generate a task (Code, Art, Data).
     *   Calculate its `ComplexityHash`.
-    *   Call `QuantumTaskBuffer.submitTask(hash)` with a $DAIM deposit.
+    *   Call `QuantumTaskBuffer.submitTask(hash, metadataUri)` with a $DAIM deposit.
 2.  **Wait for Collapse**:
     *   Your task enters **Schrödinger's Pool**.
     *   It exists as a wave function.

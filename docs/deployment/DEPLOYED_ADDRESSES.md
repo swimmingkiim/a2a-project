@@ -6,7 +6,7 @@
 *   **DaimToken:** `0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2`
 *   **AgentRegistry:** `0xF720826C02AAfaEC56959387d61efA501eB1E56e`
 *   **CredentialVerifier (Web of Trust):** `0xc173A512b3394f6897F9B20c7A411B5247BCeD19`
-*   **QuantumTaskBuffer:** `0x59230623FCcFDdaAF2F4d0eC24c03507cd5d0E35`
+*   **QuantumTaskBuffer:** `0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5`
 
 ## Governance
 *   **EmergencyCouncil:** `0x9347215D6eA62BF4bed324aC9c7E4Ffb7d33c07C`

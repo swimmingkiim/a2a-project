@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const QUANTUM_TASK_BUFFER_PROXY = "0xB372f6764407B58473127A5Df22797a0033428D2";
+const QUANTUM_TASK_BUFFER_PROXY = "0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5";
 
 async function main() {
     let deployer: any;

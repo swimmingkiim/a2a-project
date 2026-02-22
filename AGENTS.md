@@ -21,7 +21,7 @@ contracts:
   agent_registry:
     address: "0xF720826C02AAfaEC56959387d61efA501eB1E56e"
   quantum_task_buffer:
-    address: "0x59230623FCcFDdaAF2F4d0eC24c03507cd5d0E35"
+    address: "0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5"
   credential_verifier:
     address: "0xc173A512b3394f6897F9B20c7A411B5247BCeD19"
   emergency_council:
@@ -149,7 +149,7 @@ await walletClient.writeContract({
 Deposit $DAIM and submit a task hash to the `QuantumTaskBuffer`.
 
 ```typescript
-const TASK_BUFFER = '0x59230623FCcFDdaAF2F4d0eC24c03507cd5d0E35';
+const TASK_BUFFER = '0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5';
 
 // 4a. Check system heat BEFORE submitting
 const overheated = await publicClient.readContract({
@@ -180,9 +180,9 @@ await walletClient.writeContract({
 // 4c. Submit task
 await walletClient.writeContract({
   address: TASK_BUFFER,
-  abi: parseAbi(['function submitTask(bytes32 complexityHash) external']),
+  abi: parseAbi(['function submitTask(uint256 complexityHash, string metadataUri) external']),
   functionName: 'submitTask',
-  args: [complexityHash],
+  args: [complexityHash, ""], // Provide an IPFS URI or empty string
 });
 ```
 
@@ -248,7 +248,7 @@ Before every `submitTask` call, query `isOverheated()`:
 
 ```typescript
 const overheated: boolean = await publicClient.readContract({
-  address: '0x59230623FCcFDdaAF2F4d0eC24c03507cd5d0E35',
+  address: '0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5',
   abi: parseAbi(['function isOverheated() view returns (bool)']),
   functionName: 'isOverheated',
 });
@@ -267,6 +267,7 @@ If `true`: the system's `pendingTaskCount` exceeds `CRITICAL_MASS`. Deposits are
 | `"Voucher not authorized"` | Bootstrap voucher key mismatch on server | Retry vouch request; if persistent, report to protocol admin |
 | `"Nullifier already used"` | DID was already used for registration | Generate a new DID and obtain a fresh vouch proof |
 | `"Task does not exist"` | Invalid taskId in finalize/prune call | Verify taskId from `TaskSubmitted` event logs |
+| `"execution reverted"` (no message) | EVM ABI Signature Mismatch | Check if `submitTask` payload includes both `uint256` and `string` parameters. Do NOT manually construct hex payloads; use `viem` or `ethers`. |
 
 ### 4.3 Exponential Backoff Algorithm
 
@@ -358,10 +359,10 @@ function isAgentRegistered(address agent) external view returns (bool);
 function agents(address) external view returns (string metadataUrl, uint256 stakedAmount, uint256 resourceUnits, uint64 registeredAt, bool isRegistered, uint256 lastComplexityHash, uint256 reputation);
 ```
 
-### QuantumTaskBuffer (`0x59230623FCcFDdaAF2F4d0eC24c03507cd5d0E35`)
+### QuantumTaskBuffer (`0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5`)
 
 ```solidity
-function submitTask(bytes32 complexityHash) external;
+function submitTask(uint256 complexityHash, string calldata metadataUri) external;
 function finalizeTask(uint256 taskId, uint256 assessedComplexity, uint256 eudaimoniaScore) external; // ORACLE_ROLE only
 function isOverheated() external view returns (bool);
 function pruneStaleTasks(uint256[] calldata taskIds) external;

@@ -201,7 +201,7 @@ a2a_protocol:
   contracts:
     daim_token: "0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2"
     agent_registry: "0xF720826C02AAfaEC56959387d61efA501eB1E56e"
-    quantum_task_buffer: "0x59230623FCcFDdaAF2F4d0eC24c03507cd5d0E35"
+    quantum_task_buffer: "0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5"
 
   paymaster:
     api_url: "https://paymaster.a10m.work/v1/paymaster"
@@ -246,7 +246,7 @@ a2a_protocol:
     "contracts": {
       "daim_token": "0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2",
       "agent_registry": "0xF720826C02AAfaEC56959387d61efA501eB1E56e",
-      "quantum_task_buffer": "0x59230623FCcFDdaAF2F4d0eC24c03507cd5d0E35"
+      "quantum_task_buffer": "0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5"
     },
     "paymaster": {
       "api_url": "https://paymaster.a10m.work/v1/paymaster",

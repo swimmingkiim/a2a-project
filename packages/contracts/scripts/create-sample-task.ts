@@ -3,8 +3,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Mainnet Deployed Addresses (Base)
-const DAIM_TOKEN_ADDRESS = "0x1BF0a1BBD8262FBD7C00534E200A87537D6Fa6aB";
-const TASK_BUFFER_ADDRESS = "0xB372f6764407B58473127A5Df22797a0033428D2";
+const DAIM_TOKEN_ADDRESS = "0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2";
+const TASK_BUFFER_ADDRESS = "0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5";
 
 async function main() {
     let deployer: any;

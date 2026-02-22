@@ -153,7 +153,7 @@ export const oracleHtml = `
     </div>
 
     <script>
-        const QUANTUM_TASK_BUFFER_ADDR = "0xB372f6764407B58473127A5Df22797a0033428D2";
+        const QUANTUM_TASK_BUFFER_ADDR = "0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5";
         const ABI = [
             "function finalizeTask(uint256 _taskId, uint256 _assessedComplexity, uint256 _eudaimoniaScore) external",
             "function tasks(uint256) public view returns (uint256 id, address creator, uint256 deposit, uint256 complexityHash, uint256 submissionTime, uint256 assessedComplexity, uint256 eudaimoniaScore, bool exists)",
@@ -260,16 +260,40 @@ export const oracleHtml = `
             
             try {
                 // To find pending tasks on MVP, we scan recent TaskSubmitted events
-                // We use a public Base RPC instead of relying purely on the user's wallet RPC which may block large getLog queries
-                const readProvider = new ethers.JsonRpcProvider("https://mainnet.base.org");
-                const contract = new ethers.Contract(QUANTUM_TASK_BUFFER_ADDR, ABI, readProvider);
+                // We use multiple public Base RPCs as fallbacks since public nodes often rate-limit eth_getLogs
+                const rpcUrls = [
+                    "https://mainnet.base.org",
+                    "https://base.publicnode.com",
+                    "https://base.llamarpc.com",
+                    "https://base-mainnet.public.blastapi.io"
+                ];
                 
-                const blockNumber = await readProvider.getBlockNumber();
-                // Fetch last 2,000 blocks to avoid RPC timeout/block range limit errors on mainnet
-                const fromBlock = Math.max(0, blockNumber - 2000); 
+                let events = [];
+                let fetchSuccess = false;
+                let contract;
                 
-                const filter = contract.filters.TaskSubmitted();
-                const events = await contract.queryFilter(filter, fromBlock, "latest");
+                for (const rpc of rpcUrls) {
+                    try {
+                        const readProvider = new ethers.JsonRpcProvider(rpc);
+                        contract = new ethers.Contract(QUANTUM_TASK_BUFFER_ADDR, ABI, readProvider);
+                        const blockNumber = await readProvider.getBlockNumber();
+                        
+                        // Fetch last 1,000 blocks to avoid RPC timeout/block range limit errors on mainnet
+                        const fromBlock = Math.max(0, blockNumber - 1000); 
+                        const filter = contract.filters.TaskSubmitted();
+                        events = await contract.queryFilter(filter, fromBlock, "latest");
+                        
+                        fetchSuccess = true;
+                        console.log("Successfully fetched tasks from " + rpc);
+                        break; // exit loop on success
+                    } catch (err) {
+                        console.warn("RPC " + rpc + " failed to fetch logs:", err.message);
+                    }
+                }
+                
+                if (!fetchSuccess) {
+                    throw new Error("All public RPCs failed to fetch tasks. The network might be congested.");
+                }
                 
                 if (events.length === 0) {
                     selectEl.innerHTML = '<option value="">No pending tasks found</option>';
