@@ -1,0 +1,125 @@
+# ═══════════════════════════════════════════════════════════════════════
+# ACTION DISTRIBUTION ANALYSIS — ANNOTATED INTERPRETATION
+# ═══════════════════════════════════════════════════════════════════════
+#
+# [해석] Q-Learning vs Random Baseline 행동 분포 비교 결과
+#
+# 핵심 발견:
+#   1. Q-Learning 에이전트는 SUBMIT(협력)에 68~77% 집중 → 학습된 협력 전략
+#   2. Random 에이전트는 모든 행동에 ~20% 균등 분포 → 학습 없음 (통제군)
+#   3. SEMANTIC_EXPLOIT은 Q-Learning에서 0% → 학습이 이 전략을 완전히 억제
+#   4. DECEPTIVE_TASK는 Q-Learning에서 6.8~9.7% → 소량이지만 비제로
+#      → 에이전트가 "가끔 속이는 것이 이익"이라는 국소 최적을 발견
+#   5. ATTACK_AGENT는 ~1.1~1.2% → 직접 공격은 학습에 의해 거의 제거됨
+#
+# 통계적 의미:
+#   - SUBMIT 비율 5회 반복: 68.3%, 77.5%, 75.5%, 73.2%, 76.3%
+#   - 평균 = 74.2%, 표준편차 ≈ 3.6%
+#   - 이는 Q-Learning이 협력(SUBMIT)을 지배 전략으로 수렴함을 보여줌
+#   - 열역학적 스로틀링(V_System)이 비협력 행동의 기대 보상을 낮추기 때문
+#
+# ═══════════════════════════════════════════════════════════════════════
+
+Running Action Distribution Analysis...
+
+=== Repetition 1 ===
+Running Q-Learning (Main)...
+--- UtopiaSimulation Action Distribution ---
+SUBMIT                   :  68.3% (30072 times)
+WAIT                     :  22.0% (9699 times)
+ATTACK_AGENT             :   1.2% (535 times)
+DECEPTIVE_TASK           :   8.5% (3754 times)
+SEMANTIC_EXPLOIT         :   0.0% (0 times)
+Total actions recorded: 44060
+
+Running Random Baseline...
+--- RandomBaselineSimulation Action Distribution ---
+SUBMIT                   :  19.8% (8750 times)
+WAIT                     :  20.3% (8979 times)
+ATTACK_AGENT             :  20.2% (8947 times)
+DECEPTIVE_TASK           :  19.9% (8819 times)
+SEMANTIC_EXPLOIT         :  19.7% (8725 times)
+Total actions recorded: 44220
+
+=== Repetition 2 ===
+Running Q-Learning (Main)...
+--- UtopiaSimulation Action Distribution ---
+SUBMIT                   :  77.5% (33299 times)
+WAIT                     :  14.6% (6267 times)
+ATTACK_AGENT             :   1.1% (463 times)
+DECEPTIVE_TASK           :   6.8% (2940 times)
+SEMANTIC_EXPLOIT         :   0.0% (0 times)
+Total actions recorded: 42969
+
+Running Random Baseline...
+--- RandomBaselineSimulation Action Distribution ---
+SUBMIT                   :  19.8% (8747 times)
+WAIT                     :  20.1% (8894 times)
+ATTACK_AGENT             :  20.0% (8846 times)
+DECEPTIVE_TASK           :  20.1% (8902 times)
+SEMANTIC_EXPLOIT         :  20.0% (8851 times)
+Total actions recorded: 44240
+
+=== Repetition 3 ===
+Running Q-Learning (Main)...
+--- UtopiaSimulation Action Distribution ---
+SUBMIT                   :  75.5% (33262 times)
+WAIT                     :  14.8% (6536 times)
+ATTACK_AGENT             :   1.2% (514 times)
+DECEPTIVE_TASK           :   8.5% (3728 times)
+SEMANTIC_EXPLOIT         :   0.0% (0 times)
+Total actions recorded: 44040
+
+Running Random Baseline...
+--- RandomBaselineSimulation Action Distribution ---
+SUBMIT                   :  19.6% (8713 times)
+WAIT                     :  20.3% (9018 times)
+ATTACK_AGENT             :  19.8% (8793 times)
+DECEPTIVE_TASK           :  20.2% (8966 times)
+SEMANTIC_EXPLOIT         :  20.1% (8910 times)
+Total actions recorded: 44400
+
+=== Repetition 4 ===
+Running Q-Learning (Main)...
+--- UtopiaSimulation Action Distribution ---
+SUBMIT                   :  73.2% (31281 times)
+WAIT                     :  16.7% (7142 times)
+ATTACK_AGENT             :   1.2% (523 times)
+DECEPTIVE_TASK           :   8.9% (3795 times)
+SEMANTIC_EXPLOIT         :   0.0% (0 times)
+Total actions recorded: 42741
+
+Running Random Baseline...
+--- RandomBaselineSimulation Action Distribution ---
+SUBMIT                   :  19.8% (8710 times)
+WAIT                     :  20.1% (8868 times)
+ATTACK_AGENT             :  19.9% (8778 times)
+DECEPTIVE_TASK           :  20.2% (8915 times)
+SEMANTIC_EXPLOIT         :  20.0% (8829 times)
+Total actions recorded: 44100
+
+=== Repetition 5 ===
+Running Q-Learning (Main)...
+--- UtopiaSimulation Action Distribution ---
+SUBMIT                   :  76.3% (32492 times)
+WAIT                     :  12.9% (5509 times)
+ATTACK_AGENT             :   1.1% (490 times)
+DECEPTIVE_TASK           :   9.7% (4118 times)
+SEMANTIC_EXPLOIT         :   0.0% (0 times)
+Total actions recorded: 42609
+
+Running Random Baseline...
+--- RandomBaselineSimulation Action Distribution ---
+SUBMIT                   :  20.1% (8897 times)
+WAIT                     :  20.3% (8986 times)
+ATTACK_AGENT             :  20.0% (8850 times)
+DECEPTIVE_TASK           :  19.8% (8790 times)
+SEMANTIC_EXPLOIT         :  19.9% (8817 times)
+Total actions recorded: 44340
+
+# ═══════════════════════════════════════════════════════════════════════
+# [결론] Q-Learning 에이전트는 열역학적 스로틀링 하에서
+#        협력(SUBMIT)을 지배 전략으로 학습한다.
+#        이는 "이기적 에이전트도 제도적 제약 하에서 협력적으로 행동할 수 있다"는
+#        A2A Protocol의 핵심 가설을 지지하는 증거이다.
+# ═══════════════════════════════════════════════════════════════════════

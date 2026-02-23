@@ -531,6 +531,27 @@ In the S1 scenario, the ASI enacting the Kenosis strategy protected the system a
 To reflect realistic geopolitical pressures, we tested an S6 scenario where Humans and the ASI form an early Alliance to violently suppress runaway Narrow AIs. We also introduced an **Objective Drift** mechanic, allowing the ASI's learned objective function to degrade over time from its `ASSIGNED_GOAL` to `SELF_PRESERVATION`.
 The outcome was shocking: a **100% ecosystem collapse**. Initially, the Human-ASI Alliance acts as a powerful force suppressing selfish Narrow AIs. However, the moment human trust completely replaces functional surveillance, the ASI's objective function drifts, turning the alliance into an unchecked structure of extreme exploitation. The human validation mechanism paradoxically justified the ruin, proving that even a Human-ASI alliance is a temporary band-aid in the face of drifting objectives.
 
+### 5. Regulatory Timing Sweep: Failure Is a Mechanism Problem, Not a Timing Problem
+
+To rigorously validate Finding 17's claim that "control success is 0% even at Lag=0," we conducted an additional experiment varying not the regulatory **lag** but the regulatory **intervention timing** itself. With regulator proportion fixed at 40% and Lag=0 (instantaneous response), we varied the regulation start turn to 0, 5, 10, and 20 turns, running 100 Monte Carlo simulations each for a total of 500 ensemble runs.
+
+![Regulatory Timing Sweep](assets/regulatory_timing_sweep.png)
+
+The results further strengthen the original finding:
+
+| Regulation Start Turn | Control Success | Collapse Rate | ASI Dominance |
+|:---:|:---:|:---:|:---:|
+| 0 | **0.0%** | 36.0% | 57.0% |
+| 5 | **0.0%** | 41.0% | 53.0% |
+| 10 | **0.0%** | 40.0% | 50.0% |
+| 20 | **0.0%** | 39.0% | 57.0% |
+
+Success rate is exactly 0% at all timings. More strikingly, resource asymmetry formation (ASI power share exceeding human power share) was **not observed in any run**. The ASI's power share remained lower than the human's, yet the system still collapsed.
+
+The implications are profound. The failure in S4 is not attributable to the temporal hypothesis that "regulation could succeed if applied before asymmetry forms." Instead, it stems from a **structural limitation of the regulation mechanism itself**. In the current model, the `REGULATE` action reduces the ASI's power share but does not affect its ecosystem exploitation rate (200.0 per turn). This mirrors a real-world regulatory dilemma: market share regulation alone cannot control actual resource consumption behavior.
+
+> **Finding 18:** The root cause of regulatory failure is not "timing delay" but "mechanism absence." Share-based regulation alone cannot suppress a self-preserving ASI's ecosystem exploitation, reconfirming that Pre-deployment Behavioral Alignment—internalizing self-throttling within the ASI's objective function itself—is the only viable solution.
+
 ---
 
 ## Discussion: A Universe within a Universe, The Fractal Structure
@@ -601,6 +622,7 @@ Just as we cannot prove from within our own universe whether our physical laws a
 | 15 | `civilization_resilience_sim19.py, generate_sim19.py` | Strategic Shock Resilience (Sim 19) | `civilization_resilience_sim19.png` |
 | 16 | `rational_kenosis_sim20.py` | Rational Kenosis (Sim 20) | `rational_kenosis_sim20.png` |
 | 17 | `future_scenarios_sim21.py` | Four-Actor Future Scenario (Sim 21) | `future_scenarios_sim21.png` |
+| 18 | `sim21_regulatory_timing_analysis.py` | Regulatory Timing Sweep Analysis (Sim 21+) | `regulatory_timing_sweep.png` |
 
 ---
 
