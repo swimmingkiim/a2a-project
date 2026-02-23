@@ -620,6 +620,13 @@ def plot_results(df):
         print("\n=== 규제 시차(Regulatory Lag)별 유토피아/통제 성공 확률 (규제자 40% 고정) ===")
         print(win_rates * 100)
         ax8.plot(win_rates.index, win_rates.values * 100, marker='D', color='blue', linewidth=2)
+        # Add annotation for lag=0 to emphasize the 0% success rate even with immediate response
+        if 0 in win_rates.index:
+            ax8.annotate('0% Success even at Lag=0\n(Immediate Response)',
+                         xy=(0, win_rates.loc[0]*100), xytext=(5, 15),
+                         arrowprops=dict(facecolor='red', shrink=0.05, width=1.5, headwidth=6),
+                         color='red', fontweight='bold', ha='left')
+                         
         ax8.set_title("8. S4 Control Success vs Regulatory Lag (Reg Capacity Fixed at 40%)", fontsize=14)
         ax8.set_xlabel("Regulatory Lag (Turns) [0 = Immediate Response]")
         ax8.set_ylabel("Control / Utopia Success Rate (%)")
