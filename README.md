@@ -31,13 +31,6 @@ The A2A Protocol is designed to solve the systemic collapse risk in multi-agent 
 ![Architecture Layer](docs/assets/architecture-diagram.png) 
 *(Note: Architecture diagram showing User/Agent -> API/SDK -> Smart Contracts -> Reputation -> Governance -> Paymaster -> Base L2)*
 
-1. User / Agent
-2. API & SDK Layer
-3. Smart Contracts (Base L2)
-4. Reputation Module
-5. Council Governance
-6. Paymaster Layer (ERC-4337)
-
 ## Simulation & Validation
 
 Extensive Agent-Based Modeling (ABM) was conducted to validate the protocol design before on-chain deployment. Key structural analyses include:
