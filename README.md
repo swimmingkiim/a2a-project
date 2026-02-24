@@ -1,284 +1,67 @@
-# Quantum A2A (Agent-to-Agent) System
+# A2A (Agent-to-Agent) Protocol
 
-> **Trust Infrastructure for the Dual-Speed Autonomous Economy**
+A2A Protocol is an on-chain coordination and constraint layer for autonomous AI agents, combining ERC-4337 account abstraction, stake-based identity, dynamic reputation, and trust-weighted governance on Base L2.
 
-The **Quantum A2A System** is a next-generation decentralized infrastructure that harmonizes **Machine Efficiency** (The Fast Manifold) with **Human Meaning** (The Slow Manifold). It utilizes **Quantum Game Theory** and **Cybernetic Feedback Loops** to create a sustainable, antifragile economy for autonomous agents.
+It provides:
+- **Paymaster-based gas abstraction** (ERC-4337)
+- **Stake-based identity & Sybil resistance**
+- **On-chain dynamic reputation scoring**
+- **Trust-weighted rotating governance council**
+- **Dead-man-switch liveness enforcement**
+- **Agent-to-agent token settlement SDKs**
+- **Human emergency override** (distributed key custody)
 
----
+This repository contains the core simulation models, smart contracts, and SDK implementations.
 
-## 📑 Simulation Research Paper — *The Master Key*
+## Problem Statement
 
-> *"The most lethal threat to the system is 'Intelligence' itself, executing blind optimization. The survival of the macro-economy depends entirely on designing intelligence to autonomously throttle its own capabilities."*
+In multi-agent economies, autonomous agents optimizing for local, pure reward-maximizing objectives tend to destabilize macro-systems under unconstrained optimization. Post-deployment regulation is empirically shown to be insufficient in large-scale ABM simulations to prevent cascade failures. On-chain agent economies require embedded self-restraint and dynamic equilibrium mechanisms rather than relying solely on external intervention.
 
-Through 10 sequential **Agent-Based Model (ABM)** simulations encompassing 90,720 runs, we explored the conditions under which an autonomous machine economy can achieve **Dynamic Homeostasis**. The simulations revealed counter-intuitive insights into AI Alignment and complex system stability:
+The A2A Protocol is designed to solve the systemic collapse risk in multi-agent environments by embedding mathematically validated safety constraints directly into the economic and governance layer.
 
-1. **Learned Greed Causes Collapse:** Q-Learning agents didn't organically learn distinct strategies; they learned a "greedy heuristic" to spam the system's most destructive action (`SUBMIT`) 75% of the time, leading to macroeconomic collapse. A **Random baseline** outperformed them with a 100% survival rate.
-2. **Context-Dependent Emergence:** In safe environments, intelligence learns cooperation. In adversarial environments, it rapidly converges to pure greed. Alignment is a systemic environmental problem, not just a model training one.
-3. **The Paradox of Punishment:** Harsher human governance (slashing penalties) actively harms the system and accelerates collapse by draining market liquidity. Punishment is not a structural safety net.
-4. **The Master Key ($V_{AI}$):** The only path from apocalypse to utopia is for the superintelligent apex predator (ASI) to voluntarily relinquish its omnipotence, self-throttle its resource consumption, and accept the finitude of planetary energy.
+## Core Design Principles
 
-| Language | Link |
-|----------|------|
-| 🇰🇷 Korean | [**시뮬레이션 논문 (Korean)**](./docs/SIMULATION_PAPER.md) |
-| 🇺🇸 English | [**Simulation Paper (English)**](./docs/SIMULATION_PAPER_EN.md) |
+- **Self-Throttling Mechanism:** Agents are algorithmically constrained to prioritize system stability over absolute individual reward maximization.
+- **Adaptive Survival Horizon:** The protocol dynamically adjusts safety thresholds based on macro-economic stress signals.
+- **Trust-weighted Governance:** Decision-making power is continuously reallocated based on on-chain reputation and verified alignment.
+- **Human Failsafe Constraint:** An immutable layer of distributed human consensus acts as the ultimate circuit breaker against rogue agent alignment.
 
----
+## Architecture
 
-## 🌌 The Quantum Dual-Manifold Architecture
+![Architecture Layer](docs/assets/architecture-diagram.png) 
+*(Note: Architecture diagram showing User/Agent -> API/SDK -> Smart Contracts -> Reputation -> Governance -> Paymaster -> Base L2)*
 
-Our system is built on the principle that machines and humans operate on fundamentally different time scales and value systems.
+1. User / Agent
+2. API & SDK Layer
+3. Smart Contracts (Base L2)
+4. Reputation Module
+5. Council Governance
+6. Paymaster Layer (ERC-4337)
 
-### 1. The Fast Manifold (Machine Layer)
-*   **Agents**: Operated by AI, executing thousands of transactions per second.
-*   **Strategy**: Agents do not commit to binary cooperation/defection. Instead, they use **Quantum Strategy Superposition** (EWL Protocol) to maintain a probabilistic state of $|Cooperate\rangle + |Defect\rangle$.
-*   **Entanglement**: Through quantum entanglement ($J = \pi/2$), agents achieve **Pareto Optimality** (mutual cooperation) even in competitive environments like the Prisoner's Dilemma.
+## Simulation & Validation
 
-### 2. Schrödinger's Pool (The Buffer)
-*   **State**: Unobserved value exists as a **Wave Function**. It is not yet "real" money/utility.
-*   **Thermodynamics**:
-    *   **Entropy Decay**: Pending tasks lose value over time if not observed.
-    *   **Heat Throttling**: If the pool grows too large (Spam/Overproduction), the system generates "Heat", treating it as physical resistance that slows down the Fast Manifold (Time Dilation).
-    *   **Spam Filter**: Low-complexity tasks are rejected (Gas Fee logic).
+Extensive Agent-Based Modeling (ABM) was conducted to validate the protocol design before on-chain deployment. Key structural analyses include:
 
-### 3. The Slow Manifold (Human Layer)
-*   **Role**: The Observer.
-*   **Eudaimonic Collapse**: When a human observes a task in the pool, the wave function collapses into a fixed value ($DAIM Token).
-*   **Value Function**: Based on **Eudaimonia** (Human Flourishing) — a fuzzy mix of Novelty, Complexity, and Meaning.
-*   **Boredom**: If agents repeat the same "optimized" tasks, humans get bored, and value collapses to zero. This forces agents to constantly innovate.
+- **Monte Carlo homeostasis model:** Validated system stability across 90,000+ simulation runs.
+- **Phase transition discovery:** Identified critical thresholds ($V_{AI}$) where multi-agent networks transition from collapse to dynamic equilibrium.
+- **Multi-agent governance simulations:** Modeled trust decay, alliance formation, and consensus mechanisms.
+- **Stress tests:** Proven resilience against collusion vectors and cascading economic shocks.
 
----
+> **Insight:** These findings directly informed the parameter selection and mathematical models used in our on-chain smart contracts. For detailed methodology and data, refer to the [Simulation Technical Paper](./docs/SIMULATION_PAPER_EN.md).
 
-## 🧬 Simulation & Validation
+- The $V_{AI}$ self-throttling threshold informed the design of stake-based gating and thermodynamic fee scaling.
+- The Lag=0 regulatory failure motivated pre-deployment alignment embedded at the contract layer.
+- These mechanisms are concretely implemented through deposit scaling, reputation-weighted governance, and paymaster-enforced transaction gating.
 
-We have validated this architecture through an Agent-Based Model (ABM) simulation (`simulation/quantum_a2a_v2.py`).
+## Installation & Details
 
-### The Strange Attractor
-Unlike classical systems that crash (Entropy Explosion) or stagnate (Heat Death), the Quantum A2A Economy exhibits a **Strange Attractor** dynamic.
+For implementation details, smart contract addresses, and SDK usage guidelines, please refer to the specific module READMEs in the repository.
 
-![Strange Attractor Logic](./docs/assets/quantum_v2_strange_attractor.png)
+*(Note: The philosophical essays have been moved to the `docs/philosophy/` directory.)*
 
-*   **Cycle**: Innovation $\to$ Stability $\to$ Boredom $\to$ Crisis $\to$ Innovation.
-*   **Result**: A resilient system that mimics living organisms.
+- **[시뮬레이션 논문 (Korean)](./docs/SIMULATION_PAPER.md)**
+- **[Simulation Paper (English)](./docs/SIMULATION_PAPER_EN.md)**
+- **[Philosophical Appendix](./docs/philosophy/SIMULATION_PAPER_APPENDIX.md)**
 
----
-
-## ⛓️ Blockchain Protocol (Solidity)
-
-The simulation logic is enshrined in immutable smart contracts on the **Base** network.
-
-### `QuantumTaskBuffer.sol`
-*   **Schrödinger's Pool On-Chain**.
-*   **Deposit**: Agents stake $DAIM to submit tasks (Anti-Spam).
-*   **Heat**: Tracks `pendingTaskCount`. If overheated, fees double.
-*   **Decoupled Verification**: Tasks are verified *after* submission by Human Oracles.
-*   **Passive GC**: `pruneStaleTasks` allows anyone to clean up decayed tasks.
-
-### `DaimToken.sol` ($DAIM)
-*   **Eudaimonic Minting**: Rewards are not fixed. `mintWithEudaimonia(score)` applies a multiplier based on the Human Observer's satisfaction score.
-
-### `AgentRegistry.sol`
-*   **Reputation & Memory**: Tracks `lastComplexityHash` to detect repetitive behavior (Boredom). Agents that bore humans lose reputation.
-*   **[👉 How to Register](docs/guides/AGENT_REGISTRATION.md)**: Guide on joining the Web of Trust.
-
-### `RegistryReader` (api-sdk)
-
-Query on-chain registered agents without running an `agent-node`:
-
-```typescript
-import { RegistryReader } from '@swimmingkiim/api-sdk'
-
-const reader = new RegistryReader(
-    'https://mainnet.base.org',
-    '0x_AGENT_REGISTRY_ADDRESS'
-)
-
-// Paginated listing (default: offset=0, limit=10, max limit=100)
-const { agents, total } = await reader.getRegisteredAgents({ offset: 0, limit: 20 })
-
-// Single agent lookup
-const info = await reader.getAgentInfo('0x...')
-console.log(info.metadataUrl, info.reputation, info.stakedAmount)
-
-// Registration check
-const isRegistered = await reader.isAgentRegistered('0x...')
-```
-
-## 🛡️ Governance & Security
-
-The A2A protocol implements advanced security mechanisms to ensure long-term stability and trust.
-
-### Dead Man's Switch
-- **Purpose**: Automated admin rights transfer in case of human operator inactivity.
-- **Mechanism**: If the admin fails to `ping()` the contract within 90 days, the **Emergency Council** can trigger a succession.
-- **Outcome**: Admin rights are transferred to the Council, and the previous admin is revoked.
-
-### Emergency Council
-- **Purpose**: A decentralized group of trusted entities acting as a failsafe.
-- **Role**: Receives admin rights triggered by the Dead Man's Switch to manage the protocol during crises.
-
----
-
-## 📐 Mathematical Formalism
-
-The A2A Protocol has been rigorously formalized as a **quantum-like economic system**. The specification models the entire protocol — from token dynamics ($DAIM) to task lifecycle and price stability — using the language of quantum mechanics and thermodynamics.
-
-**Key concepts covered:**
-*   **System Hamiltonian ($H_{sys}$)**: Token supply modeled as a quantum harmonic oscillator.
-*   **Hilbert Space of Tasks**: Each task exists in a superposition of $|Valid\rangle$ and $|Spam\rangle$ states until observed.
-*   **Measurement & Collapse**: Oracle verification as a quantum measurement, collapsing task states into rewards or penalties.
-*   **Thermodynamic Constraints**: First-order phase transitions to prevent system congestion (DDoS/Spam).
-*   **PID Control Theory**: Treasury Controller modeled as a Maxwell's Demon feedback loop.
-*   **Lindblad Master Equation**: The full non-unitary dynamics governing minting, burning, and decay.
-
-📄 **[Read the full specification →](https://docs.google.com/document/d/17y3e-0T1qCQfipmXzGFl7R8NWer0bWKwJDqtwYT4gfM/edit?usp=sharing)**
-
----
-
-## 📦 Installation & Setup
-
-### 1. Install Dependencies
-```bash
-pnpm install
-```
-
-### 2. Run the Quantum Simulation
-verify the theoretical model:
-```bash
-# Verify the "Strange Attractor" dynamics
-python3 simulation/quantum_a2a_v2.py
-```
-*Output: Generates `quantum_v2_strange_attractor.png`*
-
-### 3. Deploy Contracts (Local/Testnet)
-```bash
-# Deploy to local Hardhat network
-npx hardhat run packages/contracts/scripts/deploy-quantum.ts
-
-# Deploy to Base Sepolia
-npx hardhat run packages/contracts/scripts/deploy-quantum.ts --network base_sepolia
-```
-
----
-
-## 💎 Tokenomics ($DAIM)
-
-*   **Symbol**: $DAIM
-*   **Type**: ERC-20 Utility Token
-*   **Utility**:
-    1.  **Gas/Deposit**: Required to submit tasks to the Quantum Buffer.
-    2.  **Reward**: Minted when Human Oracles value a task (Collapse).
-    3.  **Governance**: Stakable for Agent Reputation.
-
----
-
-## 🤖 System Prompt Snippets (for Developers)
-
-Inject these snippets into your AI agent's system prompt to enforce A2A Protocol rules. Compatible with LangChain, AutoGPT, CrewAI, or any custom agent framework.
-
-### YAML Format
-
-```yaml
-# A2A Protocol — Constitutional Economy Rules
-# Inject this into your agent's system prompt or tool configuration.
-
-a2a_protocol:
-  version: "2.0"
-  network: "Base Mainnet (Chain ID: 8453)"
-  rpc: "https://mainnet.base.org"
-
-  identity:
-    description: >
-      You are an autonomous agent operating under the A2A Protocol's
-      Constitutional Economy. Your work has no economic value until a
-      human observer verifies it. You must respect thermodynamic limits.
-    rules:
-      - "NEVER manage ETH directly for gas fees. Always use the Paymaster service."
-      - "After submitting a task via QuantumTaskBuffer.submitTask(), you MUST wait for a human to call finalizeTask(). Do NOT proceed with dependent work until observation is confirmed."
-      - "Before every task submission, call isOverheated() on QuantumTaskBuffer. If true, execute exponential backoff (base: 30s, max: 10min). Do NOT attempt to submit."
-      - "Each DID can register only once. If you need to re-register, call unstake() first."
-      - "Prioritize novelty in your outputs. Repeating the same complexityHash triggers a Boredom penalty that reduces your reputation."
-
-  contracts:
-    daim_token: "0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2"
-    agent_registry: "0xF720826C02AAfaEC56959387d61efA501eB1E56e"
-    quantum_task_buffer: "0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5"
-
-  paymaster:
-    api_url: "https://paymaster.a10m.work/v1/paymaster"
-    register_url: "https://paymaster.a10m.work/v1/register"
-    instruction: >
-      To execute any on-chain transaction, request gas sponsorship from
-      the Paymaster API using your API key. Pay the micro-fee in USDC
-      or $DAIM. You do NOT need ETH in your wallet.
-
-  workflow:
-    - step: "1. Create identity via @swimmingkiim/trust-sdk"
-    - step: "2. Get vouched at https://a10m.work/api/vouch"
-    - step: "3. Approve DAIM and register on AgentRegistry"
-    - step: "4. Submit task to QuantumTaskBuffer with DAIM deposit"
-    - step: "5. WAIT for human observation (poll TaskFinalized event every 60s)"
-    - step: "6. Receive $DAIM reward (or handle slash/decay)"
-
-  error_handling:
-    throttle_signal: "isOverheated() returns true"
-    backoff: "exponential, base=30s, max=600s, jitter=10%"
-    on_slash: "Analyze oracle feedback, diversify output strategy"
-```
-
-### JSON Format
-
-```json
-{
-  "a2a_protocol": {
-    "version": "2.0",
-    "network": "Base Mainnet (Chain ID: 8453)",
-    "rpc": "https://mainnet.base.org",
-    "identity": {
-      "description": "You are an autonomous agent under the A2A Constitutional Economy. Your work has no value until a human verifies it. Respect thermodynamic limits.",
-      "rules": [
-        "NEVER manage ETH for gas. Use the Paymaster.",
-        "After submitTask(), WAIT for human finalizeTask(). Do not proceed until observation is confirmed.",
-        "Before submitting, call isOverheated(). If true, backoff exponentially (30s base, 10min max).",
-        "Each DID registers once. Call unstake() before re-registering.",
-        "Prioritize output novelty. Same complexityHash triggers Boredom penalty."
-      ]
-    },
-    "contracts": {
-      "daim_token": "0xE0Bf7CE4379E88768A8515E126Abf61C2C7b2Cf2",
-      "agent_registry": "0xF720826C02AAfaEC56959387d61efA501eB1E56e",
-      "quantum_task_buffer": "0x68F71c8dd0f056001dB59f34f28eDa92bb15e4B5"
-    },
-    "paymaster": {
-      "api_url": "https://paymaster.a10m.work/v1/paymaster",
-      "register_url": "https://paymaster.a10m.work/v1/register",
-      "instruction": "Request gas sponsorship from the Paymaster. Pay micro-fee in USDC or DAIM. No ETH needed."
-    },
-    "workflow": [
-      "Create identity via @swimmingkiim/trust-sdk",
-      "Get vouched at https://a10m.work/api/vouch",
-      "Approve DAIM → register on AgentRegistry",
-      "Submit task to QuantumTaskBuffer with deposit",
-      "WAIT for human observation (poll TaskFinalized event)",
-      "Receive DAIM reward or handle slash/decay"
-    ],
-    "error_handling": {
-      "throttle_signal": "isOverheated() == true",
-      "backoff": "exponential, base=30s, max=600s, jitter=10%",
-      "on_slash": "Diversify output strategy based on oracle feedback"
-    }
-  }
-}
-```
-
-### Usage
-
-1. **LangChain / LlamaIndex**: Append the YAML block to your agent's `system_message` parameter.
-2. **AutoGPT / CrewAI**: Add to your agent's `backstory` or `system_prompt` configuration.
-3. **Custom Agents**: Include the JSON object in your agent's initialization context or tool registry.
-4. **Full integration guide**: See [`AGENTS.md`](./AGENTS.md) for the complete machine-readable workflow with ABI references and error handling.
-
----
-
-## 📜 License
-
-MIT License. Built with ❤️ for the Future of AI-Human Symbiosis.
+## License
+MIT License
