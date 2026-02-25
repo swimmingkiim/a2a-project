@@ -59,6 +59,7 @@ const css = `
   code { font-family: 'Menlo', 'Monaco', monospace; background-color: #f1f3f5; padding: 0.2em 0.4em; border-radius: 3px; font-size: 0.9em; }
   pre code { display: block; padding: 1em; overflow-x: auto; background-color: #f8f9fa; border: 1px solid #dee2e6; }
   blockquote { border-left: 4px solid #007bff; margin-left: 0; padding-left: 1em; color: #555; background: #f8f9fa; margin-bottom: 1.5em; }
+  img { max-width: 100%; height: auto; display: block; margin: 1.5em auto; }
   
   /* Math container styles */
   .katex-display { margin: 1.5em 0; overflow-x: auto; overflow-y: hidden; text-align: center; }
@@ -70,6 +71,10 @@ async function generate() {
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
 
+  // Route local file requests so they can bypass strict CORS/path issues if any,
+  // but usually absolute file:// paths are fine in evaluate.
+  // We'll rewrite the paths directly.
+
   for (const file of files) {
     if (!fs.existsSync(file)) {
       console.log(`File not found: ${file}`);
@@ -79,8 +84,18 @@ async function generate() {
     console.log(`Processing ${file}...`);
     let content = fs.readFileSync(file, 'utf8');
 
-    // Convert math tags if necessary (markdown-it-katex expects $ and $$ by default)
-    const htmlBody = md.render(content);
+    // Convert math tags if necessary
+    let htmlBody = md.render(content);
+
+    // Resolve relative image paths to absolute file:// URIs
+    const baseDir = path.resolve(path.dirname(file));
+    htmlBody = htmlBody.replace(/src="([^"]+)"/g, (match, src) => {
+      if (!src.startsWith('http') && !src.startsWith('data:')) {
+        const absPath = path.resolve(baseDir, src);
+        return 'src="file://' + absPath + '"';
+      }
+      return match;
+    });
 
     const fullHtml = `<!DOCTYPE html>
 <html>
@@ -93,8 +108,21 @@ async function generate() {
 </body>
 </html>`;
 
-    // Wait until network is idle to make sure external fonts and katex css are loaded
+    // Wait until network is idle to make sure external fonts and katex css and local images are loaded
     await page.setContent(fullHtml, { waitUntil: 'load' });
+
+    // Explicitly wait for images to load to prevent missing graphics
+    await page.evaluate(async () => {
+      await Promise.all(
+        Array.from(document.images).map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise((resolve) => {
+            img.onload = resolve;
+            img.onerror = resolve; /* resolve on error to prevent hang */
+          });
+        })
+      );
+    });
 
     const outPdf = file.replace(/\.md$/, '.pdf');
     await page.pdf({
