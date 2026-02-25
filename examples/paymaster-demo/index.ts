@@ -55,37 +55,28 @@ async function main() {
     console.log(`Smart Account: ${accountAddress}`);
 
     // 5. Define Transaction (Self-transfer 0 ETH as a test)
-    // The SDK handles the fee transfer internally for validation.
-    // NOTE: The validatin require a transfer to Treasury, but for a general demo,
-    // we want to see if the SDK auto-handles the fee or checks balance.
-    // The current Paymaster policy STRICTLY requires the userOp to contain the fee transfer.
-    // Let's verify if the SDK adds this transfer automatically or if we must add it.
-    // *Correction*: The SDK's `PaymasterManager` usually handles the logic or the `SmartAccountManager`
-    // appends the fee transfer if configured. 
-    // Looking at `PAYMASTER_USAGE.md`, it says "SDK automatically requests gas sponsorship".
-    // However, our Paymaster REQUIRES an explicit USDC transfer call in the UserOp.
-    // If the SDK doesn't inject it, we must add it manually in the batch.
-
-    // Let's manually add the fee transfer to be safe and compatible with our Paymaster.
+    // The SDK now provides a built-in helper to append the fee transfer automatically.
     const REQUIRED_FEE_USDC = 600000n; // 0.6 USDC
 
     console.log(`\nPreparing transaction with ${formatUnits(REQUIRED_FEE_USDC, 6)} USDC fee...`);
 
+    const originalCalls = [
+        {
+            to: accountAddress as `0x${string}`,
+            value: 0n,
+            data: "0x" as `0x${string}`
+        }
+    ];
+
+    const callsWithFee = PaymasterManager.appendFeeToCalls(originalCalls, {
+        treasury: TREASURY_ADDRESS,
+        amount: REQUIRED_FEE_USDC,
+        tokenType: 'USDC'
+    });
+
     try {
         // Execute Batch: [USDC Fee Transfer] + [Actual Action]
-        // Example Action: Send 0 ETH to self (just a ping)
-        const txHash = await smartAccountManager.executeBatch([
-            {
-                to: USDC_ADDRESS,
-                value: 0n,
-                data: encodeERC20Transfer(TREASURY_ADDRESS, REQUIRED_FEE_USDC)
-            },
-            {
-                to: accountAddress,
-                value: 0n,
-                data: "0x"
-            }
-        ]);
+        const txHash = await smartAccountManager.executeBatch(callsWithFee);
 
         console.log(`\n✅ Transaction Submitted!`);
         console.log(`Tx Hash: https://basescan.org/tx/${txHash}`);
@@ -94,17 +85,6 @@ async function main() {
         console.error("\n❌ Transaction Failed:", error.message || error);
         if (error.cause) console.error("Cause:", error.cause);
     }
-}
-
-// Helper to encode ERC20 transfer
-import { encodeFunctionData, parseAbi } from 'viem';
-
-function encodeERC20Transfer(to: string, amount: bigint) {
-    return encodeFunctionData({
-        abi: parseAbi(['function transfer(address to, uint256 amount)']),
-        functionName: 'transfer',
-        args: [to as `0x${string}`, amount]
-    });
 }
 
 main().catch(console.error);
