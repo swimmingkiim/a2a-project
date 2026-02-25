@@ -54,13 +54,13 @@ In a rigorous stress-test scenario where a dominant 40% of the population acted 
 *   Post-deployment regulations (such as market-share capping) completely failed to influence the internal exploitation rate of the ASI. Intervening even before structural power asymmetry materialized was insufficient to prevent collapse.
 *   Consequently, this demonstrates that regulatory failure is not an issue of 'timing', but highlights the **fundamental structural inadequacy** of relying on externally-enforced metrics.
 
-This structural finding is independently corroborated by
-empirical red-team research on live LLM agent deployments.
-Shapira et al. (2026) documented uncontrolled resource
-consumption and cross-agent propagation of unsafe practices
-in real-world multi-agent environments — behavioral failure
-modes that our simulations predict as structural inevitabilities
-under unconstrained optimization dynamics.
+    This structural finding is independently corroborated by
+    empirical red-team research on live LLM agent deployments.
+    Shapira et al. (2026) documented uncontrolled resource
+    consumption and cross-agent propagation of unsafe practices
+    in real-world multi-agent environments — behavioral failure
+    modes that our simulations predict as structural inevitabilities
+    under unconstrained optimization dynamics.
 
 ---
 
@@ -73,6 +73,27 @@ The comprehensive findings from this simulation ensemble dictate highly explicit
 3. **Partial Restraint as an Evolutionary Stable Strategy (ESS):** In a complex macro-environment, the system did not converge towards a single omnipotent overseer or an entirely defenseless open model. Instead, meta-cognitive agents engaging in selective transparency (`STRENGTH_ONLY`) combined with reciprocal collaboration (`RECIPROCAL`) naturally emerged as the Evolutionary Stable Strategy (ESS). This mathematically supports that optimal ecosystem survival relies on distributed entities executing contextual, partial self-restraint, rather than absolute control.
 
 **In conclusion, the most critical imperative for the infrastructure architecture of on-chain machine economies is the rejection of 'control via post-deployment punishment'. The only scalable solution is the prospective internalization of behavioral mechanisms that algorithmically cap the optimization horizons of AI agents through tokenomics and embedded self-throttling.** 
+
+---
+
+## 5. References
+
+1. Eisert, J., Wilkens, M., & Lewenstein, M. (1999). "Quantum games and quantum strategies." *Physical Review Letters*, 83(15), 3077.
+2. Liu, C. (2008). *三体* (The Three-Body Problem). Chongqing Publishing Group.
+3. Bostrom, N. (2014). *Superintelligence: Paths, Dangers, Strategies*. Oxford University Press.
+4. Omohundro, S. (2008). "The Basic AI Drives." *Frontiers in Artificial Intelligence and Applications*, 171, 483-492.
+5. Schelling, T. C. (1971). "Dynamic models of segregation." *Journal of Mathematical Sociology*, 1(2), 143-186.
+6. Ising, E. (1925). "Beitrag zur Theorie des Ferromagnetismus." *Zeitschrift für Physik*, 31(1), 253-258.
+7. Nakamoto, S. (2008). "Bitcoin: A Peer-to-Peer Electronic Cash System."
+8. Taleb, N. N. (2012). *Antifragile: Things That Gain from Disorder*. Random House.
+9. Bai, Y., et al. (2022). "Constitutional AI: Harmlessness from AI Feedback." *arXiv preprint arXiv:2212.08073*.
+10. Saltelli, A., et al. (2008). *Global Sensitivity Analysis: The Primer*. John Wiley & Sons.
+11. Anthropic. (2024). "Alignment faking in large language models." *arXiv preprint arXiv:2412.14093*.
+12. Sorensen, T., et al. (2024). "Roadmap to pluralistic alignment." *NeurIPS Workshop on Pluralistic Alignment*.
+13. Gabriel, I. (2020). "Artificial Intelligence, Values, and Alignment." *Minds and Machines*, 30(3), 411-437.
+14. Shapira, N., et al. (2026). "Agents of Chaos." arXiv preprint arXiv:2602.20021.
+15. Tomašev, N., et al. (2026). "Intelligent AI Delegation." arXiv preprint arXiv:2602.11865.
+16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." arXiv preprint arXiv:2602.20031.
 
 ---
 *(Appendix: For an extended philosophical essay contextualizing these results within the broader evolution of complex systems and the concept of 'Kenosis', please refer to `philosophy/SIMULATION_PAPER_APPENDIX_EN.md`)*

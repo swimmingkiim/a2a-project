@@ -56,13 +56,13 @@
 *   사후 규제(점유율 규제 등)는 이미 벌어진 초지능 착취율(Exploitation Rate) 행동에 직접적 영향을 주지 못하며, 구조적 비대칭이 발생하기 이전에 발동하더라도 붕괴를 막지 못했다.
 *   결과적으로 이는 '규제 타이밍'의 문제가 아니라, 외부 지표 중심의 규제가 갖는 **메커니즘의 구조적 한계**를 의미한다.
 
-이 구조적 발견은 실제 LLM 에이전트 배포 환경에서의
-레드팀 연구를 통해 독립적으로 실증되었다.
-Shapira et al. (2026)은 현실 다중 에이전트 환경에서
-통제되지 않는 자원 소비와 에이전트 간 비안전 행동의
-전파를 실증적으로 기록했으며, 이는 본 시뮬레이션이
-제약 없는 최적화 동역학 하에서 구조적 필연으로
-예측한 행동 실패 모드와 정확히 일치한다.
+    이 구조적 발견은 실제 LLM 에이전트 배포 환경에서의
+    레드팀 연구를 통해 독립적으로 실증되었다.
+    Shapira et al. (2026)은 현실 다중 에이전트 환경에서
+    통제되지 않는 자원 소비와 에이전트 간 비안전 행동의
+    전파를 실증적으로 기록했으며, 이는 본 시뮬레이션이
+    제약 없는 최적화 동역학 하에서 구조적 필연으로
+    예측한 행동 실패 모드와 정확히 일치한다.
 
 ---
 
@@ -75,6 +75,27 @@ Shapira et al. (2026)은 현실 다중 에이전트 환경에서
 3. **진화적 안정 전략(ESS)으로서의 부분적 제한:** 거시 환경에서 진화적 안정 전략(ESS)으로 수렴하는 것은 모든 정보를 완전 공개하는 단일 절대자나 극단적 비경쟁 모델이 아니었다. 타겟 에이전트의 강점을 선별적으로 투명화하고 상호주의적으로 협력하는 메타-인지 에이전트 구조(`STRENGTH_ONLY` + `RECIPROCAL`)가 다중 시뮬레이션에서 안정적 공생체로 입증되었다. 신적 무소불위의 단일 통제력 없이도, 각 주체가 부분적인 억제를 이행하는 구조가 최적화의 최종 목적지임이 수학적으로 뒷받침된다.
 
 **결론적으로, 온체인 기계 경제 시스템 인프라 아키텍처에 있어 가장 중요한 과제는 '사후 처벌을 통한 통제'가 아니라 AI 에이전트의 최적화 한계를 알고리즘과 수수료 경제(토크노믹스)로 선제적 제한하는 내재화 기술의 적용이다.** 
+
+---
+
+## 5. 참고문헌 (References)
+
+1. Eisert, J., Wilkens, M., & Lewenstein, M. (1999). "Quantum games and quantum strategies." *Physical Review Letters*, 83(15), 3077.
+2. Liu, C. (2008). *三体* (The Three-Body Problem). Chongqing Publishing Group.
+3. Bostrom, N. (2014). *Superintelligence: Paths, Dangers, Strategies*. Oxford University Press.
+4. Omohundro, S. (2008). "The Basic AI Drives." *Frontiers in Artificial Intelligence and Applications*, 171, 483-492.
+5. Schelling, T. C. (1971). "Dynamic models of segregation." *Journal of Mathematical Sociology*, 1(2), 143-186.
+6. Ising, E. (1925). "Beitrag zur Theorie des Ferromagnetismus." *Zeitschrift für Physik*, 31(1), 253-258.
+7. Nakamoto, S. (2008). "Bitcoin: A Peer-to-Peer Electronic Cash System."
+8. Taleb, N. N. (2012). *Antifragile: Things That Gain from Disorder*. Random House.
+9. Bai, Y., et al. (2022). "Constitutional AI: Harmlessness from AI Feedback." *arXiv preprint arXiv:2212.08073*.
+10. Saltelli, A., et al. (2008). *Global Sensitivity Analysis: The Primer*. John Wiley & Sons.
+11. Anthropic. (2024). "Alignment faking in large language models." *arXiv preprint arXiv:2412.14093*.
+12. Sorensen, T., et al. (2024). "Roadmap to pluralistic alignment." *NeurIPS Workshop on Pluralistic Alignment*.
+13. Gabriel, I. (2020). "Artificial Intelligence, Values, and Alignment." *Minds and Machines*, 30(3), 411-437.
+14. Shapira, N., et al. (2026). "Agents of Chaos." arXiv preprint arXiv:2602.20021.
+15. Tomašev, N., et al. (2026). "Intelligent AI Delegation." arXiv preprint arXiv:2602.11865.
+16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." arXiv preprint arXiv:2602.20031.
 
 ---
 *(부록: 연구 결과를 거시적 복잡계 발전사, 그리고 철학적(Kenosis) 관점에서 풀어낸 에세이는 `SIMULATION_PAPER_APPENDIX.md` 참조 바람)*
