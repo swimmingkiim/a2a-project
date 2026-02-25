@@ -27,7 +27,7 @@
 
 제10장의 임계점 $V_{AI} = 0.167$이 산술 평균 구조의 인공물(artifact)인지, 구조적 필연인지를 검증하기 위해 6,350회의 추가 몬테카를로 실험을 수행했다.
 
-![V_AI Robustness Analysis](assets/v_ai_robustness_analysis.png)
+![V_AI Robustness Analysis](../assets/v_ai_robustness_analysis.png)
 
 ### 실험 1: V_AI 합성 방법 비교 (2,700 MC runs)
 

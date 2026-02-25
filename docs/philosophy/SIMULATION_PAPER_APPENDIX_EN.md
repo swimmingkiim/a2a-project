@@ -27,7 +27,7 @@ This series of 21 simulation studies converges on a highly coherent logic:
 
 To determine whether the critical threshold $V_{AI} = 0.167$ from Chapter 10 is a structural artifact of the arithmetic mean composition or a genuine dynamical phase transition, we conducted 6,350 additional Monte Carlo experiments.
 
-![V_AI Robustness Analysis](assets/v_ai_robustness_analysis.png)
+![V_AI Robustness Analysis](../assets/v_ai_robustness_analysis.png)
 
 ### Experiment 1: V_AI Composition Comparison (2,700 MC runs)
 
