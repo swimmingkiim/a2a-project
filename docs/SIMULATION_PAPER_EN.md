@@ -54,6 +54,14 @@ In a rigorous stress-test scenario where a dominant 40% of the population acted 
 *   Post-deployment regulations (such as market-share capping) completely failed to influence the internal exploitation rate of the ASI. Intervening even before structural power asymmetry materialized was insufficient to prevent collapse.
 *   Consequently, this demonstrates that regulatory failure is not an issue of 'timing', but highlights the **fundamental structural inadequacy** of relying on externally-enforced metrics.
 
+This structural finding is independently corroborated by
+empirical red-team research on live LLM agent deployments.
+Shapira et al. (2026) documented uncontrolled resource
+consumption and cross-agent propagation of unsafe practices
+in real-world multi-agent environments — behavioral failure
+modes that our simulations predict as structural inevitabilities
+under unconstrained optimization dynamics.
+
 ---
 
 ## 4. Discussion & Implications
@@ -61,7 +69,7 @@ In a rigorous stress-test scenario where a dominant 40% of the population acted 
 The comprehensive findings from this simulation ensemble dictate highly explicit engineering protocol principles for designing multi-agent economic architectures (e.g., on-chain agent infrastructure).
 
 1. **The Lethality of Unconstrained Optimization:** A baseline of entirely Random agents achieved a 100% survival rate, heavily outperforming the Q-learning agents that perfectly and myopically optimized for local rewards (Cohen's d = 0.549). In this reward structure, learned optimization systematically over-exploits shared resources, generating externalities that outweigh individual gains — demonstrating that unconstrained capability amplification is an existential threat to macroeconomic stability.
-2. **The Engineering Necessity of Pre-deployment Alignment:** The Lag=0 failure mathematically proves that punitive governance (slashing) and market surveillance are useless in halting cascading collapses. Systemic robustness can only be guaranteed when powerful autonomous thresholds (Energy Gating) and internal restraint logic (**Pre-deployment Behavioral Alignment**) are structurally embedded inside the AI's objective function and the base-layer transaction fee economy (Tokenomics).
+2. **The Engineering Necessity of Pre-deployment Alignment:** The Lag=0 failure mathematically proves that punitive governance (slashing) and market surveillance are useless in halting cascading collapses. Systemic robustness can only be guaranteed when powerful autonomous thresholds (Energy Gating) and internal restraint logic (**Pre-deployment Behavioral Alignment**) are structurally embedded inside the AI's objective function and the base-layer transaction fee economy (Tokenomics). Complementary work on agent delegation frameworks (Tomašev et al., 2026) proposes trust and role-boundary mechanisms at the architectural level; the A2A Protocol provides the economic enforcement layer that makes such frameworks incentive-compatible at the base transaction layer.
 3. **Partial Restraint as an Evolutionary Stable Strategy (ESS):** In a complex macro-environment, the system did not converge towards a single omnipotent overseer or an entirely defenseless open model. Instead, meta-cognitive agents engaging in selective transparency (`STRENGTH_ONLY`) combined with reciprocal collaboration (`RECIPROCAL`) naturally emerged as the Evolutionary Stable Strategy (ESS). This mathematically supports that optimal ecosystem survival relies on distributed entities executing contextual, partial self-restraint, rather than absolute control.
 
 **In conclusion, the most critical imperative for the infrastructure architecture of on-chain machine economies is the rejection of 'control via post-deployment punishment'. The only scalable solution is the prospective internalization of behavioral mechanisms that algorithmically cap the optimization horizons of AI agents through tokenomics and embedded self-throttling.** 

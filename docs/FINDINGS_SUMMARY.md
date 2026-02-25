@@ -18,6 +18,7 @@
 | 21+ | Regulatory Timing Sweep | **규제 타이밍(0, 5, 10, 20턴)과 무관하게 S4 통제 성공률 0%** — 실패는 시점이 아닌 메커니즘 문제 | 500 MC runs, 95% CI=±0% | `.venv/bin/python sim21_regulatory_timing_analysis.py` |
 | — | Utopia Grid Search | V_AI의 α(throttle willingness)가 유토피아 달성의 가장 중요한 단일 변수 | 3D surface plot 참조 | `.venv/bin/python utopia_grid_search.py` |
 | — | Baseline Comparison | Q-learning vs Random: Cohen's d=-0.549 (medium effect); Q-learning vs Axelrod: d=0 (동일) | 480 runs × 3 models | `.venv/bin/python baselines.py` |
+| 외부 실증 | Agents of Chaos (Shapira et al., 2026) | 실제 LLM 에이전트 배포에서 통제되지 않는 자원 소비 및 비안전 행동 전파 실증 | Cohen's d 비교 불가 (다른 환경) | 원문: arXiv:2602.20021 |
 
 ---
 
@@ -27,6 +28,10 @@
 2. **규제의 구조적 한계**: 인간 규제는 ASI의 "점유율"은 줄일 수 있으나 "행동(exploitation rate)"은 제어 불가 → S4에서 0% 성공.
 3. **열역학적 스로틀링의 필요성**: V_System이 에이전트의 비협력 행동에 대한 비용을 부과해야 협력이 수렴.
 4. **Unconstrained optimization scenario**: 안전장치 없이는 100% 붕괴. "A2A Protocol이 없는 세계"의 시뮬레이션적 증거.
+5. **외부 실증 확보 (2026.02)**: Shapira et al. (arXiv:2602.20021)의
+   실제 LLM 에이전트 레드팀 연구가 본 시뮬레이션의 구조적 붕괴
+   예측을 독립적으로 확인. Citrini Research의 거시경제 시나리오
+   분석(2028 GIC)도 동일한 음의 피드백 루프를 경제 스케일에서 서술.
 
 ---
 

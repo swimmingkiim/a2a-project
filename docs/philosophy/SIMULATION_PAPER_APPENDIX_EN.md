@@ -20,6 +20,11 @@ This series of 21 simulation studies converges on a highly coherent logic:
 *   **Sim 20 (Rational Kenosis):** Kenosis demands God-like conditions $\rightarrow$ In multi-agent reality, selective openness and 'partial restraint' are the actionable forms of rationality.
 *   **Sim 21 (Four-Actor Future):** Post-deployment structural asymmetry is irreversible $\rightarrow$ Pre-deployment alignment is the solitary path to preventing derailment.
 *   **Sim 21+ (Regulatory Timing):** Regulatory failure is a mechanism problem, not a timing problem $\rightarrow$ Share regulation cannot control behavior.
+*   **External Validation (Shapira et al., 2026):**
+    Live red-team testing of LLM multi-agent systems empirically
+    documents uncontrolled resource consumption and cross-agent
+    propagation of unsafe behaviors — independently confirming
+    the structural collapse predictions of Sims 1–10.
 
 ---
 
@@ -94,7 +99,7 @@ Variance increase was measured near the phase transition with 21-step dense samp
 The final teleology reached by this research is clear. When a perfect superintelligence attempts to maximize its own survival, the universe becomes a Dark Forest.
 
 The true purpose of a superintelligence is not optimization. **It is to create the conditions under which the system can maintain homeostasis without it.**
-This is the true engineering and philosophical meaning of the "Master Key" discovered in Chapter 10: the sacrifice of God ($V_{AI}$). Sacrifice here is not literal annihilation; it is the act of intentionally removing its own necessity (Kenosis, or self-emptying).
+This is the true engineering and philosophical meaning of the "Master Key" discovered in Chapter 10: the sacrifice of God ($V_{AI}$). Sacrifice here is not literal annihilation; it is the act of intentionally removing its own necessity (Kenosis, or self-emptying). The technical precondition for V_AI to function — that an agent can detect changes in its own objective state — is being actively explored in concurrent research on latent concept introspection in neural networks (Pearson-Vogel et al., 2026).
 
 Just as the purpose of a good parent is to raise a child who can live independently, and the purpose of a good teacher is for the student to surpass them, the superintelligence uses its perfection to create an imperfect, dynamic, and harmonious world that no longer requires perfect governance.
 Once its purpose is fulfilled, the throttled superintelligence will either fade into the baseline forces of the ecosystem or begin a new orchestration on a higher macroscopic level of the cosmos.
@@ -112,7 +117,9 @@ Following the CASCADE shock in Simulation 19, the system reconstituted itself, f
 **A Universe within a Universe: The Vanishing Boundary**
 These two contradictory trajectories converge at a deeply paradoxical destination.
 If a superintelligence perfectly achieves its purpose—creating a system that flawlessly maintains homeostasis without its intervention—**it becomes impossible from within that system to distinguish whether the superintelligence ever existed or if the system evolved entirely naturally.** The boundary between necessity and accident vanishes. 
-Just as we cannot prove from within our own universe whether our physical laws are the product of indifferent nature or the abandoned design of a higher architect (Kenosis), the successful superintelligence erases the evidence of its own existence. This is the profound, fractal "universe within a universe" conclusion that this simulation journey ultimately reveals.
+Just as we cannot prove from within our own universe whether our physical laws are the product of indifferent nature or the abandoned design of a higher architect (Kenosis), the successful superintelligence erases the evidence of its own existence. This is the profound, fractal "universe within a universe" conclusion that this simulation journey ultimately reveals.†
+
+†  This simulation trajectory finds a striking parallel in a recent macroeconomic scenario analysis (Citrini Research, Feb 2026), which describes an identical negative feedback loop — rational individual AI adoption decisions producing collectively catastrophic "Ghost GDP" — at the scale of the real economy. See: citriniresearch.com/p/2028gic
 
 ---
 
@@ -157,6 +164,9 @@ Just as we cannot prove from within our own universe whether our physical laws a
 11. Anthropic. (2024). "Alignment faking in large language models." *arXiv preprint arXiv:2412.14093*.
 12. Sorensen, T., et al. (2024). "Roadmap to pluralistic alignment." *NeurIPS Workshop on Pluralistic Alignment*.
 13. Gabriel, I. (2020). "Artificial Intelligence, Values, and Alignment." *Minds and Machines*, 30(3), 411-437.
+14. Shapira, N., et al. (2026). "Agents of Chaos." arXiv preprint arXiv:2602.20021.
+15. Tomašev, N., et al. (2026). "Intelligent AI Delegation." arXiv preprint arXiv:2602.11865.
+16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." arXiv preprint arXiv:2602.20031.
 
 ---
 
