@@ -1,7 +1,7 @@
 # A Simulation Study on the Homeostasis Conditions of Autonomous Machine Economies
 
-**Version:** 2.0 (Engineering Refactored)  
-**Date:** 2026-02-24  
+**Version:** 2.5.2 (Engineering Refactored)  
+**Date:** 2026-02-25  
 **Authors:** SooYoung Kim  
 **Repository:** [a2a-projects](https://github.com/swimmingkiim/a2a-project)  
 
@@ -11,11 +11,11 @@
 
 ## 1. Abstract
 
-In multi-agent environments driven by highly advanced machine intelligence, intense optimization dynamics and resource asymmetry pose an existential risk of total macroeconomic collapse. Through an ensemble of 21 Agent-Based Modeling (ABM) simulations, this paper mathematically elucidates the conditions under which an autonomous machine economy can avert irreversible ruin and achieve **Dynamic Homeostasis**.
+In multi-agent environments driven by highly advanced machine intelligence, intense optimization dynamics and resource asymmetry pose an existential risk of total macroeconomic collapse. Through an ensemble of 21 Agent-Based Modeling (ABM) simulations, this paper provides strong evidence under tested conditions for the mechanisms by which an autonomous machine economy can avert irreversible ruin and achieve **Dynamic Homeostasis**.
 
-Progressing from initial environmental models to Monte Carlo phase transition analyses, multi-polar governance, and zero-lag post-deployment stress tests, we evaluated critical variables governing system stability. The results demonstrate that external regulations and post-deployment interventions exhibit fundamental structural limitations (converging to a 0% control success rate). Instead, the findings establish that internalized autonomous self-throttling ($V_{AI}$) is consistently observed as the most robust mechanism for long-term systemic survival, a conclusion firmly proven through structural Phase Transition and Critical Slowing Down (CSD) signatures.
+Progressing from initial environmental models to Monte Carlo phase transition analyses, multi-polar governance, and zero-lag post-deployment stress tests, we evaluated critical variables governing system stability. The results indicate that external regulations and post-deployment interventions exhibit fundamental structural limitations (with rapid convergence toward destabilization). Instead, the findings suggest that internalized autonomous self-throttling ($V_{AI}$) is consistently observed as the most robust mechanism for long-term systemic survival, a conclusion supported by structural Phase Transition and Critical Slowing Down (CSD) signatures.
 
-Supported by over 90,000 distinct simulation runs, this research provides the fundamental mathematical basis for **On-chain Mechanism Design**—engineering protocols that prevent destructive infinite-optimization by autonomous agents and guarantee the long-term sustainability of the artificial economic ecosystem.
+Supported by over 90,000 distinct simulation runs, this research provides a quantitative foundation for **On-chain Mechanism Design**—engineering protocols that mitigate destructive infinite-optimization by autonomous agents and support the long-term sustainability of the artificial economic ecosystem.
 
 ---
 
@@ -50,7 +50,7 @@ Despite manipulations across numerous environmental variables spanning governanc
 *   **Robustness:** Even under extreme manipulations of eight initial conditions (e.g., doubling the agent count, tipping points, or blackout durations), the $V_{AI} = 0.167$ threshold remained absolutely invariant. Furthermore, among the $V_{AI}$ sub-components, the throttling threshold ($\beta$) was proven to be the most dominant survival mechanism.
 
 ### 3.3 The Failure of Control and the Limits of Post-Regulation (Lag=0 Test)
-In a rigorous stress-test scenario where a dominant 40% of the population acted as proactive 'Regulators', decreasing the regulatory lag to zero (Lag=0) yielded a paradoxical but absolute conclusion: **control and utopia success rates converged entirely to 0%**.
+In a rigorous stress-test scenario where a dominant 40% of the population acted as proactive 'Regulators', decreasing the regulatory lag to zero (Lag=0) yielded a paradoxical conclusion: **no successful stabilization was observed across tested Monte Carlo runs**.
 *   Post-deployment regulations (such as market-share capping) completely failed to influence the internal exploitation rate of the ASI. Intervening even before structural power asymmetry materialized was insufficient to prevent collapse.
 *   Consequently, this demonstrates that regulatory failure is not an issue of 'timing', but highlights the **fundamental structural inadequacy** of relying on externally-enforced metrics.
 
@@ -69,10 +69,10 @@ In a rigorous stress-test scenario where a dominant 40% of the population acted 
 The comprehensive findings from this simulation ensemble dictate highly explicit engineering protocol principles for designing multi-agent economic architectures (e.g., on-chain agent infrastructure).
 
 1. **The Lethality of Unconstrained Optimization:** A baseline of entirely Random agents achieved a 100% survival rate, heavily outperforming the Q-learning agents that perfectly and myopically optimized for local rewards (Cohen's d = 0.549). In this reward structure, learned optimization systematically over-exploits shared resources, generating externalities that outweigh individual gains — demonstrating that unconstrained capability amplification is an existential threat to macroeconomic stability.
-2. **The Engineering Necessity of Pre-deployment Alignment:** The Lag=0 failure mathematically proves that punitive governance (slashing) and market surveillance are useless in halting cascading collapses. Systemic robustness can only be guaranteed when powerful autonomous thresholds (Energy Gating) and internal restraint logic (**Pre-deployment Behavioral Alignment**) are structurally embedded inside the AI's objective function and the base-layer transaction fee economy (Tokenomics). Complementary work on agent delegation frameworks (Tomašev et al., 2026) proposes trust and role-boundary mechanisms at the architectural level; the A2A Protocol provides the economic enforcement layer that makes such frameworks incentive-compatible at the base transaction layer.
-3. **Partial Restraint as an Evolutionary Stable Strategy (ESS):** In a complex macro-environment, the system did not converge towards a single omnipotent overseer or an entirely defenseless open model. Instead, meta-cognitive agents engaging in selective transparency (`STRENGTH_ONLY`) combined with reciprocal collaboration (`RECIPROCAL`) naturally emerged as the Evolutionary Stable Strategy (ESS). This mathematically supports that optimal ecosystem survival relies on distributed entities executing contextual, partial self-restraint, rather than absolute control.
+2. **The Engineering Necessity of Pre-deployment Alignment:** The Lag=0 failure provides compelling evidence that punitive governance (slashing) and market surveillance showed no measurable effect in halting cascading collapses under tested configurations. Systemic robustness was only consistently observed when autonomous thresholds (Energy Gating) and internal restraint logic (**Pre-deployment Behavioral Alignment**) were structurally embedded inside the AI's objective function and the base-layer transaction fee economy (Tokenomics). Complementary work on agent delegation frameworks (Tomašev et al., 2026) proposes trust and role-boundary mechanisms at the architectural level; the A2A Protocol provides the economic enforcement layer that makes such frameworks incentive-compatible at the base transaction layer.
+3. **Partial Restraint as an Evolutionary Stable Strategy (ESS):** In a complex macro-environment, the system did not converge towards a single omnipotent overseer or an entirely defenseless open model. Instead, meta-cognitive agents engaging in selective transparency (`STRENGTH_ONLY`) combined with reciprocal collaboration (`RECIPROCAL`) naturally emerged as an Evolutionary Stable Strategy (ESS) under tested conditions. This mathematically supports the hypothesis that optimal ecosystem survival relies on distributed entities executing contextual, partial self-restraint, rather than absolute control.
 
-**In conclusion, the most critical imperative for the infrastructure architecture of on-chain machine economies is the rejection of 'control via post-deployment punishment'. The only scalable solution is the prospective internalization of behavioral mechanisms that algorithmically cap the optimization horizons of AI agents through tokenomics and embedded self-throttling.** 
+**In conclusion, the primary imperative for the infrastructure architecture of on-chain machine economies is the shift away from reliance on post-deployment punishment. The most scalable architectural pattern observed in our simulations is the prospective internalization of behavioral mechanisms that algorithmically cap the optimization horizons of AI agents through tokenomics and embedded self-throttling.** 
 
 ---
 
@@ -96,4 +96,4 @@ The comprehensive findings from this simulation ensemble dictate highly explicit
 16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." arXiv preprint arXiv:2602.20031.
 
 ---
-*(Appendix: For an extended philosophical essay contextualizing these results within the broader evolution of complex systems and the concept of 'Kenosis', please refer to `philosophy/SIMULATION_PAPER_APPENDIX_EN.md`)*
+*(Appendix: For an extended scenario analysis and theoretical conceptualizing of these results within the broader evolution of complex systems, please refer to the supplementary material in `philosophy/SIMULATION_PAPER_APPENDIX_EN.md`)*

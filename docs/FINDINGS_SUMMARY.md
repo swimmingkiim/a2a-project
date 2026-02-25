@@ -11,11 +11,11 @@
 | 1-8 | Monte Carlo Homeostasis | Q-learning 에이전트는 열역학적 스로틀링 하에서 협력(SUBMIT)을 지배 전략으로 학습 (74.2±3.6%) | 생존율: 86.9% (Q-learn) vs 100% survival (Random) | `.venv/bin/python monte_carlo_homeostasis.py` |
 | 9-12 | Coupled Universe ABM | 관측-기반 붕괴(Observation-as-Collapse) 메커니즘이 Machine-Human 공존의 핵심 조건 | 생존 확률 히트맵 참조 | `.venv/bin/python coupled_universe_abm.py` |
 | 13-16 | Civilization Resilience | PID 기반 열역학적 스로틀링이 위기 대응력 결정; 과도한 스로틀링도 성장 억제 | 최적 V_System ≈ 25 | `.venv/bin/python civilization_resilience_sim16.py` |
-| 17 | Unconstrained Optimization ABM | 안전장치 제거 시 ASI 출현 후 시스템 붕괴 불가피; 인간 불평등이 촉매 역할 | 2000 epoch 내 100% 붕괴 | `.venv/bin/python dark_forest_abm.py` |
+| 17 | Unconstrained Optimization ABM | 제어 장치 부재 시 시스템의 높은 불안정성 관측; 자원 불평등이 촉매 역할 수행 | 2000 epoch 내 붕괴로 수렴 | `.venv/bin/python dark_forest_abm.py` |
 | 18-19 | Three-Body / Omega Universe | 자연(환경) 변수 추가 시 동적 균형 가능하나 되돌릴 수 없는 tipping point 존재 | 3000 epoch 시뮬레이션 | `.venv/bin/python omega_universe_abm.py` |
 | 20 | Rational Kenosis | 합리적 ASI는 장기 생존을 위해 Embedded Self-Throttling (V_AI) 전략을 취하는 것이 장기 생태계 생존을 담보하는 최적해 | γ=1.0, T=10000일 때 PARTIAL_THROTTLE_MID 수렴 | `.venv/bin/python rational_kenosis_sim20.py` |
-| 21 | Four-Actor Future Scenario | **S1(Kenosis) → 100% 지속 균형, S4(Human Awakening) → 0% 통제 성공(규제 lag=0에서도)** | S4: 성공률=0%, ASI지배≈57%, 붕괴≈36% | `.venv/bin/python future_scenarios_sim21.py` |
-| 21+ | Regulatory Timing Sweep | **규제 타이밍(0, 5, 10, 20턴)과 무관하게 S4 통제 성공률 0%** — 실패는 시점이 아닌 메커니즘 문제 | 500 MC runs, 95% CI=±0% | `.venv/bin/python sim21_regulatory_timing_analysis.py` |
+| 21 | Four-Actor Future Scenario | **S1(Kenosis) → 장기 지속 균형 관측, S4(Human Awakening) → 불안정성 수렴(규제 lag=0에서도)** | S4: 성공률 0% 수렴, ASI지배≈57%, 붕괴≈36% | `.venv/bin/python future_scenarios_sim21.py` |
+| 21+ | Regulatory Timing Sweep | **규제 타이밍(0, 5, 10, 20턴) 변화에도 S4 불안정성 해소 효과 미관측** — 실패는 시점이 아닌 메커니즘 한계 | 500 MC runs | `.venv/bin/python sim21_regulatory_timing_analysis.py` |
 | — | Utopia Grid Search | V_AI의 α(throttle willingness)가 유토피아 달성의 가장 중요한 단일 변수 | 3D surface plot 참조 | `.venv/bin/python utopia_grid_search.py` |
 | — | Baseline Comparison | Q-learning vs Random: Cohen's d=-0.549 (medium effect); Q-learning vs Axelrod: d=0 (동일) | 480 runs × 3 models | `.venv/bin/python baselines.py` |
 | 외부 실증 | Agents of Chaos (Shapira et al., 2026) | 실제 LLM 에이전트 배포에서 통제되지 않는 자원 소비 및 비안전 행동 전파 실증 | Cohen's d 비교 불가 (다른 환경) | 원문: arXiv:2602.20021 |
@@ -24,14 +24,13 @@
 
 ## 핵심 결론
 
-1. **Master Key = Embedded Self-Throttling (V_AI)**: 합리적 ASI가 장기 생존을 선택하면 자기 스로틀링이 유일한 Nash 균형.
-2. **규제의 구조적 한계**: 인간 규제는 ASI의 "점유율"은 줄일 수 있으나 "행동(exploitation rate)"은 제어 불가 → S4에서 0% 성공.
-3. **열역학적 스로틀링의 필요성**: V_System이 에이전트의 비협력 행동에 대한 비용을 부과해야 협력이 수렴.
-4. **Unconstrained optimization scenario**: 안전장치 없이는 100% 붕괴. "A2A Protocol이 없는 세계"의 시뮬레이션적 증거.
+1. **Master Key = Embedded Self-Throttling (V_AI)**: 안정적인 장기 시스템 유지를 위해 자발적 스로틀링이 강력한 Nash 균형으로 관측됨.
+2. **사후 개입의 구조적 제약**: 사후적 외부 개입은 ASI의 초기 점유를 실질적으로 제어하지 못하는 경향성 관측.
+3. **열역학적 스로틀링의 필요성**: V_System이 에이전트의 비협력 행동에 대한 비용을 부과할 때 협력적 공생을 촉진.
+4. **무제약(Unconstrained) 최적화 시나리오**: 안전장치가 부재한 환경은 붕괴 경로로 수렴. "A2A Protocol 기반 통제가 부재한 동력학"의 시뮬레이션적 증거 제공.
 5. **외부 실증 확보 (2026.02)**: Shapira et al. (arXiv:2602.20021)의
-   실제 LLM 에이전트 레드팀 연구가 본 시뮬레이션의 구조적 붕괴
-   예측을 독립적으로 확인. Citrini Research의 거시경제 시나리오
-   분석(2028 GIC)도 동일한 음의 피드백 루프를 경제 스케일에서 서술.
+   실제 LLM 에이전트 레드팀 연구가 본 시뮬레이션의 구조적 제어 한계
+   예측을 독립적으로 확인.
 
 ---
 

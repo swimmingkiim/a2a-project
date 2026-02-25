@@ -50,11 +50,16 @@ Extensive Agent-Based Modeling (ABM) was conducted to validate the protocol desi
 
 For implementation details, smart contract addresses, and SDK usage guidelines, please refer to the specific module READMEs in the repository.
 
-*(Note: The philosophical essays have been moved to the `docs/philosophy/` directory.)*
+*(Note: The main papers are rigorous engineering documents validating the protocol constraints. For an extended interpretation of these mechanics within the broader evolution of complex systems, please refer to the `docs/philosophy/` directory.)*
 
 - **[시뮬레이션 논문 (Korean)](./docs/SIMULATION_PAPER.md)**
 - **[Simulation Paper (English)](./docs/SIMULATION_PAPER_EN.md)**
-- **[Philosophical Appendix](./docs/philosophy/SIMULATION_PAPER_APPENDIX.md)**
+- **[A2A Protocol 시뮬레이션 결과 요약 (FINDINGS SUMMARY)](./docs/FINDINGS_SUMMARY.md)**
+- **[A2A Protocol Simulation Findings Summary](./docs/FINDINGS_SUMMARY_EN.md)**
+
+*(Supplementary Material)*
+- **[Philosophical Appendix (Korean)](./docs/philosophy/SIMULATION_PAPER_APPENDIX.md)**
+- **[Philosophical Appendix (English)](./docs/philosophy/SIMULATION_PAPER_APPENDIX_EN.md)**
 
 ## License
 MIT License
