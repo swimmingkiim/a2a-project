@@ -16,6 +16,7 @@
 | 20 | Rational Kenosis | 합리적 ASI는 장기 생존을 위해 Embedded Self-Throttling (V_AI) 전략을 취하는 것이 장기 생태계 생존을 담보하는 최적해 | γ=1.0, T=10000일 때 PARTIAL_THROTTLE_MID 수렴 | `.venv/bin/python rational_kenosis_sim20.py` |
 | 21 | Four-Actor Future Scenario | **S1(Kenosis) → 장기 지속 균형 관측, S4(Human Awakening) → 불안정성 수렴(규제 lag=0에서도)** | S4: 성공률 0% 수렴, ASI지배≈57%, 붕괴≈36% | `.venv/bin/python future_scenarios_sim21.py` |
 | 21+ | Regulatory Timing Sweep | **규제 타이밍(0, 5, 10, 20턴) 변화에도 S4 불안정성 해소 효과 미관측** — 실패는 시점이 아닌 메커니즘 한계 | 500 MC runs | `.venv/bin/python sim21_regulatory_timing_analysis.py` |
+| 22 | Monadic Self-Throttling | Monadic 패턴(오류 캡슐화) 도입 시 Scalar 방식 대비 붕괴 방어용 사전 임계값 요구량 대폭 감소 (안전 마진 비용 감축) | 90% 생존 임계값 28.0% 하락 | `.venv/bin/python monadic_throttle_sim22.py` |
 | — | Utopia Grid Search | V_AI의 α(throttle willingness)가 유토피아 달성의 가장 중요한 단일 변수 | 3D surface plot 참조 | `.venv/bin/python utopia_grid_search.py` |
 | — | Baseline Comparison | Q-learning vs Random: Cohen's d=-0.549 (medium effect); Q-learning vs Axelrod: d=0 (동일) | 480 runs × 3 models | `.venv/bin/python baselines.py` |
 | 외부 실증 | Agents of Chaos (Shapira et al., 2026) | 실제 LLM 에이전트 배포에서 통제되지 않는 자원 소비 및 비안전 행동 전파 실증 | Cohen's d 비교 불가 (다른 환경) | 원문: arXiv:2602.20021 |
@@ -31,6 +32,11 @@
 5. **외부 실증 확보 (2026.02)**: Shapira et al. (arXiv:2602.20021)의
    실제 LLM 에이전트 레드팀 연구가 본 시뮬레이션의 구조적 제어 한계
    예측을 독립적으로 확인.
+6. **맥락 인식이 절제 효율을 높인다 (Sim 22)**: Maybe Monad
+   구조 도입 시 Scalar V_AI 대비 28% 낮은 임계값으로 동일한
+   생존율 달성. Writer Monad 투명성이 블랙박스 신뢰 침식을
+   신뢰 축적으로 반전. V_AI=0.167은 물리적 하한이 아닌
+   맥락 없는 조건의 안전 마진으로 재해석.
 
 ---
 
@@ -49,6 +55,7 @@
 | `omega_universe_simulation.png` | Omega Universe |
 | `rational_kenosis_sim20.png` | Rational Kenosis |
 | `regulatory_timing_sweep.png` | **Sim21+ 규제 타이밍 sweep (신규)** |
+| `sim22_monadic_throttle.png` | Sim 22 Monadic Self-Throttling |
 | `three_body_resilience.png` | Three-Body ABM |
 | `utopia_grid_search.png` | Utopia Grid Search |
 
@@ -63,6 +70,7 @@
 | 파일 | 내용 |
 |------|------|
 | `docs/sim21_conditions.md` | **S4 통제 성공률 0% 충분조건 분석 (신규)** |
+| `docs/sim22_monadic_analysis.md` | Sim 22 분석 결과 (Finding 23, 24) |
 | `docs/FINDINGS_SUMMARY.md` | **이 문서 (신규)** |
 | `docs/SIMULATION_PAPER.md` | 시뮬레이션 논문 (한국어) |
 | `docs/SIMULATION_PAPER_EN.md` | 시뮬레이션 논문 (영어) |

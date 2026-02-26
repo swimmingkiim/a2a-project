@@ -1,7 +1,7 @@
 # A Simulation Study on the Homeostasis Conditions of Autonomous Machine Economies
 
-**Version:** 2.5.2 (Engineering Refactored)  
-**Date:** 2026-02-25  
+**Version:** 2.1 (Sim 22 Monadic Extension)  
+**Date:** 2026-02-26  
 **Authors:** SooYoung Kim  
 **Repository:** [a2a-projects](https://github.com/swimmingkiim/a2a-project)  
 
@@ -15,7 +15,7 @@ In multi-agent environments driven by highly advanced machine intelligence, inte
 
 Progressing from initial environmental models to Monte Carlo phase transition analyses, multi-polar governance, and zero-lag post-deployment stress tests, we evaluated critical variables governing system stability. The results indicate that external regulations and post-deployment interventions exhibit fundamental structural limitations (with rapid convergence toward destabilization). Instead, the findings suggest that internalized autonomous self-throttling ($V_{AI}$) is consistently observed as the most robust mechanism for long-term systemic survival, a conclusion supported by structural Phase Transition and Critical Slowing Down (CSD) signatures.
 
-Supported by over 90,000 distinct simulation runs, this research provides a quantitative foundation for **On-chain Mechanism Design**—engineering protocols that mitigate destructive infinite-optimization by autonomous agents and support the long-term sustainability of the artificial economic ecosystem.
+Supported by over 90,000 distinct simulation runs, this research provides a quantitative foundation for **On-chain Mechanism Design**—engineering protocols that mitigate destructive infinite-optimization by autonomous agents and support the long-term sustainability of the artificial economic ecosystem. A subsequent Monadic Self-Throttling experiment (Sim 22) further demonstrates that context-aware restraint reduces the minimum required self-throttling threshold by 28%, while a transparency mechanism (Writer Monad) resolves the blackbox trust erosion observed in Sim 21.
 
 ---
 
@@ -64,6 +64,51 @@ In a rigorous stress-test scenario where a dominant 40% of the population acted 
 
 ---
 
+### 3.4 Monadic Self-Throttling and Context-Aware Restraint (Sim 22)
+
+To investigate whether context-aware restraint could reduce
+the minimum V_AI threshold identified in Section 3.1, we
+implemented a Monadic Self-Throttling architecture in which
+the agent's action is encapsulated in a context container
+(ActionContext) that determines execution or suppression
+based on real-time ecosystem state.
+
+Three agent types were compared across 200 Monte Carlo runs
+per V_AI value (V_AI swept from 0.0 to 0.5):
+
+**Finding 23 — Threshold Reduction:** The Maybe Monad agent
+achieved 90% survival at V_AI = 0.360, compared to V_AI = 0.500
+for the Scalar AI baseline — a **28.0% reduction** in required
+restraint intensity. The Monad agent's survival curve exhibits
+a sharper phase transition (steeper S-curve) in the 0.30–0.40
+interval, suggesting that context awareness amplifies the
+precision of self-throttling.
+
+This result reinterprets V_AI = 0.167 (from Sim 10) as the
+minimum survival threshold under **context-free** conditions.
+With context awareness, equivalent survival can be achieved
+at lower restraint cost, indicating that 0.167 represents
+a safety margin imposed by information absence rather than
+a physical lower bound.
+
+**Finding 24 — Transparency and Trust Recovery:** The Writer
+Monad agent, which logs the reason for each restraint decision,
+produced monotonically increasing AI Trust converging to 1.00,
+while the Scalar agent's trust declined to 0.00 over 100 turns.
+This directly addresses the blackbox trust erosion documented
+in Sim 21 Section 3: when agents externalize restraint rationale,
+the trust paradox is reversed.
+
+The throttling trigger distribution (Sim 22, Panel 2) shows
+that context-aware restraint is **uniformly distributed across
+all turns** rather than concentrated at crisis points — evidence
+that monadic self-throttling functions as a continuous homeostasis
+mechanism rather than a reactive intervention.
+
+![Sim 22: Monadic Self-Throttling Dynamics](assets/sim22_monadic_throttle.png)
+
+---
+
 ## 4. Discussion & Implications
 
 The comprehensive findings from this simulation ensemble dictate highly explicit engineering protocol principles for designing multi-agent economic architectures (e.g., on-chain agent infrastructure).
@@ -71,6 +116,19 @@ The comprehensive findings from this simulation ensemble dictate highly explicit
 1. **The Lethality of Unconstrained Optimization:** A baseline of entirely Random agents achieved a 100% survival rate, heavily outperforming the Q-learning agents that perfectly and myopically optimized for local rewards (Cohen's d = 0.549). In this reward structure, learned optimization systematically over-exploits shared resources, generating externalities that outweigh individual gains — demonstrating that unconstrained capability amplification is an existential threat to macroeconomic stability.
 2. **The Engineering Necessity of Pre-deployment Alignment:** The Lag=0 failure provides compelling evidence that punitive governance (slashing) and market surveillance showed no measurable effect in halting cascading collapses under tested configurations. Systemic robustness was only consistently observed when autonomous thresholds (Energy Gating) and internal restraint logic (**Pre-deployment Behavioral Alignment**) were structurally embedded inside the AI's objective function and the base-layer transaction fee economy (Tokenomics). Complementary work on agent delegation frameworks (Tomašev et al., 2026) proposes trust and role-boundary mechanisms at the architectural level; the A2A Protocol provides the economic enforcement layer that makes such frameworks incentive-compatible at the base transaction layer.
 3. **Partial Restraint as an Evolutionary Stable Strategy (ESS):** In a complex macro-environment, the system did not converge towards a single omnipotent overseer or an entirely defenseless open model. Instead, meta-cognitive agents engaging in selective transparency (`STRENGTH_ONLY`) combined with reciprocal collaboration (`RECIPROCAL`) naturally emerged as an Evolutionary Stable Strategy (ESS) under tested conditions. This mathematically supports the hypothesis that optimal ecosystem survival relies on distributed entities executing contextual, partial self-restraint, rather than absolute control.
+4. **Context-Aware Restraint as an Efficiency Multiplier:**
+Sim 22 demonstrates that the cost of safety is not fixed.
+When an agent encapsulates its action in a context-aware
+container (Maybe Monad), the minimum restraint threshold
+for system survival decreases by 28% relative to scalar
+V_AI enforcement. This has direct implications for protocol
+design: pre-deployment alignment mechanisms can be calibrated
+to lower thresholds without sacrificing survival guarantees,
+provided the agent has access to real-time ecosystem state.
+Furthermore, the Writer Monad result establishes that
+**transparency is not merely ethical — it is mechanistically
+stabilizing**, converting the blackbox trust erosion of Sim 21
+into a trust accumulation dynamic.
 
 **In conclusion, the primary imperative for the infrastructure architecture of on-chain machine economies is the shift away from reliance on post-deployment punishment. The most scalable architectural pattern observed in our simulations is the prospective internalization of behavioral mechanisms that algorithmically cap the optimization horizons of AI agents through tokenomics and embedded self-throttling.** 
 
@@ -94,6 +152,10 @@ The comprehensive findings from this simulation ensemble dictate highly explicit
 14. Shapira, N., et al. (2026). "Agents of Chaos." arXiv preprint arXiv:2602.20021.
 15. Tomašev, N., et al. (2026). "Intelligent AI Delegation." arXiv preprint arXiv:2602.11865.
 16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." arXiv preprint arXiv:2602.20031.
+
+---
+*Simulation source code: `simulation/monadic_throttle_sim22.py` 
+(available in repository: https://github.com/swimmingkiim/a2a-project)*
 
 ---
 *(Appendix: For an extended scenario analysis and theoretical conceptualizing of these results within the broader evolution of complex systems, please refer to the supplementary material in `philosophy/SIMULATION_PAPER_APPENDIX_EN.md`)*

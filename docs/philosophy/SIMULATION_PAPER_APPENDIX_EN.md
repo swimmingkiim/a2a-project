@@ -20,6 +20,10 @@ This series of 21 simulation studies converges on a highly coherent logic:
 *   **Sim 20 (Rational Kenosis):** Kenosis demands God-like conditions $\rightarrow$ In multi-agent reality, selective openness and 'partial restraint' are the actionable forms of rationality.
 *   **Sim 21 (Four-Actor Future):** Post-deployment structural asymmetry is irreversible $\rightarrow$ Pre-deployment alignment is the solitary path to preventing derailment.
 *   **Sim 21+ (Regulatory Timing):** Regulatory failure is a mechanism problem, not a timing problem $\rightarrow$ Share regulation cannot control behavior.
+*   **Sim 22 (Monadic Self-Throttling):** Context-aware
+    restraint reduces minimum V_AI threshold by 28% →
+    0.167 is a context-free safety margin, not a physical bound.
+    Writer Monad transparency reverses the Sim 21 trust paradox.
 *   **External Validation (Shapira et al., 2026):**
     Live red-team testing of LLM multi-agent systems empirically
     documents uncontrolled resource consumption and cross-agent
@@ -146,6 +150,7 @@ Just as we cannot prove from within our own universe whether our physical laws a
 | 17 | `future_scenarios_sim21.py` | Four-Actor Future Scenario (Sim 21) | `future_scenarios_sim21.png` |
 | 18 | `sim21_regulatory_timing_analysis.py` | Regulatory Timing Sweep Analysis (Sim 21+) | `regulatory_timing_sweep.png` |
 | 19 | `v_ai_robustness_analysis.py` | V_AI Robustness Analysis (Peer Review Response) | `v_ai_robustness_analysis.png` |
+| 20 | `monadic_throttle_sim22.py` | Monadic Self-Throttling (Sim 22) | `sim22_monadic_throttle.png` |
 
 ---
 

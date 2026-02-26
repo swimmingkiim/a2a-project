@@ -20,6 +20,10 @@
 *   **Sim 20 (합리적 케노시스):** Kenosis는 신의 조건이다 $\rightarrow$ 현실의 다중 행위자 조건에서는 파국 앞에서의 선택적 개방과 '부분적 억제'가 실현 가능한 합리성이다.
 *   **Sim 21 (4행위자 시나리오):** 배포 후 구조적 비대칭은 되돌릴 수 없다 $\rightarrow$ 사전 정렬(Pre-deployment alignment)이 궤도를 이탈하지 않을 유일한 경로다.
 *   **Sim 21+ (규제 타이밍):** 규제 실패는 시점이 아닌 메커니즘의 문제다 $\rightarrow$ 점유율 규제는 행동을 통제하지 못한다.
+*   **Sim 22 (모나딕 자기 스로틀링):** 맥락 인식 절제가
+    최소 V_AI 임계값을 28% 감소 → 0.167은 물리적 하한이
+    아닌 맥락 없는 조건의 안전 마진. Writer Monad 투명성이
+    Sim 21 신뢰 역설을 반전.
 *   **외부 실증 (Shapira et al., 2026):** 실제 LLM
     다중 에이전트 시스템 레드팀 테스트에서 통제되지 않는
     자원 소비와 에이전트 간 비안전 행동 전파가 실증되어,
@@ -146,6 +150,7 @@
 | 17 | `future_scenarios_sim21.py` | 4행위자 미래 시나리오 (Sim 21) | `future_scenarios_sim21.png` |
 | 18 | `sim21_regulatory_timing_analysis.py` | 규제 타이밍 Sweep 분석 (Sim 21+) | `regulatory_timing_sweep.png` |
 | 19 | `v_ai_robustness_analysis.py` | V_AI 강건성 분석 (피어리뷰 응답) | `v_ai_robustness_analysis.png` |
+| 20 | `monadic_throttle_sim22.py` | 모나딕 자기 스로틀링 (Sim 22) | `sim22_monadic_throttle.png` |
 
 ---
 

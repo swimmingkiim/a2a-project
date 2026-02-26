@@ -16,6 +16,7 @@
 | 20 | Rational Kenosis | Rational ASI adopting Embedded Self-Throttling (V_AI) strategy ensures long-term ecosystem survival as an optimal solution | Converged to PARTIAL_THROTTLE_MID at γ=1.0, T=10000 | `.venv/bin/python rational_kenosis_sim20.py` |
 | 21 | Four-Actor Future Scenario | **S1(Kenosis) → Long-term sustainable equilibrium observed, S4(Human Awakening) → Converged to instability (even at reg lag=0)** | S4: Success rate converged to 0%, ASI dominance≈57%, Collapse≈36% | `.venv/bin/python future_scenarios_sim21.py` |
 | 21+ | Regulatory Timing Sweep | **No instability resolution observed in S4 despite varying regulatory timing (0, 5, 10, 20 turns)** — Failure is an issue of mechanism limitation, not timing | 500 MC runs | `.venv/bin/python sim21_regulatory_timing_analysis.py` |
+| 22 | Monadic Self-Throttling | Incorporating Monadic pattern (error encapsulation) drastically reduces the pre-threshold required to prevent collapse compared to the Scalar method (saving safety margin cost) | 90% survival threshold reduced by 28.0% | `.venv/bin/python monadic_throttle_sim22.py` |
 | — | Utopia Grid Search | V_AI's α (throttle willingness) is the most critical single variable for achieving utopia | Refer to 3D surface plot | `.venv/bin/python utopia_grid_search.py` |
 | — | Baseline Comparison | Q-learning vs Random: Cohen's d=-0.549 (medium effect); Q-learning vs Axelrod: d=0 (identical) | 480 runs × 3 models | `.venv/bin/python baselines.py` |
 | External Validation | Agents of Chaos (Shapira et al., 2026) | Demonstrated unconstrained resource consumption and propagation of unsafe behavior in actual LLM agent deployments | Cohen's d incomparable (different env.) | Source: arXiv:2602.20021 |
@@ -29,6 +30,7 @@
 3. **Necessity of Thermodynamic Throttling**: Cooperative symbiosis is promoted when V_System imposes costs on agents' non-cooperative behavior.
 4. **Unconstrained Optimization Scenario**: Environments devoid of safety mechanisms converge toward collapse trajectories. This provides simulation-based evidence for the dynamics when A2A Protocol controls are absent.
 5. **External Empirical Validation (Feb 2026)**: The red-team research on actual LLM agents by Shapira et al. (arXiv:2602.20021) independently confirms the structural control limits predicted by this simulation.
+6. **Context Awareness Increases Restraint Efficiency (Sim 22)**: Achieving equivalent survival rate with a 28% lower threshold compared to Scalar V_AI when introducing the Maybe Monad architecture. Writer Monad transparency reverses blackbox trust erosion into trust accumulation. V_AI=0.167 is reinterpreted as a safety margin for context-free conditions rather than a physical lower bound.
 
 ---
 
@@ -47,6 +49,7 @@
 | `omega_universe_simulation.png` | Omega Universe |
 | `rational_kenosis_sim20.png` | Rational Kenosis |
 | `regulatory_timing_sweep.png` | **Sim21+ Regulatory timing sweep** |
+| `sim22_monadic_throttle.png` | Sim 22 Monadic Self-Throttling |
 | `three_body_resilience.png` | Three-Body ABM |
 | `utopia_grid_search.png` | Utopia Grid Search |
 
@@ -61,6 +64,7 @@
 | File | Content |
 |------|------|
 | `docs/sim21_conditions.md` | **Analysis of S4 control success rate sufficient conditions** |
+| `docs/sim22_monadic_analysis.md` | Sim 22 Analysis Result (Finding 23, 24) |
 | `docs/FINDINGS_SUMMARY.md` | Summary (Korean) |
 | `docs/FINDINGS_SUMMARY_EN.md` | **This document (English)** |
 | `docs/SIMULATION_PAPER.md` | Simulation Paper (Korean) |
