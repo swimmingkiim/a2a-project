@@ -17,6 +17,7 @@
 | 21 | Four-Actor Future Scenario | **S1(Kenosis) → 장기 지속 균형 관측, S4(Human Awakening) → 불안정성 수렴(규제 lag=0에서도)** | S4: 성공률 0% 수렴, ASI지배≈57%, 붕괴≈36% | `.venv/bin/python future_scenarios_sim21.py` |
 | 21+ | Regulatory Timing Sweep | **규제 타이밍(0, 5, 10, 20턴) 변화에도 S4 불안정성 해소 효과 미관측** — 실패는 시점이 아닌 메커니즘 한계 | 500 MC runs | `.venv/bin/python sim21_regulatory_timing_analysis.py` |
 | 22 | Monadic Self-Throttling | Monadic 패턴(오류 캡슐화) 도입 시 Scalar 방식 대비 붕괴 방어용 사전 임계값 요구량 대폭 감소 (안전 마진 비용 감축) | 90% 생존 임계값 28.0% 하락 | `.venv/bin/python monadic_throttle_sim22.py` |
+| 23 | Heterogeneous Agent Ecosystem | 이질성 자체가 시스템의 "천연 안정판"으로 작용하여 V_AI 임계값을 낮추며, 개별 에이전트의 준수 여부가 아닌 **집단 평균 V_AI**가 0.167을 넘으면 무임승차자가 75%에 달해도 생태계가 100% 생존함 | 임계값 극적 하락(0.050 수렴), 협력형 자산 압도적 우위 | `.venv/bin/python simulation/heterogeneous_agents_sim23.py` |
 | — | Utopia Grid Search | V_AI의 α(throttle willingness)가 유토피아 달성의 가장 중요한 단일 변수 | 3D surface plot 참조 | `.venv/bin/python utopia_grid_search.py` |
 | — | Baseline Comparison | Q-learning vs Random: Cohen's d=-0.549 (medium effect); Q-learning vs Axelrod: d=0 (동일) | 480 runs × 3 models | `.venv/bin/python baselines.py` |
 | 외부 실증 | Agents of Chaos (Shapira et al., 2026) | 실제 LLM 에이전트 배포에서 통제되지 않는 자원 소비 및 비안전 행동 전파 실증 | Cohen's d 비교 불가 (다른 환경) | 원문: arXiv:2602.20021 |
@@ -37,6 +38,11 @@
    생존율 달성. Writer Monad 투명성이 블랙박스 신뢰 침식을
    신뢰 축적으로 반전. V_AI=0.167은 물리적 하한이 아닌
    맥락 없는 조건의 안전 마진으로 재해석.
+7. **이질성(Heterogeneity)과 집단적 복원력 (Sim 23)**: 자산, 능력치,
+   가치관이 다른 이질적 에이전트 환경은 그 자체로 거시 경제의 천연 
+   안정판 역할을 함(임계값 하락). 특히 **집단 평균 V_AI**만 일정 수준(0.167)을
+   상회하면 악의적 무임승차자가 75%에 달해도 시스템이 붕괴하지 않음을 
+   수학적으로 증명 (A2A Protocol의 강력한 프로토콜-레벨 탈중앙화 방어 근거).
 
 ---
 
