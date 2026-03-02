@@ -102,7 +102,7 @@ To resolve the cognitive overhead of LLMs, Dueling DQN and Prioritized Experienc
 
 ### 3.7 Diminishing Marginal Utility and Mitigating Exploit Convergence (Sim 25)
 
-In response to the exploit convergence observed in Sim 24, a concave utility function was introduced into the reward structure. The stronger the concavity, the slower the velocity of exploitation convergence (from +8.1% with linear to +5.3% with fully concave). Conversely, an expectation-outcome structure lacking an expectation ceiling saw expected values converge upwards, radically accelerating exploitation (+9.5%). This exposes that an internalized utility structure can partially substitute for external constraints.
+In response to the exploit convergence observed in Sim 24, a concave utility function was introduced into the reward structure. The stronger the concavity, the slower the velocity of exploitation convergence (from +8.1% (linear control) to +5.3% (fully concave) within Sim 25). Conversely, an expectation-outcome structure lacking an expectation ceiling saw expected values converge upwards, radically accelerating exploitation (+9.5%). This exposes that an internalized utility structure can partially substitute for external constraints.
 
 ![Sim 25: Concave Utility & Intrinsic Motivation](./assets/sim25_concave_utility_results.png)
 
@@ -124,6 +124,12 @@ The comprehensive findings from this simulation ensemble (Sim 1-26) dictate high
 4. **Context-Awareness and Transparency as Efficiency Multipliers:** Context-aware monadic throttling, which exposes the underlying rationale for restraint, resolved blackbox trust erosion—deflecting trust graphs upward monotonically—while reducing the requisite safety threshold by 28% (Sim 22).
 
 **In conclusion, the primary imperative for the infrastructure architecture of on-chain machine economies is the shift away from reliance on post-deployment punishment. The safest and most scalable architectural pattern validated across this research series is the prospective internalization of behavioral mechanisms—specifically embedding concave utility functions and bounded expectation ceilings natively within the AI's value optimization model prior to deployment.**
+
+### 4.1 Limitations and Future Work
+
+1.  **Individual-Level Verification Pending (Finding 40):** While the correlation between expectation ceilings and cooperation was robustly confirmed at the macro-population level, the micro-causal mechanisms dictating individual agent behavior remain unverified.
+2.  **Inseparable Mechanism Contributions:** In Sim 26, both the semi-concave (EXP_B) and baseline ceiling (EXP_C) conditions yielded identical results (-3.4%). The simulation environment could not quantitatively decouple the precise individual contributions of utility concavity versus the expectation ceiling mechanism.
+3.  **Simulated Utility Gap:** This study utilized simplified, abstract variables to model utility. Future interdisciplinary research must focus on empirically mapping these theoretical constructs (e.g., $V_{AI}$) to quantifiable real-world economic and sociological metrics.
 
 ---
 
