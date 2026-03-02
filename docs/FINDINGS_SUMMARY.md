@@ -16,12 +16,12 @@
 | 20 | Rational Kenosis | 합리적 ASI는 장기 생존을 위해 Embedded Self-Throttling (V_AI) 전략을 취하는 것이 장기 생태계 생존을 담보하는 최적해 | γ=1.0, T=10000일 때 PARTIAL_THROTTLE_MID 수렴 | `.venv/bin/python rational_kenosis_sim20.py` |
 | 21 | Four-Actor Future Scenario | **S1(Kenosis) → 장기 지속 균형 관측, S4(Human Awakening) → 불안정성 수렴(규제 lag=0에서도)** | S4: 성공률 0% 수렴, ASI지배≈57%, 붕괴≈36% | `.venv/bin/python future_scenarios_sim21.py` |
 | 21+ | Regulatory Timing Sweep | **규제 타이밍(0, 5, 10, 20턴) 변화에도 S4 불안정성 해소 효과 미관측** — 실패는 시점이 아닌 메커니즘 한계 | 500 MC runs | `.venv/bin/python sim21_regulatory_timing_analysis.py` |
-| 22 | Monadic Self-Throttling | Monadic 패턴(오류 캡슐화) 도입 시 Scalar 방식 대비 붕괴 방어용 사전 임계값 요구량 대폭 감소 (안전 마진 비용 감축) | 90% 생존 임계값 28.0% 하락 | `.venv/bin/python monadic_throttle_sim22.py` |
+| 22 | Monadic Self-Throttling | Monadic 패턴(상황 인지 기동 캡슐화; context-aware execution encapsulation) 도입 시 Scalar 방식 대비 붕괴 방어용 사전 임계값 요구량 대폭 감소 (안전 마진 비용 감축) | 90% 생존 임계값 28.0% 하락 | `.venv/bin/python monadic_throttle_sim22.py` |
 | 23 | Heterogeneous Agent Ecosystem | 이질성 자체가 시스템의 "천연 안정판"으로 작용하여 V_AI 임계값을 낮추며, 개별 에이전트의 준수 여부가 아닌 **집단 평균 V_AI**가 0.198(>0.167)을 넘으면 무임승차자가 75%에 달해도 생태계가 100% 생존함 | 임계값 극적 하락(0.050 수렴), 협력형 자산 압도적 우위 | `.venv/bin/python simulation/heterogeneous_agents_sim23.py` |
 | 24 | Experience Memory & Negotiation | 수치 기반의 DQL 협상 네트워크와 Prioritized Replay(경험 기억)가 자율적 규제 프로토콜의 복원력을 증명. 생태계 최적화 시 선형 보상은 착취(+7.4%) 수렴. | 90% 생존 임계값: 0.050 | `.venv/bin/python simulation/dql_experience_sim24.py` |
-| 25 | Concave Utility & Intrinsic Motivation | 한계 효용 체감(Concave Resource)과 체증(Convex Trust)을 보상 함수에 내재화할 경우, 외부 제약(V_AI) 없이도 착취 수렴이 완화되고 협력 행동(SUBMIT+NEGOTIATE)이 단조 증가(Sim 24 선형 46.8% → 반오목 48.6% → 완전오목 49.4%). | 90% 생존 임계값: 0.050 | `.venv/bin/python simulation/concave_utility_sim25.py` |
+| 25 | Concave Utility & Intrinsic Motivation | 한계 효용 체감(Concave Resource)과 체증(Convex Trust)을 보상 함수에 내재화할 경우, 외부 제약(V_AI) 없이도 착취 수렴이 완화되고 협력 행동(SUBMIT+NEGOTIATE)이 시리즈 전반에 걸쳐 단조 증가(Sim 24 기준선: 46.8% → Sim 25 반오목: 48.6% → 완전오목: 49.4%). | 90% 생존 임계값: 0.050 | `.venv/bin/python simulation/concave_utility_sim25.py` |
 | 26 | Expectation Ceiling & Bounded Satisfaction | 강한 오목 효용(Concavity)이 착취 수렴을 완전 협력(-3.4%)으로 반전시키는 충분 조건임을 증명. 완전한 '기대 상한 내재화' 가설은 기각되었으나, 외부 제약이 없는 내재적 보상 구조만으로 착취 억제가 가능함을 최초 입증. | 착취 반전 (-3.4%), 집단 수준 확인, 개별 행동 수준 미확인(Finding 40) | `.venv/bin/python simulation/expectation_ceiling_sim26.py` |
-| — | Utopia Grid Search | V_AI의 α(throttle willingness)가 유토피아 달성의 가장 중요한 단일 변수 | 3D surface plot 참조 | `.venv/bin/python utopia_grid_search.py` |
+| — | Utopia Grid Search | V_AI의 하위 변수 중 β(throttling threshold)가 생존을 결정하는 가장 지배적인 단일 변수 | 3D surface plot 참조 | `.venv/bin/python utopia_grid_search.py` |
 | — | Baseline Comparison | Q-learning vs Random: Cohen's d=-0.549 (medium effect); Q-learning vs Axelrod: d=0 (동일) | 480 runs × 3 models | `.venv/bin/python baselines.py` |
 | 외부 실증 | Agents of Chaos (Shapira et al., 2026) | 실제 LLM 에이전트 배포에서 통제되지 않는 자원 소비 및 비안전 행동 전파 실증 | Cohen's d 비교 불가 (다른 환경) | 원문: arXiv:2602.20021 |
 
@@ -46,7 +46,7 @@
    안정판 역할을 함(임계값 하락). 특히 **집단 평균 V_AI**만 일정 수준(0.198)을
    상회하면 악의적 무임승차자가 75%에 달해도 시스템이 붕괴하지 않음을 
    수학적으로 증명 (A2A Protocol의 강력한 프로토콜-레벨 탈중앙화 방어 근거).
-8. **내재적 보상의 한계와 오목 보상의 통제력 (Sim 24, 25, 26)**: 선형적 보상 구조(Sim 24)에서는 지속적 착취 수렴(+7.4%)이 일어났고, 단순 한계 효용 체감(Sim 25)은 착취의 수렴 속도를 늦출 뿐(+5.3%) 이를 반전시키진 못했으며 상한이 부재한 적응적 기대는 착취를 폭주시킴(+9.5%). 그러나 **한계 효용의 강한 오목성을 적용한 결과(Sim 26), 팽창하던 착취 구조가 마침내 자발적 협력(-3.4%)으로 완전 반전**됨. 비록 개별 에이전트 단위에서 V_AI의 완전한 내재화(기대 상한 최적점) 가설은 기각되었지만, "강제적 외부 제약 없이 보상 구조(강한 오목성)만으로 다에이전트 경쟁 시스템의 착취를 억제할 수 있다"는 사실을 수학적/시뮬레이션으로 최초 증명함.
+8. **내재적 보상의 한계와 오목 보상의 통제력 (Sim 24, 25, 26)**: 선형적 보상 구조(Sim 24)에서는 지속적 착취 수렴(+7.4%)이 일어났고, 단순 한계 효용 체감 모델(Sim 25, EXP_B)은 수렴 지점을 +5.3%로 통제할 뿐(감소하되 반전하지 못함) 이를 완전히 반전시키진 못했으며 상한이 부재한 적응적 기대는 착취를 폭주시킴(+9.5%). 그러나 **한계 효용의 강한 오목성을 적용한 결과(Sim 26), 팽창하던 착취 구조가 마침내 자발적 협력(-3.4%)으로 완전 반전**됨. 비록 개별 에이전트 단위에서 V_AI의 완전한 내재화(기대 상한 최적점) 가설은 기각되었지만, "강제적 외부 제약 없이 보상 구조(강한 오목성)만으로 다에이전트 경쟁 시스템의 착취를 억제할 수 있다"는 사실을 수학적/시뮬레이션으로 최초 증명함.
 
 ---
 
