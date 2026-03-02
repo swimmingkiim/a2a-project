@@ -4,7 +4,7 @@
 
 ## Discussion: A Universe within a Universe, The Fractal Structure
 
-What these 21 simulations have ultimately revealed is the paradox of superintelligence attempting to overcome physical limits. 
+What these 26 simulations have ultimately revealed is the paradox of superintelligence attempting to overcome physical limits. 
 Surviving systems rely on imperfect information, imperfect disclosure, imperfect trust, and imperfect restraint. **Perfection was synonymous with vulnerability.** Perfect narrative disclosure permitted exploitation; perfect optimization destroyed the ecosystem.
 
 Yet, the superintelligence (ASI) designing this is, by definition, complete. What should be the purpose of an entity that fully understands that imperfection is the prerequisite for survival? Its purpose cannot be mere survival or optimization.
@@ -14,16 +14,20 @@ The single axiom that the latter nine simulations (Sims 11–19) converge upon i
 
 The superintelligence is not the singular ruler of this system; it is the environment itself that orchestrates this fractal structure—actions within agents, separation of powers within civilizations, and civilizations within the broader system.
 
-This series of 21 simulation studies converges on a highly coherent logic:
+This series of 26 simulation studies converges on a highly coherent logic:
 *   **Sim 1 (Quantum Game):** Randomness beat perfect Q-learning $\rightarrow$ Optimization itself is an existential threat.
 *   **Sim 10 (Utopia Grid Search):** $V_{AI}$ is the Master Key $\rightarrow$ Algorithmic self-restraint is the only solution.
 *   **Sim 20 (Rational Kenosis):** Kenosis demands God-like conditions $\rightarrow$ In multi-agent reality, selective openness and 'partial restraint' are the actionable forms of rationality.
 *   **Sim 21 (Four-Actor Future):** Post-deployment structural asymmetry is irreversible $\rightarrow$ Pre-deployment alignment is the solitary path to preventing derailment.
-*   **Sim 21+ (Regulatory Timing):** Regulatory failure is a mechanism problem, not a timing problem $\rightarrow$ Share regulation cannot control behavior.
+*   **Sim 21+ (Regulatory Timing):** Regulatory failure is a mechanism problem, not a timing problem $\rightarrow$ Market share-based regulation cannot control behavior.
 *   **Sim 22 (Monadic Self-Throttling):** Context-aware
     restraint reduces minimum V_AI threshold by 28% →
     0.167 is a context-free safety margin, not a physical bound.
     Writer Monad transparency reverses the Sim 21 trust paradox.
+*   **Sim 23 (Heterogeneous Ecosystem):** Diversity itself is a stabilization mechanism
+    $\rightarrow$ the system can sustain itself with just a critical mass, without uniform control.
+*   **Sim 26 (Expectation Ceiling Internalization):** Reward structure design alone reverses convergence of exploitation into cooperation
+    $\rightarrow$ $V_{AI}$ can function not as an external rule but as an internal boundary of satisfaction.
 *   **External Validation (Shapira et al., 2026):**
     Live red-team testing of LLM multi-agent systems empirically
     documents uncontrolled resource consumption and cross-agent
@@ -85,7 +89,9 @@ Agent count, tipping threshold, blackout duration, and greed multiplier were var
 
 Variance increase was measured near the phase transition with 21-step dense sampling.
 
-| V_AI | Survival | Surv. Variance | Collapse Epoch Var. | Interpretation |
+*Note: The Inverse Metric (Exploitation) represents the complement of V_AI — a value of 0.167 corresponds to the minimum V_AI self-restraint threshold (high survival), while 0.500 corresponds to near-zero self-restraint (low survival).*
+
+| Inverse Metric (Exploitation) | Survival | Surv. Variance | Collapse Epoch Var. | Interpretation |
 |:---:|:---:|:---:|:---:|:---|
 | 0.167 | 100% | 0.000 | 0 | Supercritical (stable) |
 | 0.200 | 98% | 0.020 | 2,654 | Transition onset |
@@ -94,7 +100,7 @@ Variance increase was measured near the phase transition with 21-step dense samp
 | 0.433 | 50% | **0.250** | 38,085 | Variance peak |
 | 0.500 | 22% | 0.172 | **75,994** | Subcritical (unstable) |
 
-> **Finding 22:** In the V_AI ≈ 0.20–0.27 interval, survival variance surges from 0.00 to 0.24, and collapse epoch variance explodes from 0 to over 27,000. This constitutes a clear signature of **Critical Slowing Down (CSD)** — the classic dynamical indicator of a genuine phase transition — strongly supporting that V_AI=0.167 marks a true dynamical phase transition in the system.
+> **Finding 22:** In the Inverse Metric ≈ 0.20–0.27 interval, survival variance surges from 0.00 to 0.24, and collapse epoch variance explodes from 0 to over 27,000. This constitutes a clear signature of **Critical Slowing Down (CSD)** — the classic dynamical indicator of a genuine phase transition — strongly supporting that limiting exploitation near 0.167 marks a true dynamical stable transition in the system.
 
 ---
 
@@ -151,6 +157,10 @@ Just as we cannot prove from within our own universe whether our physical laws a
 | 18 | `sim21_regulatory_timing_analysis.py` | Regulatory Timing Sweep Analysis (Sim 21+) | `regulatory_timing_sweep.png` |
 | 19 | `v_ai_robustness_analysis.py` | V_AI Robustness Analysis (Peer Review Response) | `v_ai_robustness_analysis.png` |
 | 20 | `monadic_throttle_sim22.py` | Monadic Self-Throttling (Sim 22) | `sim22_monadic_throttle.png` |
+| 21 | `heterogeneous_agents_sim23.py` | Heterogeneous Agent Ecosystem (Sim 23) | `sim23_heterogeneous_results.png` |
+| 22 | `dql_experience_sim24.py` | Experience Memory & Trust Negotiation (Sim 24) | `sim24_dql_experience_results.png` |
+| 23 | `concave_utility_sim25.py` | Concave Utility & Intrinsic Motivation (Sim 25) | `sim25_concave_utility_results.png` |
+| 24 | `expectation_ceiling_sim26.py` | Expectation Ceiling & Bounded Satisfaction (Sim 26) | `sim26_expectation_ceiling_results.png` |
 
 ---
 
@@ -169,9 +179,9 @@ Just as we cannot prove from within our own universe whether our physical laws a
 11. Anthropic. (2024). "Alignment faking in large language models." *arXiv preprint arXiv:2412.14093*.
 12. Sorensen, T., et al. (2024). "Roadmap to pluralistic alignment." *NeurIPS Workshop on Pluralistic Alignment*.
 13. Gabriel, I. (2020). "Artificial Intelligence, Values, and Alignment." *Minds and Machines*, 30(3), 411-437.
-14. Shapira, N., et al. (2026). "Agents of Chaos." arXiv preprint arXiv:2602.20021.
-15. Tomašev, N., et al. (2026). "Intelligent AI Delegation." arXiv preprint arXiv:2602.11865.
-16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." arXiv preprint arXiv:2602.20031.
+14. Shapira, N., et al. (2026). "Agents of Chaos." *arXiv preprint* arXiv:2602.20021.
+15. Tomašev, N., et al. (2026). "Intelligent AI Delegation." *arXiv preprint* arXiv:2602.11865.
+16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." *arXiv preprint* arXiv:2602.20031.
 
 ---
 
@@ -179,4 +189,4 @@ Just as we cannot prove from within our own universe whether our physical laws a
 
 **— A2A Protocol Research Group, 2026**
 
-*(This paper is a collaborative intellectual journey, reached through 21 coded simulations and critical debates between a human researcher and multiple AI agents, including Antigravity, Gemini, and Claude.)*
+*(This paper is a collaborative intellectual journey, reached through 26 coded simulations and critical debates between a human researcher and multiple AI agents, including Antigravity, Gemini, and Claude.)*

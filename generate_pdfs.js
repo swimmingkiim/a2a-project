@@ -23,6 +23,8 @@ const md = new MarkdownIt({
 md.use(mk);
 
 const files = [
+  "docs/RESEARCH_SYNTHESIS.md",
+  "docs/RESEARCH_SYNTHESIS_EN.md",
   "docs/SIMULATION_PAPER_EN.md",
   "docs/SIMULATION_PAPER.md",
   "docs/philosophy/SIMULATION_PAPER_APPENDIX_EN.md",
@@ -59,7 +61,7 @@ const css = `
   code { font-family: 'Menlo', 'Monaco', monospace; background-color: #f1f3f5; padding: 0.2em 0.4em; border-radius: 3px; font-size: 0.9em; }
   pre code { display: block; padding: 1em; overflow-x: auto; background-color: #f8f9fa; border: 1px solid #dee2e6; }
   blockquote { border-left: 4px solid #007bff; margin-left: 0; padding-left: 1em; color: #555; background: #f8f9fa; margin-bottom: 1.5em; }
-  img { max-width: 100%; height: auto; display: block; margin: 1.5em auto; }
+  img { max-width: 100%; max-height: 45vh; object-fit: contain; height: auto; display: block; margin: 1.5em auto; page-break-inside: avoid; }
   
   /* Math container styles */
   .katex-display { margin: 1.5em 0; overflow-x: auto; overflow-y: hidden; text-align: center; }
@@ -87,11 +89,16 @@ async function generate() {
     // Convert math tags if necessary
     let htmlBody = md.render(content);
 
-    // Resolve relative image paths to absolute file:// URIs
+    // Resolve relative image paths and inline them as base64 to avoid Puppeteer local file restrictions
     const baseDir = path.resolve(path.dirname(file));
     htmlBody = htmlBody.replace(/src="([^"]+)"/g, (match, src) => {
       if (!src.startsWith('http') && !src.startsWith('data:')) {
         const absPath = path.resolve(baseDir, src);
+        if (fs.existsSync(absPath)) {
+          const ext = path.extname(absPath).substring(1);
+          const base64Text = fs.readFileSync(absPath, { encoding: 'base64' });
+          return 'src="data:image/' + ext + ';base64,' + base64Text + '"';
+        }
         return 'src="file://' + absPath + '"';
       }
       return match;

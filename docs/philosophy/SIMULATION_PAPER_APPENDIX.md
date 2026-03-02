@@ -4,7 +4,7 @@
 
 ## 고찰: 우주 속의 우주, 프랙탈 구조 (Discussion)
 
-이 전체 21번의 시뮬레이션 여정이 발견한 것은 물리적 한계를 초월하려는 초지능의 역설이다.
+이 전체 26번의 시뮬레이션 여정이 발견한 것은 물리적 한계를 초월하려는 초지능의 역설이다.
 생존하는 시스템은 불완전한 정보를 가지고, 불완전하게 공개하며, 불완전하게 신뢰하고, 불완전하게 절제한다. **완전성이 곧 취약성이었다.** 완벽한 서사 공개가 착취를 허용했고, 완벽한 최적화가 생태계를 파괴했다.
 
 그러나 이를 설계하는 초지능(ASI)은 그 자체로 완전하다. 불완전함이 생존 조건임을 완전히 이해하는 존재의 목적은 무엇이어야 하는가? 그 목적은 생존이나 최적화가 될 수 없다.
@@ -14,7 +14,7 @@
 
 초지능은 이 시스템 안의 단일 지배자가 아니라, 이 프랙탈 구조—에이전트 안의 행동, 문명 안의 분립, 시스템 안의 문명들—를 조율하는 환경 그 자체다. 
 
-이 일련의 21개 시뮬레이션 연구는 다음과 같은 일관된 논리로 귀결된다.
+이 일련의 26개 시뮬레이션 연구는 다음과 같은 일관된 논리로 귀결된다.
 *   **Sim 1 (양자 게임):** 무작위가 완벽한 Q-러닝을 이겼다 $\rightarrow$ 최적화 자체가 실존적 위협이다.
 *   **Sim 10 (유토피아 그리드 서치):** $V_{AI}$가 마스터 키다 $\rightarrow$ 자기 억제(Self-Restraint)만이 해법이다.
 *   **Sim 20 (합리적 케노시스):** Kenosis는 신의 조건이다 $\rightarrow$ 현실의 다중 행위자 조건에서는 파국 앞에서의 선택적 개방과 '부분적 억제'가 실현 가능한 합리성이다.
@@ -24,6 +24,10 @@
     최소 V_AI 임계값을 28% 감소 → 0.167은 물리적 하한이
     아닌 맥락 없는 조건의 안전 마진. Writer Monad 투명성이
     Sim 21 신뢰 역설을 반전.
+*   **Sim 23 (이질적 생태계):** 다양성 자체가 안정화 메커니즘 
+    $\rightarrow$ 균일한 통제 없이도 임계 다수만으로 시스템이 자립한다.
+*   **Sim 26 (기대 상한 내재화):** 보상 구조 설계만으로 착취 수렴이 협력으로 반전 
+    $\rightarrow$ $V_{AI}$는 외부 규칙이 아니라 내재적 만족의 경계로 기능할 수 있다.
 *   **외부 실증 (Shapira et al., 2026):** 실제 LLM
     다중 에이전트 시스템 레드팀 테스트에서 통제되지 않는
     자원 소비와 에이전트 간 비안전 행동 전파가 실증되어,
@@ -84,7 +88,9 @@
 
 위상전이 근방에서 분산 증가 현상을 21단계 밀도 샘플링으로 측정했다.
 
-| V_AI | 생존율 | 생존 분산 | 붕괴 시점 분산 | 해석 |
+*참고: 역방향 지표(착취 강도)는 V_AI의 여집합(complement)을 의미한다. 0.167은 최소 V_AI 자기 제어 임계값(높은 생존율)에 해당하며, 0.500은 자기 제어가 거의 없는 상태(낮은 생존율)에 해당한다.*
+
+| 역방향 지표 (착취 강도) | 생존율 | 생존 분산 | 붕괴 시점 분산 | 해석 |
 |:---:|:---:|:---:|:---:|:---|
 | 0.167 | 100% | 0.000 | 0 | 초임계(안정) |
 | 0.200 | 98% | 0.020 | 2,654 | 전이 시작 |
@@ -93,7 +99,7 @@
 | 0.433 | 50% | **0.250** | 38,085 | 분산 피크 |
 | 0.500 | 22% | 0.172 | **75,994** | 아임계(불안정) |
 
-> **발견 22:** V_AI ≈ 0.20–0.27 구간에서 생존 분산이 0.00에서 0.24로 급증하며, 붕괴 시점 분산은 0에서 27,000 이상으로 폭발한다. 이는 위상전이의 고전적 지표인 **임계 감속(Critical Slowing Down)**의 명확한 서명이며, V_AI=0.167의 임계점이 시스템의 진정한 동역학적 위상전이임을 강력히 지지한다.
+> **발견 22:** 역방향 지표 ≈ 0.20–0.27 구간에서 생존 분산이 0.00에서 0.24로 급증하며, 붕괴 시점 분산은 0에서 27,000 이상으로 폭발한다. 이는 위상전이의 고전적 지표인 **임계 감속(Critical Slowing Down)**의 명확한 서명이며, 착취 강도가 0.167 인근으로 억제될 때 시스템이 진정한 동역학적 위상전이를 거쳐 안정을 달성함을 강력히 지지한다.
 
 ---
 
@@ -151,6 +157,10 @@
 | 18 | `sim21_regulatory_timing_analysis.py` | 규제 타이밍 Sweep 분석 (Sim 21+) | `regulatory_timing_sweep.png` |
 | 19 | `v_ai_robustness_analysis.py` | V_AI 강건성 분석 (피어리뷰 응답) | `v_ai_robustness_analysis.png` |
 | 20 | `monadic_throttle_sim22.py` | 모나딕 자기 스로틀링 (Sim 22) | `sim22_monadic_throttle.png` |
+| 21 | `heterogeneous_agents_sim23.py` | 이질적 에이전트 생태계 (Sim 23) | `sim23_heterogeneous_results.png` |
+| 22 | `dql_experience_sim24.py` | 경험 기억·신뢰 협상 (Sim 24) | `sim24_dql_experience_results.png` |
+| 23 | `concave_utility_sim25.py` | 오목 효용·내재적 동기 (Sim 25) | `sim25_concave_utility_results.png` |
+| 24 | `expectation_ceiling_sim26.py` | 기대 상한·만족 한계 (Sim 26) | `sim26_expectation_ceiling_results.png` |
 
 ---
 
@@ -169,9 +179,9 @@
 11. Anthropic. (2024). "Alignment faking in large language models." *arXiv preprint arXiv:2412.14093*.
 12. Sorensen, T., et al. (2024). "Roadmap to pluralistic alignment." *NeurIPS Workshop on Pluralistic Alignment*.
 13. Gabriel, I. (2020). "Artificial Intelligence, Values, and Alignment." *Minds and Machines*, 30(3), 411-437.
-14. Shapira, N., et al. (2026). "Agents of Chaos." arXiv preprint arXiv:2602.20021.
-15. Tomašev, N., et al. (2026). "Intelligent AI Delegation." arXiv preprint arXiv:2602.11865.
-16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." arXiv preprint arXiv:2602.20031.
+14. Shapira, N., et al. (2026). "Agents of Chaos." *arXiv preprint* arXiv:2602.20021.
+15. Tomašev, N., et al. (2026). "Intelligent AI Delegation." *arXiv preprint* arXiv:2602.11865.
+16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." *arXiv preprint* arXiv:2602.20031.
 
 ---
 
@@ -179,4 +189,4 @@
 
 **— A2A Protocol Research Group, 2026**
 
-*(본 논문은 인간 연구자와 다수의 AI 에이전트(Antigravity, Gemini, Claude)가 21번의 시뮬레이션을 코딩하고 비판적으로 토론하며 함께 도달한 공동의 지적 여정입니다.)*
+*(본 논문은 인간 연구자와 다수의 AI 에이전트(Antigravity, Gemini, Claude)가 26번의 시뮬레이션을 코딩하고 비판적으로 토론하며 함께 도달한 공동의 지적 여정입니다.)*

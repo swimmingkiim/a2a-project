@@ -54,6 +54,8 @@ For implementation details, smart contract addresses, and SDK usage guidelines, 
 
 *(Note: The main papers are rigorous engineering documents validating the protocol constraints. For an extended interpretation of these mechanics within the broader evolution of complex systems, please refer to the `docs/philosophy/` directory.)*
 
+- **[A2A Protocol 시뮬레이션 연구 전체 정리 (RESEARCH SYNTHESIS)](./docs/RESEARCH_SYNTHESIS.md)**
+- **[A2A Protocol Simulation Research Synthesis (English)](./docs/RESEARCH_SYNTHESIS_EN.md)**
 - **[시뮬레이션 논문 (Korean)](./docs/SIMULATION_PAPER.md)**
 - **[Simulation Paper (English)](./docs/SIMULATION_PAPER_EN.md)**
 - **[A2A Protocol 시뮬레이션 결과 요약 (FINDINGS SUMMARY)](./docs/FINDINGS_SUMMARY.md)**
