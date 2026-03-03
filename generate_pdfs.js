@@ -118,6 +118,9 @@ async function generate() {
     // Wait until network is idle to make sure external fonts and katex css and local images are loaded
     await page.setContent(fullHtml, { waitUntil: 'load' });
 
+    // Explicitly wait for all fonts to be ready
+    await page.evaluateHandle('document.fonts.ready');
+
     // Explicitly wait for images to load to prevent missing graphics
     await page.evaluate(async () => {
       await Promise.all(
