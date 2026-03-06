@@ -96,6 +96,11 @@ Sim 1~22의 에이전트 동질성 한계를 극복하기 위해 에이전트들
 
 ![Sim 23: Heterogeneous Agent Ecosystem](./assets/sim23_heterogeneous_results.png)
 
+### 3.5b Cross-Architecture Validation (교차 아키텍처 검증 - SocialJax)
+A beta sweep across 41,000 parallel environments (beta 0.10–0.30) independently confirmed the phase transition signature, with CSD peak variance of 0.2472 at beta ≈ 0.130 — consistent with the original V_AI composite threshold under single-dimensional parameterization.
+
+완전 벡터화된 JAX-MARL 프레임워크(SocialJax)를 사용한 독립적 리플리케이션 연구는 근본적으로 다른 실행 패러다임 전반에 걸쳐 이러한 핵심 임계값 발견들을 성공적으로 검증했습니다. Sim 23에서 모델링된 것과 정확히 동일한 75% 무임승차자 조건 하에서, 순수 함수형 수학적 환경은 집단 평균 베타가 0.200에 도달했을 때 정확히 100% 생존을 달성했으며 이는 원본 ABM 발견인 0.198과 극히 유사한 수치적 일치를 보여줍니다. 전체 복제 세부 정보는 `SOCIALJAX_REPLICATION.md`에 문서화되어 있습니다.
+
 ### 3.6 경험 기억과 신뢰 협상 (Sim 24)
 
 LLM의 인지 부담을 덜기 위해 Dueling DQN과 Prioritized Experience Replay(PER)를 도입하여 경험과 협상 기능을 내재화했다. 신뢰 기반 수치 협상 네트워크를 도입한 결과, 고신뢰(≥0.7) 협상 성공률은 93.7%에 달한 반면 저신뢰(≤0.3) 에이전트와의 협상은 아예 시도되지 않음(0%)을 확인했다. 하지만 장기적 경험이 쌓일수록 선형 보상 함수 하에서는 학습이 착취(EXPLOIT)로 수렴(+7.4%)하는 현상이 관측되었다.
@@ -147,6 +152,7 @@ Sim 24의 착취 수렴 문제에 응답하여 보상 구조에 오목 효용 �
 14. Shapira, N., et al. (2026). "Agents of Chaos." *arXiv preprint arXiv:2602.20021*.
 15. Tomašev, N., et al. (2026). "Intelligent AI Delegation." *arXiv preprint arXiv:2602.11865*.
 16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." *arXiv preprint arXiv:2602.20031*.
+17. Guo, Z., Willis, R., Shi, S., Tomilin, T., Leibo, J. Z., & Du, Y. (2025). "SocialJax: An Evaluation Suite for Multi-agent Reinforcement Learning in Sequential Social Dilemmas." *arXiv preprint arXiv:2503.14576*.
 
 ---
 *Simulation source code (available in repository: https://github.com/swimmingkiim/a2a-project):

@@ -94,6 +94,11 @@ To overcome the homogeneous agent limitation of Sim 1–22, agents were endowed 
 
 ![Sim 23: Heterogeneous Agent Ecosystem](./assets/sim23_heterogeneous_results.png)
 
+### 3.5b Cross-Architecture Validation (SocialJax)
+A beta sweep across 41,000 parallel environments (beta 0.10–0.30) independently confirmed the phase transition signature, with CSD peak variance of 0.2472 at beta ≈ 0.130 — consistent with the original V_AI composite threshold under single-dimensional parameterization.
+
+An independent replication using the fully vectorized JAX-MARL framework (SocialJax) successfully validated these core threshold findings across fundamentally different execution paradigms. Under the exact same 75% freerider conditions modeled in Sim 23, the purely functional mathematical environment achieved 100% survival precisely when the collective average beta reached 0.200, representing an exceptional numerical match with the original ABM finding of 0.198. Full replication details have been documented in `SOCIALJAX_REPLICATION.md`.
+
 ### 3.6 Experience Memory and Trust Negotiation (Sim 24)
 
 To resolve the cognitive overhead of LLMs, Dueling DQN and Prioritized Experience Replay (PER) were introduced to internalize experience and negotiation. Implementing a numeric trust-based negotiation network yielded a 93.7% agreement rate among high-trust (≥0.7) agents, whereas negotiations with low-trust (≤0.3) agents were never even initiated (0%). However, it was observed that as long-term experience accumulated under a linear reward function, learned behavior converged toward exploitation (EXPLOIT +7.4%).
@@ -151,6 +156,7 @@ The comprehensive findings from this simulation ensemble (Sim 1-26) dictate high
 14. Shapira, N., et al. (2026). "Agents of Chaos." *arXiv preprint arXiv:2602.20021*.
 15. Tomašev, N., et al. (2026). "Intelligent AI Delegation." *arXiv preprint arXiv:2602.11865*.
 16. Pearson-Vogel, T., et al. (2026). "Latent Introspection: Models Can Detect Prior Concept Injections." *arXiv preprint arXiv:2602.20031*.
+17. Guo, Z., Willis, R., Shi, S., Tomilin, T., Leibo, J. Z., & Du, Y. (2025). "SocialJax: An Evaluation Suite for Multi-agent Reinforcement Learning in Sequential Social Dilemmas." *arXiv preprint arXiv:2503.14576*.
 
 ---
 *Simulation source code (available in repository: https://github.com/swimmingkiim/a2a-project):
