@@ -1,7 +1,7 @@
 # A Simulation Study on the Homeostasis Conditions of Autonomous Machine Economies
 
 **Version:** 2.5.4 (Sim 26 Extended Version)  
-**Date:** 2026-03-03  
+**Date:** 2026-03-06  
 **Authors:** SooYoung Kim  
 **Repository:** [a2a-projects](https://github.com/swimmingkiim/a2a-project)  
 
