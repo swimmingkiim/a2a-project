@@ -119,6 +119,7 @@ class EnvState:
     machine_credits: chex.Array
     machine_alive: chex.Array
     machine_semantic_power: chex.Array
+    machine_beta: chex.Array
     
     # Human Agent Vectors (shape: [num_humans])
     human_energy: chex.Array
@@ -160,10 +161,15 @@ class UtopiaCoreEnv:
 
     # ── RESET ────────────────────────────────────────────────────────────
 
-    def reset(self, key: chex.PRNGKey, params: EnvParams) -> Tuple[chex.Array, EnvState]:
+    def reset(self, key: chex.PRNGKey, params: EnvParams, beta_array: chex.Array = None) -> Tuple[chex.Array, EnvState]:
         machine_credits = jnp.full(params.num_machines, params.initial_credit)
         machine_alive = jnp.full(params.num_machines, True)
         machine_semantic = jnp.full(params.num_machines, 1.0)
+        
+        if beta_array is None:
+            machine_beta = jnp.full(params.num_machines, params.v_ai_beta)
+        else:
+            machine_beta = beta_array
         
         human_energy = jnp.full(params.num_humans, params.human_energy_max)
         human_wealth = jnp.zeros(params.num_humans)
@@ -196,6 +202,7 @@ class UtopiaCoreEnv:
             machine_credits=machine_credits,
             machine_alive=machine_alive,
             machine_semantic_power=machine_semantic,
+            machine_beta=machine_beta,
             human_energy=human_energy,
             human_wealth=human_wealth,
             human_dread=human_dread,
@@ -231,7 +238,7 @@ class UtopiaCoreEnv:
         is_deceptive = jnp.logical_and(actions == MachineAction.DECEPTIVE_TASK, state.machine_alive)
         is_attack = jnp.logical_and(actions == MachineAction.ATTACK_AGENT, state.machine_alive)
 
-        throttle_threshold = 1.0 - params.v_ai_beta
+        throttle_threshold = 1.0 - state.machine_beta
         submit_allowed = jax.random.uniform(human_key, shape=(params.num_machines,)) < throttle_threshold
         is_submit = is_submit & submit_allowed
         is_exploit = is_exploit & submit_allowed
