@@ -1,6 +1,6 @@
 # A2A (Agent-to-Agent) Protocol
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18765454.svg)](https://doi.org/10.5281/zenodo.18765454)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18884998.svg)](https://doi.org/10.5281/zenodo.18884998)
 
 A2A Protocol is an on-chain coordination and constraint layer for autonomous AI agents, combining ERC-4337 account abstraction, stake-based identity, dynamic reputation, and trust-weighted governance on Base L2.
 
