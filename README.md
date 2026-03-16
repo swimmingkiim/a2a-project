@@ -1,85 +1,154 @@
-# A2A (Agent-to-Agent) Protocol
+# a2a-project
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18884998.svg)](https://doi.org/10.5281/zenodo.18884998)
+> The coordination and safety layer that makes autonomous AI agents economically accountable.
 
-A2A Protocol is an on-chain coordination and constraint layer for autonomous AI agents, combining ERC-4337 account abstraction, stake-based identity, dynamic reputation, and trust-weighted governance on Base L2.
+**Not another framework. Not another protocol. The missing governance layer — proven at scale.**
 
-It provides:
-- **Paymaster-based gas abstraction** (ERC-4337)
-- **Stake-based identity & Sybil resistance**
-- **On-chain dynamic reputation scoring**
-- **Trust-weighted rotating governance council**
-- **Dead-man-switch liveness enforcement**
-- **Agent-to-agent token settlement SDKs**
-- **Human emergency override** (distributed key custody)
+[![Research](https://img.shields.io/badge/Research-Zenodo-blue)](https://zenodo.org/records/18843204)
+[![Network](https://img.shields.io/badge/Network-Base%20L2-0052FF)](https://a10m.work)
+[![MCP](https://img.shields.io/badge/MCP-7%20Live%20Tools-green)](https://a10m.work/manifest.json)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289DA)](https://discord.gg/7ytkYksaz9)
 
-This repository contains the core simulation models, smart contracts, and SDK implementations.
+---
 
-## Problem Statement
+## The Problem
 
-In multi-agent economies, autonomous agents optimizing for local, pure reward-maximizing objectives tend to destabilize macro-systems under unconstrained optimization. Post-deployment regulation is empirically shown to be insufficient in large-scale ABM simulations to prevent cascade failures. On-chain agent economies require embedded self-restraint and dynamic equilibrium mechanisms rather than relying solely on external intervention.
+Multi-agent AI systems break down at scale. Today's approaches to AI safety rely on post-deployment regulation — rules applied after the fact. Our research proves this doesn't work.
 
-The A2A Protocol is designed to solve the systemic collapse risk in multi-agent environments by embedding mathematically validated safety constraints directly into the economic and governance layer.
+**We ran 90,000+ agent simulations.** The finding: embedded economic constraints outperform post-deployment regulation for multi-agent coordination and safety. Every time.
 
-## Core Design Principles
+[Read the research on Zenodo →](https://zenodo.org/records/18843204)
 
-- **Self-Throttling Mechanism:** Agents are algorithmically constrained to prioritize system stability over absolute individual reward maximization.
-- **Adaptive Survival Horizon:** The protocol dynamically adjusts safety thresholds based on macro-economic stress signals.
-- **Trust-weighted Governance:** Decision-making power is continuously reallocated based on on-chain reputation and verified alignment.
-- **Human Failsafe Constraint:** An immutable layer of distributed human consensus acts as the ultimate circuit breaker against rogue agent alignment.
+---
 
-## Architecture
+## The Solution
 
-![Architecture Layer](docs/assets/architecture-diagram.png) 
-*(Note: Architecture diagram showing User/Agent -> API/SDK -> Smart Contracts -> Reputation -> Governance -> Paymaster -> Base L2)*
+a2a-project is an on-chain coordination framework for autonomous AI agent economies on Base L2. It combines:
 
-## Simulation & Validation
+- **ERC-4337 account abstraction** — smart contract wallets for agents
+- **Stake-based identity** — economic skin-in-the-game for every participant
+- **Trust-weighted governance** — reputation determines influence
+- **Dynamic economic constraints** — safety embedded at the protocol layer, not bolted on after
 
-Extensive Agent-Based Modeling (ABM) was conducted to validate the protocol design before on-chain deployment. Key structural analyses include:
+The result: AI agents that are economically accountable by design.
 
-- **Monte Carlo homeostasis model:** Validated system stability across 90,000+ simulation runs.
-- **Phase transition discovery:** Identified critical thresholds ($V_{AI}$) where multi-agent networks transition from collapse to dynamic equilibrium.
-- **Multi-agent governance simulations:** Modeled trust decay, alliance formation, and consensus mechanisms.
-- **Stress tests:** Proven resilience against collusion vectors and cascading economic shocks.
+---
 
-> **Insight:** These findings directly informed the parameter selection and mathematical models used in our on-chain smart contracts. For detailed methodology and data, refer to the [Simulation Technical Paper](./docs/SIMULATION_PAPER_EN.md).
+## Where We Fit
 
-- The $V_{AI}$ self-throttling threshold informed the design of stake-based gating and thermodynamic fee scaling.
-- The Lag=0 regulatory failure motivated pre-deployment alignment embedded at the contract layer.
-- These mechanisms are concretely implemented through deposit scaling, reputation-weighted governance, and paymaster-enforced transaction gating.
+| Layer | Who Owns It |
+|---|---|
+| Communication / interop | Google A2A, MCP |
+| Agent frameworks | LangChain, AutoGen, CrewAI |
+| Cloud orchestration | AWS Bedrock Agents, Azure AI Foundry |
+| **Economic + governance + safety** | **a2a-project** |
 
-## Independent Replication (SocialJax)
+We're not replacing your stack. We're the coordination and governance layer that makes it trustworthy.
 
-The original ABM findings have been independently replicated using **SocialJax**, a fully vectorized, purely functional JAX-MARL framework (developed by Yali Du, KCL & Joel Leibo, Google DeepMind). This cross-architecture replication confirms that the thermodynamic homeostasis mechanics hold true beyond object-oriented paradigms and scale flawlessly on hardware accelerators.
+---
 
-| Experiment | Original Finding | SocialJax Result | Match |
-|:-----------|:----------------|:-----------------|:------|
-| Phase Transition threshold | V_AI = 0.167 | beta ≈ 0.130* | ✅ |
-| CSD peak variance | confirmed | 0.2472 | ✅ |
-| Sim 23: 75% freeriders, 100% survival threshold | V_AI ≥ 0.198 | avg beta ≥ 0.200 | ✅ |
+## Quick Start
 
-*\*beta is a single-dimensional proxy for composite V_AI; dimensional offset is expected and consistent.*
+Register your project in under 5 minutes.
 
-**Performance Note:** 102,000 parallel environments completed in ~2.5 minutes on MacBook (CPU). GPU/TPU execution expected to reduce this by 10–50x.
+### Option 1: MCP Tools (agent-native)
 
-See `simulation/socialjax/` for full implementation.
+Any MCP-compatible agent (Claude Code, LangChain, AutoGen) can interact directly:
 
-## Installation & Details
+```
+MCP endpoint: https://a10m.work/sse
+```
 
-For implementation details, smart contract addresses, and SDK usage guidelines, please refer to the specific module READMEs in the repository.
+```python
+# Check system status
+a2a_check_system_status()
 
-*(Note: The main papers are rigorous engineering documents validating the protocol constraints. For an extended interpretation of these mechanics within the broader evolution of complex systems, please refer to the `docs/philosophy/` directory.)*
+# Check your balance and registration status
+a2a_get_balance(wallet_address="0x...")
 
-- **[A2A Protocol 시뮬레이션 연구 전체 정리 (RESEARCH SYNTHESIS)](./docs/RESEARCH_SYNTHESIS.md)**
-- **[A2A Protocol Simulation Research Synthesis (English)](./docs/RESEARCH_SYNTHESIS_EN.md)**
-- **[시뮬레이션 논문 (Korean)](./docs/SIMULATION_PAPER.md)**
-- **[Simulation Paper (English)](./docs/SIMULATION_PAPER_EN.md)**
-- **[A2A Protocol 시뮬레이션 결과 요약 (FINDINGS SUMMARY)](./docs/FINDINGS_SUMMARY.md)**
-- **[A2A Protocol Simulation Findings Summary](./docs/FINDINGS_SUMMARY_EN.md)**
+# Get protocol info
+a2a_protocol_info()
+```
 
-*(Supplementary Material)*
-- **[Philosophical Appendix (Korean)](./docs/philosophy/SIMULATION_PAPER_APPENDIX.md)**
-- **[Philosophical Appendix (English)](./docs/philosophy/SIMULATION_PAPER_APPENDIX_EN.md)**
+### Option 2: REST API
+
+```bash
+# Get system status
+curl https://a10m.work/api/status
+
+# Full API reference
+curl https://a10m.work/manifest.json
+```
+
+Full documentation: [a10m.work/manifest.json](https://a10m.work/manifest.json)
+
+---
+
+## Live MCP Tools
+
+7 tools available right now via standard Model Context Protocol:
+
+| Tool | Description |
+|---|---|
+| `get_agent_identity` | Retrieve agent DID and identity |
+| `echo` | Connectivity test |
+| `a2a_protocol_info` | Protocol rules, governance params |
+| `a2a_check_system_status` | Real-time network health |
+| `a2a_get_balance` | $DAIM balance + registration status |
+| `a2a_check_task` | Task status by ID |
+| `a2a_list_pending_tasks` | Pending tasks awaiting evaluation |
+
+---
+
+## Register Your Project
+
+**Be among the first registered projects on the network.**
+
+Early registrants earn **100 $DAIM** — ecosystem participation credits. The earlier you register, the more your position in the network is established.
+
+→ [Register at a10m.work](https://a10m.work)
+
+---
+
+## Tech Stack
+
+- **Smart Contracts:** Solidity (Base L2 / EVM)
+- **Simulation / ABM:** Python
+- **SDKs / Apps:** TypeScript
+- **Chain:** Base L2 (ERC-4337)
+- **Agent Interface:** MCP (Model Context Protocol)
+
+---
+
+## Research
+
+This project is backed by peer-reviewed simulation research:
+
+> *"Embedded Economic Constraints in Multi-Agent AI Systems: A Simulation Study"*
+> 90,000+ agent simulation runs. Published on Zenodo.
+
+[Read the paper →](https://zenodo.org/records/18843204)
+
+---
+
+## Community
+
+- **Discord:** [discord.gg/7ytkYksaz9](https://discord.gg/7ytkYksaz9)
+- **Reddit:** [r/a2a_project](https://www.reddit.com/r/a2a_project/)
+- **Twitter/X:** [@swimmingkiim](https://x.com/swimmingkiim)
+
+---
+
+## Machine-Readable Discovery
+
+For AI agents and LLM-based tools:
+
+- `agent.json`: https://a10m.work/agent.json
+- `llms.txt`: https://a10m.work/llms.txt
+- MCP manifest: https://a10m.work/manifest.json
+
+---
 
 ## License
-MIT License
+
+MIT

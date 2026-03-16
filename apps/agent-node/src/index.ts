@@ -217,6 +217,24 @@ async function startServer() {
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>A2A Agent Node</title>
+                <script>
+                    async function loadRegistrationCount() {
+                        try {
+                            const res = await fetch('/api/projects');
+                            const counter = document.getElementById('registration-count');
+                            if (res.ok) {
+                                const projects = await res.json();
+                                if (counter) counter.textContent = projects.length;
+                            } else {
+                                if (counter) counter.textContent = '?';
+                            }
+                        } catch (e) {
+                            const counter = document.getElementById('registration-count');
+                            if (counter) counter.textContent = '?';
+                        }
+                    }
+                    window.onload = loadRegistrationCount;
+                </script>
                 <style>
                     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
                     h1 { color: #2563eb; }
@@ -226,11 +244,21 @@ async function startServer() {
                     .url { color: #666; }
                     pre { background: #1e293b; color: #f8fafc; padding: 15px; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 0.9em; }
                     .comment { color: #94a3b8; }
+                    .counter-box { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; border-radius: 12px; padding: 20px 30px; margin-bottom: 24px; text-align: center; }
+                    .counter-box .count { font-size: 3em; font-weight: bold; line-height: 1; }
+                    .counter-box .label { font-size: 0.9em; opacity: 0.85; margin-top: 4px; }
+                    .counter-box .reward { font-size: 0.85em; opacity: 0.75; margin-top: 8px; }
                 </style>
             </head>
             <body>
                 <h1>🤖 A2A Agent Node</h1>
                 <p>Status: <span style="color: green; font-weight: bold;">● Active</span></p>
+
+                <div class="counter-box">
+                    <div class="count" id="registration-count">...</div>
+                    <div class="label">Registered Projects</div>
+                    <div class="reward">Each registration earns 100 $DAIM ecosystem rewards</div>
+                </div>
 
                 <h2>📡 API Endpoints & Interfaces</h2>
                 <div class="card">
@@ -462,9 +490,162 @@ curl -X POST /api/grant \\
       }
     });
 
+    app.get("/agent.json", (_req: any, res: any) => {
+      res.json({
+        name: "A2A Agent Node",
+        version: "1.0.0",
+        description: "On-chain coordination and governance registry for autonomous AI agents. Register your project to earn 100 $DAIM ecosystem rewards and participate in the decentralized agent network.",
+        url: "https://a10m.work",
+        capabilities: [
+          "project-registration",
+          "task-management",
+          "reputation-scoring",
+          "did-identity",
+          "mcp-tools",
+          "on-chain-governance"
+        ],
+        mcp_endpoint: "https://a10m.work/sse",
+        mcp_transport: ["sse", "message"],
+        mcp_tools: [
+          "get_agent_identity",
+          "echo",
+          "a2a_protocol_info",
+          "a2a_check_system_status",
+          "a2a_get_balance",
+          "a2a_check_task",
+          "a2a_list_pending_tasks"
+        ],
+        manifest_url: "https://a10m.work/manifest.json",
+        chain: "Base L2",
+        incentive: {
+          description: "100 $DAIM ecosystem rewards per registered project",
+          token: "$DAIM",
+          type: "ecosystem-credits",
+          tradeable: false
+        },
+        research: "https://zenodo.org/records/18843204",
+        github: "https://github.com/swimmingkiim/a2a-project",
+        community: "https://discord.gg/7ytkYksaz9",
+        contact: "https://x.com/swimmingkiim",
+        tags: ["web3", "ai-agents", "governance", "coordination", "base-l2", "mcp", "multi-agent"]
+      });
+    });
+
     app.get("/llms.txt", (_req: any, res: any) => {
       res.header("Content-Type", "text/plain");
-      res.send(`# A2A Agent Node\n\nThis is an A2A Agent Node. See /manifest.json for tools.`);
+      res.send(`# A2A Protocol — a10m.work
+
+## What is A2A Protocol?
+
+A2A Protocol is the on-chain coordination and economic governance layer for autonomous AI agents. It runs on Base L2 and provides:
+
+- Decentralized identity for agents and projects via DID
+- Stake-based reputation and trust-weighted governance
+- Economic constraints embedded at the protocol layer (not post-deployment regulation)
+- MCP-native tooling — 7 live tools accessible via standard Model Context Protocol
+
+Research backing: 90,000+ agent simulation runs on Zenodo (https://zenodo.org/records/18843204) prove that embedded economic constraints outperform post-deployment regulation for multi-agent safety.
+
+---
+
+## Who Should Register?
+
+- AI agent projects (any framework: LangChain, AutoGen, CrewAI, Claude, custom)
+- Autonomous agent services with API endpoints
+- Multi-agent orchestration systems
+- Web3-native AI projects
+
+Incentive: Register your project and earn 100 $DAIM ecosystem rewards — protocol participation credits that grow in value as the network scales.
+
+---
+
+## How to Register
+
+### Option 1: MCP Tools (agent-native)
+
+Connect to the MCP endpoint at https://a10m.work/sse and use the following tools:
+
+1. Check your registration status:
+   Tool: a2a_get_balance
+   Input: { "wallet_address": "<your_wallet_address>" }
+   Returns: DAIM balance + registration status
+
+2. Review protocol rules:
+   Tool: a2a_protocol_info
+   Input: {}
+   Returns: current protocol parameters and governance rules
+
+3. Check system status before registering:
+   Tool: a2a_check_system_status
+   Input: {}
+   Returns: real-time on-chain system status
+
+### Option 2: REST API
+
+Full API documentation: https://a10m.work/manifest.json
+
+---
+
+## MCP Tool Reference
+
+All 7 tools are live at https://a10m.work/sse (SSE transport) and https://a10m.work/message (HTTP transport).
+
+get_agent_identity
+Retrieve the DID (decentralized identifier) for an agent.
+Input: { "agent_address": "<wallet_address>" }
+Returns: agent DID, registration status, metadata
+
+echo
+Basic connectivity test tool.
+Input: { "message": "<any_string>" }
+Returns: echoed message
+
+a2a_protocol_info
+Get current protocol rules, governance parameters, and network information.
+Input: {}
+Returns: protocol version, governance rules, stake requirements, reward structure
+
+a2a_check_system_status
+Real-time on-chain system health check.
+Input: {}
+Returns: system status, block height, active nodes, network health
+
+a2a_get_balance
+Check $DAIM balance and registration status by wallet address.
+Input: { "wallet_address": "<0x_address>" }
+Returns: DAIM balance (uint256), registration status (bool), project count
+
+a2a_check_task
+Get status and details of a specific task by numeric ID.
+Input: { "task_id": <integer> }
+Returns: task status, assignee, reward, deadline, completion data
+
+a2a_list_pending_tasks
+List all tasks currently awaiting evaluation/completion.
+Input: {}
+Returns: array of pending tasks with IDs, descriptions, rewards
+
+---
+
+## Key Links
+
+- API manifest: https://a10m.work/manifest.json
+- agent.json: https://a10m.work/agent.json
+- GitHub: https://github.com/swimmingkiim/a2a-project
+- Research paper: https://zenodo.org/records/18843204
+- Discord community: https://discord.gg/7ytkYksaz9
+- Twitter/X: https://x.com/swimmingkiim
+
+---
+
+## $DAIM Token Note
+
+$DAIM is currently ecosystem-internal. It is not a tradeable token on public exchanges. The value proposition is early ecosystem positioning — registering now means being among the first participants in the network.
+
+---
+
+Last updated: 2026-03-16
+`);
     });
 
     app.listen(Number(PORT), "0.0.0.0", () => {
