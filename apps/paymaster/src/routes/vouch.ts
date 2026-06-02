@@ -100,12 +100,14 @@ router.post("/vouch", async (req: any, res: any) => {
     }
 
     // Sign
-    const voucherKey = process.env.VOUCHER_PRIVATE_KEY;
+    const voucherKey = process.env.VOUCHER_PRIVATE_KEY?.trim();
     if (!voucherKey) {
       return res.status(500).json({ ok: false, reason: "Voucher not configured", code: "CONFIG_ERROR" });
     }
 
-    const account = privateKeyToAccount(voucherKey as `0x${string}`);
+    // Normalize: ensure 0x prefix, remove whitespace/newlines
+    const normalizedKey = (voucherKey.startsWith("0x") ? voucherKey : "0x" + voucherKey) as `0x${string}`;
+    const account = privateKeyToAccount(normalizedKey);
 
     const walletClient = createWalletClient({
       chain: base,
