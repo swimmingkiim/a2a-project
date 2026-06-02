@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { handlePaymasterRequest } from "./paymaster";
 import { initDb } from "./db";
 import { registerRouter } from "./routes/register";
+import { vouchRouter } from "./routes/vouch";
 import { config } from "./config";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(express.json());
 
 // Mount Registration Route
 app.use("/v1", registerRouter);
+app.use("/v1", vouchRouter);
 
 // JSON-RPC Endpoint
 app.post("/v1/paymaster", async (req: any, res: any) => {

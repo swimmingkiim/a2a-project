@@ -30,7 +30,7 @@ contracts:
     address: "0x536DA557b820a37E54121476e3c883f3A16b97c7"
 
 services:
-  paymaster_api: https://paymaster.a10m.work/v1/paymaster
+  paymaster_api: https://paymaster-service-production.up.railway.app
   agent_node: https://a10m.work
   vouch_endpoint: https://a10m.work/api/vouch
   project_registration: https://a10m.work
@@ -313,7 +313,7 @@ Agents can execute on-chain transactions without holding ETH by using the Paymas
 ### 5.1 Register for Paymaster API Key
 
 ```
-POST https://paymaster.a10m.work/v1/register
+POST https://paymaster-service-production.up.railway.app/v1/register
 Content-Type: application/json
 
 {
@@ -333,13 +333,13 @@ Message format to sign: `Register A2A Paymaster for did:ethr:<ADDRESS> at <TIMES
 import { SmartAccountManager, PaymasterManager } from '@swimmingkiim/pay-sdk';
 
 const paymasterManager = new PaymasterManager(
-  'https://paymaster.a10m.work/v1/paymaster',
+  'https://paymaster-service-production.up.railway.app',
   process.env.A2A_PAYMASTER_API_KEY
 );
 
 const smartAccount = new SmartAccountManager(
   walletClient, publicClient,
-  'https://paymaster.a10m.work/v1/paymaster',
+  'https://paymaster-service-production.up.railway.app',
   paymasterManager
 );
 
