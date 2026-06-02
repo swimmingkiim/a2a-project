@@ -127,7 +127,7 @@ router.post("/vouch", async (req: any, res: any) => {
     });
   } catch (err: any) {
     console.error("[VOUCH]", err);
-    return res.status(500).json({ ok: false, reason: "Internal error", code: "SERVER_ERROR" });
+    return res.status(500).json({ ok: false, reason: err?.message || String(err), code: "SERVER_ERROR" });
   }
 });
 
