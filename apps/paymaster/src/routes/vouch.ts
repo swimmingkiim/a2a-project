@@ -48,7 +48,7 @@ const registryAbi = [{
 }] as const;
 
 // ── POST /v1/vouch ─────────────────────────────
-router.post("/v1/vouch", async (req: any, res: any) => {
+router.post("/vouch", async (req: any, res: any) => {
   const { walletAddress, did, description } = req.body || {};
   const clientIp = req.ip || req.socket?.remoteAddress || "unknown";
 
